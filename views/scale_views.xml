@@ -1,0 +1,80 @@
+<odoo>
+  <data>
+
+      <!-- Search view: default search for weighing scales -->
+    <record id="slv_mdc_scales_search" model="ir.ui.view">
+        <field name="name">slv.mdc.scales.search</field>
+        <field name="model">slv.mdc.scale</field>
+        <field name="arch" type="xml">
+            <search string="Weighing scale">
+                <field name="name" filter_domain="['|',('name','ilike',self),('tcp_address_ip','ilike',self)]"/>
+                <field name="tcp_address_port"/>
+                <field name="scale_protocol"/>
+                <group expand="0" string="Group By">
+                    <filter string="Scale protocol" name="groupby_scale_protocol" domain="[]" context="{'group_by':'scale_protocol'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tree view: default view for cases -->
+    <record id="slv_mdc_scales_tree" model="ir.ui.view">
+        <field name="name">slv.mdc.scales.tree</field>
+        <field name="model">slv.mdc.scale</field>
+        <field name="arch" type="xml">
+            <tree string="Weighing scales">
+                <field name="name"/>
+                <field name="tcp_address_ip"/>
+                <field name="tcp_address_port"/>
+                <field name="scale_protocol"/>
+                <field name="last_weight_value"/>
+                <field name="last_weight_stability"/>
+                <field name="last_weight_datetime"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for cases -->
+    <record id="slv_mdc_scales_form" model="ir.ui.view">
+        <field name="name">slv.mdc.scales.form</field>
+        <field name="model">slv.mdc.scale</field>
+        <field name="arch" type="xml">
+            <form string="Weighing scale">
+                <header>
+                    <button name="action_get_weight" string="Get current weight" type="object" class="btn-primary"
+                        attrs="{'invisible': [('id', '=', False)]}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                    </group>
+                    <group name="gr_scale_main_data" string="Scale parameters">
+                        <group>
+                            <field name="tcp_address_ip"/>
+                            <field name="tcp_address_port"/>
+                        </group>
+                        <group>
+                            <field name="scale_protocol"/>
+                        </group>
+                    </group>
+                    <group name="gr_scale_weight_data" string="Last weight data">
+                        <group>
+                            <field name="last_weight_value"/>
+                            <field name="last_weight_stability"/>
+                        </group>
+                        <group>
+                            <field name="last_weight_datetime"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+  </data>
+</odoo>

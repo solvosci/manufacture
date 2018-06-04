@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Action: loads cases -->
+    <record model="ir.actions.act_window" id="action_slv_mdc_scales">
+        <field name="name">Weighing scales</field>
+        <field name="res_model">slv.mdc.scale</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="slv_mdc_scales_search"/>
+        <field name="limit">25</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to register weghing scales.
+          </p><p>
+            You can register and track weighing scales.
+          </p>
+        </field>
+    </record>
+
+    <record id="action_slv_mdc_scales_view_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="sequence" eval="4"/>
+        <field name="view_id" ref="slv_mdc_scales_tree"/>
+        <field name="act_window_id" ref="action_slv_mdc_scales"/>
+    </record>
+    <record id="action_slv_mdc_scales_view_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="sequence" eval="5"/>
+        <field name="view_id" ref="slv_mdc_scales_form"/>
+        <field name="act_window_id" ref="action_slv_mdc_scales"/>
+    </record>
+
+    <menuitem
+        id="slv_mdc_menu_root"
+        name="MDC"
+        web_icon="slv_mdc,static/description/icon.png"
+        sequence="7"/>
+
+    <menuitem
+        id="mdc_scale_menu"
+        name="Weighing scales"
+        action="action_slv_mdc_scales"
+        parent="slv_mdc.slv_mdc_menu_root"
+        sequence="0" />
+</odoo>
