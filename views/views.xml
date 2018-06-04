@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="slv_mdc.list">
+      <field name="name">slv_mdc list</field>
+      <field name="model">slv_mdc.slv_mdc</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="slv_mdc.action_window">
+      <field name="name">slv_mdc window</field>
+      <field name="res_model">slv_mdc.slv_mdc</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="slv_mdc.action_server">
+      <field name="name">slv_mdc server</field>
+      <field name="model_id" ref="model_slv_mdc_slv_mdc"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="slv_mdc" id="slv_mdc.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="slv_mdc.menu_1" parent="slv_mdc.menu_root"/>
+    <menuitem name="Menu 2" id="slv_mdc.menu_2" parent="slv_mdc.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="slv_mdc.menu_1_list" parent="slv_mdc.menu_1"
+              action="slv_mdc.action_window"/>
+    <menuitem name="Server to list" id="slv_mdc" parent="slv_mdc.menu_2"
+              action="slv_mdc.action_server"/>
+    -->
+  </data>
+</odoo>

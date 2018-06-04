@@ -1,0 +1,13 @@
+\.orig$
+\.orig\..*$
+\.chg\..*$
+\.rej$
+\.conflict\~$
+
+# Caché de Python y ficheros compilados
+/__pycache__/
+\.pyc$
+
+# Carpetas y ficheros que introducen los IDEs NetBeans y PyCharm
+^nbproject/*$
+^\.idea/*$

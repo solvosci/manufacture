@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_slv_mdc_slv_mdc,slv_mdc.slv_mdc,model_slv_mdc_slv_mdc,,1,0,0,0
