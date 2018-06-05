@@ -28,6 +28,7 @@
                 <field name="tcp_address_port"/>
                 <field name="scale_protocol"/>
                 <field name="last_weight_value"/>
+                <field name="last_weight_uom_id" string=""/>
                 <field name="last_weight_stability"/>
                 <field name="last_weight_datetime"/>
             </tree>
@@ -47,7 +48,7 @@
                 <sheet>
                     <group>
                         <div class="oe_title">
-                            <label for="name"/>
+                            <label for="name" attrs="{'invisible': [('id', '!=', False)]}"/>
                             <h1>
                                 <field name="name"/>
                             </h1>
@@ -60,6 +61,7 @@
                         </group>
                         <group>
                             <field name="scale_protocol"/>
+                            <field name="weight_uom_id" options="{'no_create': 1, 'no_create_edit': 1}"/>
                         </group>
                     </group>
                     <group name="gr_scale_weight_data" string="Last weight data">
@@ -68,6 +70,7 @@
                             <field name="last_weight_stability"/>
                         </group>
                         <group>
+                            <field name="last_weight_uom_id"/>
                             <field name="last_weight_datetime"/>
                         </group>
                     </group>

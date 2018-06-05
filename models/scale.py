@@ -30,11 +30,19 @@ class Scale(models.Model):
         string='Weighing protocol',
         required=True,
         default='$')
-    # TODO uom field (g, kg,...)
+    weight_uom_id = fields.Many2one(
+        'product.uom',
+        string='Weight Unit',
+        required=True,
+        domain="[('category_id','=',2)]")
     last_weight_value = fields.Float(
         'Last weight value',
         readonly=True,
         copy=False)
+    last_weight_uom_id = fields.Many2one(
+        'product.uom',
+        string='Last weight Unit',
+        readonly=True)
     last_weight_stability = fields.Selection(
         [('stable', 'Stable'), ('unstable', 'Unstable'), ('unknown', 'Unknown')],
         string='Last weight stability',
@@ -44,7 +52,7 @@ class Scale(models.Model):
         'Last weight date',
         readonly=True,
         copy=False)
-    # TODO last weight uom, waiting timeout
+    # TODO waiting timeout
     active = fields.Boolean(
         'Active',
         default=True)
@@ -76,9 +84,11 @@ class Scale(models.Model):
             if self.scale_protocol == '$':
                 self.last_weight_value, self.last_weight_stability, self.last_weight_datetime \
                     = self._get_weight_s_protocol(s)
-                return self.last_weight_value, self.last_weight_stability, self.last_weight_datetime
             else:
                 raise Exception(_('Unsupported weighing protocol (%s)') % self.protocol)
+            self.last_weight_uom_id = self.weight_uom_id
+            return self.last_weight_value, self.last_weight_uom_id, \
+                self.last_weight_stability, self.last_weight_datetime
 
     def _get_weight_s_protocol(self, sock):
         sock.send(b'$')
