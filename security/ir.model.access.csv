@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_slv_mdc_slv_mdc,slv_mdc.slv_mdc,model_slv_mdc_slv_mdc,,1,0,0,0
+acl_mdc_scale,slv.mdc.scale default,model_slv_mdc_scale,,1,0,0,0
+acl_mdc_scale_manager,slv.mdc.scale_manager,model_slv_mdc_scale,group_mdc_manager,1,1,1,1
+acl_mdc_scale_cp,slv.mdc.scale_cp,model_slv_mdc_scale,group_mdc_cp,1,1,0,0

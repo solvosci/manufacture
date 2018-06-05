@@ -28,7 +28,7 @@
                 <field name="tcp_address_port"/>
                 <field name="scale_protocol"/>
                 <field name="last_weight_value"/>
-                <field name="last_weight_uom_id" string=""/>
+                <field name="last_weight_uom_id" string=" "/>
                 <field name="last_weight_stability"/>
                 <field name="last_weight_datetime"/>
             </tree>
@@ -43,7 +43,7 @@
             <form string="Weighing scale">
                 <header>
                     <button name="action_get_weight" string="Get current weight" type="object" class="btn-primary"
-                        attrs="{'invisible': [('id', '=', False)]}"/>
+                        attrs="{'invisible': [('id', '=', False)]}" groups="slv_mdc.group_mdc_manager,slv_mdc.group_mdc_cp"/>
                 </header>
                 <sheet>
                     <group>
