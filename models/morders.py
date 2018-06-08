@@ -35,8 +35,15 @@ class LotActive(models.Model):
     Main data for active lots
     """
     _name = 'slv.mdc.lot_active'
-   # _inherit = ['slv.mdc.base.structure']
+    #_inherit = ['slv.mdc.base.structure']
     _description = 'Active Lot'
+
+    def _get_chkpoint_categ_selection(self):
+        return [
+            ('W_IN', _('Input')),
+            ('W_OUT', _('Output')),
+    ]
+
 
     lot_id = fields.Many2one(
         'slv.mdc.lot',

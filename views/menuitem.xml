@@ -13,6 +13,74 @@
         id="action_slv_mdc_workstations"
         name="Workstations Assign"
         res_model="slv.mdc.workstation"/>
+    <act_window
+        id="action_slv_mdc_worksheet"
+        name="Worksheet"
+        res_model="slv.mdc.worksheet"/>
+    <act_window
+        id="action_slv_mdc_data_w_in"
+        name="Data in"
+        res_model="slv.mdc.data_w_in"/>
+    <act_window
+        id="action_slv_mdc_data_w_out"
+        name="Data out"
+        res_model="slv.mdc.data_w_out"/>
+    <act_window
+        id="action_slv_mdc_cumulative_report"
+        name="Cumulative Report"
+        res_model="slv.mdc.data_w_in"/>
+    <act_window
+        id="action_slv_mdc_gross_weight_lot_report"
+        name="Gross Weight Report"
+        res_model="slv.mdc.data_w_in"/>
+    <act_window
+        id="action_slv_mdc_indicators_report"
+        name="Indicators Report"
+        res_model="slv.mdc.data_w_in"/>
+    <act_window
+        id="action_slv_mdc_tracing_report"
+        name="Tracing Report"
+        res_model="slv.mdc.data_w_in"/>
+    <act_window
+        id="action_slv_mdc_std"
+        name="Standards"
+        res_model="slv.mdc.std"/>
+    <act_window
+        id="action_slv_mdc_card"
+        name="Cards"
+        res_model="slv.mdc.card"/>
+    <act_window
+        id="action_slv_mdc_card_categ"
+        name="Cards Categories"
+        res_model="slv.mdc.card_categ"/>
+    <act_window
+        id="action_slv_mdc_quality"
+        name="Quality"
+        res_model="slv.mdc.quality"/>
+    <act_window
+        id="action_slv_mdc_tare"
+        name="Tares"
+        res_model="slv.mdc.tare"/>
+    <act_window
+        id="action_slv_mdc_shift"
+        name="Shifts"
+        res_model="slv.mdc.shift"/>
+    <act_window
+        id="action_slv_mdc_line"
+        name="Lines"
+        res_model="slv.mdc.line"/>
+    <act_window
+        id="action_slv_mdc_chkpoint"
+        name="Check Points"
+        res_model="slv.mdc.chkpoint"/>
+    <act_window
+        id="action_slv_mdc_rfid_reader"
+        name="RFID Reades"
+        res_model="slv.mdc.rfid_reader"/>
+    <act_window
+        id="action_slv_mdc_w_out_categ"
+        name="Out Categoriy"
+        res_model="slv.mdc.w_out_categ"/>
 
     <!-- Action: lot_active
     <record model="ir.actions.act_window" id="action_slv_mdc_lot_actives">
@@ -187,13 +255,117 @@
         parent="slv_mdc_menu_operations"
         sequence="20"/>
 
+    <!-- Data menu -->
+    <menuitem id="mdc_worksheet_menu"
+        name="Worksheet"
+        action="action_slv_mdc_worksheet"
+        parent="slv_mdc_menu_data"
+        sequence="10"/>
+
+    <menuitem id="mdc_data_w_in_menu"
+        name="Data in"
+        action="action_slv_mdc_data_w_in"
+        parent="slv_mdc_menu_data"
+        sequence="15"/>
+
+    <menuitem id="mdc_data_w_out_menu"
+        name="Data out"
+        action="action_slv_mdc_data_w_out"
+        parent="slv_mdc_menu_data"
+        sequence="20"/>
+
+    <!-- Reporting menu -->
+    <menuitem id="mdc_cumulative_report_menu"
+        name="Cumulative Report"
+        action="action_slv_mdc_cumulative_report"
+        parent="slv_mdc_menu_reporting"
+        sequence="10"/>
+
+    <menuitem id="mdc_gross_weight_lot_report_menu"
+        name="Gross Weight Lot Report"
+        action="action_slv_mdc_gross_weight_lot_report"
+        parent="slv_mdc_menu_reporting"
+        sequence="15"/>
+
+    <menuitem id="mdc_indicators_report_menu"
+        name="Indicators Report"
+        action="action_slv_mdc_indicators_report"
+        parent="slv_mdc_menu_reporting"
+        sequence="20"/>
+
+    <menuitem id="mdc_tracing_report_menu"
+        name="Tracing Report"
+        action="action_slv_mdc_tracing_report"
+        parent="slv_mdc_menu_reporting"
+        sequence="25"/>
+
+    <!-- Master Data menu -->
+    <menuitem id="mdc_std_menu"
+        name="Standards"
+        action="action_slv_mdc_std"
+        parent="slv_mdc_menu_master"
+        sequence="10"/>
+
+    <menuitem id="mdc_card_menu"
+        name="Cards"
+        action="action_slv_mdc_card"
+        parent="slv_mdc_menu_master"
+        sequence="15"/>
+
+    <menuitem id="mdc_card_categ_menu"
+        name="Card Categegories"
+        action="action_slv_mdc_card_categ"
+        parent="slv_mdc_menu_master"
+        sequence="20"/>
+
+    <menuitem id="mdc_quality_menu"
+        name="Quality"
+        action="action_slv_mdc_quality"
+        parent="slv_mdc_menu_master"
+        sequence="25"/>
+
+    <menuitem id="mdc_tare_menu"
+        name="Tare"
+        action="action_slv_mdc_tare"
+        parent="slv_mdc_menu_master"
+        sequence="30"/>
+
+
     <!-- Configuration menu -->
+    <menuitem id="mdc_shift_menu"
+        name="Shift"
+        action="action_slv_mdc_shift"
+        parent="slv_mdc_menu_configuration"
+        sequence="10" />
+
+    <menuitem id="mdc_line_menu"
+        name="Line"
+        action="action_slv_mdc_line"
+        parent="slv_mdc_menu_configuration"
+        sequence="15" />
+
+    <menuitem id="mdc_chkpoint_menu"
+        name="Check Point"
+        action="action_slv_mdc_chkpoint"
+        parent="slv_mdc_menu_configuration"
+        sequence="20" />
+
     <menuitem id="mdc_scale_menu"
         name="Weighing scales"
         action="action_slv_mdc_scales"
         parent="slv_mdc_menu_configuration"
-        sequence="0" />
+        sequence="25" />
 
+    <menuitem id="mdc_rfid_reader_menu"
+        name="RFID Readers"
+        action="action_slv_mdc_rfid_reader"
+        parent="slv_mdc_menu_configuration"
+        sequence="30" />
 
+    <menuitem id="mdc_w_out_categ_menu"
+        name="Tare"
+        action="action_slv_mdc_w_out_categ"
+        parent="slv_mdc_menu_configuration"
+        sequence="35"/>
 
 </odoo>

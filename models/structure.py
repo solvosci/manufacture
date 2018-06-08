@@ -193,3 +193,23 @@ class Quality(models.Model):
     descrip = fields.Char(
         'Description',
         required=True)
+
+class RfidReader(models.Model):
+    '''
+    Represents a RFID Reader managed over TCP/IP
+    '''
+    _name = 'slv.mdc.rfid_reader'
+    _description = 'RFID Reader'
+
+    name = fields.Char(
+        'Name',
+        required=True)
+    tcp_address_ip = fields.Char(
+        'IP Address',
+        required=True)
+    tcp_address_port = fields.Integer(
+        'IP Port',
+        required=True)
+    active = fields.Boolean(
+        'Active',
+        default=True)
