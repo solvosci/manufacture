@@ -1,7 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Action: loads cases -->
+    <act_window
+        id="action_slv_mdc_lot_actives"
+        name="Active Lots"
+        res_model="slv.mdc.lot_active"/>
+    <act_window
+        id="action_slv_mdc_lots"
+        name="Lots"
+        res_model="slv.mdc.lot"/>
+    <act_window
+        id="action_slv_mdc_workstations"
+        name="Workstations Assign"
+        res_model="slv.mdc.workstation"/>
+
+    <!-- Action: lot_active
+    <record model="ir.actions.act_window" id="action_slv_mdc_lot_actives">
+        <field name="name">Weighing lot_actives</field>
+        <field name="res_model">slv.mdc.lot_active</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="slv_mdc_lot_actives_search"/>
+        <field name="limit">25</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to register lot_actives.
+          </p><p>
+            You can register lot_actives.
+          </p>
+        </field>
+    </record>
+
+    <record id="action_slv_mdc_lot_actives_view_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="sequence" eval="4"/>
+        <field name="view_id" ref="slv_mdc_lot_actives_tree"/>
+        <field name="act_window_id" ref="action_slv_mdc_lot_actives"/>
+    </record>
+    <record id="action_slv_mdc_lot_actives_view_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="sequence" eval="5"/>
+        <field name="view_id" ref="slv_mdc_lot_actives_form"/>
+        <field name="act_window_id" ref="action_slv_mdc_lot_actives"/>
+    </record>-->
+
+    <!-- Action: lots
+    <record model="ir.actions.act_window" id="action_slv_mdc_lots">
+        <field name="name">Weighing lots</field>
+        <field name="res_model">slv.mdc.lot</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="slv_mdc_lots_search"/>
+        <field name="limit">25</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to register lots.
+          </p><p>
+            You can register and lots.
+          </p>
+        </field>
+    </record>
+
+    <record id="action_slv_mdc_lots_view_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="sequence" eval="4"/>
+        <field name="view_id" ref="slv_mdc_lots_tree"/>
+        <field name="act_window_id" ref="action_slv_mdc_lots"/>
+    </record>
+    <record id="action_slv_mdc_lots_view_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="sequence" eval="5"/>
+        <field name="view_id" ref="slv_mdc_lots_form"/>
+        <field name="act_window_id" ref="action_slv_mdc_lots"/>
+    </record>-->
+
+    <!-- Action: workstation assign
+    <record model="ir.actions.act_window" id="action_slv_mdc_workstations">
+        <field name="name">Workstation assign</field>
+        <field name="res_model">slv.mdc.workstation</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="slv_mdc_workstations_search"/>
+        <field name="limit">25</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to register workstation.
+          </p><p>
+            You can register workstation.
+          </p>
+        </field>
+    </record>
+
+    <record id="action_slv_mdc_workstations_view_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="sequence" eval="4"/>
+        <field name="view_id" ref="slv_mdc_workstations_tree"/>
+        <field name="act_window_id" ref="action_slv_mdc_workstations"/>
+    </record>
+    <record id="action_slv_mdc_workstations_view_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="sequence" eval="5"/>
+        <field name="view_id" ref="slv_mdc_workstations_form"/>
+        <field name="act_window_id" ref="action_slv_mdc_workstations"/>
+    </record>-->
+
+    <!-- Action: loads scales -->
     <record model="ir.actions.act_window" id="action_slv_mdc_scales">
         <field name="name">Weighing scales</field>
         <field name="res_model">slv.mdc.scale</field>
@@ -31,16 +134,66 @@
         <field name="act_window_id" ref="action_slv_mdc_scales"/>
     </record>
 
+    <!-- Top menu item -->
     <menuitem
         id="slv_mdc_menu_root"
         name="MDC"
         web_icon="slv_mdc,static/description/icon.png"
         sequence="7"/>
 
-    <menuitem
-        id="mdc_scale_menu"
+    <!-- First level menu -->
+    <menuitem id="slv_mdc_menu_operations"
+        name="Operations"
+        parent="slv_mdc_menu_root"
+        sequence="10"/>
+
+    <menuitem id="slv_mdc_menu_data"
+        name="Data"
+        parent="slv_mdc_menu_root"
+        sequence="15"/>
+
+    <menuitem id="slv_mdc_menu_reporting"
+        name="Reporting"
+        parent="slv_mdc_menu_root"
+        sequence="20"/>
+
+    <menuitem id="slv_mdc_menu_master"
+        name="Master Data"
+        parent="slv_mdc_menu_root"
+        sequence="25"/>
+
+    <menuitem id="slv_mdc_menu_configuration"
+        name="Configuration"
+        parent="slv_mdc_menu_root"
+        sequence="100"/>
+        <!-- groups="group_slv_mdc_manager" -->
+
+    <!-- Operations menu -->
+    <menuitem id="mdc_lot_active_menu"
+        name="Active Lots"
+        action="action_slv_mdc_lot_actives"
+        parent="slv_mdc_menu_operations"
+        sequence="10"/>
+
+    <menuitem id="mdc_lot_menu"
+        name="Lots"
+        action="action_slv_mdc_lots"
+        parent="slv_mdc_menu_operations"
+        sequence="15"/>
+
+    <menuitem id="mdc_workstation_assign_menu"
+        name="Workstation Assign"
+        action="action_slv_mdc_workstations"
+        parent="slv_mdc_menu_operations"
+        sequence="20"/>
+
+    <!-- Configuration menu -->
+    <menuitem id="mdc_scale_menu"
         name="Weighing scales"
         action="action_slv_mdc_scales"
-        parent="slv_mdc.slv_mdc_menu_root"
+        parent="slv_mdc_menu_configuration"
         sequence="0" />
+
+
+
 </odoo>
