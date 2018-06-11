@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'product', 'hr'],
+    'depends': ['base', 'product', 'hr', 'stock'],
 
     # always loaded
     'data': [
@@ -31,6 +31,7 @@
         'views/scale_views.xml',
         'views/menuitem.xml',
         'views/templates.xml',
+        'data/structure_data.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
