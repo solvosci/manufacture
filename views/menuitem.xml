@@ -2,30 +2,6 @@
 <odoo>
 
     <act_window
-        id="action_slv_mdc_lot_actives"
-        name="Active Lots"
-        res_model="slv.mdc.lot_active"/>
-    <act_window
-        id="action_slv_mdc_lots"
-        name="Lots"
-        res_model="slv.mdc.lot"/>
-    <act_window
-        id="action_slv_mdc_workstations"
-        name="Workstations Assign"
-        res_model="slv.mdc.workstation"/>
-    <act_window
-        id="action_slv_mdc_worksheet"
-        name="Worksheet"
-        res_model="slv.mdc.worksheet"/>
-    <act_window
-        id="action_slv_mdc_data_w_in"
-        name="Data in"
-        res_model="slv.mdc.data_w_in"/>
-    <act_window
-        id="action_slv_mdc_data_w_out"
-        name="Data out"
-        res_model="slv.mdc.data_w_out"/>
-    <act_window
         id="action_slv_mdc_cumulative_report"
         name="Cumulative Report"
         res_model="slv.mdc.data_w_in"/>
@@ -82,39 +58,9 @@
         name="Out Categoriy"
         res_model="slv.mdc.w_out_categ"/>
 
-    <!-- Action: lot_active
-    <record model="ir.actions.act_window" id="action_slv_mdc_lot_actives">
-        <field name="name">Weighing lot_actives</field>
-        <field name="res_model">slv.mdc.lot_active</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="slv_mdc_lot_actives_search"/>
-        <field name="limit">25</field>
-        <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-            Click to register lot_actives.
-          </p><p>
-            You can register lot_actives.
-          </p>
-        </field>
-    </record>
-
-    <record id="action_slv_mdc_lot_actives_view_tree" model="ir.actions.act_window.view">
-        <field name="view_mode">tree</field>
-        <field name="sequence" eval="4"/>
-        <field name="view_id" ref="slv_mdc_lot_actives_tree"/>
-        <field name="act_window_id" ref="action_slv_mdc_lot_actives"/>
-    </record>
-    <record id="action_slv_mdc_lot_actives_view_form" model="ir.actions.act_window.view">
-        <field name="view_mode">form</field>
-        <field name="sequence" eval="5"/>
-        <field name="view_id" ref="slv_mdc_lot_actives_form"/>
-        <field name="act_window_id" ref="action_slv_mdc_lot_actives"/>
-    </record>-->
-
-    <!-- Action: lots
+    <!-- Action: loads Lots -->
     <record model="ir.actions.act_window" id="action_slv_mdc_lots">
-        <field name="name">Weighing lots</field>
+        <field name="name">Lots</field>
         <field name="res_model">slv.mdc.lot</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -122,9 +68,9 @@
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
-            Click to register lots.
+            Click to register new lots.
           </p><p>
-            You can register and lots.
+            You can register Lots and assign a product and a customer.
           </p>
         </field>
     </record>
@@ -140,11 +86,42 @@
         <field name="sequence" eval="5"/>
         <field name="view_id" ref="slv_mdc_lots_form"/>
         <field name="act_window_id" ref="action_slv_mdc_lots"/>
-    </record>-->
+    </record>
 
-    <!-- Action: workstation assign
+    <!-- Action: loads Active Lots -->
+    <record model="ir.actions.act_window" id="action_slv_mdc_lots_actives">
+        <field name="name">Active Lots</field>
+        <field name="res_model">slv.mdc.lot_active</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="slv_mdc_lots_actives_search"/>
+        <field name="limit">25</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to active lots or close lots.
+          </p><p>
+            You can active lots for in a line for each checkpoint.
+          </p>
+        </field>
+    </record>
+
+    <record id="action_slv_mdc_lots_actives_view_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="sequence" eval="6"/>
+        <field name="view_id" ref="slv_mdc_lots_actives_tree"/>
+        <field name="act_window_id" ref="action_slv_mdc_lots_actives"/>
+    </record>
+    <record id="action_slv_mdc_lots_actives_view_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="sequence" eval="7"/>
+        <field name="view_id" ref="slv_mdc_lots_actives_form"/>
+        <field name="act_window_id" ref="action_slv_mdc_lots_actives"/>
+    </record>
+
+
+    <!-- Action: loads Workstation -->
     <record model="ir.actions.act_window" id="action_slv_mdc_workstations">
-        <field name="name">Workstation assign</field>
+        <field name="name">Workstations</field>
         <field name="res_model">slv.mdc.workstation</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -152,25 +129,115 @@
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
-            Click to register workstation.
+            Click to create new workstations.
           </p><p>
-            You can register workstation.
+            You can create n workstation by line and shift.
           </p>
         </field>
     </record>
 
     <record id="action_slv_mdc_workstations_view_tree" model="ir.actions.act_window.view">
         <field name="view_mode">tree</field>
-        <field name="sequence" eval="4"/>
+        <field name="sequence" eval="8"/>
         <field name="view_id" ref="slv_mdc_workstations_tree"/>
         <field name="act_window_id" ref="action_slv_mdc_workstations"/>
     </record>
     <record id="action_slv_mdc_workstations_view_form" model="ir.actions.act_window.view">
         <field name="view_mode">form</field>
-        <field name="sequence" eval="5"/>
+        <field name="sequence" eval="9"/>
         <field name="view_id" ref="slv_mdc_workstations_form"/>
         <field name="act_window_id" ref="action_slv_mdc_workstations"/>
-    </record>-->
+    </record>
+
+    <!-- Action: loads Worksheets -->
+    <record model="ir.actions.act_window" id="action_slv_mdc_worksheets">
+        <field name="name">Worksheets</field>
+        <field name="res_model">slv.mdc.worksheet</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="slv_mdc_worksheets_search"/>
+        <field name="limit">25</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to create new worksheets.
+          </p><p>
+            You can create n worksheet by line and shift.
+          </p>
+        </field>
+    </record>
+
+    <record id="action_slv_mdc_worksheets_view_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="sequence" eval="8"/>
+        <field name="view_id" ref="slv_mdc_worksheets_tree"/>
+        <field name="act_window_id" ref="action_slv_mdc_worksheets"/>
+    </record>
+    <record id="action_slv_mdc_worksheets_view_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="sequence" eval="9"/>
+        <field name="view_id" ref="slv_mdc_worksheets_form"/>
+        <field name="act_window_id" ref="action_slv_mdc_worksheets"/>
+    </record>
+
+     <!-- Action: loads Data_w_ins -->
+    <record model="ir.actions.act_window" id="action_slv_mdc_data_w_ins">
+        <field name="name">Data_w_ins</field>
+        <field name="res_model">slv.mdc.data_w_in</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="slv_mdc_data_w_ins_search"/>
+        <field name="limit">25</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Cahange this because is not possible to create data in registers.
+          </p><p>
+            .............................
+          </p>
+        </field>
+    </record>
+
+    <record id="action_slv_mdc_data_w_ins_view_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="sequence" eval="8"/>
+        <field name="view_id" ref="slv_mdc_data_w_ins_tree"/>
+        <field name="act_window_id" ref="action_slv_mdc_data_w_ins"/>
+    </record>
+    <record id="action_slv_mdc_data_w_ins_view_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="sequence" eval="9"/>
+        <field name="view_id" ref="slv_mdc_data_w_ins_form"/>
+        <field name="act_window_id" ref="action_slv_mdc_data_w_ins"/>
+    </record>
+
+    <!-- Action: loads Data_w_outs -->
+    <record model="ir.actions.act_window" id="action_slv_mdc_data_w_outs">
+        <field name="name">Data_w_outs</field>
+        <field name="res_model">slv.mdc.data_w_out</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="slv_mdc_data_w_outs_search"/>
+        <field name="limit">25</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Cahange this because is not possible to create data out registers.
+          </p><p>
+            .............................
+          </p>
+        </field>
+    </record>
+
+    <record id="action_slv_mdc_data_w_outs_view_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="sequence" eval="8"/>
+        <field name="view_id" ref="slv_mdc_data_w_outs_tree"/>
+        <field name="act_window_id" ref="action_slv_mdc_data_w_outs"/>
+    </record>
+    <record id="action_slv_mdc_data_w_outs_view_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="sequence" eval="9"/>
+        <field name="view_id" ref="slv_mdc_data_w_outs_form"/>
+        <field name="act_window_id" ref="action_slv_mdc_data_w_outs"/>
+    </record>
 
     <!-- Action: loads scales -->
     <record model="ir.actions.act_window" id="action_slv_mdc_scales">
@@ -191,13 +258,13 @@
 
     <record id="action_slv_mdc_scales_view_tree" model="ir.actions.act_window.view">
         <field name="view_mode">tree</field>
-        <field name="sequence" eval="4"/>
+        <field name="sequence" eval="11"/>
         <field name="view_id" ref="slv_mdc_scales_tree"/>
         <field name="act_window_id" ref="action_slv_mdc_scales"/>
     </record>
     <record id="action_slv_mdc_scales_view_form" model="ir.actions.act_window.view">
         <field name="view_mode">form</field>
-        <field name="sequence" eval="5"/>
+        <field name="sequence" eval="12"/>
         <field name="view_id" ref="slv_mdc_scales_form"/>
         <field name="act_window_id" ref="action_slv_mdc_scales"/>
     </record>
@@ -239,7 +306,7 @@
     <!-- Operations menu -->
     <menuitem id="mdc_lot_active_menu"
         name="Active Lots"
-        action="action_slv_mdc_lot_actives"
+        action="action_slv_mdc_lots_actives"
         parent="slv_mdc_menu_operations"
         sequence="10"/>
 
@@ -258,19 +325,19 @@
     <!-- Data menu -->
     <menuitem id="mdc_worksheet_menu"
         name="Worksheet"
-        action="action_slv_mdc_worksheet"
+        action="action_slv_mdc_worksheets"
         parent="slv_mdc_menu_data"
         sequence="10"/>
 
     <menuitem id="mdc_data_w_in_menu"
         name="Data in"
-        action="action_slv_mdc_data_w_in"
+        action="action_slv_mdc_data_w_ins"
         parent="slv_mdc_menu_data"
         sequence="15"/>
 
     <menuitem id="mdc_data_w_out_menu"
         name="Data out"
-        action="action_slv_mdc_data_w_out"
+        action="action_slv_mdc_data_w_outs"
         parent="slv_mdc_menu_data"
         sequence="20"/>
 

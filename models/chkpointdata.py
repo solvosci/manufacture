@@ -92,13 +92,13 @@ class DataWOut(models.Model):
     employee_id = fields.Many2one(
         'hr.employee',
         string='Employee')
-    share = fields.Boolean(
+    shared = fields.Boolean(
         string='Shared',
         default=False)
     w_out_shared_id =fields.Many2one(
         'slv.mdc.data_w_out',
         string='Shared with')
-    w_out_categ = fields.Many2one(
+    w_out_categ_id = fields.Many2one(
         'slv.mdc.w_out_categ',
         string='Out Category')
     gross_weight = fields.Float(

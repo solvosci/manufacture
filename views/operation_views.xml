@@ -1,0 +1,205 @@
+<odoo>
+  <data>
+
+    <!-- Search view: default search for lots -->
+    <record id="slv_mdc_lots_search" model="ir.ui.view">
+        <field name="name">slv.mdc.lots.search</field>
+        <field name="model">slv.mdc.lot</field>
+        <field name="arch" type="xml">
+            <search string="Lot">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="partner_id"/>
+                <field name="descrip"/>
+                <group expand="0" string="Group By">
+                    <filter string="Product" name="groupby_product" domain="[]" context="{'group_by':'product_id'}"/>
+                    <filter string="Partner" name="groupby_partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tree view: default view for lots -->
+    <record id="slv_mdc_lots_tree" model="ir.ui.view">
+        <field name="name">slv.mdc.lots.tree</field>
+        <field name="model">slv.mdc.lot</field>
+        <field name="arch" type="xml">
+            <tree string="Lots">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="weight"/>
+                <field name="w_uom_id"/>
+                <field name="partner_id"/>
+                <field name="descrip"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for lots -->
+    <record id="slv_mdc_lots_form" model="ir.ui.view">
+        <field name="name">slv.mdc.lots.form</field>
+        <field name="model">slv.mdc.lot</field>
+        <field name="arch" type="xml">
+            <form string="Lots">
+                <sheet>
+                    <group>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                    </group>
+                    <group name="gr_lot_main_data" string="Lot parameters">
+                        <group>
+                            <field name="product_id"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="weight"/>
+                            <field name="w_uom_id"/>
+                        </group>
+                        <group>
+                            <field name="descrip"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Search view: default search for active lots -->
+    <record id="slv_mdc_lots_actives_search" model="ir.ui.view">
+        <field name="name">slv.mdc.lots_actives.search</field>
+        <field name="model">slv.mdc.lot_active</field>
+        <field name="arch" type="xml">
+            <search string="Active Lot">
+                <field name="lot_id"/>
+                <field name="line_id"/>
+                <field name="chkpoint_categ"/>
+                <group expand="0" string="Group By">
+                    <filter string="Lot" name="groupby_product" domain="[]" context="{'group_by':'lot_id'}"/>
+                    <filter string="Line" name="groupby_partner" domain="[]" context="{'group_by':'line_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tree view: default view for active lots -->
+    <record id="slv_mdc_lots_actives_tree" model="ir.ui.view">
+        <field name="name">slv.mdc.lots_actives.tree</field>
+        <field name="model">slv.mdc.lot_active</field>
+        <field name="arch" type="xml">
+            <tree string="Lots">
+                <field name="lot_id"/>
+                <field name="line_id"/>
+                <field name="chkpoint_categ"/>
+                <field name="start_datetime"/>
+                <field name="end_datetime"/>
+                <field name="total_hours"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for lots_actives -->
+    <record id="slv_mdc_lots_actives_form" model="ir.ui.view">
+        <field name="name">slv.mdc.lots_actives.form</field>
+        <field name="model">slv.mdc.lot_active</field>
+        <field name="arch" type="xml">
+            <form string="Active Lot">
+                <sheet>
+                    <group>
+                        <div class="oe_title">
+                            <label for="lot_id"/>
+                            <h1>
+                                <field name="lot_id"/>
+                            </h1>
+                        </div>
+                    </group>
+                    <group name="gr_lot_main_data" string="Lot Activation">
+                        <group>
+                            <field name="line_id"/>
+                            <field name="chkpoint_categ"/>
+                        </group>
+                        <group> </group>
+                        <group>
+                            <field name="start_datetime"/>
+                            <field name="end_datetime"/>
+                        </group>
+                        <group>
+                            <field name="total_hours"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Search view: default search for workstations -->
+    <record id="slv_mdc_workstations_search" model="ir.ui.view">
+        <field name="name">slv.mdc.workstations.search</field>
+        <field name="model">slv.mdc.workstation</field>
+        <field name="arch" type="xml">
+            <search string="Workstation">
+                <field name="name"/>
+                <field name="line_id"/>
+                <field name="shift_id"/>
+                <field name="current_employee_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="shift" name="groupby_product" domain="[]" context="{'group_by':'shift_id'}"/>
+                    <filter string="Line" name="groupby_partner" domain="[]" context="{'group_by':'line_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tree view: default view for workstations -->
+    <record id="slv_mdc_workstations_tree" model="ir.ui.view">
+        <field name="name">slv.mdc.workstations.tree</field>
+        <field name="model">slv.mdc.workstation</field>
+        <field name="arch" type="xml">
+            <tree string="Workstations">
+                <field name="shift_id"/>
+                <field name="line_id"/>
+                <field name="name"/>
+                <field name="seat"/>
+                <field name="current_employee_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for workstations -->
+    <record id="slv_mdc_workstations_form" model="ir.ui.view">
+        <field name="name">slv.mdc.workstations.form</field>
+        <field name="model">slv.mdc.workstation</field>
+        <field name="arch" type="xml">
+            <form string="Workstation">
+                <sheet>
+                    <group>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                    </group>
+                    <group name="gr_lot_main_data" string="Lot Activation">
+                        <group>
+                            <field name="shift_id"/>
+                            <field name="current_employee_id"/>
+                        </group>
+                        <group>
+                            <field name="line_id"/>
+                            <field name="seat"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+  </data>
+</odoo>

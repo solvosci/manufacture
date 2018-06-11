@@ -25,9 +25,9 @@
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',
-        #'views/datacapture_views.xml',
-        #'views/mo_lot_views.xml',
-        #'views/structure_views.xml',
+        'views/data_views.xml',
+        'views/operation_views.xml',
+        'views/structure_views.xml',
         'views/scale_views.xml',
         'views/menuitem.xml',
         'views/templates.xml',

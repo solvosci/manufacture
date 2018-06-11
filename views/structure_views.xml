@@ -1,0 +1,92 @@
+<odoo>
+  <data>
+
+    <!-- Tree view: default view for check points -->
+    <record id="slv_mdc_chkpoint_tree" model="ir.ui.view">
+        <field name="name">slv.mdc.chkpoint.tree</field>
+        <field name="model">slv.mdc.chkpoint</field>
+        <field name="arch" type="xml">
+            <tree string="Check Point">
+                <field name="name"/>
+                <field name="chkpoint_categ_id"/>
+                <field name="line_id"/>
+                <field name="scale_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for check points -->
+    <record id="slv_mdc_chkpoint_form" model="ir.ui.view">
+        <field name="name">slv.mdc.chkpoint.form</field>
+        <field name="model">slv.mdc.chkpoint</field>
+        <field name="arch" type="xml">
+            <form string="Check Point">
+                <sheet>
+                    <group>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                    </group>
+                    <group name="gr_chkpoint_main_data" string="Check point parameters">
+                        <group>
+                            <field name="line_id"/>
+                            <field name="scale_id"/>
+                        </group>
+                        <group>
+                            <field name="chkpoint_categ_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+        <!-- Tree view: default view for workstations -->
+    <record id="slv_mdc_workstation_tree" model="ir.ui.view">
+        <field name="name">slv.mdc.workstation.tree</field>
+        <field name="model">slv.mdc.workstation</field>
+        <field name="arch" type="xml">
+            <tree string="Workstation">
+                <field name="code"/>
+                <field name="line_id"/>
+                <field name="shift_id"/>
+                <field name="seat"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for workstations -->
+    <record id="slv_mdc_workstation_form" model="ir.ui.view">
+        <field name="name">slv.mdc.workstation.form</field>
+        <field name="model">slv.mdc.workstation</field>
+        <field name="arch" type="xml">
+            <form string="Workstation">
+                <sheet>
+                    <group>
+                        <div class="oe_title">
+                            <label for="code"/>
+                            <h1>
+                                <field name="code"/>
+                            </h1>
+                        </div>
+                    </group>
+                    <group name="gr_workstation_main_data" string="Workstation parameters">
+                        <group>
+                            <field name="line_id"/>
+                            <field name="shift_id"/>
+                        </group>
+                        <group>
+                            <field name="seat"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+  </data>
+</odoo>
