@@ -52,12 +52,12 @@
                     </group>
                     <group name="gr_lot_main_data" string="Lot parameters">
                         <group>
-                            <field name="product_id"/>
-                            <field name="partner_id"/>
+                            <field name="product_id" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                            <field name="partner_id" domain="[('customer','=',True), ('parent_id','=',False)]" context="{'search_default_customer':1, 'show_address': 1}" options="{&quot;always_reload&quot;: True}"/>
                         </group>
                         <group>
                             <field name="weight"/>
-                            <field name="w_uom_id"/>
+                            <field name="w_uom_id" domain="[('category_id','=',2)]" options="{'no_create': 1, 'no_create_edit': 1}"/>
                         </group>
                         <group>
                             <field name="descrip"/>
@@ -194,6 +194,49 @@
                         <group>
                             <field name="line_id"/>
                             <field name="seat"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Tree view: default view for Standars -->
+    <record id="slv_mdc_stds_tree" model="ir.ui.view">
+        <field name="name">slv.mdc.stds.tree</field>
+        <field name="model">slv.mdc.std</field>
+        <field name="arch" type="xml">
+            <tree string="Standards">
+                <field name="product_id"/>
+                <field name="std_yield_product"/>
+                <field name="std_speed"/>
+                <field name="std_yield_sp1"/>
+                <field name="std_yield_sp2"/>
+                <field name="std_yield_sp3"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for Standars -->
+    <record id="slv_mdc_stds_form" model="ir.ui.view">
+        <field name="name">slv.mdc.stds.form</field>
+        <field name="model">slv.mdc.std</field>
+        <field name="arch" type="xml">
+            <form string="Standards">
+                <sheet>
+                    <group>
+                        <field name="product_id" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                    </group>
+                    <group name="gr_std_data" string="Standard Detail">
+                        <group>
+                            <field name="std_yield_product"/>
+                            <field name="std_speed"/>
+                        </group>
+                        <group>
+                            <field name="std_yield_sp1"/>
+                            <field name="std_yield_sp2"/>
+                            <field name="std_yield_sp3"/>
                         </group>
                     </group>
                 </sheet>

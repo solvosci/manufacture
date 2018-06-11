@@ -13,9 +13,6 @@ class Std(models.Model):
     _inherits = {'product.product': 'product_id'}
     _description = 'Standards'
 
-    name = fields.Integer(
-        'Name',
-        required=True)
     product_id = fields.Many2one(
         'product.product',
         string='Product',

@@ -60,12 +60,10 @@ class ChkPoint(models.Model):
         required=True)
     scale_id = fields.Many2one(
         'slv.mdc.scale',
-        string='Scale',
-        required=True)
+        string='Scale')
     rfid_reader_id = fields.Many2one(
         'slv.mdc.rfid_reader',
-        string='RFID Reader',
-        required=True)
+        string='RFID Reader')
     tare = fields.Many2one(
         'slv.mdc.tare',
         string='Tare')
@@ -163,6 +161,9 @@ class WOutCateg(models.Model):
     name = fields.Char(
         'Name',
         required=True)
+    code = fields.Char(
+        'Code',
+        required=True)
 
 
 class Tare(models.Model):
@@ -178,6 +179,9 @@ class Tare(models.Model):
     tare = fields.Float(
         'Tare',
         required=True)
+    uom_id = fields.Many2one(
+        'product.uom',
+        string = 'Tare Unit')
 
 
 class Quality(models.Model):

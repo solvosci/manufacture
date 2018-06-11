@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Out Categories Types -->
+        <record id="slv_mdc_w_out_categ_P" model="slv.mdc.w_out_categ">
+            <field name="name">Producto</field>
+            <field name="code">P</field>
+        </record>
+        <record id="slv_mdc_w_out_categ_SP1" model="slv.mdc.w_out_categ">
+            <field name="name">Subproducto 1</field>
+            <field name="code">SP1</field>
+        </record>
+        <record id="slv_mdc_w_out_categ_SP2" model="slv.mdc.w_out_categ">
+            <field name="name">Subproducto 2</field>
+            <field name="code">SP2</field>
+        </record>
+        <record id="slv_mdc_w_out_categ_SP3" model="slv.mdc.w_out_categ">
+            <field name="name">Subproducto 3</field>
+            <field name="code">SP3</field>
+        </record>
+
+        <!-- Card Categories -->
+        <record id="slv_mdc_card_categ_O" model="slv.mdc.card_categ">
+            <field name="name">Operario</field>
+        </record>
+        <record id="slv_mdc_card_categ_L" model="slv.mdc.card_categ">
+            <field name="name">Línea (Puesto)</field>
+        </record>
+        <record id="slv_mdc_card_categ_P" model="slv.mdc.card_categ">
+            <field name="name">Producto</field>
+        </record>
+        <record id="slv_mdc_card_categ_SP1" model="slv.mdc.card_categ">
+            <field name="name">Subproducto 1</field>
+        </record>
+        <record id="slv_mdc_card_categ_SP2" model="slv.mdc.card_categ">
+            <field name="name">Subproducto 2</field>
+        </record>
+        <record id="slv_mdc_card_categ_SP3" model="slv.mdc.card_categ">
+            <field name="name">Subproducto 3</field>
+        </record>
+        <record id="slv_mdc_card_categ_PC" model="slv.mdc.card_categ">
+            <field name="name">Producto Comodín</field>
+        </record>
+
+    </data>
+</odoo>

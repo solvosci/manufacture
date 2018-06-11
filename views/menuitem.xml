@@ -55,7 +55,7 @@
         res_model="slv.mdc.rfid_reader"/>
     <act_window
         id="action_slv_mdc_w_out_categ"
-        name="Out Categoriy"
+        name="Out Category"
         res_model="slv.mdc.w_out_categ"/>
 
     <!-- Action: loads Lots -->
@@ -189,7 +189,7 @@
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
-            Cahange this because is not possible to create data in registers.
+            Change this because is not possible to create data in registers.
           </p><p>
             .............................
           </p>
@@ -219,7 +219,7 @@
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
-            Cahange this because is not possible to create data out registers.
+            Change this because is not possible to create data out registers.
           </p><p>
             .............................
           </p>
@@ -373,6 +373,12 @@
         parent="slv_mdc_menu_master"
         sequence="10"/>
 
+    <menuitem id="mdc_product_menu"
+        name="Products"
+        action="product.product_template_action"
+        parent="slv_mdc_menu_master"
+        sequence="11"/>
+
     <menuitem id="mdc_card_menu"
         name="Cards"
         action="action_slv_mdc_card"
@@ -380,7 +386,7 @@
         sequence="15"/>
 
     <menuitem id="mdc_card_categ_menu"
-        name="Card Categegories"
+        name="Card Categories"
         action="action_slv_mdc_card_categ"
         parent="slv_mdc_menu_master"
         sequence="20"/>
@@ -430,7 +436,7 @@
         sequence="30" />
 
     <menuitem id="mdc_w_out_categ_menu"
-        name="Tare"
+        name="Out Category"
         action="action_slv_mdc_w_out_categ"
         parent="slv_mdc_menu_configuration"
         sequence="35"/>

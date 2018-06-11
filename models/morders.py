@@ -11,7 +11,7 @@ class Lot(models.Model):
     _name = 'slv.mdc.lot'
     _description = 'Lot'
 
-    name = fields.Integer(
+    name = fields.Char(
         'Name',
         required=True)
     product_id = fields.Many2one(

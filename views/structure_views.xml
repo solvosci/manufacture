@@ -1,6 +1,69 @@
 <odoo>
   <data>
 
+    <!-- Tree view: default view for tare -->
+    <record id="slv_mdc_tare_tree" model="ir.ui.view">
+        <field name="name">slv.mdc.tare.tree</field>
+        <field name="model">slv.mdc.tare</field>
+        <field name="arch" type="xml">
+            <tree string="Card">
+                <field name="name"/>
+                <field name="tare"/>
+                <field name="uom_id"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Form view: default form for tare -->
+    <record id="slv_mdc_tare_form" model="ir.ui.view">
+        <field name="name">slv.mdc.tare.form</field>
+        <field name="model">slv.mdc.tare</field>
+        <field name="arch" type="xml">
+            <form string="Tare">
+                <sheet>
+                    <group>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                    </group>
+                    <group>
+                        <field name="tare"/>
+                        <field name="uom_id" domain="[('category_id','=',2)]" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree view: default view for card -->
+    <record id="slv_mdc_card_tree" model="ir.ui.view">
+        <field name="name">slv.mdc.card.tree</field>
+        <field name="model">slv.mdc.card</field>
+        <field name="arch" type="xml">
+            <tree string="Card">
+                <field name="name"/>
+                <field name="card_categ_id"/>
+                <field name="employee_id"/>
+                <field name="workstation_id"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Tree view: default view for w_out_categ -->
+    <record id="slv_mdc_w_out_categ_tree" model="ir.ui.view">
+        <field name="name">slv.mdc.w_out_categ.tree</field>
+        <field name="model">slv.mdc.w_out_categ</field>
+        <field name="arch" type="xml">
+            <tree string="Out Category">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
     <!-- Tree view: default view for check points -->
     <record id="slv_mdc_chkpoint_tree" model="ir.ui.view">
         <field name="name">slv.mdc.chkpoint.tree</field>
@@ -8,8 +71,9 @@
         <field name="arch" type="xml">
             <tree string="Check Point">
                 <field name="name"/>
-                <field name="chkpoint_categ_id"/>
+                <field name="chkpoint_categ"/>
                 <field name="line_id"/>
+                <field name="order"/>
                 <field name="scale_id"/>
             </tree>
         </field>
@@ -30,13 +94,21 @@
                             </h1>
                         </div>
                     </group>
-                    <group name="gr_chkpoint_main_data" string="Check point parameters">
+                    <group name="gr_chkpoint_param" string="Check point parameters">
                         <group>
                             <field name="line_id"/>
-                            <field name="scale_id"/>
+                            <field name="chkpoint_categ"/>
+                            <field name="order"/>
                         </group>
                         <group>
-                            <field name="chkpoint_categ_id"/>
+                            <field name="scale_id"/>
+                            <field name="rfid_reader_id"/>
+                        </group>
+                    </group>
+                    <group name="gr_chkpoint_data" string="Check point data">
+                        <group>
+                            <field name="tare"/>
+                            <field name="quality_id"/>
                         </group>
                     </group>
                 </sheet>
@@ -51,7 +123,7 @@
         <field name="model">slv.mdc.workstation</field>
         <field name="arch" type="xml">
             <tree string="Workstation">
-                <field name="code"/>
+                <field name="name"/>
                 <field name="line_id"/>
                 <field name="shift_id"/>
                 <field name="seat"/>
@@ -68,9 +140,9 @@
                 <sheet>
                     <group>
                         <div class="oe_title">
-                            <label for="code"/>
+                            <label for="name"/>
                             <h1>
-                                <field name="code"/>
+                                <field name="name"/>
                             </h1>
                         </div>
                     </group>
