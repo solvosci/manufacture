@@ -161,12 +161,12 @@
         <field name="name">slv.mdc.workstations.tree</field>
         <field name="model">slv.mdc.workstation</field>
         <field name="arch" type="xml">
-            <tree string="Workstations">
+            <tree editable="top" string="Workstations">
                 <field name="shift_id"/>
                 <field name="line_id"/>
                 <field name="name"/>
                 <field name="seat"/>
-                <field name="current_employee_id"/>
+                <field name="current_employee_id" domain=""/>
             </tree>
         </field>
     </record>
