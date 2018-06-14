@@ -2,3 +2,43 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 acl_mdc_scale,slv.mdc.scale default,model_slv_mdc_scale,,1,0,0,0
 acl_mdc_scale_manager,slv.mdc.scale_manager,model_slv_mdc_scale,group_mdc_manager,1,1,1,1
 acl_mdc_scale_cp,slv.mdc.scale_cp,model_slv_mdc_scale,group_mdc_cp,1,1,0,0
+acl_mdc_workstation,slv.mdc.workstation default,model_slv_mdc_workstation,,1,0,0,0
+acl_mdc_workstation_manager,slv.mdc.workstation_manager,model_slv_mdc_workstation,group_mdc_manager,1,1,1,1
+acl_mdc_workstation_cp,slv.mdc.workstation_cp,model_slv_mdc_workstation,group_mdc_cp,1,1,0,0
+acl_mdc_lot,slv.mdc.lot default,model_slv_mdc_lot,,1,0,0,0
+acl_mdc_lot_manager,slv.mdc.lot_manager,model_slv_mdc_lot,group_mdc_manager,1,1,1,1
+acl_mdc_lot_cp,slv.mdc.lot_cp,model_slv_mdc_lot,group_mdc_cp,1,1,0,0
+acl_mdc_lot_active,slv.mdc.lot_active default,model_slv_mdc_lot_active,,1,0,0,0
+acl_mdc_lot_active_manager,slv.mdc.lot_active_manager,model_slv_mdc_lot_active,group_mdc_manager,1,1,1,1
+acl_mdc_lot_active_cp,slv.mdc.lot_active_cp,model_slv_mdc_lot_active,group_mdc_cp,1,1,0,0
+acl_mdc_worksheet,slv.mdc.worksheet default,model_slv_mdc_worksheet,,1,0,0,0
+acl_mdc_worksheet_manager,slv.mdc.worksheet_manager,model_slv_mdc_worksheet,group_mdc_manager,1,1,1,1
+acl_mdc_worksheet_cp,slv.mdc.worksheet_cp,model_slv_mdc_worksheet,group_mdc_cp,1,1,0,0
+
+acl_mdc_data_w_in,slv.mdc.data_w_in default,model_slv_mdc_data_w_in,,1,0,0,0
+acl_mdc_data_w_in_manager,slv.mdc.data_w_in_manager,model_slv_mdc_data_w_in,group_mdc_manager,1,1,1,1
+acl_mdc_data_w_in_cp,slv.mdc.data_w_in_cp,model_slv_mdc_data_w_in,group_mdc_cp,1,1,1,1
+acl_mdc_data_w_out,slv.mdc.data_w_out default,model_slv_mdc_data_w_out,,1,0,0,0
+acl_mdc_data_w_out_manager,slv.mdc.data_w_out_manager,model_slv_mdc_data_w_out,group_mdc_manager,1,1,1,1
+acl_mdc_data_w_out_cp,slv.mdc.data_w_out_cp,model_slv_mdc_data_w_out,group_mdc_cp,1,1,1,1
+
+acl_mdc_line,slv.mdc.line default,model_slv_mdc_line,,1,0,0,0
+acl_mdc_line_manager,slv.mdc.line_manager,model_slv_mdc_line,group_mdc_manager,1,1,1,1
+acl_mdc_chkpoint,slv.mdc.chkpoint default,model_slv_mdc_chkpoint,,1,0,0,0
+acl_mdc_chkpoint_manager,slv.mdc.chkpoint_manager,model_slv_mdc_chkpoint,group_mdc_manager,1,1,1,1
+acl_mdc_card,slv.mdc.card default,model_slv_mdc_card,,1,0,0,0
+acl_mdc_card_manager,slv.mdc.card_manager,model_slv_mdc_card,group_mdc_manager,1,1,1,1
+acl_mdc_shift,slv.mdc.shift default,model_slv_mdc_shift,,1,0,0,0
+acl_mdc_shift_manager,slv.mdc.shift_manager,model_slv_mdc_shift,group_mdc_manager,1,1,1,1
+acl_mdc_card_categ,slv.mdc.card_categ default,model_slv_mdc_card_categ,,1,0,0,0
+acl_mdc_card_categ_manager,slv.mdc.card_categ_manager,model_slv_mdc_card_categ,group_mdc_manager,1,1,1,1
+acl_mdc_w_out_categ,slv.mdc.w_out_categ default,model_slv_mdc_w_out_categ,,1,0,0,0
+acl_mdc_w_out_categ_manager,slv.mdc.w_out_categ_manager,model_slv_mdc_w_out_categ,group_mdc_manager,1,1,1,1
+acl_mdc_tare,slv.mdc.tare default,model_slv_mdc_tare,,1,0,0,0
+acl_mdc_tare_manager,slv.mdc.tare_manager,model_slv_mdc_tare,group_mdc_manager,1,1,1,1
+acl_mdc_quality,slv.mdc.quality default,model_slv_mdc_quality,,1,0,0,0
+acl_mdc_quality_manager,slv.mdc.quality_manager,model_slv_mdc_quality,group_mdc_manager,1,1,1,1
+acl_mdc_rfid_reader,slv.mdc.rfid_reader default,model_slv_mdc_rfid_reader,,1,0,0,0
+acl_mdc_rfid_reader_manager,slv.mdc.rfid_reader_manager,model_slv_mdc_rfid_reader,group_mdc_manager,1,1,1,1
+acl_mdc_std,slv.mdc.std default,model_slv_mdc_std,,1,0,0,0
+acl_mdc_std_manager,slv.mdc.std_manager,model_slv_mdc_std,group_mdc_manager,1,1,1,1

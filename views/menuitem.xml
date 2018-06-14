@@ -295,13 +295,14 @@
     <menuitem id="slv_mdc_menu_master"
         name="Master Data"
         parent="slv_mdc_menu_root"
+        groups="group_mdc_manager"
         sequence="25"/>
 
     <menuitem id="slv_mdc_menu_configuration"
         name="Configuration"
         parent="slv_mdc_menu_root"
+        groups="group_mdc_manager"
         sequence="100"/>
-        <!-- groups="group_slv_mdc_manager" -->
 
     <!-- Operations menu -->
     <menuitem id="mdc_lot_active_menu"
@@ -402,7 +403,6 @@
         action="action_slv_mdc_tare"
         parent="slv_mdc_menu_master"
         sequence="30"/>
-
 
     <!-- Configuration menu -->
     <menuitem id="mdc_shift_menu"
