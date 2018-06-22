@@ -81,7 +81,7 @@ class Workstation(models.Model):
     _description = 'Workstation'
 
     _sql_constraints = [
-        ('current_employee_unique', 'UNIQUE(current_employee_id, )',
+        ('current_employee_unique', 'UNIQUE(current_employee_id)',
          'The employee has been already assigned to a workstation!'),
     ]
 

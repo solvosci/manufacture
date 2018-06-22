@@ -166,7 +166,7 @@
                 <field name="line_id"/>
                 <field name="name"/>
                 <field name="seat"/>
-                <field name="current_employee_id" domain=""/>
+                <field name="current_employee_id" domain="[('employee_code', '!=', False)]"/>
             </tree>
         </field>
     </record>
