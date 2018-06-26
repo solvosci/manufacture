@@ -93,9 +93,9 @@ class Scale(models.Model):
     def _get_weight_s_protocol(self, sock):
         sock.send(b'$')
         data = sock.recv(SCALE_RECV_BUFFER_SIZE)
-        # STX = 0x02 ; other control data is not set
-        if len(data) == 10 and data[0] == 2:
-            weight = float(data[2:])
+        # STX = 0x02 , ETX = 0x0D ; other control data is not set
+        if len(data) == 11 and data[0] == 0x02 and data[-1] == 0x0D:
+            weight = float(data[2:-1])
             stability = 'stable' if '{0:b}'.format(data[1])[-6] == '0' else 'unstable'
             return weight, stability, fields.Datetime.now()
         else:
