@@ -2,9 +2,9 @@
   <data>
 
     <!-- Tree view: default view for tare -->
-    <record id="slv_mdc_tare_tree" model="ir.ui.view">
-        <field name="name">slv.mdc.tare.tree</field>
-        <field name="model">slv.mdc.tare</field>
+    <record id="mdc_tare_tree" model="ir.ui.view">
+        <field name="name">mdc.tare.tree</field>
+        <field name="model">mdc.tare</field>
         <field name="arch" type="xml">
             <tree string="Card">
                 <field name="name"/>
@@ -14,9 +14,9 @@
         </field>
     </record>
     <!-- Form view: default form for tare -->
-    <record id="slv_mdc_tare_form" model="ir.ui.view">
-        <field name="name">slv.mdc.tare.form</field>
-        <field name="model">slv.mdc.tare</field>
+    <record id="mdc_tare_form" model="ir.ui.view">
+        <field name="name">mdc.tare.form</field>
+        <field name="model">mdc.tare</field>
         <field name="arch" type="xml">
             <form string="Tare">
                 <sheet>
@@ -38,9 +38,9 @@
     </record>
 
     <!-- Tree view: default view for card -->
-    <record id="slv_mdc_card_tree" model="ir.ui.view">
-        <field name="name">slv.mdc.card.tree</field>
-        <field name="model">slv.mdc.card</field>
+    <record id="mdc_card_tree" model="ir.ui.view">
+        <field name="name">mdc.card.tree</field>
+        <field name="model">mdc.card</field>
         <field name="arch" type="xml">
             <tree string="Card">
                 <field name="name"/>
@@ -53,9 +53,9 @@
     </record>
 
     <!-- Tree view: default view for w_out_categ -->
-    <record id="slv_mdc_w_out_categ_tree" model="ir.ui.view">
-        <field name="name">slv.mdc.w_out_categ.tree</field>
-        <field name="model">slv.mdc.w_out_categ</field>
+    <record id="mdc_w_out_categ_tree" model="ir.ui.view">
+        <field name="name">mdc.w_out_categ.tree</field>
+        <field name="model">mdc.w_out_categ</field>
         <field name="arch" type="xml">
             <tree string="Out Category">
                 <field name="name"/>
@@ -65,9 +65,9 @@
     </record>
 
     <!-- Tree view: default view for check points -->
-    <record id="slv_mdc_chkpoint_tree" model="ir.ui.view">
-        <field name="name">slv.mdc.chkpoint.tree</field>
-        <field name="model">slv.mdc.chkpoint</field>
+    <record id="mdc_chkpoint_tree" model="ir.ui.view">
+        <field name="name">mdc.chkpoint.tree</field>
+        <field name="model">mdc.chkpoint</field>
         <field name="arch" type="xml">
             <tree string="Check Point">
                 <field name="name"/>
@@ -80,9 +80,9 @@
     </record>
 
     <!-- Form view: default form for check points -->
-    <record id="slv_mdc_chkpoint_form" model="ir.ui.view">
-        <field name="name">slv.mdc.chkpoint.form</field>
-        <field name="model">slv.mdc.chkpoint</field>
+    <record id="mdc_chkpoint_form" model="ir.ui.view">
+        <field name="name">mdc.chkpoint.form</field>
+        <field name="model">mdc.chkpoint</field>
         <field name="arch" type="xml">
             <form string="Check Point">
                 <sheet>
@@ -118,9 +118,9 @@
 
 
         <!-- Tree view: default view for workstations -->
-    <record id="slv_mdc_workstation_tree" model="ir.ui.view">
-        <field name="name">slv.mdc.workstation.tree</field>
-        <field name="model">slv.mdc.workstation</field>
+    <record id="mdc_workstation_tree" model="ir.ui.view">
+        <field name="name">mdc.workstation.tree</field>
+        <field name="model">mdc.workstation</field>
         <field name="arch" type="xml">
             <tree string="Workstation">
                 <field name="name"/>
@@ -132,9 +132,9 @@
     </record>
 
     <!-- Form view: default form for workstations -->
-    <record id="slv_mdc_workstation_form" model="ir.ui.view">
-        <field name="name">slv.mdc.workstation.form</field>
-        <field name="model">slv.mdc.workstation</field>
+    <record id="mdc_workstation_form" model="ir.ui.view">
+        <field name="name">mdc.workstation.form</field>
+        <field name="model">mdc.workstation</field>
         <field name="arch" type="xml">
             <form string="Workstation">
                 <sheet>

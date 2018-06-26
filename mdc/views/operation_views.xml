@@ -2,9 +2,9 @@
   <data>
 
     <!-- Search view: default search for lots -->
-    <record id="slv_mdc_lots_search" model="ir.ui.view">
-        <field name="name">slv.mdc.lots.search</field>
-        <field name="model">slv.mdc.lot</field>
+    <record id="mdc_lots_search" model="ir.ui.view">
+        <field name="name">mdc.lots.search</field>
+        <field name="model">mdc.lot</field>
         <field name="arch" type="xml">
             <search string="Lot">
                 <field name="name"/>
@@ -20,9 +20,9 @@
     </record>
 
     <!-- Tree view: default view for lots -->
-    <record id="slv_mdc_lots_tree" model="ir.ui.view">
-        <field name="name">slv.mdc.lots.tree</field>
-        <field name="model">slv.mdc.lot</field>
+    <record id="mdc_lots_tree" model="ir.ui.view">
+        <field name="name">mdc.lots.tree</field>
+        <field name="model">mdc.lot</field>
         <field name="arch" type="xml">
             <tree string="Lots">
                 <field name="name"/>
@@ -36,9 +36,9 @@
     </record>
 
     <!-- Form view: default form for lots -->
-    <record id="slv_mdc_lots_form" model="ir.ui.view">
-        <field name="name">slv.mdc.lots.form</field>
-        <field name="model">slv.mdc.lot</field>
+    <record id="mdc_lots_form" model="ir.ui.view">
+        <field name="name">mdc.lots.form</field>
+        <field name="model">mdc.lot</field>
         <field name="arch" type="xml">
             <form string="Lots">
                 <sheet>
@@ -70,9 +70,9 @@
 
 
     <!-- Search view: default search for active lots -->
-    <record id="slv_mdc_lots_actives_search" model="ir.ui.view">
-        <field name="name">slv.mdc.lots_actives.search</field>
-        <field name="model">slv.mdc.lot_active</field>
+    <record id="mdc_lots_actives_search" model="ir.ui.view">
+        <field name="name">mdc.lots_actives.search</field>
+        <field name="model">mdc.lot_active</field>
         <field name="arch" type="xml">
             <search string="Active Lot">
                 <field name="lot_id"/>
@@ -87,9 +87,9 @@
     </record>
 
     <!-- Tree view: default view for active lots -->
-    <record id="slv_mdc_lots_actives_tree" model="ir.ui.view">
-        <field name="name">slv.mdc.lots_actives.tree</field>
-        <field name="model">slv.mdc.lot_active</field>
+    <record id="mdc_lots_actives_tree" model="ir.ui.view">
+        <field name="name">mdc.lots_actives.tree</field>
+        <field name="model">mdc.lot_active</field>
         <field name="arch" type="xml">
             <tree string="Lots">
                 <field name="lot_id"/>
@@ -103,9 +103,9 @@
     </record>
 
     <!-- Form view: default form for lots_actives -->
-    <record id="slv_mdc_lots_actives_form" model="ir.ui.view">
-        <field name="name">slv.mdc.lots_actives.form</field>
-        <field name="model">slv.mdc.lot_active</field>
+    <record id="mdc_lots_actives_form" model="ir.ui.view">
+        <field name="name">mdc.lots_actives.form</field>
+        <field name="model">mdc.lot_active</field>
         <field name="arch" type="xml">
             <form string="Active Lot">
                 <sheet>
@@ -139,9 +139,9 @@
 
 
     <!-- Search view: default search for workstations -->
-    <record id="slv_mdc_workstations_search" model="ir.ui.view">
-        <field name="name">slv.mdc.workstations.search</field>
-        <field name="model">slv.mdc.workstation</field>
+    <record id="mdc_workstations_search" model="ir.ui.view">
+        <field name="name">mdc.workstations.search</field>
+        <field name="model">mdc.workstation</field>
         <field name="arch" type="xml">
             <search string="Workstation">
                 <field name="name"/>
@@ -157,9 +157,9 @@
     </record>
 
     <!-- Tree view: default view for workstations -->
-    <record id="slv_mdc_workstations_tree" model="ir.ui.view">
-        <field name="name">slv.mdc.workstations.tree</field>
-        <field name="model">slv.mdc.workstation</field>
+    <record id="mdc_workstations_tree" model="ir.ui.view">
+        <field name="name">mdc.workstations.tree</field>
+        <field name="model">mdc.workstation</field>
         <field name="arch" type="xml">
             <tree editable="top" string="Workstations">
                 <field name="shift_id"/>
@@ -172,9 +172,9 @@
     </record>
 
     <!-- Form view: default form for workstations -->
-    <record id="slv_mdc_workstations_form" model="ir.ui.view">
-        <field name="name">slv.mdc.workstations.form</field>
-        <field name="model">slv.mdc.workstation</field>
+    <record id="mdc_workstations_form" model="ir.ui.view">
+        <field name="name">mdc.workstations.form</field>
+        <field name="model">mdc.workstation</field>
         <field name="arch" type="xml">
             <form string="Workstation">
                 <sheet>
@@ -203,9 +203,9 @@
 
 
     <!-- Tree view: default view for Standars -->
-    <record id="slv_mdc_stds_tree" model="ir.ui.view">
-        <field name="name">slv.mdc.stds.tree</field>
-        <field name="model">slv.mdc.std</field>
+    <record id="mdc_stds_tree" model="ir.ui.view">
+        <field name="name">mdc.stds.tree</field>
+        <field name="model">mdc.std</field>
         <field name="arch" type="xml">
             <tree string="Standards">
                 <field name="product_id"/>
@@ -219,9 +219,9 @@
     </record>
 
     <!-- Form view: default form for Standars -->
-    <record id="slv_mdc_stds_form" model="ir.ui.view">
-        <field name="name">slv.mdc.stds.form</field>
-        <field name="model">slv.mdc.std</field>
+    <record id="mdc_stds_form" model="ir.ui.view">
+        <field name="name">mdc.stds.form</field>
+        <field name="model">mdc.std</field>
         <field name="arch" type="xml">
             <form string="Standards">
                 <sheet>
@@ -245,9 +245,9 @@
     </record>
 
     <!-- Form view: default form for Cards -->
-    <record id="slv_mdc_cards_form" model="ir.ui.view">
-        <field name="name">slv.mdc.cards.form</field>
-        <field name="model">slv.mdc.card</field>
+    <record id="mdc_cards_form" model="ir.ui.view">
+        <field name="name">mdc.cards.form</field>
+        <field name="model">mdc.card</field>
         <field name="arch" type="xml">
             <form string="Cards">
                 <sheet>

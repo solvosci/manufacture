@@ -13,7 +13,7 @@ class Scale(models.Model):
     '''
     Represents a Weighing Scale managed over TCP/IP
     '''
-    _name = 'slv.mdc.scale'
+    _name = 'mdc.scale'
     _description = 'Weighing Scale'
 
     name = fields.Char(

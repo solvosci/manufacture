@@ -2,69 +2,69 @@
 <odoo>
 
     <act_window
-        id="action_slv_mdc_cumulative_report"
+        id="action_mdc_cumulative_report"
         name="Cumulative Report"
-        res_model="slv.mdc.data_w_in"/>
+        res_model="mdc.data_w_in"/>
     <act_window
-        id="action_slv_mdc_gross_weight_lot_report"
+        id="action_mdc_gross_weight_lot_report"
         name="Gross Weight Report"
-        res_model="slv.mdc.data_w_in"/>
+        res_model="mdc.data_w_in"/>
     <act_window
-        id="action_slv_mdc_indicators_report"
+        id="action_mdc_indicators_report"
         name="Indicators Report"
-        res_model="slv.mdc.data_w_in"/>
+        res_model="mdc.data_w_in"/>
     <act_window
-        id="action_slv_mdc_tracing_report"
+        id="action_mdc_tracing_report"
         name="Tracing Report"
-        res_model="slv.mdc.data_w_in"/>
+        res_model="mdc.data_w_in"/>
     <act_window
-        id="action_slv_mdc_std"
+        id="action_mdc_std"
         name="Standards"
-        res_model="slv.mdc.std"/>
+        res_model="mdc.std"/>
     <act_window
-        id="action_slv_mdc_card"
+        id="action_mdc_card"
         name="Cards"
-        res_model="slv.mdc.card"/>
+        res_model="mdc.card"/>
     <act_window
-        id="action_slv_mdc_card_categ"
+        id="action_mdc_card_categ"
         name="Cards Categories"
-        res_model="slv.mdc.card_categ"/>
+        res_model="mdc.card_categ"/>
     <act_window
-        id="action_slv_mdc_quality"
+        id="action_mdc_quality"
         name="Quality"
-        res_model="slv.mdc.quality"/>
+        res_model="mdc.quality"/>
     <act_window
-        id="action_slv_mdc_tare"
+        id="action_mdc_tare"
         name="Tares"
-        res_model="slv.mdc.tare"/>
+        res_model="mdc.tare"/>
     <act_window
-        id="action_slv_mdc_shift"
+        id="action_mdc_shift"
         name="Shifts"
-        res_model="slv.mdc.shift"/>
+        res_model="mdc.shift"/>
     <act_window
-        id="action_slv_mdc_line"
+        id="action_mdc_line"
         name="Lines"
-        res_model="slv.mdc.line"/>
+        res_model="mdc.line"/>
     <act_window
-        id="action_slv_mdc_chkpoint"
+        id="action_mdc_chkpoint"
         name="Check Points"
-        res_model="slv.mdc.chkpoint"/>
+        res_model="mdc.chkpoint"/>
     <act_window
-        id="action_slv_mdc_rfid_reader"
+        id="action_mdc_rfid_reader"
         name="RFID Reades"
-        res_model="slv.mdc.rfid_reader"/>
+        res_model="mdc.rfid_reader"/>
     <act_window
-        id="action_slv_mdc_w_out_categ"
+        id="action_mdc_w_out_categ"
         name="Out Category"
-        res_model="slv.mdc.w_out_categ"/>
+        res_model="mdc.w_out_categ"/>
 
     <!-- Action: loads Lots -->
-    <record model="ir.actions.act_window" id="action_slv_mdc_lots">
+    <record model="ir.actions.act_window" id="action_mdc_lots">
         <field name="name">Lots</field>
-        <field name="res_model">slv.mdc.lot</field>
+        <field name="res_model">mdc.lot</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="slv_mdc_lots_search"/>
+        <field name="search_view_id" ref="mdc_lots_search"/>
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
@@ -75,26 +75,26 @@
         </field>
     </record>
 
-    <record id="action_slv_mdc_lots_view_tree" model="ir.actions.act_window.view">
+    <record id="action_mdc_lots_view_tree" model="ir.actions.act_window.view">
         <field name="view_mode">tree</field>
         <field name="sequence" eval="4"/>
-        <field name="view_id" ref="slv_mdc_lots_tree"/>
-        <field name="act_window_id" ref="action_slv_mdc_lots"/>
+        <field name="view_id" ref="mdc_lots_tree"/>
+        <field name="act_window_id" ref="action_mdc_lots"/>
     </record>
-    <record id="action_slv_mdc_lots_view_form" model="ir.actions.act_window.view">
+    <record id="action_mdc_lots_view_form" model="ir.actions.act_window.view">
         <field name="view_mode">form</field>
         <field name="sequence" eval="5"/>
-        <field name="view_id" ref="slv_mdc_lots_form"/>
-        <field name="act_window_id" ref="action_slv_mdc_lots"/>
+        <field name="view_id" ref="mdc_lots_form"/>
+        <field name="act_window_id" ref="action_mdc_lots"/>
     </record>
 
     <!-- Action: loads Active Lots -->
-    <record model="ir.actions.act_window" id="action_slv_mdc_lots_actives">
+    <record model="ir.actions.act_window" id="action_mdc_lots_actives">
         <field name="name">Active Lots</field>
-        <field name="res_model">slv.mdc.lot_active</field>
+        <field name="res_model">mdc.lot_active</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="slv_mdc_lots_actives_search"/>
+        <field name="search_view_id" ref="mdc_lots_actives_search"/>
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
@@ -105,27 +105,27 @@
         </field>
     </record>
 
-    <record id="action_slv_mdc_lots_actives_view_tree" model="ir.actions.act_window.view">
+    <record id="action_mdc_lots_actives_view_tree" model="ir.actions.act_window.view">
         <field name="view_mode">tree</field>
         <field name="sequence" eval="6"/>
-        <field name="view_id" ref="slv_mdc_lots_actives_tree"/>
-        <field name="act_window_id" ref="action_slv_mdc_lots_actives"/>
+        <field name="view_id" ref="mdc_lots_actives_tree"/>
+        <field name="act_window_id" ref="action_mdc_lots_actives"/>
     </record>
-    <record id="action_slv_mdc_lots_actives_view_form" model="ir.actions.act_window.view">
+    <record id="action_mdc_lots_actives_view_form" model="ir.actions.act_window.view">
         <field name="view_mode">form</field>
         <field name="sequence" eval="7"/>
-        <field name="view_id" ref="slv_mdc_lots_actives_form"/>
-        <field name="act_window_id" ref="action_slv_mdc_lots_actives"/>
+        <field name="view_id" ref="mdc_lots_actives_form"/>
+        <field name="act_window_id" ref="action_mdc_lots_actives"/>
     </record>
 
 
     <!-- Action: loads Workstation -->
-    <record model="ir.actions.act_window" id="action_slv_mdc_workstations">
+    <record model="ir.actions.act_window" id="action_mdc_workstations">
         <field name="name">Workstations</field>
-        <field name="res_model">slv.mdc.workstation</field>
+        <field name="res_model">mdc.workstation</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="slv_mdc_workstations_search"/>
+        <field name="search_view_id" ref="mdc_workstations_search"/>
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
@@ -136,26 +136,26 @@
         </field>
     </record>
 
-    <record id="action_slv_mdc_workstations_view_tree" model="ir.actions.act_window.view">
+    <record id="action_mdc_workstations_view_tree" model="ir.actions.act_window.view">
         <field name="view_mode">tree</field>
         <field name="sequence" eval="8"/>
-        <field name="view_id" ref="slv_mdc_workstations_tree"/>
-        <field name="act_window_id" ref="action_slv_mdc_workstations"/>
+        <field name="view_id" ref="mdc_workstations_tree"/>
+        <field name="act_window_id" ref="action_mdc_workstations"/>
     </record>
-    <record id="action_slv_mdc_workstations_view_form" model="ir.actions.act_window.view">
+    <record id="action_mdc_workstations_view_form" model="ir.actions.act_window.view">
         <field name="view_mode">form</field>
         <field name="sequence" eval="9"/>
-        <field name="view_id" ref="slv_mdc_workstations_form"/>
-        <field name="act_window_id" ref="action_slv_mdc_workstations"/>
+        <field name="view_id" ref="mdc_workstations_form"/>
+        <field name="act_window_id" ref="action_mdc_workstations"/>
     </record>
 
     <!-- Action: loads Worksheets -->
-    <record model="ir.actions.act_window" id="action_slv_mdc_worksheets">
+    <record model="ir.actions.act_window" id="action_mdc_worksheets">
         <field name="name">Worksheets</field>
-        <field name="res_model">slv.mdc.worksheet</field>
+        <field name="res_model">mdc.worksheet</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="slv_mdc_worksheets_search"/>
+        <field name="search_view_id" ref="mdc_worksheets_search"/>
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
@@ -166,26 +166,26 @@
         </field>
     </record>
 
-    <record id="action_slv_mdc_worksheets_view_tree" model="ir.actions.act_window.view">
+    <record id="action_mdc_worksheets_view_tree" model="ir.actions.act_window.view">
         <field name="view_mode">tree</field>
         <field name="sequence" eval="8"/>
-        <field name="view_id" ref="slv_mdc_worksheets_tree"/>
-        <field name="act_window_id" ref="action_slv_mdc_worksheets"/>
+        <field name="view_id" ref="mdc_worksheets_tree"/>
+        <field name="act_window_id" ref="action_mdc_worksheets"/>
     </record>
-    <record id="action_slv_mdc_worksheets_view_form" model="ir.actions.act_window.view">
+    <record id="action_mdc_worksheets_view_form" model="ir.actions.act_window.view">
         <field name="view_mode">form</field>
         <field name="sequence" eval="9"/>
-        <field name="view_id" ref="slv_mdc_worksheets_form"/>
-        <field name="act_window_id" ref="action_slv_mdc_worksheets"/>
+        <field name="view_id" ref="mdc_worksheets_form"/>
+        <field name="act_window_id" ref="action_mdc_worksheets"/>
     </record>
 
      <!-- Action: loads Data_w_ins -->
-    <record model="ir.actions.act_window" id="action_slv_mdc_data_w_ins">
+    <record model="ir.actions.act_window" id="action_mdc_data_w_ins">
         <field name="name">Data_w_ins</field>
-        <field name="res_model">slv.mdc.data_w_in</field>
+        <field name="res_model">mdc.data_w_in</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="slv_mdc_data_w_ins_search"/>
+        <field name="search_view_id" ref="mdc_data_w_ins_search"/>
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
@@ -196,26 +196,26 @@
         </field>
     </record>
 
-    <record id="action_slv_mdc_data_w_ins_view_tree" model="ir.actions.act_window.view">
+    <record id="action_mdc_data_w_ins_view_tree" model="ir.actions.act_window.view">
         <field name="view_mode">tree</field>
         <field name="sequence" eval="8"/>
-        <field name="view_id" ref="slv_mdc_data_w_ins_tree"/>
-        <field name="act_window_id" ref="action_slv_mdc_data_w_ins"/>
+        <field name="view_id" ref="mdc_data_w_ins_tree"/>
+        <field name="act_window_id" ref="action_mdc_data_w_ins"/>
     </record>
-    <record id="action_slv_mdc_data_w_ins_view_form" model="ir.actions.act_window.view">
+    <record id="action_mdc_data_w_ins_view_form" model="ir.actions.act_window.view">
         <field name="view_mode">form</field>
         <field name="sequence" eval="9"/>
-        <field name="view_id" ref="slv_mdc_data_w_ins_form"/>
-        <field name="act_window_id" ref="action_slv_mdc_data_w_ins"/>
+        <field name="view_id" ref="mdc_data_w_ins_form"/>
+        <field name="act_window_id" ref="action_mdc_data_w_ins"/>
     </record>
 
     <!-- Action: loads Data_w_outs -->
-    <record model="ir.actions.act_window" id="action_slv_mdc_data_w_outs">
+    <record model="ir.actions.act_window" id="action_mdc_data_w_outs">
         <field name="name">Data_w_outs</field>
-        <field name="res_model">slv.mdc.data_w_out</field>
+        <field name="res_model">mdc.data_w_out</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="slv_mdc_data_w_outs_search"/>
+        <field name="search_view_id" ref="mdc_data_w_outs_search"/>
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
@@ -226,26 +226,26 @@
         </field>
     </record>
 
-    <record id="action_slv_mdc_data_w_outs_view_tree" model="ir.actions.act_window.view">
+    <record id="action_mdc_data_w_outs_view_tree" model="ir.actions.act_window.view">
         <field name="view_mode">tree</field>
         <field name="sequence" eval="8"/>
-        <field name="view_id" ref="slv_mdc_data_w_outs_tree"/>
-        <field name="act_window_id" ref="action_slv_mdc_data_w_outs"/>
+        <field name="view_id" ref="mdc_data_w_outs_tree"/>
+        <field name="act_window_id" ref="action_mdc_data_w_outs"/>
     </record>
-    <record id="action_slv_mdc_data_w_outs_view_form" model="ir.actions.act_window.view">
+    <record id="action_mdc_data_w_outs_view_form" model="ir.actions.act_window.view">
         <field name="view_mode">form</field>
         <field name="sequence" eval="9"/>
-        <field name="view_id" ref="slv_mdc_data_w_outs_form"/>
-        <field name="act_window_id" ref="action_slv_mdc_data_w_outs"/>
+        <field name="view_id" ref="mdc_data_w_outs_form"/>
+        <field name="act_window_id" ref="action_mdc_data_w_outs"/>
     </record>
 
     <!-- Action: loads scales -->
-    <record model="ir.actions.act_window" id="action_slv_mdc_scales">
+    <record model="ir.actions.act_window" id="action_mdc_scales">
         <field name="name">Weighing scales</field>
-        <field name="res_model">slv.mdc.scale</field>
+        <field name="res_model">mdc.scale</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="slv_mdc_scales_search"/>
+        <field name="search_view_id" ref="mdc_scales_search"/>
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
@@ -256,189 +256,189 @@
         </field>
     </record>
 
-    <record id="action_slv_mdc_scales_view_tree" model="ir.actions.act_window.view">
+    <record id="action_mdc_scales_view_tree" model="ir.actions.act_window.view">
         <field name="view_mode">tree</field>
         <field name="sequence" eval="11"/>
-        <field name="view_id" ref="slv_mdc_scales_tree"/>
-        <field name="act_window_id" ref="action_slv_mdc_scales"/>
+        <field name="view_id" ref="mdc_scales_tree"/>
+        <field name="act_window_id" ref="action_mdc_scales"/>
     </record>
-    <record id="action_slv_mdc_scales_view_form" model="ir.actions.act_window.view">
+    <record id="action_mdc_scales_view_form" model="ir.actions.act_window.view">
         <field name="view_mode">form</field>
         <field name="sequence" eval="12"/>
-        <field name="view_id" ref="slv_mdc_scales_form"/>
-        <field name="act_window_id" ref="action_slv_mdc_scales"/>
+        <field name="view_id" ref="mdc_scales_form"/>
+        <field name="act_window_id" ref="action_mdc_scales"/>
     </record>
 
     <!-- Top menu item -->
     <menuitem
-        id="slv_mdc_menu_root"
+        id="mdc_menu_root"
         name="MDC"
-        web_icon="slv_mdc,static/description/icon.png"
+        web_icon="mdc,static/description/icon.png"
         sequence="7"/>
 
     <!-- First level menu -->
-    <menuitem id="slv_mdc_menu_operations"
+    <menuitem id="mdc_menu_operations"
         name="Operations"
-        parent="slv_mdc_menu_root"
+        parent="mdc_menu_root"
         sequence="10"/>
 
-    <menuitem id="slv_mdc_menu_data"
+    <menuitem id="mdc_menu_data"
         name="Data"
-        parent="slv_mdc_menu_root"
+        parent="mdc_menu_root"
         sequence="15"/>
 
-    <menuitem id="slv_mdc_menu_reporting"
+    <menuitem id="mdc_menu_reporting"
         name="Reporting"
-        parent="slv_mdc_menu_root"
+        parent="mdc_menu_root"
         sequence="20"/>
 
-    <menuitem id="slv_mdc_menu_master"
+    <menuitem id="mdc_menu_master"
         name="Master Data"
-        parent="slv_mdc_menu_root"
+        parent="mdc_menu_root"
         groups="group_mdc_manager"
         sequence="25"/>
 
-    <menuitem id="slv_mdc_menu_configuration"
+    <menuitem id="mdc_menu_configuration"
         name="Configuration"
-        parent="slv_mdc_menu_root"
+        parent="mdc_menu_root"
         groups="group_mdc_manager"
         sequence="100"/>
 
     <!-- Operations menu -->
     <menuitem id="mdc_lot_active_menu"
         name="Active Lots"
-        action="action_slv_mdc_lots_actives"
-        parent="slv_mdc_menu_operations"
+        action="action_mdc_lots_actives"
+        parent="mdc_menu_operations"
         sequence="10"/>
 
     <menuitem id="mdc_lot_menu"
         name="Lots"
-        action="action_slv_mdc_lots"
-        parent="slv_mdc_menu_operations"
+        action="action_mdc_lots"
+        parent="mdc_menu_operations"
         sequence="15"/>
 
     <menuitem id="mdc_workstation_assign_menu"
         name="Workstation Assign"
-        action="action_slv_mdc_workstations"
-        parent="slv_mdc_menu_operations"
+        action="action_mdc_workstations"
+        parent="mdc_menu_operations"
         sequence="20"/>
 
     <!-- Data menu -->
     <menuitem id="mdc_worksheet_menu"
         name="Worksheet"
-        action="action_slv_mdc_worksheets"
-        parent="slv_mdc_menu_data"
+        action="action_mdc_worksheets"
+        parent="mdc_menu_data"
         sequence="10"/>
 
     <menuitem id="mdc_data_w_in_menu"
         name="Data in"
-        action="action_slv_mdc_data_w_ins"
-        parent="slv_mdc_menu_data"
+        action="action_mdc_data_w_ins"
+        parent="mdc_menu_data"
         sequence="15"/>
 
     <menuitem id="mdc_data_w_out_menu"
         name="Data out"
-        action="action_slv_mdc_data_w_outs"
-        parent="slv_mdc_menu_data"
+        action="action_mdc_data_w_outs"
+        parent="mdc_menu_data"
         sequence="20"/>
 
     <!-- Reporting menu -->
     <menuitem id="mdc_cumulative_report_menu"
         name="Cumulative Report"
-        action="action_slv_mdc_cumulative_report"
-        parent="slv_mdc_menu_reporting"
+        action="action_mdc_cumulative_report"
+        parent="mdc_menu_reporting"
         sequence="10"/>
 
     <menuitem id="mdc_gross_weight_lot_report_menu"
         name="Gross Weight Lot Report"
-        action="action_slv_mdc_gross_weight_lot_report"
-        parent="slv_mdc_menu_reporting"
+        action="action_mdc_gross_weight_lot_report"
+        parent="mdc_menu_reporting"
         sequence="15"/>
 
     <menuitem id="mdc_indicators_report_menu"
         name="Indicators Report"
-        action="action_slv_mdc_indicators_report"
-        parent="slv_mdc_menu_reporting"
+        action="action_mdc_indicators_report"
+        parent="mdc_menu_reporting"
         sequence="20"/>
 
     <menuitem id="mdc_tracing_report_menu"
         name="Tracing Report"
-        action="action_slv_mdc_tracing_report"
-        parent="slv_mdc_menu_reporting"
+        action="action_mdc_tracing_report"
+        parent="mdc_menu_reporting"
         sequence="25"/>
 
     <!-- Master Data menu -->
     <menuitem id="mdc_std_menu"
         name="Standards"
-        action="action_slv_mdc_std"
-        parent="slv_mdc_menu_master"
+        action="action_mdc_std"
+        parent="mdc_menu_master"
         sequence="10"/>
 
     <menuitem id="mdc_product_menu"
         name="Products"
         action="product.product_template_action"
-        parent="slv_mdc_menu_master"
+        parent="mdc_menu_master"
         sequence="11"/>
 
     <menuitem id="mdc_card_menu"
         name="Cards"
-        action="action_slv_mdc_card"
-        parent="slv_mdc_menu_master"
+        action="action_mdc_card"
+        parent="mdc_menu_master"
         sequence="15"/>
 
     <menuitem id="mdc_card_categ_menu"
         name="Card Categories"
-        action="action_slv_mdc_card_categ"
-        parent="slv_mdc_menu_master"
+        action="action_mdc_card_categ"
+        parent="mdc_menu_master"
         sequence="20"/>
 
     <menuitem id="mdc_quality_menu"
         name="Quality"
-        action="action_slv_mdc_quality"
-        parent="slv_mdc_menu_master"
+        action="action_mdc_quality"
+        parent="mdc_menu_master"
         sequence="25"/>
 
     <menuitem id="mdc_tare_menu"
         name="Tare"
-        action="action_slv_mdc_tare"
-        parent="slv_mdc_menu_master"
+        action="action_mdc_tare"
+        parent="mdc_menu_master"
         sequence="30"/>
 
     <!-- Configuration menu -->
     <menuitem id="mdc_shift_menu"
         name="Shift"
-        action="action_slv_mdc_shift"
-        parent="slv_mdc_menu_configuration"
+        action="action_mdc_shift"
+        parent="mdc_menu_configuration"
         sequence="10" />
 
     <menuitem id="mdc_line_menu"
         name="Line"
-        action="action_slv_mdc_line"
-        parent="slv_mdc_menu_configuration"
+        action="action_mdc_line"
+        parent="mdc_menu_configuration"
         sequence="15" />
 
     <menuitem id="mdc_chkpoint_menu"
         name="Check Point"
-        action="action_slv_mdc_chkpoint"
-        parent="slv_mdc_menu_configuration"
+        action="action_mdc_chkpoint"
+        parent="mdc_menu_configuration"
         sequence="20" />
 
     <menuitem id="mdc_scale_menu"
         name="Weighing scales"
-        action="action_slv_mdc_scales"
-        parent="slv_mdc_menu_configuration"
+        action="action_mdc_scales"
+        parent="mdc_menu_configuration"
         sequence="25" />
 
     <menuitem id="mdc_rfid_reader_menu"
         name="RFID Readers"
-        action="action_slv_mdc_rfid_reader"
-        parent="slv_mdc_menu_configuration"
+        action="action_mdc_rfid_reader"
+        parent="mdc_menu_configuration"
         sequence="30" />
 
     <menuitem id="mdc_w_out_categ_menu"
         name="Out Category"
-        action="action_slv_mdc_w_out_categ"
-        parent="slv_mdc_menu_configuration"
+        action="action_mdc_w_out_categ"
+        parent="mdc_menu_configuration"
         sequence="35"/>
 
 </odoo>

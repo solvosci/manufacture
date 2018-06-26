@@ -8,7 +8,7 @@ class BaseStructure(models.AbstractModel):
     """
     Allocates common functionality for Structure modules
     """
-    _name = 'slv.mdc.base.structure'
+    _name = 'mdc.base.structure'
     _description = 'Base Structure model'
 
     def _get_chkpoint_categ_selection(self):
@@ -29,7 +29,7 @@ class Line(models.Model):
     """
     Main data for a line
     """
-    _name = 'slv.mdc.line'
+    _name = 'mdc.line'
     _description = 'Line'
 
     name = fields.Char(
@@ -41,8 +41,8 @@ class ChkPoint(models.Model):
     """
     Main data for a chkpoint (check points)
     """
-    _name = 'slv.mdc.chkpoint'
-    _inherit = ['slv.mdc.base.structure']
+    _name = 'mdc.chkpoint'
+    _inherit = ['mdc.base.structure']
     _description = 'Check Point'
 
     name = fields.Char(
@@ -52,23 +52,23 @@ class ChkPoint(models.Model):
         selection='_get_chkpoint_categ_selection',
         string='Checkpoint Category')
     line_id = fields.Many2one(
-        'slv.mdc.line',
+        'mdc.line',
         string='Line',
         required=True)
     order =fields.Integer(
         'order',
         required=True)
     scale_id = fields.Many2one(
-        'slv.mdc.scale',
+        'mdc.scale',
         string='Scale')
     rfid_reader_id = fields.Many2one(
-        'slv.mdc.rfid_reader',
+        'mdc.rfid_reader',
         string='RFID Reader')
     tare = fields.Many2one(
-        'slv.mdc.tare',
+        'mdc.tare',
         string='Tare')
     quality_id = fields.Many2one(
-        'slv.mdc.quality',
+        'mdc.quality',
         string='Quality')
 
 
@@ -76,8 +76,8 @@ class Workstation(models.Model):
     """
     Main data for a workstation
     """
-    _name = 'slv.mdc.workstation'
-    _inherit = ['slv.mdc.base.structure']
+    _name = 'mdc.workstation'
+    _inherit = ['mdc.base.structure']
     _description = 'Workstation'
 
     _sql_constraints = [
@@ -89,11 +89,11 @@ class Workstation(models.Model):
         'Name',
         required=True)
     line_id = fields.Many2one(
-        'slv.mdc.line',
+        'mdc.line',
         string='Line',
         required=True)
     shift_id = fields.Many2one(
-        'slv.mdc.shift',
+        'mdc.shift',
         string='Shift',
         required=True)
     seat = fields.Integer(
@@ -111,22 +111,22 @@ class Card(models.Model):
     """
     Main data for a cards
     """
-    _name = 'slv.mdc.card'
-    _inherit = ['slv.mdc.base.structure']
+    _name = 'mdc.card'
+    _inherit = ['mdc.base.structure']
     _description = 'Card'
 
     name = fields.Integer(
         'Card_Code',
         required=True)
     card_categ_id = fields.Many2one(
-        'slv.mdc.card_categ',
+        'mdc.card_categ',
         string='Card_Categ',
         required=True)
     employee_id = fields.Many2one(
         'hr.employee',
         string = 'Employee')
     workstation_id = fields.Many2one(
-        'slv.mdc.workstation',
+        'mdc.workstation',
         string='Workstation')
     status = fields.Selection(
         selection='_get_card_status_selection',
@@ -139,7 +139,7 @@ class Shift(models.Model):
     """
     shift (turn)
     """
-    _name = 'slv.mdc.shift'
+    _name = 'mdc.shift'
     _description = 'Shift'
 
     name = fields.Char(
@@ -151,7 +151,7 @@ class CardCateg(models.Model):
     """
     Card Categories
     """
-    _name = 'slv.mdc.card_categ'
+    _name = 'mdc.card_categ'
     _description = 'Card Category'
 
     name = fields.Char(
@@ -163,7 +163,7 @@ class WOutCateg(models.Model):
     """
     Categories for weight output
     """
-    _name = 'slv.mdc.w_out_categ'
+    _name = 'mdc.w_out_categ'
     _description = 'w_out Category'
 
     name = fields.Char(
@@ -178,7 +178,7 @@ class Tare(models.Model):
     """
     Tares
     """
-    _name = 'slv.mdc.tare'
+    _name = 'mdc.tare'
     _description = 'Tare'
 
     name = fields.Char(
@@ -196,7 +196,7 @@ class Quality(models.Model):
     """
     Quality
     """
-    _name = 'slv.mdc.quality'
+    _name = 'mdc.quality'
     _description = 'Quality'
 
     name = fields.Char(
@@ -210,7 +210,7 @@ class RfidReader(models.Model):
     '''
     Represents a RFID Reader managed over TCP/IP
     '''
-    _name = 'slv.mdc.rfid_reader'
+    _name = 'mdc.rfid_reader'
     _description = 'RFID Reader'
 
     name = fields.Char(

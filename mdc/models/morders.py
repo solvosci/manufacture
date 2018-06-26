@@ -8,7 +8,7 @@ class Lot(models.Model):
     """
     Main data for Lot (Manufacturing Orders Lots)
     """
-    _name = 'slv.mdc.lot'
+    _name = 'mdc.lot'
     _description = 'Lot'
 
     name = fields.Char(
@@ -34,8 +34,8 @@ class LotActive(models.Model):
     """
     Main data for active lots
     """
-    _name = 'slv.mdc.lot_active'
-    #_inherit = ['slv.mdc.base.structure']
+    _name = 'mdc.lot_active'
+    #_inherit = ['mdc.base.structure']
     _description = 'Active Lot'
 
     def _get_chkpoint_categ_selection(self):
@@ -46,11 +46,11 @@ class LotActive(models.Model):
 
 
     lot_id = fields.Many2one(
-        'slv.mdc.lot',
+        'mdc.lot',
         string='Lot',
         required=True)
     line_id = fields.Many2one(
-        'slv.mdc.line',
+        'mdc.line',
         string='Line',
         required=True)
     chkpoint_categ = fields.Selection(
@@ -89,7 +89,7 @@ class Worksheet(models.Model):
     """
     Main data for active lots
     """
-    _name = 'slv.mdc.worksheet'
+    _name = 'mdc.worksheet'
     _description = 'Worksheet'
 
     def _default_date(self):
@@ -106,9 +106,9 @@ class Worksheet(models.Model):
     end_datetime = fields.Datetime(
         'End Datetime')
     lot_id = fields.Many2one(
-        'slv.mdc.lot',
+        'mdc.lot',
         string='Lot',
         required=True)
     workstation_id = fields.Many2one(
-        'slv.mdc.workstation',
+        'mdc.workstation',
         string='Workstation')

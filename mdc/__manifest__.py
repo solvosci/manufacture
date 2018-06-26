@@ -1,27 +1,22 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "slv_mdc",
+    'name': "Manufacturing data control (MDC)",
 
     'summary': """
-        SOLVOS manufacturing data control (MDC)""",
+        Introduces Manufacturing data control (MDC) process in Odoo""",
 
     'description': """
-        SOLVOS manufacturing data control (MDC)
+        Manufacturing data control (MDC)
     """,
 
     'author': "Solvos Consultoría Informática",
     'website': "http://www.solvos.es",
 
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/master/odoo/addons/base/module/module_data.xml
-    # for the full list
     'category': 'Manufacturing',
     'version': '0.1',
 
-    # any module necessary for this one to work correctly
     'depends': ['base', 'product', 'hr', 'hr_contract', 'stock'],
 
-    # always loaded
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',
@@ -33,7 +28,7 @@
         'views/templates.xml',
         'data/structure_data.xml',
     ],
-    # only loaded in demonstration mode
+
     'demo': [
         'demo/demo.xml',
     ],

@@ -9,7 +9,7 @@ class Std(models.Model):
     """
     Main data for Lot (Manufacturing Orders Lots)
     """
-    _name = 'slv.mdc.std'
+    _name = 'mdc.std'
     _inherits = {'product.product': 'product_id'}
     _description = 'Standards'
 

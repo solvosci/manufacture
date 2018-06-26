@@ -2,9 +2,9 @@
   <data>
 
     <!-- Search view: default search for worksheets -->
-    <record id="slv_mdc_worksheets_search" model="ir.ui.view">
-        <field name="name">slv.mdc.worksheets.search</field>
-        <field name="model">slv.mdc.worksheet</field>
+    <record id="mdc_worksheets_search" model="ir.ui.view">
+        <field name="name">mdc.worksheets.search</field>
+        <field name="model">mdc.worksheet</field>
         <field name="arch" type="xml">
             <search string="Worksheet">
                 <field name="employee_id"/>
@@ -20,9 +20,9 @@
     </record>
 
     <!-- Tree view: default view for worksheets -->
-    <record id="slv_mdc_worksheets_tree" model="ir.ui.view">
-        <field name="name">slv.mdc.worksheets.tree</field>
-        <field name="model">slv.mdc.worksheet</field>
+    <record id="mdc_worksheets_tree" model="ir.ui.view">
+        <field name="name">mdc.worksheets.tree</field>
+        <field name="model">mdc.worksheet</field>
         <field name="arch" type="xml">
             <tree string="Worksheets">
                 <field name="employee_id"/>
@@ -35,9 +35,9 @@
     </record>
 
     <!-- Form view: default form for worksheets -->
-    <record id="slv_mdc_worksheets_form" model="ir.ui.view">
-        <field name="name">slv.mdc.worksheets.form</field>
-        <field name="model">slv.mdc.worksheet</field>
+    <record id="mdc_worksheets_form" model="ir.ui.view">
+        <field name="name">mdc.worksheets.form</field>
+        <field name="model">mdc.worksheet</field>
         <field name="arch" type="xml">
             <form string="Worksheets">
                 <sheet>
@@ -60,9 +60,9 @@
     </record>
 
     <!-- Search view: default search for Data_w_INs -->
-    <record id="slv_mdc_data_w_ins_search" model="ir.ui.view">
-        <field name="name">slv.mdc.data_w_ins.search</field>
-        <field name="model">slv.mdc.data_w_in</field>
+    <record id="mdc_data_w_ins_search" model="ir.ui.view">
+        <field name="name">mdc.data_w_ins.search</field>
+        <field name="model">mdc.data_w_in</field>
         <field name="arch" type="xml">
             <search string="Data_w_in">
                 <field name="line_id"/>
@@ -76,9 +76,9 @@
     </record>
 
     <!-- Tree view: default view for Data_w_INs -->
-    <record id="slv_mdc_data_w_ins_tree" model="ir.ui.view">
-        <field name="name">slv.mdc.data_w_ins.tree</field>
-        <field name="model">slv.mdc.data_w_in</field>
+    <record id="mdc_data_w_ins_tree" model="ir.ui.view">
+        <field name="name">mdc.data_w_ins.tree</field>
+        <field name="model">mdc.data_w_in</field>
         <field name="arch" type="xml">
             <tree string="Data_w_ins">
                 <field name="line_id"/>
@@ -93,9 +93,9 @@
     </record>
 
     <!-- Form view: default form for Data_w_INs -->
-    <record id="slv_mdc_data_w_ins_form" model="ir.ui.view">
-        <field name="name">slv.mdc.data_w_ins.form</field>
-        <field name="model">slv.mdc.data_w_in</field>
+    <record id="mdc_data_w_ins_form" model="ir.ui.view">
+        <field name="name">mdc.data_w_ins.form</field>
+        <field name="model">mdc.data_w_in</field>
         <field name="arch" type="xml">
             <form string="Data_w_ins">
                 <sheet>
@@ -106,9 +106,9 @@
 
 
     <!-- Search view: default search for Data_w_OUTs -->
-    <record id="slv_mdc_data_w_outs_search" model="ir.ui.view">
-        <field name="name">slv.mdc.data_w_outs.search</field>
-        <field name="model">slv.mdc.data_w_out</field>
+    <record id="mdc_data_w_outs_search" model="ir.ui.view">
+        <field name="name">mdc.data_w_outs.search</field>
+        <field name="model">mdc.data_w_out</field>
         <field name="arch" type="xml">
             <search string="Data_w_OUT">
                 <field name="line_id"/>
@@ -126,9 +126,9 @@
     </record>
 
     <!-- Tree view: default view for Data_w_OUTs -->
-    <record id="slv_mdc_data_w_outs_tree" model="ir.ui.view">
-        <field name="name">slv.mdc.data_w_outs.tree</field>
-        <field name="model">slv.mdc.data_w_out</field>
+    <record id="mdc_data_w_outs_tree" model="ir.ui.view">
+        <field name="name">mdc.data_w_outs.tree</field>
+        <field name="model">mdc.data_w_out</field>
         <field name="arch" type="xml">
             <tree string="Data_w_outs">
                 <field name="line_id"/>
@@ -147,9 +147,9 @@
     </record>
 
     <!-- Form view: default form for Data_w_OUTs -->
-    <record id="slv_mdc_data_w_outs_form" model="ir.ui.view">
-        <field name="name">slv.mdc.data_w_outs.form</field>
-        <field name="model">slv.mdc.data_w_out</field>
+    <record id="mdc_data_w_outs_form" model="ir.ui.view">
+        <field name="name">mdc.data_w_outs.form</field>
+        <field name="model">mdc.data_w_out</field>
         <field name="arch" type="xml">
             <form string="Data_w_outs">
                 <sheet>

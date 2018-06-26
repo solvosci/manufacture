@@ -12,7 +12,7 @@ class Employee(models.Model):
     contract_type_id = fields.Many2one('hr.contract.type', string="Contract Type", required=True,
                               default=lambda self: self.env['hr.contract.type'].search([], limit=1))
     workstation_id = fields.One2many(
-        'slv.mdc.workstation',
+        'mdc.workstation',
         'current_employee_id')
 
     def _default_employee_code(self):

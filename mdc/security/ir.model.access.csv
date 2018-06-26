@@ -1,0 +1,44 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+acl_mdc_scale,mdc.scale default,model_mdc_scale,,1,0,0,0
+acl_mdc_scale_manager,mdc.scale_manager,model_mdc_scale,group_mdc_manager,1,1,1,1
+acl_mdc_scale_cp,mdc.scale_cp,model_mdc_scale,group_mdc_cp,1,1,0,0
+acl_mdc_workstation,mdc.workstation default,model_mdc_workstation,,1,0,0,0
+acl_mdc_workstation_manager,mdc.workstation_manager,model_mdc_workstation,group_mdc_manager,1,1,1,1
+acl_mdc_workstation_cp,mdc.workstation_cp,model_mdc_workstation,group_mdc_cp,1,1,0,0
+acl_mdc_lot,mdc.lot default,model_mdc_lot,,1,0,0,0
+acl_mdc_lot_manager,mdc.lot_manager,model_mdc_lot,group_mdc_manager,1,1,1,1
+acl_mdc_lot_cp,mdc.lot_cp,model_mdc_lot,group_mdc_cp,1,1,0,0
+acl_mdc_lot_active,mdc.lot_active default,model_mdc_lot_active,,1,0,0,0
+acl_mdc_lot_active_manager,mdc.lot_active_manager,model_mdc_lot_active,group_mdc_manager,1,1,1,1
+acl_mdc_lot_active_cp,mdc.lot_active_cp,model_mdc_lot_active,group_mdc_cp,1,1,0,0
+acl_mdc_worksheet,mdc.worksheet default,model_mdc_worksheet,,1,0,0,0
+acl_mdc_worksheet_manager,mdc.worksheet_manager,model_mdc_worksheet,group_mdc_manager,1,1,1,1
+acl_mdc_worksheet_cp,mdc.worksheet_cp,model_mdc_worksheet,group_mdc_cp,1,1,0,0
+
+acl_mdc_data_w_in,mdc.data_w_in default,model_mdc_data_w_in,,1,0,0,0
+acl_mdc_data_w_in_manager,mdc.data_w_in_manager,model_mdc_data_w_in,group_mdc_manager,1,1,1,1
+acl_mdc_data_w_in_cp,mdc.data_w_in_cp,model_mdc_data_w_in,group_mdc_cp,1,1,1,1
+acl_mdc_data_w_out,mdc.data_w_out default,model_mdc_data_w_out,,1,0,0,0
+acl_mdc_data_w_out_manager,mdc.data_w_out_manager,model_mdc_data_w_out,group_mdc_manager,1,1,1,1
+acl_mdc_data_w_out_cp,mdc.data_w_out_cp,model_mdc_data_w_out,group_mdc_cp,1,1,1,1
+
+acl_mdc_line,mdc.line default,model_mdc_line,,1,0,0,0
+acl_mdc_line_manager,mdc.line_manager,model_mdc_line,group_mdc_manager,1,1,1,1
+acl_mdc_chkpoint,mdc.chkpoint default,model_mdc_chkpoint,,1,0,0,0
+acl_mdc_chkpoint_manager,mdc.chkpoint_manager,model_mdc_chkpoint,group_mdc_manager,1,1,1,1
+acl_mdc_card,mdc.card default,model_mdc_card,,1,0,0,0
+acl_mdc_card_manager,mdc.card_manager,model_mdc_card,group_mdc_manager,1,1,1,1
+acl_mdc_shift,mdc.shift default,model_mdc_shift,,1,0,0,0
+acl_mdc_shift_manager,mdc.shift_manager,model_mdc_shift,group_mdc_manager,1,1,1,1
+acl_mdc_card_categ,mdc.card_categ default,model_mdc_card_categ,,1,0,0,0
+acl_mdc_card_categ_manager,mdc.card_categ_manager,model_mdc_card_categ,group_mdc_manager,1,1,1,1
+acl_mdc_w_out_categ,mdc.w_out_categ default,model_mdc_w_out_categ,,1,0,0,0
+acl_mdc_w_out_categ_manager,mdc.w_out_categ_manager,model_mdc_w_out_categ,group_mdc_manager,1,1,1,1
+acl_mdc_tare,mdc.tare default,model_mdc_tare,,1,0,0,0
+acl_mdc_tare_manager,mdc.tare_manager,model_mdc_tare,group_mdc_manager,1,1,1,1
+acl_mdc_quality,mdc.quality default,model_mdc_quality,,1,0,0,0
+acl_mdc_quality_manager,mdc.quality_manager,model_mdc_quality,group_mdc_manager,1,1,1,1
+acl_mdc_rfid_reader,mdc.rfid_reader default,model_mdc_rfid_reader,,1,0,0,0
+acl_mdc_rfid_reader_manager,mdc.rfid_reader_manager,model_mdc_rfid_reader,group_mdc_manager,1,1,1,1
+acl_mdc_std,mdc.std default,model_mdc_std,,1,0,0,0
+acl_mdc_std_manager,mdc.std_manager,model_mdc_std,group_mdc_manager,1,1,1,1
