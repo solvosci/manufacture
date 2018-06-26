@@ -32,4 +32,11 @@
     'demo': [
         'demo/demo.xml',
     ],
+
+    'external_dependencies': {
+        'python': [
+            'requests',
+            'websocket'
+        ],
+    }
 }
