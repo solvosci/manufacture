@@ -35,6 +35,9 @@ class Line(models.Model):
     name = fields.Char(
         'Name',
         required=True)
+    line_code = fields.Char(
+        'Line Code',
+        required=True)
 
 
 class ChkPoint(models.Model):
@@ -215,6 +218,9 @@ class RfidReader(models.Model):
 
     name = fields.Char(
         'Name',
+        required=True)
+    device_code = fields.Char(
+        'Device Code',
         required=True)
     tcp_address_ip = fields.Char(
         'IP Address',
