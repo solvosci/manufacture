@@ -94,8 +94,7 @@
         </field>
     </record>
 
-
-        <!-- Tree view: default view for lines -->
+    <!-- Tree view: default view for lines -->
     <record id="mdc_line_tree" model="ir.ui.view">
         <field name="name">mdc.line.tree</field>
         <field name="model">mdc.line</field>
@@ -262,6 +261,36 @@
                         </group>
                         <group>
                             <field name="seat"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree view: default view for Out categories -->
+    <record id="mdc_wout_categ_tree" model="ir.ui.view">
+        <field name="name">mdc.wout_categ.tree</field>
+        <field name="model">mdc.wout_categ</field>
+        <field name="arch" type="xml">
+            <tree string="WOut Category">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for wout_categories -->
+    <record id="mdc_wout_categ_form" model="ir.ui.view">
+        <field name="name">mdc.wout_categ.form</field>
+        <field name="model">mdc.wout_categ</field>
+        <field name="arch" type="xml">
+            <form string="WOut Category">
+                <sheet>
+                    <group name="gr_wout_categ_data" string="WOut Category">
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
                         </group>
                     </group>
                 </sheet>
