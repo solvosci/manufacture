@@ -32,6 +32,11 @@ class Line(models.Model):
     _name = 'mdc.line'
     _description = 'Line'
 
+    _sql_constraints = [
+        ('line_code_unique', 'UNIQUE(line_code)',
+         'Line_Code has been already assigned to a Line!'),
+    ]
+
     name = fields.Char(
         'Name',
         required=True)
@@ -47,6 +52,11 @@ class ChkPoint(models.Model):
     _name = 'mdc.chkpoint'
     _inherit = ['mdc.base.structure']
     _description = 'Check Point'
+
+    _sql_constraints = [
+        ('line_chkpoint_categ_unique', 'UNIQUE(chkpoint_categ,line_id)',
+         'Combination: Line & Checkpoint category, are unique, and already Exists!'),
+    ]
 
     name = fields.Char(
         'Name',
@@ -216,6 +226,11 @@ class RfidReader(models.Model):
     _name = 'mdc.rfid_reader'
     _description = 'RFID Reader'
 
+    _sql_constraints = [
+        ('device_code_unique', 'UNIQUE(device_code)',
+         'Device_Code has been already assigned to a Device!'),
+    ]
+
     name = fields.Char(
         'Name',
         required=True)
@@ -223,11 +238,9 @@ class RfidReader(models.Model):
         'Device Code',
         required=True)
     tcp_address_ip = fields.Char(
-        'IP Address',
-        required=True)
+        'IP Address')
     tcp_address_port = fields.Integer(
-        'IP Port',
-        required=True)
+        'IP Port')
     active = fields.Boolean(
         'Active',
         default=True)
