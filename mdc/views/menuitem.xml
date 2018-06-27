@@ -2,6 +2,14 @@
 <odoo>
 
     <act_window
+        id="action_mdc_data_wins"
+        name="Data In"
+        res_model="mdc.data_win"/>
+    <act_window
+        id="action_mdc_data_wouts"
+        name="Data Out"
+        res_model="mdc.data_wout"/>
+    <act_window
         id="action_mdc_cumulative_report"
         name="Cumulative Report"
         res_model="mdc.data_win"/>
@@ -179,7 +187,7 @@
         <field name="act_window_id" ref="action_mdc_worksheets"/>
     </record>
 
-     <!-- Action: loads Data_wins -->
+     <!-- Action: loads Data_wins
     <record model="ir.actions.act_window" id="action_mdc_data_wins">
         <field name="name">Data_wins</field>
         <field name="res_model">mdc.data_win</field>
@@ -208,8 +216,9 @@
         <field name="view_id" ref="mdc_data_wins_form"/>
         <field name="act_window_id" ref="action_mdc_data_wins"/>
     </record>
+    -->
 
-    <!-- Action: loads Data_wouts -->
+    <!-- Action: loads Data_wouts
     <record model="ir.actions.act_window" id="action_mdc_data_wouts">
         <field name="name">Data_wouts</field>
         <field name="res_model">mdc.data_wout</field>
@@ -238,6 +247,7 @@
         <field name="view_id" ref="mdc_data_wouts_form"/>
         <field name="act_window_id" ref="action_mdc_data_wouts"/>
     </record>
+    -->
 
     <!-- Action: loads scales -->
     <record model="ir.actions.act_window" id="action_mdc_scales">

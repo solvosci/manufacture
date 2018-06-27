@@ -92,7 +92,7 @@
         </field>
     </record>
 
-    <!-- Form view: default form for Data_wINs -->
+    <!-- Form view: default form for Data_wINs
     <record id="mdc_data_wins_form" model="ir.ui.view">
         <field name="name">mdc.data_wins.form</field>
         <field name="model">mdc.data_win</field>
@@ -103,7 +103,7 @@
             </form>
         </field>
     </record>
-
+    -->
 
     <!-- Search view: default search for Data_wOUTs -->
     <record id="mdc_data_wouts_search" model="ir.ui.view">
@@ -146,7 +146,7 @@
         </field>
     </record>
 
-    <!-- Form view: default form for Data_wOUTs -->
+    <!-- Form view: default form for Data_wOUTs
     <record id="mdc_data_wouts_form" model="ir.ui.view">
         <field name="name">mdc.data_wouts.form</field>
         <field name="model">mdc.data_wout</field>
@@ -157,7 +157,7 @@
             </form>
         </field>
     </record>
-
+    -->
 
   </data>
 </odoo>
