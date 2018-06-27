@@ -155,8 +155,16 @@ class Shift(models.Model):
     _name = 'mdc.shift'
     _description = 'Shift'
 
+    _sql_constraints = [
+        ('shift_code_unique', 'UNIQUE(shift_code)',
+         'Shift_Code has been already assigned to a Shift!'),
+    ]
+
     name = fields.Char(
         'Name',
+        required=True)
+    shift_code = fields.Char(
+        'Shift Code',
         required=True)
 
 

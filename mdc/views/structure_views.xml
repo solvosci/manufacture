@@ -64,6 +64,67 @@
         </field>
     </record>
 
+    <!-- Tree view: default view for shifts -->
+    <record id="mdc_shift_tree" model="ir.ui.view">
+        <field name="name">mdc.shift.tree</field>
+        <field name="model">mdc.shift</field>
+        <field name="arch" type="xml">
+            <tree string="Shift">
+                <field name="name"/>
+                <field name="shift_code"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for shifts -->
+    <record id="mdc_shift_form" model="ir.ui.view">
+        <field name="name">mdc.shift.form</field>
+        <field name="model">mdc.shift</field>
+        <field name="arch" type="xml">
+            <form string="Shift">
+                <sheet>
+                    <group name="gr_shift_data" string="Shift data">
+                        <group>
+                            <field name="name"/>
+                            <field name="shift_code"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+        <!-- Tree view: default view for lines -->
+    <record id="mdc_line_tree" model="ir.ui.view">
+        <field name="name">mdc.line.tree</field>
+        <field name="model">mdc.line</field>
+        <field name="arch" type="xml">
+            <tree string="Line">
+                <field name="name"/>
+                <field name="line_code"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for lines -->
+    <record id="mdc_line_form" model="ir.ui.view">
+        <field name="name">mdc.line.form</field>
+        <field name="model">mdc.line</field>
+        <field name="arch" type="xml">
+            <form string="Line">
+                <sheet>
+                    <group name="gr_line_data" string="Line data">
+                        <group>
+                            <field name="name"/>
+                            <field name="line_code"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <!-- Tree view: default view for check points -->
     <record id="mdc_chkpoint_tree" model="ir.ui.view">
         <field name="name">mdc.chkpoint.tree</field>
@@ -116,6 +177,54 @@
         </field>
     </record>
 
+    <!-- Tree view: default view for RFID readerss -->
+    <record id="mdc_rfid_reader_tree" model="ir.ui.view">
+        <field name="name">mdc.rfid_reader.tree</field>
+        <field name="model">mdc.rfid_reader</field>
+        <field name="arch" type="xml">
+            <tree string="RFID Reader">
+                <field name="name"/>
+                <field name="device_code"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for RFID Readers -->
+    <record id="mdc_rfid_reader_form" model="ir.ui.view">
+        <field name="name">mdc.rfid_reader.form</field>
+        <field name="model">mdc.rfid_reader</field>
+        <field name="arch" type="xml">
+            <form string="RFID Reader">
+                <sheet>
+                    <group>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                    </group>
+                    <group name="gr_rfid_reader_param" string="RFID Reader parameters">
+                        <group>
+                            <field name="device_code"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group name="gr_rfid_reader_data" string="RFID Reader data">
+                        <group>
+                            <field name="tcp_address_ip"/>
+                        </group>
+                        <group>
+                            <field name="tcp_address_port"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
         <!-- Tree view: default view for workstations -->
     <record id="mdc_workstation_tree" model="ir.ui.view">
