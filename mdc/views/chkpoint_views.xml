@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="chkpoint_list">
+        <html>
+            <head>
+                <title>Checkpoint list - MDC CP</title>
+                <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
+            </head>
+            <body>
+                <div>MCD CP: <a href="/mdc/cp/list">Home</a></div>
+                <hr/>
+                List of available checkpoints:
+                <ul>
+                    <li t-foreach="chkpoints" t-as="chkpoint">
+                        <a t-attf-href="/mdc/cp/{{chkpoint.chkpoint_categ.lower()}}/{{chkpoint.id}}">
+                            <t t-esc="chkpoint.name"></t>
+                        </a>
+                    </li>
+                </ul>
+            </body>
+        </html>
+    </template>
+
+
+    <template id="chkpoint_win">
+        <html>
+            <head>
+                <title>WIN - MDC CP</title>
+                <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
+                <script language="JavaScript" src="/mdc/static/src/js/cp_win.js"></script>
+            </head>
+            <body>
+                <div>MCD CP: <a href="/mdc/cp/list">Home</a></div>
+                <hr/>
+                <t t-foreach="chkpoints" t-as="chkpoint">
+                    <input type="hidden" id="session_id" t-attf-value="{{session_id}}"/>
+                    <input type="hidden" id="rfid_reader_code" t-attf-value="{{chkpoint.rfid_reader_id.device_code}}"/>
+                    <input type="hidden" id="chkpoint_id" t-attf-value="{{chkpoint.id}}"/>
+
+                    <h1 id="lot"></h1>
+
+                    Lot: <span id="lot"></span>
+                    <br></br>
+                    Last card read: <span id="last_card_read"></span>
+                    <br></br>
+                    Last weight: <span id="last_weight"></span>
+                    <p/>
+                    <span id="message">Waiting for card read...</span>
+                </t>
+            </body>
+        </html>
+    </template>
+</odoo>

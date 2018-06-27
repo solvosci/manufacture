@@ -42,10 +42,25 @@ class CheckPoint(http.Controller):
         scales = request.env['mdc.scale'].sudo().search([])
         return res % '</td></tr><tr><td>'.join(scales.mapped('name'))
 
-    @http.route('/mdc/cp/in', type='http', auth='none')
-    def cp_in(self):
-        session_id = websocket.ws_create()
+    @http.route('/mdc/cp/list', type='http', auth='none')
+    def cp_list(self):
+        chkpoints = request.env['mdc.chkpoint'].sudo().search([], order='order')
+        return request.render(
+            'mdc.chkpoint_list',
+            {'chkpoints': chkpoints}
+        )
 
+    @http.route("/mdc/cp/win/<int:chkpoint_id>", type='http', auth='none')
+    def cp_in(self, chkpoint_id):
+        session_id = websocket.ws_create()
+        chkpoints = request.env['mdc.chkpoint'].browse(chkpoint_id)
+        return request.render(
+            'mdc.chkpoint_win',
+            {'chkpoints': chkpoints, 'session_id': session_id}
+        )
+
+
+"""
         res = '''
             <html>
                 <head>
@@ -60,5 +75,7 @@ class CheckPoint(http.Controller):
                 </body>
             </html>        
         '''
-
+        
         return res % session_id
+"""
+

@@ -26,6 +26,7 @@
         'views/scale_views.xml',
         'views/menuitem.xml',
         'views/templates.xml',
+        'views/chkpoint_views.xml',
         'data/structure_data.xml',
     ],
 
