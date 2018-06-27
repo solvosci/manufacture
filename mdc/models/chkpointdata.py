@@ -36,7 +36,7 @@ class DataWIn(models.Model):
     w_uom_id = fields.Many2one(
         'product.uom',
         string='Weight_uom')
-    card_id = fields.Many2many(
+    card_id = fields.Many2one(
         'mdc.card',
         string='Card')
     wout_id = fields.Many2one(
