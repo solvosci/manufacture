@@ -59,12 +59,12 @@
         </field>
     </record>
 
-    <!-- Search view: default search for Data_w_INs -->
-    <record id="mdc_data_w_ins_search" model="ir.ui.view">
-        <field name="name">mdc.data_w_ins.search</field>
-        <field name="model">mdc.data_w_in</field>
+    <!-- Search view: default search for Data_wINs -->
+    <record id="mdc_data_wins_search" model="ir.ui.view">
+        <field name="name">mdc.data_wins.search</field>
+        <field name="model">mdc.data_win</field>
         <field name="arch" type="xml">
-            <search string="Data_w_in">
+            <search string="Data_win">
                 <field name="line_id"/>
                 <field name="lot_id"/>
                 <group expand="0" string="Group By">
@@ -75,29 +75,29 @@
         </field>
     </record>
 
-    <!-- Tree view: default view for Data_w_INs -->
-    <record id="mdc_data_w_ins_tree" model="ir.ui.view">
-        <field name="name">mdc.data_w_ins.tree</field>
-        <field name="model">mdc.data_w_in</field>
+    <!-- Tree view: default view for Data_wINs -->
+    <record id="mdc_data_wins_tree" model="ir.ui.view">
+        <field name="name">mdc.data_wins.tree</field>
+        <field name="model">mdc.data_win</field>
         <field name="arch" type="xml">
-            <tree string="Data_w_ins">
+            <tree string="Data_wins">
                 <field name="line_id"/>
                 <field name="lot_id"/>
                 <field name="create_datetime"/>
                 <field name="weight"/>
                 <field name="w_uom_id"/>
                 <field name="card_id"/>
-                <field name="w_out_id"/>
+                <field name="wout_id"/>
             </tree>
         </field>
     </record>
 
-    <!-- Form view: default form for Data_w_INs -->
-    <record id="mdc_data_w_ins_form" model="ir.ui.view">
-        <field name="name">mdc.data_w_ins.form</field>
-        <field name="model">mdc.data_w_in</field>
+    <!-- Form view: default form for Data_wINs -->
+    <record id="mdc_data_wins_form" model="ir.ui.view">
+        <field name="name">mdc.data_wins.form</field>
+        <field name="model">mdc.data_win</field>
         <field name="arch" type="xml">
-            <form string="Data_w_ins">
+            <form string="Data_wins">
                 <sheet>
                 </sheet>
             </form>
@@ -105,12 +105,12 @@
     </record>
 
 
-    <!-- Search view: default search for Data_w_OUTs -->
-    <record id="mdc_data_w_outs_search" model="ir.ui.view">
-        <field name="name">mdc.data_w_outs.search</field>
-        <field name="model">mdc.data_w_out</field>
+    <!-- Search view: default search for Data_wOUTs -->
+    <record id="mdc_data_wouts_search" model="ir.ui.view">
+        <field name="name">mdc.data_wouts.search</field>
+        <field name="model">mdc.data_wout</field>
         <field name="arch" type="xml">
-            <search string="Data_w_OUT">
+            <search string="Data_wOUT">
                 <field name="line_id"/>
                 <field name="lot_id"/>
                 <field name="shift_id"/>
@@ -125,12 +125,12 @@
         </field>
     </record>
 
-    <!-- Tree view: default view for Data_w_OUTs -->
-    <record id="mdc_data_w_outs_tree" model="ir.ui.view">
-        <field name="name">mdc.data_w_outs.tree</field>
-        <field name="model">mdc.data_w_out</field>
+    <!-- Tree view: default view for Data_wOUTs -->
+    <record id="mdc_data_wouts_tree" model="ir.ui.view">
+        <field name="name">mdc.data_wouts.tree</field>
+        <field name="model">mdc.data_wout</field>
         <field name="arch" type="xml">
-            <tree string="Data_w_outs">
+            <tree string="Data_wouts">
                 <field name="line_id"/>
                 <field name="lot_id"/>
                 <field name="create_datetime"/>
@@ -141,17 +141,17 @@
                 <field name="workstation_id"/>
                 <field name="employee_id"/>
                 <field name="shared"/>
-                <field name="w_out_categ_id"/>
+                <field name="wout_categ_id"/>
             </tree>
         </field>
     </record>
 
-    <!-- Form view: default form for Data_w_OUTs -->
-    <record id="mdc_data_w_outs_form" model="ir.ui.view">
-        <field name="name">mdc.data_w_outs.form</field>
-        <field name="model">mdc.data_w_out</field>
+    <!-- Form view: default form for Data_wOUTs -->
+    <record id="mdc_data_wouts_form" model="ir.ui.view">
+        <field name="name">mdc.data_wouts.form</field>
+        <field name="model">mdc.data_wout</field>
         <field name="arch" type="xml">
-            <form string="Data_w_outs">
+            <form string="Data_wouts">
                 <sheet>
                 </sheet>
             </form>

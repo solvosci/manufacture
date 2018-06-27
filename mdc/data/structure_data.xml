@@ -3,19 +3,19 @@
     <data noupdate="1">
 
         <!-- Out Categories Types -->
-        <record id="mdc_w_out_categ_P" model="mdc.w_out_categ">
+        <record id="mdc_wout_categ_P" model="mdc.wout_categ">
             <field name="name">Producto</field>
             <field name="code">P</field>
         </record>
-        <record id="mdc_w_out_categ_SP1" model="mdc.w_out_categ">
+        <record id="mdc_wout_categ_SP1" model="mdc.wout_categ">
             <field name="name">Subproducto 1</field>
             <field name="code">SP1</field>
         </record>
-        <record id="mdc_w_out_categ_SP2" model="mdc.w_out_categ">
+        <record id="mdc_wout_categ_SP2" model="mdc.wout_categ">
             <field name="name">Subproducto 2</field>
             <field name="code">SP2</field>
         </record>
-        <record id="mdc_w_out_categ_SP3" model="mdc.w_out_categ">
+        <record id="mdc_wout_categ_SP3" model="mdc.wout_categ">
             <field name="name">Subproducto 3</field>
             <field name="code">SP3</field>
         </record>

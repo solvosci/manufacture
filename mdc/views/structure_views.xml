@@ -52,10 +52,10 @@
         </field>
     </record>
 
-    <!-- Tree view: default view for w_out_categ -->
-    <record id="mdc_w_out_categ_tree" model="ir.ui.view">
-        <field name="name">mdc.w_out_categ.tree</field>
-        <field name="model">mdc.w_out_categ</field>
+    <!-- Tree view: default view for wout_categ -->
+    <record id="mdc_wout_categ_tree" model="ir.ui.view">
+        <field name="name">mdc.wout_categ.tree</field>
+        <field name="model">mdc.wout_categ</field>
         <field name="arch" type="xml">
             <tree string="Out Category">
                 <field name="name"/>
@@ -107,7 +107,7 @@
                     </group>
                     <group name="gr_chkpoint_data" string="Check point data">
                         <group>
-                            <field name="tare"/>
+                            <field name="tare_id"/>
                             <field name="quality_id"/>
                         </group>
                     </group>

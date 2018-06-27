@@ -40,8 +40,8 @@ class LotActive(models.Model):
 
     def _get_chkpoint_categ_selection(self):
         return [
-            ('W_IN', _('Input')),
-            ('W_OUT', _('Output')),
+            ('WIN', _('Input')),
+            ('WOUT', _('Output')),
     ]
 
 

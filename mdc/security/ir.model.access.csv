@@ -15,12 +15,12 @@ acl_mdc_worksheet,mdc.worksheet default,model_mdc_worksheet,,1,0,0,0
 acl_mdc_worksheet_manager,mdc.worksheet_manager,model_mdc_worksheet,group_mdc_manager,1,1,1,1
 acl_mdc_worksheet_cp,mdc.worksheet_cp,model_mdc_worksheet,group_mdc_cp,1,1,0,0
 
-acl_mdc_data_w_in,mdc.data_w_in default,model_mdc_data_w_in,,1,0,0,0
-acl_mdc_data_w_in_manager,mdc.data_w_in_manager,model_mdc_data_w_in,group_mdc_manager,1,1,1,1
-acl_mdc_data_w_in_cp,mdc.data_w_in_cp,model_mdc_data_w_in,group_mdc_cp,1,1,1,1
-acl_mdc_data_w_out,mdc.data_w_out default,model_mdc_data_w_out,,1,0,0,0
-acl_mdc_data_w_out_manager,mdc.data_w_out_manager,model_mdc_data_w_out,group_mdc_manager,1,1,1,1
-acl_mdc_data_w_out_cp,mdc.data_w_out_cp,model_mdc_data_w_out,group_mdc_cp,1,1,1,1
+acl_mdc_data_win,mdc.data_win default,model_mdc_data_win,,1,0,0,0
+acl_mdc_data_win_manager,mdc.data_win_manager,model_mdc_data_win,group_mdc_manager,1,1,1,1
+acl_mdc_data_win_cp,mdc.data_win_cp,model_mdc_data_win,group_mdc_cp,1,1,1,1
+acl_mdc_data_wout,mdc.data_wout default,model_mdc_data_wout,,1,0,0,0
+acl_mdc_data_wout_manager,mdc.data_wout_manager,model_mdc_data_wout,group_mdc_manager,1,1,1,1
+acl_mdc_data_wout_cp,mdc.data_wout_cp,model_mdc_data_wout,group_mdc_cp,1,1,1,1
 
 acl_mdc_line,mdc.line default,model_mdc_line,,1,0,0,0
 acl_mdc_line_manager,mdc.line_manager,model_mdc_line,group_mdc_manager,1,1,1,1
@@ -32,8 +32,8 @@ acl_mdc_shift,mdc.shift default,model_mdc_shift,,1,0,0,0
 acl_mdc_shift_manager,mdc.shift_manager,model_mdc_shift,group_mdc_manager,1,1,1,1
 acl_mdc_card_categ,mdc.card_categ default,model_mdc_card_categ,,1,0,0,0
 acl_mdc_card_categ_manager,mdc.card_categ_manager,model_mdc_card_categ,group_mdc_manager,1,1,1,1
-acl_mdc_w_out_categ,mdc.w_out_categ default,model_mdc_w_out_categ,,1,0,0,0
-acl_mdc_w_out_categ_manager,mdc.w_out_categ_manager,model_mdc_w_out_categ,group_mdc_manager,1,1,1,1
+acl_mdc_wout_categ,mdc.wout_categ default,model_mdc_wout_categ,,1,0,0,0
+acl_mdc_wout_categ_manager,mdc.wout_categ_manager,model_mdc_wout_categ,group_mdc_manager,1,1,1,1
 acl_mdc_tare,mdc.tare default,model_mdc_tare,,1,0,0,0
 acl_mdc_tare_manager,mdc.tare_manager,model_mdc_tare,group_mdc_manager,1,1,1,1
 acl_mdc_quality,mdc.quality default,model_mdc_quality,,1,0,0,0

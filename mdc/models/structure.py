@@ -13,15 +13,15 @@ class BaseStructure(models.AbstractModel):
 
     def _get_chkpoint_categ_selection(self):
         return [
-            ('W_IN', _('Input')),
-            ('W_OUT', _('Output')),
+            ('WIN', _('Input')),
+            ('WOUT', _('Output')),
     ]
 
     def _get_card_status_selection(self):
         return [
             ('USE', _('In Use')),
             ('IDLE', _('Idle')),
-            ('BLOCKED', _('Bloked'))
+            ('BLOCKED', _('Blocked'))
     ]
     
 
@@ -67,7 +67,7 @@ class ChkPoint(models.Model):
     rfid_reader_id = fields.Many2one(
         'mdc.rfid_reader',
         string='RFID Reader')
-    tare = fields.Many2one(
+    tare_id = fields.Many2one(
         'mdc.tare',
         string='Tare')
     quality_id = fields.Many2one(
@@ -166,8 +166,8 @@ class WOutCateg(models.Model):
     """
     Categories for weight output
     """
-    _name = 'mdc.w_out_categ'
-    _description = 'w_out Category'
+    _name = 'mdc.wout_categ'
+    _description = 'wout Category'
 
     name = fields.Char(
         'Name',

@@ -4,19 +4,19 @@
     <act_window
         id="action_mdc_cumulative_report"
         name="Cumulative Report"
-        res_model="mdc.data_w_in"/>
+        res_model="mdc.data_win"/>
     <act_window
         id="action_mdc_gross_weight_lot_report"
         name="Gross Weight Report"
-        res_model="mdc.data_w_in"/>
+        res_model="mdc.data_win"/>
     <act_window
         id="action_mdc_indicators_report"
         name="Indicators Report"
-        res_model="mdc.data_w_in"/>
+        res_model="mdc.data_win"/>
     <act_window
         id="action_mdc_tracing_report"
         name="Tracing Report"
-        res_model="mdc.data_w_in"/>
+        res_model="mdc.data_win"/>
     <act_window
         id="action_mdc_std"
         name="Standards"
@@ -54,9 +54,9 @@
         name="RFID Reades"
         res_model="mdc.rfid_reader"/>
     <act_window
-        id="action_mdc_w_out_categ"
+        id="action_mdc_wout_categ"
         name="Out Category"
-        res_model="mdc.w_out_categ"/>
+        res_model="mdc.wout_categ"/>
 
     <!-- Action: loads Lots -->
     <record model="ir.actions.act_window" id="action_mdc_lots">
@@ -179,13 +179,13 @@
         <field name="act_window_id" ref="action_mdc_worksheets"/>
     </record>
 
-     <!-- Action: loads Data_w_ins -->
-    <record model="ir.actions.act_window" id="action_mdc_data_w_ins">
-        <field name="name">Data_w_ins</field>
-        <field name="res_model">mdc.data_w_in</field>
+     <!-- Action: loads Data_wins -->
+    <record model="ir.actions.act_window" id="action_mdc_data_wins">
+        <field name="name">Data_wins</field>
+        <field name="res_model">mdc.data_win</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="mdc_data_w_ins_search"/>
+        <field name="search_view_id" ref="mdc_data_wins_search"/>
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
@@ -196,26 +196,26 @@
         </field>
     </record>
 
-    <record id="action_mdc_data_w_ins_view_tree" model="ir.actions.act_window.view">
+    <record id="action_mdc_data_wins_view_tree" model="ir.actions.act_window.view">
         <field name="view_mode">tree</field>
         <field name="sequence" eval="8"/>
-        <field name="view_id" ref="mdc_data_w_ins_tree"/>
-        <field name="act_window_id" ref="action_mdc_data_w_ins"/>
+        <field name="view_id" ref="mdc_data_wins_tree"/>
+        <field name="act_window_id" ref="action_mdc_data_wins"/>
     </record>
-    <record id="action_mdc_data_w_ins_view_form" model="ir.actions.act_window.view">
+    <record id="action_mdc_data_wins_view_form" model="ir.actions.act_window.view">
         <field name="view_mode">form</field>
         <field name="sequence" eval="9"/>
-        <field name="view_id" ref="mdc_data_w_ins_form"/>
-        <field name="act_window_id" ref="action_mdc_data_w_ins"/>
+        <field name="view_id" ref="mdc_data_wins_form"/>
+        <field name="act_window_id" ref="action_mdc_data_wins"/>
     </record>
 
-    <!-- Action: loads Data_w_outs -->
-    <record model="ir.actions.act_window" id="action_mdc_data_w_outs">
-        <field name="name">Data_w_outs</field>
-        <field name="res_model">mdc.data_w_out</field>
+    <!-- Action: loads Data_wouts -->
+    <record model="ir.actions.act_window" id="action_mdc_data_wouts">
+        <field name="name">Data_wouts</field>
+        <field name="res_model">mdc.data_wout</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="mdc_data_w_outs_search"/>
+        <field name="search_view_id" ref="mdc_data_wouts_search"/>
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
@@ -226,17 +226,17 @@
         </field>
     </record>
 
-    <record id="action_mdc_data_w_outs_view_tree" model="ir.actions.act_window.view">
+    <record id="action_mdc_data_wouts_view_tree" model="ir.actions.act_window.view">
         <field name="view_mode">tree</field>
         <field name="sequence" eval="8"/>
-        <field name="view_id" ref="mdc_data_w_outs_tree"/>
-        <field name="act_window_id" ref="action_mdc_data_w_outs"/>
+        <field name="view_id" ref="mdc_data_wouts_tree"/>
+        <field name="act_window_id" ref="action_mdc_data_wouts"/>
     </record>
-    <record id="action_mdc_data_w_outs_view_form" model="ir.actions.act_window.view">
+    <record id="action_mdc_data_wouts_view_form" model="ir.actions.act_window.view">
         <field name="view_mode">form</field>
         <field name="sequence" eval="9"/>
-        <field name="view_id" ref="mdc_data_w_outs_form"/>
-        <field name="act_window_id" ref="action_mdc_data_w_outs"/>
+        <field name="view_id" ref="mdc_data_wouts_form"/>
+        <field name="act_window_id" ref="action_mdc_data_wouts"/>
     </record>
 
     <!-- Action: loads scales -->
@@ -330,15 +330,15 @@
         parent="mdc_menu_data"
         sequence="10"/>
 
-    <menuitem id="mdc_data_w_in_menu"
+    <menuitem id="mdc_data_win_menu"
         name="Data in"
-        action="action_mdc_data_w_ins"
+        action="action_mdc_data_wins"
         parent="mdc_menu_data"
         sequence="15"/>
 
-    <menuitem id="mdc_data_w_out_menu"
+    <menuitem id="mdc_data_wout_menu"
         name="Data out"
-        action="action_mdc_data_w_outs"
+        action="action_mdc_data_wouts"
         parent="mdc_menu_data"
         sequence="20"/>
 
@@ -435,9 +435,9 @@
         parent="mdc_menu_configuration"
         sequence="30" />
 
-    <menuitem id="mdc_w_out_categ_menu"
+    <menuitem id="mdc_wout_categ_menu"
         name="Out Category"
-        action="action_mdc_w_out_categ"
+        action="action_mdc_wout_categ"
         parent="mdc_menu_configuration"
         sequence="35"/>
 

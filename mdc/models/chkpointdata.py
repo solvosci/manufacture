@@ -8,7 +8,7 @@ class DataWIn(models.Model):
     """
     Main data for a chkpoint_datacapture weight input
     """
-    _name = 'mdc.data_w_in'
+    _name = 'mdc.data_win'
     _description = 'Weight Input Data'
 
     def _default_date(self):
@@ -39,16 +39,16 @@ class DataWIn(models.Model):
     card_id = fields.Many2many(
         'mdc.card',
         string='Card')
-    w_out_id = fields.Many2one(
-        'mdc.data_w_out',
-        string='W_Out')
+    wout_id = fields.Many2one(
+        'mdc.data_wout',
+        string='WOut')
 
 
 class DataWOut(models.Model):
     """
     Main data for a chkpoint_datacapture weight input
     """
-    _name = 'mdc.data_w_out'
+    _name = 'mdc.data_wout'
     _description = 'Weight Output Data'
 
     def _default_date(self):
@@ -95,11 +95,11 @@ class DataWOut(models.Model):
     shared = fields.Boolean(
         string='Shared',
         default=False)
-    w_out_shared_id =fields.Many2one(
-        'mdc.data_w_out',
+    wout_shared_id =fields.Many2one(
+        'mdc.data_wout',
         string='Shared with')
-    w_out_categ_id = fields.Many2one(
-        'mdc.w_out_categ',
+    wout_categ_id = fields.Many2one(
+        'mdc.wout_categ',
         string='Out Category')
     gross_weight = fields.Float(
         'Gross Weight',
@@ -113,9 +113,9 @@ class DataWOut(models.Model):
         Set gross weight
         :return:
         """
-        for data_w_out in self:
+        for data_wout in self:
             gross_weight = 0.0
             # TODO
-            data_w_out.update({
+            data_wout.update({
                 'gross_weight': gross_weight
             })
