@@ -15,7 +15,7 @@
     'category': 'Manufacturing',
     'version': '0.1',
 
-    'depends': ['base', 'product', 'hr', 'hr_contract', 'stock'],
+    'depends': ['base', 'product', 'hr', 'hr_contract', 'stock', 'report_xlsx'],
 
     'data': [
         'security/groups.xml',
