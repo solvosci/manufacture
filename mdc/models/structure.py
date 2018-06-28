@@ -109,7 +109,7 @@ class Workstation(models.Model):
         'mdc.shift',
         string='Shift',
         required=True)
-    seat = fields.Integer(
+    seat = fields.Char(
         'Seat',
         required=True)
     current_employee_id = fields.Many2one(
