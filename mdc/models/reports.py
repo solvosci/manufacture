@@ -9,6 +9,6 @@ class Report1Xlsx(models.AbstractModel):
         sheet = workbook.add_worksheet("cumulative report")
         fila=0
         for obj in data_win:
-            sheet.write(fila, 0, obj.line_id)
-            sheet.write(fila, 1, obj.lot_id)
+            sheet.write(fila, 0, obj.line_id.line_code)
+            sheet.write(fila, 1, obj.lot_id.name)
             fila=fila+1
