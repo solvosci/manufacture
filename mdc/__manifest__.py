@@ -27,8 +27,9 @@
         'views/menuitem.xml',
         'views/templates.xml',
         'views/chkpoint_views.xml',
+        'views/reports_views.xml',
         'data/structure_data.xml',
-        'demo/demo.xml',
+        #'demo/demo.xml',
     ],
 
     'demo': [

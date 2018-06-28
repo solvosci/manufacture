@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+        id="cumulative_xlsx"
+        model="mdc.data_win"
+        string="Print to XLSX"
+        report_type="xlsx"
+        name="mdc.cumulative_report"
+        file="mdc_data_win"
+        attachment_use="False"
+    />
+</odoo>
