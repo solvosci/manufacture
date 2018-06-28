@@ -1,30 +1,439 @@
 <odoo>
     <data>
-        <!--  -->
-        <!--   <record id="object0" model="mdc.mdc"> -->
-        <!--     <field name="name">Object 0</field> -->
-        <!--     <field name="value">0</field> -->
-        <!--   </record> -->
-        <!--  -->
-        <!--   <record id="object1" model="mdc.mdc"> -->
-        <!--     <field name="name">Object 1</field> -->
-        <!--     <field name="value">10</field> -->
-        <!--   </record> -->
-        <!--  -->
-        <!--   <record id="object2" model="mdc.mdc"> -->
-        <!--     <field name="name">Object 2</field> -->
-        <!--     <field name="value">20</field> -->
-        <!--   </record> -->
-        <!--  -->
-        <!--   <record id="object3" model="mdc.mdc"> -->
-        <!--     <field name="name">Object 3</field> -->
-        <!--     <field name="value">30</field> -->
-        <!--   </record> -->
-        <!--  -->
-        <!--   <record id="object4" model="mdc.mdc"> -->
-        <!--     <field name="name">Object 4</field> -->
-        <!--     <field name="value">40</field> -->
-        <!--   </record> -->
-        <!--  -->
+        <data noupdate="1">
+             <!-- Shift -->
+            <record id="mdc_shift_1" model="mdc.shift">
+                <field name="name">Morning</field>
+                <field name="shift_code">1</field>
+            </record>
+            <record id="mdc_shift_2" model="mdc.shift">
+                <field name="name">Afternoon</field>
+                <field name="shift_code">2</field>
+            </record>
+        </data>
+
+        <data noupdate="1">
+            <!-- Line -->
+            <record id="mdc_line_1" model="mdc.line">
+                <field name="name">Line 1</field>
+                <field name="line_code">1</field>
+            </record>
+            <record id="mdc_line_2" model="mdc.line">
+                <field name="name">Line 2</field>
+                <field name="line_code">2</field>
+            </record>
+            <record id="mdc_line_3" model="mdc.line">
+                <field name="name">Line 3</field>
+                <field name="line_code">3</field>
+            </record>
+        </data>
+
+        <data noupdate="1">
+            <!-- Tare -->
+            <record id="mdc_tare_E" model="mdc.tare">
+                <field name="name">Entry Container</field>
+                <field name="tare">0.5</field>
+                <field name="uom_id" ref="product.product_uom_kgm"/>
+            </record>
+            <record id="mdc_tare_O" model="mdc.tare">
+                <field name="name">Output Container</field>
+                <field name="tare">0.4</field>
+                <field name="uom_id" ref="product.product_uom_kgm"/>
+            </record>
+        </data>
+
+        <data noupdate="1">
+            <!-- Quality -->
+            <record id="mdc_quality_100" model="mdc.quality">
+                <field name="name">100</field>
+                <field name="descrip">High</field>
+            </record>
+            <record id="mdc_quality_60" model="mdc.quality">
+                <field name="name">60</field>
+                <field name="descrip">Medium</field>
+            </record>
+            <record id="mdc_quality_30" model="mdc.quality">
+                <field name="name">30</field>
+                <field name="descrip">Low</field>
+            </record>
+        </data>
+
+        <data noupdate="1">
+            <!-- RFID Reader -->
+            <record id="mdc_rfid_reader_1" model="mdc.rfid_reader">
+                <field name="name">RFID Device 1</field>
+                <field name="device_code">555</field>
+                <field name="tcp_address_ip">192.168.1.100</field>
+                <field name="tcp_address_port">443</field>
+            </record>
+        </data>
+
+        <data noupdate="1">
+            <!-- Weighing Scale -->
+            <record id="mdc_scale_1" model="mdc.scale">
+                <field name="name">Scale Device 1</field>
+                <field name="tcp_address_ip">192.168.1.110</field>
+                <field name="tcp_address_port">1234</field>
+                <field name="weight_uom_id" ref="product.product_uom_kgm"/>
+            </record>
+        </data>
+
+        <data noupdate="1">
+            <!-- Check Point -->
+            <record id="mdc_chkpoint_E1" model="mdc.chkpoint">
+                <field name="name">Entry Line 1</field>
+                <field name="chkpoint_categ">WIN</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="order">1</field>
+                <field name="scale_id" ref="mdc_scale_1"/>
+                <field name="rfid_reader_id" ref="mdc_rfid_reader_1"/>
+                <field name="tare_id" ref="mdc_tare_E"/>
+            </record>
+            <record id="mdc_chkpoint_O1" model="mdc.chkpoint">
+                <field name="name">Output Line 1</field>
+                <field name="chkpoint_categ">WOUT</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="order">2</field>
+                <field name="scale_id" ref="mdc_scale_1"/>
+                <field name="rfid_reader_id" ref="mdc_rfid_reader_1"/>
+                <field name="tare_id" ref="mdc_tare_O"/>
+                <field name="quality_id" ref="mdc_quality_100"/>
+            </record>
+        </data>
+
+        <data noupdate="1">
+            <!-- Workstation -->
+            <record id="mdc_workstation_L01MS01" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 1</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L01S01</field>
+            </record>
+            <record id="mdc_workstation_L01MS02" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 2</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L01S02</field>
+            </record>
+            <record id="mdc_workstation_L01MS03" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 3</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L01S03</field>
+            </record>
+            <record id="mdc_workstation_L01MS04" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 4</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L01S04</field>
+            </record>
+            <record id="mdc_workstation_L01MS05" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 5</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L01S05</field>
+            </record>
+            <record id="mdc_workstation_L01MS06" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 6</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L01S06</field>
+            </record>
+            <record id="mdc_workstation_L01MS07" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 7</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L01S07</field>
+            </record>
+            <record id="mdc_workstation_L01MS08" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 8</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L01S08</field>
+            </record>
+            <record id="mdc_workstation_L01MS09" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 9</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L01S09</field>
+            </record>
+            <record id="mdc_workstation_L01MS10" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 10</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L01S10</field>
+            </record>
+            <record id="mdc_workstation_L01AS01" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 1</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L01S01</field>
+            </record>
+            <record id="mdc_workstation_L01AS02" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 2</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L01S02</field>
+            </record>
+            <record id="mdc_workstation_L01AS03" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 3</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L01S03</field>
+            </record>
+            <record id="mdc_workstation_L01AS04" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 4</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L01S04</field>
+            </record>
+            <record id="mdc_workstation_L01AS05" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 5</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L01S05</field>
+            </record>
+            <record id="mdc_workstation_L01AS06" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 6</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L01S06</field>
+            </record>
+            <record id="mdc_workstation_L01AS07" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 7</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L01S07</field>
+            </record>
+            <record id="mdc_workstation_L01AS08" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 8</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L01S08</field>
+            </record>
+            <record id="mdc_workstation_L01AS09" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 9</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L01S09</field>
+            </record>
+            <record id="mdc_workstation_L01AS10" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 10</field>
+                <field name="line_id" ref="mdc_line_1"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L01S10</field>
+            </record>
+            <record id="mdc_workstation_L02MS01" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 1</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L02S01</field>
+            </record>
+            <record id="mdc_workstation_L02MS02" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 2</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L02S02</field>
+            </record>
+            <record id="mdc_workstation_L02MS03" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 3</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L02S03</field>
+            </record>
+            <record id="mdc_workstation_L02MS04" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 4</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L02S04</field>
+            </record>
+            <record id="mdc_workstation_L02MS05" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 5</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L02S05</field>
+            </record>
+            <record id="mdc_workstation_L02MS06" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 6</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L02S06</field>
+            </record>
+            <record id="mdc_workstation_L02MS07" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 7</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L02S07</field>
+            </record>
+            <record id="mdc_workstation_L02MS08" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 8</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L02S08</field>
+            </record>
+            <record id="mdc_workstation_L02MS09" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 9</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L02S09</field>
+            </record>
+            <record id="mdc_workstation_L02MS10" model="mdc.workstation">
+                <field name="name">Line 1 - Morning - Seat 10</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_1"/>
+                <field name="seat">L02S10</field>
+            </record>
+            <record id="mdc_workstation_L02AS01" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 1</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L02S01</field>
+            </record>
+            <record id="mdc_workstation_L02AS02" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 2</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L02S02</field>
+            </record>
+            <record id="mdc_workstation_L02AS03" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 3</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L02S03</field>
+            </record>
+            <record id="mdc_workstation_L02AS04" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 4</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L02S04</field>
+            </record>
+            <record id="mdc_workstation_L02AS05" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 5</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L02S05</field>
+            </record>
+            <record id="mdc_workstation_L02AS06" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 6</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L02S06</field>
+            </record>
+            <record id="mdc_workstation_L02AS07" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 7</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L02S07</field>
+            </record>
+            <record id="mdc_workstation_L02AS08" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 8</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L02S08</field>
+            </record>
+            <record id="mdc_workstation_L02AS09" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 9</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L02S09</field>
+            </record>
+            <record id="mdc_workstation_L02AS10" model="mdc.workstation">
+                <field name="name">Line 1 - Afternoon - Seat 10</field>
+                <field name="line_id" ref="mdc_line_2"/>
+                <field name="shift_id" ref="mdc_shift_2"/>
+                <field name="seat">L02S10</field>
+            </record>
+        </data>
+
+        <data noupdate="1">
+            <!-- Card -->
+            <record id="mdc_card_E1" model="mdc.card">
+                <field name="name">775569841</field>
+                <field name="card_categ_id" ref="mdc_card_categ_O"/>
+            </record>
+            <record id="mdc_card_S1" model="mdc.card">
+                <field name="name">885569841</field>
+                <field name="card_categ_id" ref="mdc_card_categ_L"/>
+                <field name="workstation_id" ref="mdc_workstation_L01MS01"/>
+            </record>
+            <record id="mdc_card_S2" model="mdc.card">
+                <field name="name">885569842</field>
+                <field name="card_categ_id" ref="mdc_card_categ_L"/>
+                <field name="workstation_id" ref="mdc_workstation_L01MS02"/>
+            </record>
+            <record id="mdc_card_S3" model="mdc.card">
+                <field name="name">885569843</field>
+                <field name="card_categ_id" ref="mdc_card_categ_L"/>
+                <field name="workstation_id" ref="mdc_workstation_L01MS03"/>
+            </record>
+        </data>
+
+        <data noupdate="1">
+            <!-- Product -->
+            <record id="mdc_product_template_P1" model="product.template">
+                <field name="name">Producto 1</field>
+            </record>
+            <record id="mdc_product_template_P2" model="product.template">
+                <field name="name">Producto 2</field>
+            </record>
+        </data>
+
+        <data noupdate="1">
+            <!-- Product Attribute -->
+            <record id="mdc_product_attribute_A1" model="product.attribute">
+                <field name="name">Attribute 1 (TamaÃ±o)</field>
+            </record>
+            <record id="mdc_product_attribute_A2" model="product.attribute">
+                <field name="name">Attribute 2 (Ins. Limpieza)</field>
+            </record>
+        </data>
+
+        <data noupdate="1">
+            <!-- Product Attribute Value -->
+            <record id="mdc_product_attribute_value_A1V1" model="product.attribute.value">
+                <field name="name">1</field>
+                <field name="attribute_id" ref="mdc_product_attribute_A1"/>
+            </record>
+            <record id="mdc_product_attribute_value_A1V2" model="product.attribute.value">
+                <field name="name">2</field>
+                <field name="attribute_id" ref="mdc_product_attribute_A1"/>
+            </record>
+            <record id="mdc_product_attribute_value_A1V3" model="product.attribute.value">
+                <field name="name">3</field>
+                <field name="attribute_id" ref="mdc_product_attribute_A1"/>
+            </record>
+            <record id="mdc_product_attribute_value_A2V1" model="product.attribute.value">
+                <field name="name">Simple</field>
+                <field name="attribute_id" ref="mdc_product_attribute_A2"/>
+            </record>
+            <record id="mdc_product_attribute_value_A2V2" model="product.attribute.value">
+                <field name="name">Medium</field>
+                <field name="attribute_id" ref="mdc_product_attribute_A2"/>
+            </record>
+            <record id="mdc_product_attribute_value_A2V3" model="product.attribute.value">
+                <field name="name">Double</field>
+                <field name="attribute_id" ref="mdc_product_attribute_A2"/>
+            </record>
+            <record id="mdc_product_attribute_value_A2V4" model="product.attribute.value">
+                <field name="name">Triple</field>
+                <field name="attribute_id" ref="mdc_product_attribute_A2"/>
+            </record>
+        </data>
+
+        <data noupdate="1">
+            <!-- Lots -->
+            <record id="mdc_lot_L1" model="mdc.lot">
+                <field name="name">P1LOTE1</field>
+                <field name="product_id" ref="mdc_product_template_P1"/>
+                <field name="weight">1000</field>
+                <field name="w_uom_id" ref="product.product_uom_kgm"/>
+            </record>
+            <record id="mdc_lot_L2" model="mdc.lot">
+                <field name="name">P1LOTE2</field>
+                <field name="product_id" ref="mdc_product_template_P1"/>
+                <field name="weight">2000</field>
+                <field name="w_uom_id" ref="product.product_uom_kgm"/>
+            </record>
+        </data>
     </data>
 </odoo>
