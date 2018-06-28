@@ -76,8 +76,7 @@
         <field name="arch" type="xml">
             <search string="Active Lot">
                 <field name="lot_id"/>
-                <field name="line_id"/>
-                <field name="chkpoint_categ"/>
+                <field name="chkpoint_id"/>
                 <group expand="0" string="Group By">
                     <filter string="Lot" name="groupby_product" domain="[]" context="{'group_by':'lot_id'}"/>
                     <filter string="Line" name="groupby_partner" domain="[]" context="{'group_by':'line_id'}"/>
@@ -93,8 +92,7 @@
         <field name="arch" type="xml">
             <tree string="Lots">
                 <field name="lot_id"/>
-                <field name="line_id"/>
-                <field name="chkpoint_categ"/>
+                <field name="chkpoint_id"/>
                 <field name="start_datetime"/>
                 <field name="end_datetime"/>
                 <field name="total_hours"/>
@@ -119,8 +117,7 @@
                     </group>
                     <group name="gr_lot_main_data" string="Lot Activation">
                         <group>
-                            <field name="line_id"/>
-                            <field name="chkpoint_categ"/>
+                            <field name="chkpoint_id"/>
                         </group>
                         <group> </group>
                         <group>
@@ -166,7 +163,7 @@
                 <field name="line_id"/>
                 <field name="name"/>
                 <field name="seat"/>
-                <field name="current_employee_id" domain="[('employee_code', '!=', False)]"/>
+                <field name="current_employee_id" domain="[('workstation_id', '=', False),('employee_code', '!=', False)]"/>
             </tree>
         </field>
     </record>

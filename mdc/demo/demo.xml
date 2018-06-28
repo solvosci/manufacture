@@ -381,7 +381,7 @@
         <data noupdate="1">
             <!-- Product Attribute -->
             <record id="mdc_product_attribute_A1" model="product.attribute">
-                <field name="name">Attribute 1 (TamaÃ±o)</field>
+                <field name="name">Attribute 1 (Tamaño)</field>
             </record>
             <record id="mdc_product_attribute_A2" model="product.attribute">
                 <field name="name">Attribute 2 (Ins. Limpieza)</field>

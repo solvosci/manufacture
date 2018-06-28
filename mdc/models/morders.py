@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import logging
 import datetime
 from odoo import api, models, fields, _
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
+
 
 class Lot(models.Model):
     """
@@ -49,13 +53,9 @@ class LotActive(models.Model):
         'mdc.lot',
         string='Lot',
         required=True)
-    line_id = fields.Many2one(
-        'mdc.line',
-        string='Line',
-        required=True)
-    chkpoint_categ = fields.Selection(
-        selection='_get_chkpoint_categ_selection',
-        string='Checkpoint Categ',
+    chkpoint_id = fields.Many2one(
+        'mdc.chkpoint',
+        string='Checkpoint Id',
         required=True)
     start_datetime = fields.Datetime(
         'Datetime_Start',
@@ -84,6 +84,11 @@ class LotActive(models.Model):
                 'total_hours': total_hours
             })
 
+    @api.model
+    def create(self, values):
+        _logger.info("[SLV] LotActive create")
+        # TODO: validar/cerrar el lote activo anterior del checkpoint seleccionado
+        return super(LotActive, self).create(values)
 
 class Worksheet(models.Model):
     """

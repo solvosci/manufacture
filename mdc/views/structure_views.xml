@@ -225,49 +225,6 @@
         </field>
     </record>
 
-        <!-- Tree view: default view for workstations -->
-    <record id="mdc_workstation_tree" model="ir.ui.view">
-        <field name="name">mdc.workstation.tree</field>
-        <field name="model">mdc.workstation</field>
-        <field name="arch" type="xml">
-            <tree string="Workstation">
-                <field name="name"/>
-                <field name="line_id"/>
-                <field name="shift_id"/>
-                <field name="seat"/>
-            </tree>
-        </field>
-    </record>
-
-    <!-- Form view: default form for workstations -->
-    <record id="mdc_workstation_form" model="ir.ui.view">
-        <field name="name">mdc.workstation.form</field>
-        <field name="model">mdc.workstation</field>
-        <field name="arch" type="xml">
-            <form string="Workstation">
-                <sheet>
-                    <group>
-                        <div class="oe_title">
-                            <label for="name"/>
-                            <h1>
-                                <field name="name"/>
-                            </h1>
-                        </div>
-                    </group>
-                    <group name="gr_workstation_main_data" string="Workstation parameters">
-                        <group>
-                            <field name="line_id"/>
-                            <field name="shift_id"/>
-                        </group>
-                        <group>
-                            <field name="seat"/>
-                        </group>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
     <!-- Tree view: default view for Out categories -->
     <record id="mdc_wout_categ_tree" model="ir.ui.view">
         <field name="name">mdc.wout_categ.tree</field>
