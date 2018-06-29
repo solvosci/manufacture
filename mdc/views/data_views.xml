@@ -92,18 +92,50 @@
         </field>
     </record>
 
-    <!-- Form view: default form for Data_wINs
+    <!-- Form view: default form for Data_wINs -->
     <record id="mdc_data_wins_form" model="ir.ui.view">
         <field name="name">mdc.data_wins.form</field>
         <field name="model">mdc.data_win</field>
         <field name="arch" type="xml">
             <form string="Data_wins">
                 <sheet>
+                   <group name="gr_Data_WIN_chkpoint_data" string="Check Point Data">
+                        <group>
+                            <field name="line_id"/>
+                            <field name="lot_id"/>
+                        </group>
+                        <group>
+                            <field name="create_datetime"/>
+                            <field name="tare"/>
+                            <field name="w_uom_id"/>
+                        </group>
+                    </group>
+                    <group name="gr_Data_WIN_Intro_data" string="Capture Data">
+                        <group>
+                            <div class="oe_title">
+                                <label for="weight"/>
+                                <h1>
+                                    <field name="weight"/>
+                                </h1>
+                            </div>
+                        </group>
+                        <group>
+                            <div class="oe_title">
+                                <label for="card_id"/>
+                                <h1>
+                                    <field name="card_id"/>
+                                </h1>
+                            </div>
+                        </group>
+                    </group>
+                    <group name="gr_Data_WIN_Data_OUT" string="Readed in Data OUT">
+                        <field name="wout_id" readonly="True"/>
+                    </group>
                 </sheet>
             </form>
         </field>
     </record>
-    -->
+
 
     <!-- Search view: default search for Data_wOUTs -->
     <record id="mdc_data_wouts_search" model="ir.ui.view">
@@ -146,18 +178,70 @@
         </field>
     </record>
 
-    <!-- Form view: default form for Data_wOUTs
+    <!-- Form view: default form for Data_wOUTs -->
     <record id="mdc_data_wouts_form" model="ir.ui.view">
         <field name="name">mdc.data_wouts.form</field>
         <field name="model">mdc.data_wout</field>
         <field name="arch" type="xml">
             <form string="Data_wouts">
                 <sheet>
+                   <group name="gr_Data_WOUT_chkpoint_data" string="Check Point Data">
+                        <group>
+                            <field name="line_id"/>
+                            <field name="lot_id"/>
+                        </group>
+                        <group>
+                            <field name="create_datetime"/>
+                            <field name="tare"/>
+                            <field name="w_uom_id"/>
+                        </group>
+                    </group>
+                    <group name="gr_Data_WOUT_category" string="Product Category">
+                        <field name="wout_categ_id"/>
+                    </group>
+                    <group name="gr_Data_WOUT_Intro_data" string="Capture Data">
+                        <group>
+                            <div class="oe_title">
+                                <label for="weight"/>
+                                <h1>
+                                    <field name="weight"/>
+                                </h1>
+                            </div>
+                        </group>
+                        <group>
+                            <div class="oe_title">
+                                <label for="quality_id"/>
+                                <h1>
+                                    <field name="quality_id"/>
+                                </h1>
+                            </div>
+                        </group>
+                    </group>
+                    <group name="gr_Data_WOUT_Intro_Cards_data" string="Readed Cards">
+                        <field name="card_ids"/>
+                    </group>
+                    <group name="gr_Data_WOUT_Intro_Shared_data" string="Shared">
+                        <group>
+                            <field name="shared"/>
+                        </group>
+                        <group>
+                            <field name="wout_shared_id"/>
+                        </group>
+                    </group>
+                  <group name="gr_Data_WOUT_Data_OUT" string="Readed in Data OUT">
+                        <group>
+                            <field name="shift_id" readonly="True"/>
+                            <field name="employee_id" readonly="True"/>
+                        </group>
+                        <group>
+                            <field name="workstation_id" readonly="True"/>
+                        </group>
+                    </group>
                 </sheet>
             </form>
         </field>
     </record>
-    -->
+
 
   </data>
 </odoo>
