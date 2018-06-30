@@ -390,6 +390,12 @@
         parent="mdc_menu_master"
         sequence="11"/>
 
+    <menuitem id="mdc_employee_menu"
+        name="Employees"
+        action="hr.open_view_employee_list_my"
+        parent="mdc_menu_master"
+        sequence="13"/>
+
     <menuitem id="mdc_card_menu"
         name="Cards"
         action="action_mdc_card"
