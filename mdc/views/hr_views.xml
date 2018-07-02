@@ -1,0 +1,103 @@
+<odoo>
+  <data>
+        <!-- New search view: Employees - added is operative filter -->
+        <record id="view_hr_employee_filter" model="ir.ui.view">
+            <field name="name">hr.employee.search</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="sequence" eval="18"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='message_needaction']" position="after">
+                    <filter string="Operatives" name="operatives" domain="[('employee_code','!=','')]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Overwritten action: hr employee - added context ""  -->
+        <record id="hr.open_view_employee_list_my" model="ir.actions.act_window">
+            <field name="name">Employee</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_operatives':1}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="mdc.view_hr_employee_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new employee
+              </p><p>
+
+              </p>
+            </field>
+        </record>
+
+        <!-- New tree view: Employees - added employee_code and contract_type-->
+        <record id="hr_view_employee_tree" model="ir.ui.view">
+            <field name="name">hr.employee.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='work_phone']" position="replace">
+                    <field name="employee_code"/>
+                </xpath>
+                <xpath expr="//field[@name='work_email']" position="before">
+                    <field name="contract_type_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- New kanban view: Employees - added employee_code and contract_type-->
+        <record id="hr_hr_kanban_view_employees" model="ir.ui.view">
+            <field name="name">hr.employee.kanban</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+            <field name="arch" type="xml">
+                <xpath expr="//li[@id='last_login']" position="after">
+                    <li t-if="record.contract_type_id.raw_value"><field name="contract_type_id"/></li>
+                </xpath>
+                <xpath expr="//li[@id='last_login']" position="after">
+                    <li t-if="record.employee_code.raw_value"><field name="employee_code"/></li>
+                </xpath>
+            </field>
+        </record>
+
+       <record id="act_hr_employee_2_mdc_worksheet" model="ir.actions.act_window">
+            <field name="name">Worksheet</field>
+            <field name="res_model">mdc.worksheet</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{
+                'search_default_employee_id': [active_id],
+                'default_employee_id': active_id,
+                'search_default_group_by_state': 1
+            }</field>
+        </record>
+
+        <!-- New form view: Employees - added employee_code and contract_type- -->
+        <record id="hr_employee_form" model="ir.ui.view">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="sequence" eval="18"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='public']" position="before">
+                    <page name="operatives" string="Operative Information">
+                        <group>
+                            <field name="employee_code"/>
+                            <field name="contract_type_id"/>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//button[@class='oe_stat_button']" position="before">
+                    <button name="%(act_hr_employee_2_mdc_worksheet)d"
+                        class="oe_stat_button"
+                        icon="fa-book"
+                        type="action">
+                        <field name="worksheets_count" widget="statinfo" string="Worksheet"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+  </data>
+</odoo>

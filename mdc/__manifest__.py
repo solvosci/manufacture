@@ -21,6 +21,7 @@
         'security/groups.xml',
         'security/ir.model.access.csv',
         'views/data_views.xml',
+        'views/hr_views.xml',
         'views/operation_views.xml',
         'views/structure_views.xml',
         'views/scale_views.xml',
