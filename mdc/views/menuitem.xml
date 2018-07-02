@@ -279,6 +279,22 @@
         <field name="act_window_id" ref="action_mdc_scales"/>
     </record>
 
+    <!--
+    <act_window
+        id="action_mdc_config_settings"
+        name="Settings"
+        res_model="mdc.config.settings"/>
+    -->
+
+    <record id="action_mdc_config_settings" model="ir.actions.act_window">
+        <field name="name">MDC settings</field>
+        <field name="res_model">mdc.config.settings</field>
+        <field name="view_id" ref="mdc_config_settings_view_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+
+
     <!-- Top menu item -->
     <menuitem
         id="mdc_menu_root"
@@ -456,5 +472,11 @@
         action="action_mdc_wout_categ"
         parent="mdc_menu_configuration"
         sequence="35"/>
+
+    <menuitem id="mdc_config_settings_menu"
+        name="Settings"
+        action="action_mdc_config_settings"
+        parent="mdc_menu_configuration"
+        sequence="40"/>
 
 </odoo>
