@@ -3,7 +3,7 @@
     <data noupdate="1">
         <record id="mdc_rfid_server_url" model="ir.config_parameter">
             <field name="key">mdc.rfid_server_url</field>
-            <field name="value">192.168.1.28</field>
+            <field name="value">http://192.168.1.28</field>
         </record>
         <record id="mdc_rfid_server_user" model="ir.config_parameter">
             <field name="key">mdc.rfid_server_user</field>
@@ -12,6 +12,10 @@
         <record id="mdc_rfid_server_password" model="ir.config_parameter">
             <field name="key">mdc.rfid_server_password</field>
             <field name="value">Solvos_2017</field>
+        </record>
+        <record id="mdc_rfid_ws_server_url" model="ir.config_parameter">
+            <field name="key">mdc.rfid_ws_server_url</field>
+            <field name="value">ws://192.168.1.28</field>
         </record>
     </data>
 </odoo>

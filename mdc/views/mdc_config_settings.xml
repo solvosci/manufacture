@@ -27,6 +27,10 @@
                             <label for="rfid_server_password"/>
                             <field name="rfid_server_password" password="True" required="True"/>
                         </div>
+                        <div>
+                            <label for="rfid_ws_server_url"/>
+                            <field name="rfid_ws_server_url" required="True"/>
+                        </div>
                     </div>
                 </group>
             </form>
