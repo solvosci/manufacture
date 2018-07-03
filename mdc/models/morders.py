@@ -32,6 +32,11 @@ class Lot(models.Model):
         string='Customer')
     descrip = fields.Char(
         'Description')
+    create_date = fields.Date(
+        'Create_Date',
+        required = True)
+    end_date = fields.Date(
+        'End_Date')
 
 
 class LotActive(models.Model):

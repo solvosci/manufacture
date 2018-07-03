@@ -135,6 +135,7 @@
                 <field name="line_id"/>
                 <field name="order"/>
                 <field name="scale_id"/>
+                <field name="current_lot_active_id"/>
             </tree>
         </field>
     </record>
@@ -169,6 +170,11 @@
                         <group>
                             <field name="tare_id"/>
                             <field name="quality_id"/>
+                        </group>
+                    </group>
+                    <group name="gr_chkpoint_current_lot" string="Check point current lot">
+                        <group>
+                            <field name="current_lot_active_id" readonly="True"/>
                         </group>
                     </group>
                 </sheet>

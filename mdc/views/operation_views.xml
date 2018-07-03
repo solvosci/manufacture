@@ -1,6 +1,31 @@
 <odoo>
   <data>
 
+
+    <!-- Search view: default search for Check Point active lots -->
+    <record id="mdc_chkpoints_lots_actives_search" model="ir.ui.view">
+        <field name="name">mdc.chkpoints_lots_actives.search</field>
+        <field name="model">mdc.chkpoint</field>
+        <field name="arch" type="xml">
+            <search string="Check Point Active Lot">
+                <field name="name"/>
+                <field name="current_lot_active_id"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tree view: default view for Check Points active lots -->
+    <record id="mdc_chkpoints_lots_actives_tree" model="ir.ui.view">
+        <field name="name">mdc.chkpoints_lots_actives.tree</field>
+        <field name="model">mdc.chkpoint</field>
+        <field name="arch" type="xml">
+            <tree editable="top" create="false" delete="false" string="Check Point Lots Actives">
+                <field name="name" readonly="True"/>
+                <field name="current_lot_active_id" domain="['&amp;',('create_date','&lt;=',current_date),'|',('end_date','>=',current_date),('end_date','=',False)]" options="{'no_create': 1, 'no_create_edit': 1}"/>
+            </tree>
+        </field>
+    </record>
+
     <!-- Search view: default search for lots -->
     <record id="mdc_lots_search" model="ir.ui.view">
         <field name="name">mdc.lots.search</field>
@@ -61,6 +86,14 @@
                         </group>
                         <group>
                             <field name="descrip"/>
+                        </group>
+                    </group>
+                     <group name="gr_lot_active_expiration_dates" string="Active and Expiration Dates">
+                        <group>
+                            <field name="create_date"/>
+                        </group>
+                        <group>
+                            <field name="end_date"/>
                         </group>
                     </group>
                 </sheet>

@@ -83,6 +83,9 @@ class ChkPoint(models.Model):
     quality_id = fields.Many2one(
         'mdc.quality',
         string='Quality')
+    current_lot_active_id = fields.Many2one(
+        'mdc.lot',
+        string='Current Lot Active Id')
 
 
 class Workstation(models.Model):

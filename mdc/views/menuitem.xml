@@ -66,6 +66,30 @@
         name="Out Category"
         res_model="mdc.wout_categ"/>
 
+     <!-- Action: Check Points Lots Actives -->
+    <record model="ir.actions.act_window" id="action_mdc_chkpoint_lots_actives">
+        <field name="name">Check Points Lots Actives</field>
+        <field name="res_model">mdc.chkpoint</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="mdc_chkpoints_lots_actives_search"/>
+        <field name="limit">25</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Not possible.
+          </p><p>
+            Unable to register new checkpoints in this view.
+          </p>
+        </field>
+    </record>
+
+     <record id="action_mdc_chkpoint_lots_actives_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="sequence" eval="4"/>
+        <field name="view_id" ref="mdc_chkpoints_lots_actives_tree"/>
+        <field name="act_window_id" ref="action_mdc_chkpoint_lots_actives"/>
+    </record>
+
     <!-- Action: loads Lots -->
     <record model="ir.actions.act_window" id="action_mdc_lots">
         <field name="name">Lots</field>
@@ -187,67 +211,6 @@
         <field name="act_window_id" ref="action_mdc_worksheets"/>
     </record>
 
-     <!-- Action: loads Data_wins
-    <record model="ir.actions.act_window" id="action_mdc_data_wins">
-        <field name="name">Data_wins</field>
-        <field name="res_model">mdc.data_win</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="mdc_data_wins_search"/>
-        <field name="limit">25</field>
-        <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-            Change this because is not possible to create data in registers.
-          </p><p>
-            .............................
-          </p>
-        </field>
-    </record>
-
-    <record id="action_mdc_data_wins_view_tree" model="ir.actions.act_window.view">
-        <field name="view_mode">tree</field>
-        <field name="sequence" eval="8"/>
-        <field name="view_id" ref="mdc_data_wins_tree"/>
-        <field name="act_window_id" ref="action_mdc_data_wins"/>
-    </record>
-    <record id="action_mdc_data_wins_view_form" model="ir.actions.act_window.view">
-        <field name="view_mode">form</field>
-        <field name="sequence" eval="9"/>
-        <field name="view_id" ref="mdc_data_wins_form"/>
-        <field name="act_window_id" ref="action_mdc_data_wins"/>
-    </record>
-    -->
-
-    <!-- Action: loads Data_wouts
-    <record model="ir.actions.act_window" id="action_mdc_data_wouts">
-        <field name="name">Data_wouts</field>
-        <field name="res_model">mdc.data_wout</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="mdc_data_wouts_search"/>
-        <field name="limit">25</field>
-        <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-            Change this because is not possible to create data out registers.
-          </p><p>
-            .............................
-          </p>
-        </field>
-    </record>
-
-    <record id="action_mdc_data_wouts_view_tree" model="ir.actions.act_window.view">
-        <field name="view_mode">tree</field>
-        <field name="sequence" eval="8"/>
-        <field name="view_id" ref="mdc_data_wouts_tree"/>
-        <field name="act_window_id" ref="action_mdc_data_wouts"/>
-    </record>
-    <record id="action_mdc_data_wouts_view_form" model="ir.actions.act_window.view">
-        <field name="view_mode">form</field>
-        <field name="sequence" eval="9"/>
-        <field name="view_id" ref="mdc_data_wouts_form"/>
-        <field name="act_window_id" ref="action_mdc_data_wouts"/>
-    </record>
-    -->
 
     <!-- Action: loads scales -->
     <record model="ir.actions.act_window" id="action_mdc_scales">
@@ -333,7 +296,7 @@
     <!-- Operations menu -->
     <menuitem id="mdc_lot_active_menu"
         name="Active Lots"
-        action="action_mdc_lots_actives"
+        action="action_mdc_chkpoint_lots_actives"
         parent="mdc_menu_operations"
         sequence="10"/>
 
@@ -350,23 +313,29 @@
         sequence="20"/>
 
     <!-- Data menu -->
+    <menuitem id="mdc_historical_lot_active_menu"
+        name="Historical Used Lots"
+        action="action_mdc_lots_actives"
+        parent="mdc_menu_data"
+        sequence="10"/>
+
     <menuitem id="mdc_worksheet_menu"
         name="Worksheet"
         action="action_mdc_worksheets"
         parent="mdc_menu_data"
-        sequence="10"/>
+        sequence="15"/>
 
     <menuitem id="mdc_data_win_menu"
         name="Data in"
         action="action_mdc_data_wins"
         parent="mdc_menu_data"
-        sequence="15"/>
+        sequence="20"/>
 
     <menuitem id="mdc_data_wout_menu"
         name="Data out"
         action="action_mdc_data_wouts"
         parent="mdc_menu_data"
-        sequence="20"/>
+        sequence="25"/>
 
     <!-- Reporting menu -->
     <menuitem id="mdc_cumulative_report_menu"
