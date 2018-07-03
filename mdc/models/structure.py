@@ -131,6 +131,10 @@ class Card(models.Model):
     _inherit = ['mdc.base.structure']
     _description = 'Card'
 
+    _sql_constraints = [
+        ('card_name_unique', 'UNIQUE(name)', _("There's another card with the same code")),
+    ]
+
     name = fields.Integer(
         'Card_Code',
         required=True)
@@ -140,7 +144,8 @@ class Card(models.Model):
         required=True)
     employee_id = fields.Many2one(
         'hr.employee',
-        string = 'Employee')
+        string='Employee',
+        domain=[('employee_code', '!=', '')])
     workstation_id = fields.Many2one(
         'mdc.workstation',
         string='Workstation')
@@ -148,6 +153,30 @@ class Card(models.Model):
         selection='_get_card_status_selection',
         string='Status')
 
+    @api.model
+    def create(self, values):
+        values = self._card_preprocess(values)
+        return super(Card, self).create(values)
+
+    @api.multi
+    def write(self, values):
+        self.ensure_one()
+        # TODO _card_preprocess() not ready for update validation
+        # values = self._card_preprocess(values)
+        return super(Card, self).write(values)
+
+    # TODO modify _card_preprocess() for update validation
+    def _card_preprocess(self, values):
+        categ = values.get('card_categ_id')
+        if categ == self.env.ref('mdc.mdc_card_categ_O').id:
+            if not values.get('employee_id'):
+                raise UserError(_('You must select an employee for this card or select another category'))
+            values.pop('workstation_id', None)
+        if categ == self.env.ref('mdc.mdc_card_categ_L').id:
+            if not values.get('workstation_id'):
+                raise UserError(_('You must select a workstation for this card or select another category'))
+            values.pop('employee_id', None)
+        return values
 
 # ******************************************************************
 

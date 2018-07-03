@@ -7,7 +7,7 @@
                 <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
             </head>
             <body>
-                <div>MCD CP: <a href="/mdc/cp/list">Home</a></div>
+                <div>MCD CP: <a href="/mdc/cp/list">Home</a> | <a href="/mdc/cp/cardreg">Card registration</a></div>
                 <hr/>
                 List of available checkpoints:
                 <ul>
@@ -30,7 +30,7 @@
                 <script language="JavaScript" src="/mdc/static/src/js/cp_win.js"></script>
             </head>
             <body>
-                <div>MCD CP: <a href="/mdc/cp/list">Home</a></div>
+                <div>MCD CP: <a href="/mdc/cp/list">Home</a> | <a href="/mdc/cp/cardreg">Card registration</a></div>
                 <hr/>
                 <t t-foreach="chkpoints" t-as="chkpoint">
                     <input type="hidden" id="session_id" t-attf-value="{{session_id}}"/>
@@ -47,6 +47,64 @@
                     <p/>
                     <span id="message">Waiting for card read...</span>
                 </t>
+            </body>
+        </html>
+    </template>
+
+    <template id="chkpoint_card_registration">
+        <html>
+            <head>
+                <title>Card registration - MDC CP</title>
+                <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
+                <script language="JavaScript" src="/mdc/static/src/js/cp_card_registration.js"></script>
+            </head>
+            <body>
+                <div>MCD CP: <a href="/mdc/cp/list">Home</a> | <a href="/mdc/cp/cardreg">Card registration</a></div>
+                <hr/>
+                <div>
+                    Device:
+                    <select>
+                        <option value="" selected="selected">Select a device...</option>
+                        <t t-foreach="devices" t-as="device">
+                            <option t-attf-value="{{device.device_code}}">
+                                <t t-esc="device.name"></t>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+                <div>
+                    Card category:
+                    <select>
+                        <option value="" selected="selected">Select a category...</option>
+                        <t t-foreach="card_categs" t-as="card_categ">
+                            <option t-attf-value="{{card_categ.id}}">
+                                <t t-esc="card_categ.name"></t>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+                <div>
+                    Employee:
+                    <select>
+                        <option value="" selected="selected">Select an employee...</option>
+                        <t t-foreach="employees" t-as="employee">
+                            <option t-attf-value="{{employee.id}}">
+                                <t t-esc="employee.employee_code"></t>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+                <div>
+                    Workstation:
+                    <select>
+                        <option value="" selected="selected">Select a workstation...</option>
+                        <t t-foreach="workstations" t-as="workstation">
+                            <option t-attf-value="{{workstation.id}}">
+                                <t t-esc="workstation.name"></t>
+                            </option>
+                        </t>
+                    </select>
+                </div>
             </body>
         </html>
     </template>

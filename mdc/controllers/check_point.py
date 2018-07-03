@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from odoo import http
+from odoo import http, _
 from odoo.http import request
 
 from . import websocket
+
 
 # class SlvMdc(http.Controller):
 #     @http.route('/mdc/mdc/', auth='public')
@@ -25,6 +26,9 @@ from . import websocket
 
 class CheckPoint(http.Controller):
 
+    def _get_cp_user(self, request):
+        return request.env.ref('mdc.mdc_user_cp')
+
     @http.route('/mdc/scales', type='http', auth='none')
     def scales(self):
         res = '''
@@ -44,21 +48,56 @@ class CheckPoint(http.Controller):
 
     @http.route('/mdc/cp/list', type='http', auth='none')
     def cp_list(self):
-        chkpoints = request.env['mdc.chkpoint'].sudo().search([], order='order')
+        chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).search([], order='order')
         return request.render(
             'mdc.chkpoint_list',
             {'chkpoints': chkpoints}
         )
 
     @http.route("/mdc/cp/win/<int:chkpoint_id>", type='http', auth='none')
-    def cp_in(self, chkpoint_id):
-        session_id = websocket.ws_create()
-        chkpoints = request.env['mdc.chkpoint'].browse(chkpoint_id)
+    def cp_win(self, chkpoint_id):
+        session_id = websocket.get_session_id(request.env)
+        chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
         return request.render(
             'mdc.chkpoint_win',
             {'chkpoints': chkpoints, 'session_id': session_id}
         )
 
+    @http.route("/mdc/cp/win/<int:chkpoint_id>/lotactive", type='json', auth='none')
+    def cp_win_lotactive(self, chkpoint_id):
+        lotactives = request.env['mdc.lot_active'].sudo(self._get_cp_user(request)).search(
+            [('chkpoint_id', '=', chkpoint_id)])
+        if lotactives:
+            return {
+                'ckhpoint_id': chkpoint_id,
+                'lotactive': lotactives[0].lot_id.name
+            }
+        else:
+            return {
+                'ckhpoint_id': chkpoint_id,
+                'err': _('There are no active lots for this checkpoint')
+            }
+
+    @http.route('/mdc/cp/cardreg', type='http', auth='none')
+    def cp_cardreg(self):
+        devices = request.env['mdc.rfid_reader'].sudo(self._get_cp_user(request)).search([])
+        card_categs = request.env['mdc.card_categ'].sudo(self._get_cp_user(request)).search([])
+        employees = request.env['hr.employee'].sudo(self._get_cp_user(request)).search([('employee_code', '!=', '')])
+        workstations = request.env['mdc.workstation'].sudo(self._get_cp_user(request)).search([])
+        return request.render(
+            'mdc.chkpoint_card_registration',
+            {'devices': devices, 'card_categs': card_categs, 'employees': employees, 'workstations': workstations}
+        )
+
+
+"""
+        chkpoints = request.env['mdc.chkpoint'].browse(chkpoint_id)
+        if chkpoints:
+            return {
+                'ckhpoint_id': chkpoint_id,
+                'lotactive': chkpoints[0].lotactive_id.name
+            }
+"""
 
 """
         res = '''
@@ -75,7 +114,7 @@ class CheckPoint(http.Controller):
                 </body>
             </html>        
         '''
-        
+
         return res % session_id
 """
 
