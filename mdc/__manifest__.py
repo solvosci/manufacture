@@ -30,6 +30,7 @@
         'views/templates.xml',
         'views/chkpoint_views.xml',
         'views/reports_views.xml',
+        'data/res_users.xml',
         'data/ir_config_parameter.xml',
         'data/structure_data.xml',
         #'demo/demo.xml',
