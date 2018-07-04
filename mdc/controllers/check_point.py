@@ -29,6 +29,8 @@ class CheckPoint(http.Controller):
     def _get_cp_user(self, request):
         return request.env.ref('mdc.mdc_user_cp')
 
+    # Example route
+    # TODO remove
     @http.route('/mdc/scales', type='http', auth='none')
     def scales(self):
         res = '''
@@ -56,11 +58,11 @@ class CheckPoint(http.Controller):
 
     @http.route("/mdc/cp/win/<int:chkpoint_id>", type='http', auth='none')
     def cp_win(self, chkpoint_id):
-        session_id = websocket.get_session_id(request.env)
+        ws_session_data = websocket.get_session_data(request.env)
         chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
         return request.render(
             'mdc.chkpoint_win',
-            {'chkpoints': chkpoints, 'session_id': session_id}
+            {'chkpoints': chkpoints, 'ws_session_data': ws_session_data}
         )
 
     @http.route("/mdc/cp/win/<int:chkpoint_id>/lotactive", type='json', auth='none')
@@ -84,37 +86,29 @@ class CheckPoint(http.Controller):
         card_categs = request.env['mdc.card_categ'].sudo(self._get_cp_user(request)).search([])
         employees = request.env['hr.employee'].sudo(self._get_cp_user(request)).search([('employee_code', '!=', '')])
         workstations = request.env['mdc.workstation'].sudo(self._get_cp_user(request)).search([])
+        ws_session_data = websocket.get_session_data(request.env)
         return request.render(
             'mdc.chkpoint_card_registration',
-            {'devices': devices, 'card_categs': card_categs, 'employees': employees, 'workstations': workstations}
+            {'devices': devices, 'card_categs': card_categs, 'employees': employees, 'workstations': workstations,
+             'ws_session_data': ws_session_data}
         )
 
-
-"""
-        chkpoints = request.env['mdc.chkpoint'].browse(chkpoint_id)
-        if chkpoints:
+    @http.route('/mdc/cp/cardreg/save', type='json', auth='none')
+    def cp_cardreg_save(self):
+        Card = request.env['mdc.card'].sudo(self._get_cp_user(request))
+        try:
+            card = Card.create({
+                'name': request.jsonrequest['card_code'],
+                'card_categ_id': request.jsonrequest['card_categ_id'],
+                'employee_id': request.jsonrequest['employee_id'],
+                'workstation_id': request.jsonrequest['workstation_id'],
+            })
             return {
-                'ckhpoint_id': chkpoint_id,
-                'lotactive': chkpoints[0].lotactive_id.name
+                'card_id': card.id
             }
-"""
+        except Exception as e:
+            return {
+                'err': e
+            }
 
-"""
-        res = '''
-            <html>
-                <head>
-                    <title>IN - MDC CP</title>
-                    <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
-                    <script language="JavaScript" src="/mdc/static/src/js/cp_in.js"></script>
-                </head>
-                <body>
-                    <div>MCD CP: <a href="/web">Home</a></div>
-                    <hr>
-                    Session_id: <input type="text" id="session_id" value="%s"/>
-                </body>
-            </html>        
-        '''
-
-        return res % session_id
-"""
 

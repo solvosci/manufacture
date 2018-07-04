@@ -28,6 +28,7 @@ acl_mdc_chkpoint,mdc.chkpoint default,model_mdc_chkpoint,,1,0,0,0
 acl_mdc_chkpoint_manager,mdc.chkpoint_manager,model_mdc_chkpoint,group_mdc_manager,1,1,1,1
 acl_mdc_card,mdc.card default,model_mdc_card,,1,0,0,0
 acl_mdc_card_manager,mdc.card_manager,model_mdc_card,group_mdc_manager,1,1,1,1
+acl_mdc_card_cp,mdc.card_cp,model_mdc_card,group_mdc_cp,1,0,1,0
 acl_mdc_shift,mdc.shift default,model_mdc_shift,,1,0,0,0
 acl_mdc_shift_manager,mdc.shift_manager,model_mdc_shift,group_mdc_manager,1,1,1,1
 acl_mdc_card_categ,mdc.card_categ default,model_mdc_card_categ,,1,0,0,0

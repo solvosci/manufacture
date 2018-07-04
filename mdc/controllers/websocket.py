@@ -3,7 +3,7 @@ import sys
 from websocket import create_connection
 
 
-def get_session_id(env):
+def get_session_data(env):
     IrConfigParameter = env['ir.config_parameter'].sudo()
 
     login_url = '%s/api/login' % IrConfigParameter.get_param('mdc.rfid_server_url')
@@ -40,4 +40,9 @@ def get_session_id(env):
     print('Status: %s' % r2.status_code, file=sys.stderr)
     print('Text: %s' % r2.text, file=sys.stderr)
 
-    return r.headers['bs-session-id']
+    session_data = {
+        'session_id': r.headers['bs-session-id'],
+        'wsapi_url': wsapi_url
+    }
+
+    return session_data

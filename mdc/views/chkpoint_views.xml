@@ -27,13 +27,18 @@
             <head>
                 <title>WIN - MDC CP</title>
                 <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
+                <script language="JavaScript" src="/mdc/static/src/js/cp_common.js"></script>
                 <script language="JavaScript" src="/mdc/static/src/js/cp_win.js"></script>
             </head>
             <body>
                 <div>MCD CP: <a href="/mdc/cp/list">Home</a> | <a href="/mdc/cp/cardreg">Card registration</a></div>
                 <hr/>
+                <div id="info_div">
+                    Waiting for websocket connection...
+                </div>
                 <t t-foreach="chkpoints" t-as="chkpoint">
-                    <input type="hidden" id="session_id" t-attf-value="{{session_id}}"/>
+                    <input type="hidden" id="ws_session_id" t-attf-value="{{ws_session_data['session_id']}}"/>
+                    <input type="hidden" id="ws_wsapi_url" t-attf-value="{{ws_session_data['wsapi_url']}}"/>
                     <input type="hidden" id="rfid_reader_code" t-attf-value="{{chkpoint.rfid_reader_id.device_code}}"/>
                     <input type="hidden" id="chkpoint_id" t-attf-value="{{chkpoint.id}}"/>
 
@@ -56,14 +61,22 @@
             <head>
                 <title>Card registration - MDC CP</title>
                 <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
+                <script language="JavaScript" src="/mdc/static/src/js/cp_common.js"></script>
                 <script language="JavaScript" src="/mdc/static/src/js/cp_card_registration.js"></script>
             </head>
             <body>
+                <input type="hidden" id="ws_session_id" t-attf-value="{{ws_session_data['session_id']}}"/>
+                <input type="hidden" id="ws_wsapi_url" t-attf-value="{{ws_session_data['wsapi_url']}}"/>
+
+
                 <div>MCD CP: <a href="/mdc/cp/list">Home</a> | <a href="/mdc/cp/cardreg">Card registration</a></div>
                 <hr/>
+                <div id="info_div">
+                    Waiting for websocket connection...
+                </div>
                 <div>
                     Device:
-                    <select>
+                    <select id="device_select">
                         <option value="" selected="selected">Select a device...</option>
                         <t t-foreach="devices" t-as="device">
                             <option t-attf-value="{{device.device_code}}">
@@ -74,7 +87,7 @@
                 </div>
                 <div>
                     Card category:
-                    <select>
+                    <select id="card_categ_select">
                         <option value="" selected="selected">Select a category...</option>
                         <t t-foreach="card_categs" t-as="card_categ">
                             <option t-attf-value="{{card_categ.id}}">
@@ -85,7 +98,7 @@
                 </div>
                 <div>
                     Employee:
-                    <select>
+                    <select id="employee_select">
                         <option value="" selected="selected">Select an employee...</option>
                         <t t-foreach="employees" t-as="employee">
                             <option t-attf-value="{{employee.id}}">
@@ -96,7 +109,7 @@
                 </div>
                 <div>
                     Workstation:
-                    <select>
+                    <select id="workstation_select">
                         <option value="" selected="selected">Select a workstation...</option>
                         <t t-foreach="workstations" t-as="workstation">
                             <option t-attf-value="{{workstation.id}}">
@@ -104,6 +117,13 @@
                             </option>
                         </t>
                     </select>
+                </div>
+                <div>
+                    Last card read:
+                    <input id="card_read_input" type="text" size="30" readonly="readonly" />
+                </div>
+                <div>
+                    <button type="button" id="confirm_button">Register card</button>
                 </div>
             </body>
         </html>
