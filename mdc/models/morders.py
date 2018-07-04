@@ -38,6 +38,27 @@ class Lot(models.Model):
     end_date = fields.Date(
         'End_Date')
 
+    def name_get(self, context=None):
+        if context is None:
+            context = {}
+        res = []
+        # FIXME it Doesn't Work - it always goes inside the if lines
+        if context.get('name_extended', True):
+            # Only one context possible
+            for entry in self:
+                if not entry.partner_id.name:
+                    cliente = ''
+                else:
+                    cliente = entry.partner_id.name
+                if not entry.end_date:
+                    caduca = ''
+                else:
+                    caduca = entry.end_date
+                res.append((entry.id, '[%s (%s , %s)]: %s - (%s)' % (entry.name, entry.create_date, caduca, entry.product_id.name, cliente)))
+        else:
+            for entry in self:
+                res.append((entry.id, '%s' % (entry.name)))
+        return res
 
 class LotActive(models.Model):
     """
