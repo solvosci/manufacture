@@ -126,6 +126,7 @@
         <field name="res_model">mdc.lot_active</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="domain">[('active', '!=', True)]</field>
         <field name="search_view_id" ref="mdc_lots_actives_search"/>
         <field name="limit">25</field>
         <field name="help" type="html">
@@ -312,13 +313,13 @@
         parent="mdc_menu_operations"
         sequence="20"/>
 
-    <!-- Data menu -->
     <menuitem id="mdc_historical_lot_active_menu"
         name="Historical Used Lots"
         action="action_mdc_lots_actives"
-        parent="mdc_menu_data"
-        sequence="10"/>
+        parent="mdc_menu_operations"
+        sequence="25"/>
 
+    <!-- Data menu -->
     <menuitem id="mdc_worksheet_menu"
         name="Worksheet"
         action="action_mdc_worksheets"

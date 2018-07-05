@@ -124,7 +124,7 @@
         <field name="name">mdc.lots_actives.tree</field>
         <field name="model">mdc.lot_active</field>
         <field name="arch" type="xml">
-            <tree string="Lots">
+            <tree create="false" delete="false" string="Lots">
                 <field name="lot_id"/>
                 <field name="chkpoint_id"/>
                 <field name="start_datetime"/>
