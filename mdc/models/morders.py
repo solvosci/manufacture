@@ -74,6 +74,9 @@ class LotActive(models.Model):
             ('WOUT', _('Output')),
     ]
 
+    def _default_date(self):
+        #return fields.Datetime.from_string(fields.Datetime.now())
+        return fields.Datetime.now()
 
     lot_id = fields.Many2one(
         'mdc.lot',
@@ -85,7 +88,8 @@ class LotActive(models.Model):
         required=True)
     start_datetime = fields.Datetime(
         'Datetime_Start',
-        required=True)
+        required=True,
+        default=_default_date)
     end_datetime = fields.Datetime(
         'Datetime_End')
     total_hours = fields.Float(

@@ -86,24 +86,34 @@ class ChkPoint(models.Model):
     current_lot_active_id = fields.Many2one(
         'mdc.lot',
         string='Current Lot Active Id')
+    start_lot_datetime = fields.Datetime(
+        string = 'Start Lot Active date time')
 
     @api.multi
     def write(self, values):
         self.ensure_one()
         # Modifying a current_lot_active
+        start_lot_datetime = fields.Datetime.now()
         lot_active = self.current_lot_active_id.id
         new_lot_active = lot_active
         if 'current_lot_active_id' in values:
             new_lot_active = values.get('current_lot_active_id')
-        if (lot_active != new_lot_active) & (lot_active):
+        if (lot_active != new_lot_active) and (lot_active):
             # In this case, Close historic lot_active
-            id_lot_active = self.env['mdc.lot_active'].search([('lot_id', '=', lot_active),('checkpoint_id', '=', self.id),('end_datetime', '=', False)]).id
-           # if id_lot_active:
-
-        if (lot_active != new_lot_active) & (new_lot_active):
+            id_lot_active = self.env['mdc.lot_active'].search([('lot_id', '=', lot_active),('chkpoint_id', '=', self.id),('end_datetime', '=', False)])
+            if id_lot_active:
+                id_lot_active.write({
+                    'end_datetime': start_lot_datetime,
+                    'active': False,
+                })
+        if (lot_active != new_lot_active) and new_lot_active and (new_lot_active is not None):
             # In this case, Open new historic lot_active
-            i = 1
-            
+            self.env['mdc.lot_active'].create({
+                'lot_id': new_lot_active,
+                'chkpoint_id': self.id,
+                'start_datetime': start_lot_datetime
+            })
+        values['start_lot_datetime'] = start_lot_datetime
         return super(ChkPoint, self).write(values)
 
 class Workstation(models.Model):
