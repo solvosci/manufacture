@@ -26,6 +26,7 @@
                 <field name="name"/>
                 <field name="tcp_address_ip"/>
                 <field name="tcp_address_port"/>
+                <field name="timeout_secs"/>
                 <field name="scale_protocol"/>
                 <field name="last_weight_value"/>
                 <field name="last_weight_uom_id" string=" "/>
@@ -58,6 +59,7 @@
                         <group>
                             <field name="tcp_address_ip"/>
                             <field name="tcp_address_port"/>
+                            <field name="timeout_secs"/>
                         </group>
                         <group>
                             <field name="scale_protocol"/>

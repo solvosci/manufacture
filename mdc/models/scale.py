@@ -25,6 +25,10 @@ class Scale(models.Model):
     tcp_address_port = fields.Integer(
         'IP Port',
         required=True)
+    timeout_secs = fields.Integer(
+        'Timeout (s)',
+        required=True,
+        default=5)
     scale_protocol = fields.Selection(
         [('$', '$ Protocol')],
         string='Weighing protocol',
@@ -81,6 +85,7 @@ class Scale(models.Model):
         # TODO waiting timeout
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((self.tcp_address_ip, self.tcp_address_port))
+            s.settimeout(self.timeout_secs)
             if self.scale_protocol == '$':
                 self.last_weight_value, self.last_weight_stability, self.last_weight_datetime \
                     = self._get_weight_s_protocol(s)
