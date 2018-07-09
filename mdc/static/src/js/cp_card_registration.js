@@ -18,7 +18,9 @@ ws_event_received = function (event) {
         if ( device && (device == obj.Event.device_id.id) ) {
             console.log('Matched!');
             $('#card_read_input').val(obj.Event.user_id.user_id);
-            $('#info_div').html('Read card #' + $('#card_read_input').val());
+            $('#info_div')
+                .removeClass('info_div_err').addClass('info_div_ok')
+                .html('Read card #' + $('#card_read_input').val());
         }
         else {
             console.log('Skipped');
@@ -26,7 +28,9 @@ ws_event_received = function (event) {
 
     }
     catch (e) {
-        $('#info_div').html('ERROR when reading card: ' + e.message);
+        $('#info_div')
+            .removeClass('info_div_ok').addClass('info_div_err')
+            .html('ERROR: ' + e.message);
     }
 
 }
@@ -51,7 +55,9 @@ card_register_click = function () {
             'workstation_id': parseInt($('#workstation_select').val(), 10)
         }
 
-        $('#info_div').html('Registering card... ');
+        $('#info_div')
+            .removeClass('info_div_err').addClass('info_div_ok')
+            .html('Registering card... ');
         $.ajax({
             url: '/mdc/cp/cardreg/save',
             type: 'POST',
@@ -60,20 +66,29 @@ card_register_click = function () {
         }).done(function (data) {
             console.log(data.result);
             if ( data.result.err ) {
-                $('#info_div').html('ERROR registering card: ' + data.result.err);
+                $('#info_div')
+                    .removeClass('info_div_ok').addClass('info_div_err')
+                    .html('ERROR ' + data.result.err);
             }
             else {
-                $('#info_div').html(
-                    'Card #' + $('#card_read_input').val() + ' successfully registered with id ' + data.result.card_id
-                );
+                $('#info_div')
+                    .removeClass('info_div_err').addClass('info_div_ok')
+                    .html(
+                        'Card #' + $('#card_read_input').val() +
+                        ' successfully registered with id ' + data.result.card_id
+                    );
                 $('#card_read_input').val('');
             }
         }).fail(function () {
-            $('#info_div').html('ERROR registering card');
+            $('#info_div')
+                .removeClass('info_div_ok').addClass('info_div_err')
+                .html('ERROR registering card (unknown)');
         });
     }
     catch (e) {
-        $('#info_div').html('ERROR registering card: ' + e.message);
+        $('#info_div')
+            .removeClass('info_div_ok').addClass('info_div_err')
+            .html('ERROR: ' + e.message);
     }
 
 }
@@ -85,6 +100,8 @@ $(document).ready(function() {
     // TODO error handling
 
     /* var ws = */ws_create(ws_event_received);
-    $('#info_div').html('Ready for card registration!!!');
+    $('#info_div')
+        .removeClass('info_div_err').addClass('info_div_ok')
+        .html('Ready for card registration!!!');
 
 });

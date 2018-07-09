@@ -11,6 +11,8 @@ ws_event_received = function (event) {
 $(document).ready(function() {
 
     /* var ws = */ws_create(ws_event_received);
-    $('#info_div').html('Ready for card readings!!!');
+    $('#info_div')
+        .addClass('info_div_ok')
+        .html('Ready for card readings!!!');
 
 });

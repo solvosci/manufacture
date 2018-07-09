@@ -60,6 +60,7 @@
         <html>
             <head>
                 <title>Card registration - MDC CP</title>
+                <link rel="stylesheet" type="text/css" href="/mdc/static/src/css/cp.css"/>
                 <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
                 <script language="JavaScript" src="/mdc/static/src/js/cp_common.js"></script>
                 <script language="JavaScript" src="/mdc/static/src/js/cp_card_registration.js"></script>
@@ -74,56 +75,78 @@
                 <div id="info_div">
                     Waiting for websocket connection...
                 </div>
-                <div>
-                    Device:
-                    <select id="device_select">
-                        <option value="" selected="selected">Select a device...</option>
-                        <t t-foreach="devices" t-as="device">
-                            <option t-attf-value="{{device.device_code}}">
-                                <t t-esc="device.name"></t>
-                            </option>
-                        </t>
-                    </select>
+                <div class="divTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow">
+                            <div class="divTableCell label">
+                                    Device
+                            </div>
+                            <div class="divTableCell">
+                                <select id="device_select">
+                                    <option value="" selected="selected">Select a device...</option>
+                                    <t t-foreach="devices" t-as="device">
+                                        <option t-attf-value="{{device.device_code}}">
+                                            <t t-esc="device.name"></t>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableCell label">
+                                Card category
+                            </div>
+                            <div class="divTableCell">
+                                <select id="card_categ_select">
+                                    <option value="" selected="selected">Select a category...</option>
+                                    <t t-foreach="card_categs" t-as="card_categ">
+                                        <option t-attf-value="{{card_categ.id}}">
+                                            <t t-esc="card_categ.name"></t>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableCell label">
+                                Employee
+                            </div>
+                            <div class="divTableCell">
+                                <select id="employee_select">
+                                    <option value="" selected="selected">Select an employee...</option>
+                                    <t t-foreach="employees" t-as="employee">
+                                        <option t-attf-value="{{employee.id}}">
+                                            <t t-esc="employee.employee_code"></t>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableCell label">
+                                Workstation
+                            </div>
+                            <div class="divTableCell">
+                                <select id="workstation_select">
+                                    <option value="" selected="selected">Select a workstation...</option>
+                                    <t t-foreach="workstations" t-as="workstation">
+                                        <option t-attf-value="{{workstation.id}}">
+                                            <t t-esc="workstation.name"></t>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    Card category:
-                    <select id="card_categ_select">
-                        <option value="" selected="selected">Select a category...</option>
-                        <t t-foreach="card_categs" t-as="card_categ">
-                            <option t-attf-value="{{card_categ.id}}">
-                                <t t-esc="card_categ.name"></t>
-                            </option>
-                        </t>
-                    </select>
+
+                <div class="centered" style="font-size: 1.5em; margin-top: 20px; margin-bottom: 20px">
+                    Last card read:<br/>
+                    <input id="card_read_input" type="text" size="10" readonly="readonly"
+                           class="centered"  style="font-size: 1.5em; background: #D0D0D0;"/>
                 </div>
-                <div>
-                    Employee:
-                    <select id="employee_select">
-                        <option value="" selected="selected">Select an employee...</option>
-                        <t t-foreach="employees" t-as="employee">
-                            <option t-attf-value="{{employee.id}}">
-                                <t t-esc="employee.employee_code"></t>
-                            </option>
-                        </t>
-                    </select>
-                </div>
-                <div>
-                    Workstation:
-                    <select id="workstation_select">
-                        <option value="" selected="selected">Select a workstation...</option>
-                        <t t-foreach="workstations" t-as="workstation">
-                            <option t-attf-value="{{workstation.id}}">
-                                <t t-esc="workstation.name"></t>
-                            </option>
-                        </t>
-                    </select>
-                </div>
-                <div>
-                    Last card read:
-                    <input id="card_read_input" type="text" size="30" readonly="readonly" />
-                </div>
-                <div>
-                    <button type="button" id="confirm_button">Register card</button>
+                <div class="centered">
+                    <button type="button" id="confirm_button" style="font-size: 1.5em">Register card</button>
                 </div>
             </body>
         </html>
