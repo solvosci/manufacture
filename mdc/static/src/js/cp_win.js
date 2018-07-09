@@ -68,7 +68,7 @@ loctactive_get = function () {
     }).fail(function () {
         $('#info_div')
             .removeClass('info_div_ok').addClass('info_div_err')
-            .html('ERROR registering weight (unknown)');
+            .html('ERROR retrieving active lot (unknown)');
         loctactive_get_schedule();
     });
 
@@ -86,20 +86,16 @@ data_win_save = function (data) {
         if ( data.result.err ) {
             $('#info_div')
                 .removeClass('info_div_ok').addClass('info_div_err')
-                .html('ERROR ' + data.result.err);
-            // TODO additional stuff over display
+                .html('ERROR: ' + data.result.err);
         }
         else {
             $('#info_div')
                 .removeClass('info_div_err').addClass('info_div_ok')
-                .html(
-                    'Data successfully saved'
-                );
+                .html('Data successfully saved');
             $('#lot').html(data.result.lotactive)
-            $('#last_card_read').html(data.result.card_code)
-            // TODO weight format
-            $('#last_weight').html(data.result.weight + ' ' + data.result.w_uom)
-            // TODO additional stuff over display
+            $('#last_card_read').val(data.result.card_code).addClass('success');
+            $('#last_weight').val(data.result.weight + ' ' + data.result.w_uom).addClass('success');
+            window.setTimeout(function () { $('#last_card_read,#last_weight').removeClass('success'); }, 3000);
         }
     }).fail(function () {
         $('#info_div')

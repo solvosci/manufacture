@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import datetime
+import socket
 from odoo import api, models, fields, _
 from odoo.exceptions import UserError
 
@@ -30,12 +30,15 @@ class DataWIn(models.Model):
     tare = fields.Float(
         'Tare',
         required=True)
+    # TODO required
     weight = fields.Float(
         'Weight',
         default=0)
+    # TODO required
     w_uom_id = fields.Many2one(
         'product.uom',
         string='Weight_uom')
+    # TODO required
     card_id = fields.Many2one(
         'mdc.card',
         string='Card')
@@ -45,7 +48,10 @@ class DataWIn(models.Model):
 
     @api.model
     def create(self, values):
-        # TODO validation stuff
+        data_win_card = self.search([('wout_id', '=', False), ('card_id', '=', values['card_id'])])
+        if data_win_card:
+            raise UserError(_('There is already open data with the selected card (%s)') % data_win_card[0].card_id.name)
+
         return super(DataWIn, self).create(values)
 
     def from_cp_create(self, values):
@@ -66,11 +72,16 @@ class DataWIn(models.Model):
             raise UserError(_("Scale not defined"))
         if not chkpoint.tare_id:
             raise UserError(_("Tare not defined"))
-        weight_value, weight_uom_id = chkpoint.scale_id.get_weight()[0:2]
+        try:
+            weight_value, weight_uom_id = chkpoint.scale_id.get_weight()[0:2]
+        except socket.timeout:
+            raise UserError(_("Timed out on weighing scale"))
 
         card = self.env['mdc.card'].sudo().search([('name', '=', values['card_code'])])
         if not card:
-            raise UserError(_("Card # not found") % values['card_code'])
+            raise UserError(_("Card #%s not found") % values['card_code'])
+        if card.card_categ_id.id != self.env.ref('mdc.mdc_card_categ_P').id:
+            raise UserError(_("Invalid Card #%s") % values['card_code'])
 
         return self.create({
             'line_id': chkpoint.line_id.id,

@@ -44,12 +44,36 @@
                 <div id="info_div">
                     Waiting for websocket connection...
                 </div>
-
-                Lot: <span id="lot"></span>
-                <br></br>
-                Last card read: <span id="last_card_read"></span>
-                <br></br>
-                Last weight: <span id="last_weight"></span>
+                <div class="divTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow">
+                            <div class="divTableCell label">
+                                Lot
+                            </div>
+                            <div class="divTableCell">
+                                <span id="lot" style="font-size: 2em; font-weight: bold;"></span>
+                            </div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableCell label">
+                                Last card read
+                            </div>
+                            <div class="divTableCell">
+                                <input id="last_card_read" type="text" size="10" readonly="readonly"
+                                       class="centered"  style="font-size: 2em"/>
+                            </div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableCell label">
+                                Last weight
+                            </div>
+                            <div class="divTableCell">
+                                <input id="last_weight" type="text" size="10" readonly="readonly"
+                                       class="centered"  style="font-size: 2em"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </body>
         </html>
     </template>

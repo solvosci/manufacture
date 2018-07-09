@@ -100,7 +100,7 @@ class CheckPoint(http.Controller):
             data_out['card_code'] = data_in['card_code']
             data_out['data_win_id'] = datawin.id
             data_out['lotactive'] = datawin.lot_id.name
-            data_out['weight'] = datawin.weight
+            data_out['weight'] = '{0:.2f}'.format(datawin.weight)
             data_out['w_uom'] = datawin.w_uom_id.name
         except Exception as e:
             data_out['err'] = e

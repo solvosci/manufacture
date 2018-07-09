@@ -62,3 +62,7 @@ button {
 .centered {
     text-align: center;
 }
+
+input.success {
+    background: #50FF50
+}
