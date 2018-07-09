@@ -339,9 +339,9 @@
         sequence="25"/>
 
     <!-- Reporting menu -->
-    <menuitem id="mdc_cumulative_report_menu"
-        name="Cumulative Report"
-        action="action_mdc_cumulative_report"
+    <menuitem id="mdc_tracing_report_menu"
+        name="Tracing Report"
+        action="action_mdc_tracing_report"
         parent="mdc_menu_reporting"
         sequence="10"/>
 
@@ -357,9 +357,9 @@
         parent="mdc_menu_reporting"
         sequence="20"/>
 
-    <menuitem id="mdc_tracing_report_menu"
-        name="Tracing Report"
-        action="action_mdc_tracing_report"
+    <menuitem id="mdc_cumulative_report_menu"
+        name="Cumulative Report"
+        action="action_mdc_cumulative_report"
         parent="mdc_menu_reporting"
         sequence="25"/>
 
