@@ -43,6 +43,44 @@ class DataWIn(models.Model):
         'mdc.data_wout',
         string='WOut')
 
+    @api.model
+    def create(self, values):
+        # TODO validation stuff
+        return super(DataWIn, self).create(values)
+
+    def from_cp_create(self, values):
+        '''
+        Saves a checkpoint entry from some input data
+        '''
+
+        # Data received:
+        # - checkpoint_id.id
+        # - card_code
+
+        chkpoint = self.env['mdc.chkpoint'].sudo().browse(values['chkpoint_id'])
+        if not chkpoint:
+            raise UserError(_('Checkpoint #%s not found') % values['chkpoint_id'])
+        if not chkpoint.current_lot_active_id:
+            raise UserError(_("There's not an active lot"))
+        if not chkpoint.scale_id:
+            raise UserError(_("Scale not defined"))
+        if not chkpoint.tare_id:
+            raise UserError(_("Tare not defined"))
+        weight_value, weight_uom_id = chkpoint.scale_id.get_weight()[0:2]
+
+        card = self.env['mdc.card'].sudo().search([('name', '=', values['card_code'])])
+        if not card:
+            raise UserError(_("Card # not found") % values['card_code'])
+
+        return self.create({
+            'line_id': chkpoint.line_id.id,
+            'lot_id': chkpoint.current_lot_active_id.id,
+            'tare': chkpoint.tare_id.tare,
+            'weight': weight_value,
+            'w_uom_id': weight_uom_id.id,
+            'card_id': card.id
+        })
+
 
 class DataWOut(models.Model):
     """

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import http, _
+from odoo.exceptions import UserError
 from odoo.http import request
 
 from . import websocket
@@ -67,18 +68,44 @@ class CheckPoint(http.Controller):
 
     @http.route("/mdc/cp/win/<int:chkpoint_id>/lotactive", type='json', auth='none')
     def cp_win_lotactive(self, chkpoint_id):
-        lotactives = request.env['mdc.lot_active'].sudo(self._get_cp_user(request)).search(
-            [('chkpoint_id', '=', chkpoint_id)])
-        if lotactives:
-            return {
-                'ckhpoint_id': chkpoint_id,
-                'lotactive': lotactives[0].lot_id.name
-            }
-        else:
-            return {
-                'ckhpoint_id': chkpoint_id,
-                'err': _('There are no active lots for this checkpoint')
-            }
+        chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
+        data = {
+            'ckhpoint_id': chkpoint_id
+        }
+        try:
+            if chkpoints:
+                data['lotactive'] = ''
+                if chkpoints[0].current_lot_active_id:
+                    data['lotactive'] = chkpoints[0].current_lot_active_id.name
+            else:
+                raise UserError(_('Checkpoint #%s not found') % chkpoint_id)
+        except UserError as e:
+            data['err'] = e
+        finally:
+            return data
+
+    @http.route("/mdc/cp/win/<int:chkpoint_id>/save", type='json', auth='none')
+    def cp_win_save(self, chkpoint_id):
+        data_in = dict(request.jsonrequest)
+        data_in['chkpoint_id'] = chkpoint_id
+        data_out = {
+            'ckhpoint_id': chkpoint_id
+        }
+
+        # TODO permissions
+        # DataWIn = request.env['mdc.data_win'].sudo(self._get_cp_user(request))
+        DataWIn = request.env['mdc.data_win'].sudo()
+        try:
+            datawin = DataWIn.from_cp_create(data_in)
+            data_out['card_code'] = data_in['card_code']
+            data_out['data_win_id'] = datawin.id
+            data_out['lotactive'] = datawin.lot_id.name
+            data_out['weight'] = datawin.weight
+            data_out['w_uom'] = datawin.w_uom_id.name
+        except Exception as e:
+            data_out['err'] = e
+        finally:
+            return data_out
 
     @http.route('/mdc/cp/cardreg', type='http', auth='none')
     def cp_cardreg(self):

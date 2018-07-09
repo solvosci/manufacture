@@ -26,32 +26,30 @@
         <html>
             <head>
                 <title>WIN - MDC CP</title>
+                <link rel="stylesheet" type="text/css" href="/mdc/static/src/css/cp.css"/>
                 <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
                 <script language="JavaScript" src="/mdc/static/src/js/cp_common.js"></script>
                 <script language="JavaScript" src="/mdc/static/src/js/cp_win.js"></script>
             </head>
             <body>
+                <input type="hidden" id="ws_session_id" t-attf-value="{{ws_session_data['session_id']}}"/>
+                <input type="hidden" id="ws_wsapi_url" t-attf-value="{{ws_session_data['wsapi_url']}}"/>
+                <t t-foreach="chkpoints" t-as="chkpoint">
+                    <input type="hidden" id="rfid_reader_code" t-attf-value="{{chkpoint.rfid_reader_id.device_code}}"/>
+                    <input type="hidden" id="chkpoint_id" t-attf-value="{{chkpoint.id}}"/>
+                </t>
+
                 <div>MCD CP: <a href="/mdc/cp/list">Home</a> | <a href="/mdc/cp/cardreg">Card registration</a></div>
                 <hr/>
                 <div id="info_div">
                     Waiting for websocket connection...
                 </div>
-                <t t-foreach="chkpoints" t-as="chkpoint">
-                    <input type="hidden" id="ws_session_id" t-attf-value="{{ws_session_data['session_id']}}"/>
-                    <input type="hidden" id="ws_wsapi_url" t-attf-value="{{ws_session_data['wsapi_url']}}"/>
-                    <input type="hidden" id="rfid_reader_code" t-attf-value="{{chkpoint.rfid_reader_id.device_code}}"/>
-                    <input type="hidden" id="chkpoint_id" t-attf-value="{{chkpoint.id}}"/>
 
-                    <h1 id="lot"></h1>
-
-                    Lot: <span id="lot"></span>
-                    <br></br>
-                    Last card read: <span id="last_card_read"></span>
-                    <br></br>
-                    Last weight: <span id="last_weight"></span>
-                    <p/>
-                    <span id="message">Waiting for card read...</span>
-                </t>
+                Lot: <span id="lot"></span>
+                <br></br>
+                Last card read: <span id="last_card_read"></span>
+                <br></br>
+                Last weight: <span id="last_weight"></span>
             </body>
         </html>
     </template>
