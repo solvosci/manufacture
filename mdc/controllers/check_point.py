@@ -106,13 +106,15 @@ class CheckPoint(http.Controller):
             return data_out
 
     @http.route("/mdc/cp/wout/<int:chkpoint_id>", type='http', auth='none')
-    def cp_win(self, chkpoint_id):
+    def cp_wout(self, chkpoint_id):
         ws_session_data = websocket.get_session_data(request.env)
         chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
         qualities = request.env['mdc.quality'].sudo(self._get_cp_user(request)).search([])
         return request.render(
             'mdc.chkpoint_wout',
-            {'chkpoints': chkpoints, 'qualities': qualities, 'ws_session_data': ws_session_data}
+            {'chkpoints': chkpoints, 'qualities': qualities, 'ws_session_data': ws_session_data,
+             'card_categ_P_id': request.env.ref('mdc.mdc_card_categ_P').id,
+             'card_categ_L_id': request.env.ref('mdc.mdc_card_categ_L').id }
         )
 
     @http.route('/mdc/cp/cardreg', type='http', auth='none')
@@ -146,4 +148,15 @@ class CheckPoint(http.Controller):
                 'err': e
             }
 
-
+    @http.route('/mdc/cp/carddata/<string:card_code>', type='json', auth='none')
+    def cp_carddata(self, card_code):
+        data_out = {
+            'card_code': card_code
+        }
+        card = request.env['mdc.card'].sudo(self._get_cp_user(request)).search([('name', '=', card_code)])
+        if card:
+            data_out['card_id'] = card.id
+            data_out['card_categ_id'] = card.card_categ_id.id
+        else:
+            data_out['err'] = _('Card #%s not found') % card_code
+        return data_out

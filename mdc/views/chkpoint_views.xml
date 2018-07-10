@@ -90,9 +90,12 @@
             <body>
                 <input type="hidden" id="ws_session_id" t-attf-value="{{ws_session_data['session_id']}}"/>
                 <input type="hidden" id="ws_wsapi_url" t-attf-value="{{ws_session_data['wsapi_url']}}"/>
+                <input type="hidden" id="card_categ_P_id" t-attf-value="{{card_categ_P_id}}"/>
+                <input type="hidden" id="card_categ_L_id" t-attf-value="{{card_categ_L_id}}"/>
                 <t t-foreach="chkpoints" t-as="chkpoint">
                     <input type="hidden" id="rfid_reader_code" t-attf-value="{{chkpoint.rfid_reader_id.device_code}}"/>
                     <input type="hidden" id="chkpoint_id" t-attf-value="{{chkpoint.id}}"/>
+                    <input type="hidden" id="initial_quality_id" t-attf-value="{{chkpoint.quality_id.id}}"/>
                 </t>
 
                 <div>MCD CP: <a href="/mdc/cp/list">Home</a> | <a href="/mdc/cp/cardreg">Card registration</a></div>
@@ -134,7 +137,7 @@
                                         </div>
                                         <div class="divTableRow">
                                             <div class="divTableCell label">
-                                                Card(s) in
+                                                Workstation card
                                             </div>
                                             <div class="divTableCell">
                                                 <input id="card_workstation" type="text" size="10" readonly="readonly"
@@ -153,7 +156,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="divTableCell label">
+                            <div class="divTableCell centered">
                                 <select id="quality_select">
                                     <option value="" selected="selected">Select a quality...</option>
                                     <t t-foreach="qualities" t-as="quality">
