@@ -120,9 +120,15 @@ class LotActive(models.Model):
         # TODO: validar/cerrar el lote activo anterior del checkpoint seleccionado
         return super(LotActive, self).create(values)
 
+    @api.multi
+    def write(self, values):
+        self.ensure_one()
+        # TODO actualizar total_hours de lot_employee
+        return super(LotActive, self).write(values)
+
 class Worksheet(models.Model):
     """
-    Main data for active lots
+    Detailled employee time
     """
     _name = 'mdc.worksheet'
     _description = 'Worksheet'
@@ -147,3 +153,42 @@ class Worksheet(models.Model):
     workstation_id = fields.Many2one(
         'mdc.workstation',
         string='Workstation')
+
+    @api.model
+    def create(self, values):
+        _logger.info("[SLV] Worksheet create")
+        # TODO actualizar total_hours de lot_employee
+        return super(Worksheet, self).create(values)
+
+    @api.multi
+    def write(self, values):
+        self.ensure_one()
+        # TODO actualizar total_hours de lot_employee
+        return super(Worksheet, self).write(values)
+
+
+class LotEmployee(models.Model):
+    """
+    Employee time grouped by lot
+    """
+    _name = 'mdc.lot_employee'
+    _description = 'Lot Employee Data'
+
+    lot_id = fields.Many2one(
+        'mdc.lot',
+        string='Lot',
+        required=True)
+    employee_id = fields.Many2one(
+        'hr.employee',
+        string='Employee',
+        required=True)
+    work_date = fields.Date(
+        string='Work Date',
+        required=True)
+    shift_id = fields.Many2one(
+        'mdc.shift',
+        string='Shift',
+        required=True)
+    total_hours = fields.Float(
+        'Total Hours',
+        required=True)

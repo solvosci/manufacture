@@ -10,22 +10,6 @@
         name="Data Out"
         res_model="mdc.data_wout"/>
     <act_window
-        id="action_mdc_cumulative_report"
-        name="Cumulative Report"
-        res_model="mdc.data_win"/>
-    <act_window
-        id="action_mdc_gross_weight_lot_report"
-        name="Gross Weight Report"
-        res_model="mdc.data_win"/>
-    <act_window
-        id="action_mdc_indicators_report"
-        name="Indicators Report"
-        res_model="mdc.data_win"/>
-    <act_window
-        id="action_mdc_tracing_report"
-        name="Tracing Report"
-        res_model="mdc.data_win"/>
-    <act_window
         id="action_mdc_std"
         name="Standards"
         res_model="mdc.std"/>
@@ -339,29 +323,7 @@
         sequence="25"/>
 
     <!-- Reporting menu -->
-    <menuitem id="mdc_tracing_report_menu"
-        name="Tracing Report"
-        action="action_mdc_tracing_report"
-        parent="mdc_menu_reporting"
-        sequence="10"/>
-
-    <menuitem id="mdc_gross_weight_lot_report_menu"
-        name="Gross Weight Lot Report"
-        action="action_mdc_gross_weight_lot_report"
-        parent="mdc_menu_reporting"
-        sequence="15"/>
-
-    <menuitem id="mdc_indicators_report_menu"
-        name="Indicators Report"
-        action="action_mdc_indicators_report"
-        parent="mdc_menu_reporting"
-        sequence="20"/>
-
-    <menuitem id="mdc_cumulative_report_menu"
-        name="Cumulative Report"
-        action="action_mdc_cumulative_report"
-        parent="mdc_menu_reporting"
-        sequence="25"/>
+    <!-- Menu lines definition in a specific report_menuitem.xml -->
 
     <!-- Master Data menu -->
     <menuitem id="mdc_std_menu"

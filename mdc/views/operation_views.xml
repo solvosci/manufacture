@@ -1,7 +1,6 @@
 <odoo>
   <data>
 
-
     <!-- Search view: default search for Check Point active lots -->
     <record id="mdc_chkpoints_lots_actives_search" model="ir.ui.view">
         <field name="name">mdc.chkpoints_lots_actives.search</field>

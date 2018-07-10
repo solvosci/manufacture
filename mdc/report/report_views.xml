@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+         <report
+            id="tracing_xlsx"
+            model="mdc.rpt_tracing"
+            string="Print to XLSX"
+            report_type="xlsx"
+            name="mdc.rpt_tracing"
+            file="mdc_rpt_tracing"
+            attachment_use="False"
+        />
+
+        <!-- Search view: default search for Tracing Report -->
+        <record id="mdc_rpt_tracing_search" model="ir.ui.view">
+            <field name="name">mdc.rpt_tracing.search</field>
+            <field name="model">mdc.rpt_tracing</field>
+            <field name="arch" type="xml">
+                <search string="Tracing Report">
+                    <field name="lot_name"/>
+                    <field name="employee_code"/>
+                    <field name="employee_name"/>
+                    <field name="shift_code"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Tree view: default view for Tracing Report -->
+        <record id="mdc_rpt_tracing_tree" model="ir.ui.view">
+            <field name="name">mdc.rpt_tracing.tree</field>
+            <field name="model">mdc.rpt_tracing</field>
+            <field name="arch" type="xml">
+                <tree editable="top" create="false" delete="false" string="Tracing Report">
+                    <field name="create_date" readonly="True"/>
+                    <field name="lot_name" readonly="True"/>
+                    <field name="employee_code" readonly="True"/>
+                    <field name="employee_name" readonly="True"/>
+                    <field name="product_id" readonly="True"/>
+                    <field name="shift_code" readonly="True"/>
+                    <field name="gross_weight" readonly="True"/>
+                    <field name="product_weight" readonly="True"/>
+                    <field name="sp1_weight" readonly="True"/>
+                    <field name="quality" readonly="True"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>
