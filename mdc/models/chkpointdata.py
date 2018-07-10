@@ -113,6 +113,9 @@ class DataWOut(models.Model):
         #return fields.Datetime.from_string(fields.Datetime.now())
         return fields.Datetime.now()
 
+    def _get_w_uom_id_domain(self):
+        return [('category_id', '=', self.env.ref('product.product_uom_categ_kgm').id)]
+
     line_id = fields.Many2one(
         'mdc.line',
         string='Line',
@@ -135,7 +138,8 @@ class DataWOut(models.Model):
     w_uom_id = fields.Many2one(
         'product.uom',
         string='Weight UoM',
-        required=True)
+        required=True,
+        domain=_get_w_uom_id_domain)
     quality_id = fields.Many2one(
         'mdc.quality',
         string='Quality',
@@ -168,18 +172,54 @@ class DataWOut(models.Model):
     gross_weight = fields.Float(
         'Gross Weight',
         readonly=True,
-        default=0,
-        compute='_compute_gross_weight')
+        default=0)
 
-    @api.depends('weight')
-    def _compute_gross_weight(self):
-        """
-        Set gross weight
-        :return:
-        """
-        for data_wout in self:
-            gross_weight = 0.0
-            # TODO
-            data_wout.update({
-                'gross_weight': gross_weight
-            })
+    @api.onchange('card_ids')
+    def _retrieve_workstation_card_data(self):
+
+        for dataWOut in self:
+            #search workstation card
+            for card_id in dataWOut.card_ids:
+                card = self.env['mdc.card'].search([('id', '=', card_id.id), ('workstation_id', '!=', False)])
+                if card:
+                    dataWOut.workstation_id = card.workstation_id.id
+                    dataWOut.shift_id = card.workstation_id.shift_id.id
+                    dataWOut.employee_id = card.workstation_id.current_employee_id.id
+
+
+    @api.model
+    def create(self, values):
+        gross_weight = 0.0
+
+        #retrive all cards
+        card_ids = ();
+        if len(values.get('card_ids')) > 0:
+            card_ids = values.get('card_ids')[0][2]
+
+        #var to store data_win ids of cards
+        ids_win = [];
+
+        for card_id in card_ids:
+            data_win = self.env['mdc.data_win'].search([('card_id', '=', card_id), ('wout_id', '=', False)])
+            if data_win:
+                ids_win.append(data_win.id)
+                gross_weight += data_win.weight
+            else:
+                card = self.env['mdc.card'].search([('id', '=', card_id), ('workstation_id', '!=', False)])
+                if card:
+                    values['workstation_id'] = card.workstation_id.id
+                    values['shift_id'] = card.workstation_id.shift_id.id
+                    values['employee_id'] = card.workstation_id.current_employee_id.id
+
+        values['gross_weight'] = gross_weight
+        data_wout = super(DataWOut, self).create(values)
+
+        #Update data_win with the data_wout id
+        for id in ids_win:
+            data_win = self.env['mdc.data_win'].search([('id', '=', id)])
+            if data_win:
+                data_win.write({
+                    'wout_id': data_wout.id,
+                })
+
+        return data_wout
