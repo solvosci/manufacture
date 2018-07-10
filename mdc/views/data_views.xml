@@ -128,7 +128,7 @@
                             </div>
                         </group>
                     </group>
-                    <group name="gr_Data_WIN_Data_OUT" string="Readed in Data OUT">
+                    <group name="gr_Data_WIN_Data_OUT" string="Read in Data OUT">
                         <field name="wout_id" readonly="True"/>
                     </group>
                 </sheet>

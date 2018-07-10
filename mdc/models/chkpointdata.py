@@ -15,6 +15,13 @@ class DataWIn(models.Model):
         #return fields.Datetime.from_string(fields.Datetime.now())
         return fields.Datetime.now()
 
+    def _get_card_id_domain(self):
+        # TODO add filter "card is not in use"
+        return [('card_categ_id', '=', self.env.ref('mdc.mdc_card_categ_P').id)]
+
+    def _get_w_uom_id_domain(self):
+        return [('category_id', '=', self.env.ref('product.product_uom_categ_kgm').id)]
+
     line_id = fields.Many2one(
         'mdc.line',
         string='Line',
@@ -30,19 +37,20 @@ class DataWIn(models.Model):
     tare = fields.Float(
         'Tare',
         required=True)
-    # TODO required
     weight = fields.Float(
         'Weight',
-        default=0)
-    # TODO required
+        default=0,
+        required=True)
     w_uom_id = fields.Many2one(
         'product.uom',
-        string='Weight_uom')
-    # TODO required
-    # TODO card domain
+        string='Weight_uom',
+        required=True,
+        domain=_get_w_uom_id_domain)
     card_id = fields.Many2one(
         'mdc.card',
-        string='Card')
+        string='Card',
+        required=True,
+        domain=_get_card_id_domain)
     wout_id = fields.Many2one(
         'mdc.data_wout',
         string='WOut')
