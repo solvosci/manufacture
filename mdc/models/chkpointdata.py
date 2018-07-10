@@ -39,6 +39,7 @@ class DataWIn(models.Model):
         'product.uom',
         string='Weight_uom')
     # TODO required
+    # TODO card domain
     card_id = fields.Many2one(
         'mdc.card',
         string='Card')
@@ -63,7 +64,7 @@ class DataWIn(models.Model):
         # - checkpoint_id.id
         # - card_code
 
-        chkpoint = self.env['mdc.chkpoint'].sudo().browse(values['chkpoint_id'])
+        chkpoint = self.env['mdc.chkpoint'].browse(values['chkpoint_id'])
         if not chkpoint:
             raise UserError(_('Checkpoint #%s not found') % values['chkpoint_id'])
         if not chkpoint.current_lot_active_id:
@@ -77,7 +78,7 @@ class DataWIn(models.Model):
         except socket.timeout:
             raise UserError(_("Timed out on weighing scale"))
 
-        card = self.env['mdc.card'].sudo().search([('name', '=', values['card_code'])])
+        card = self.env['mdc.card'].search([('name', '=', values['card_code'])])
         if not card:
             raise UserError(_("Card #%s not found") % values['card_code'])
         if card.card_categ_id.id != self.env.ref('mdc.mdc_card_categ_P').id:

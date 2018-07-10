@@ -92,9 +92,7 @@ class CheckPoint(http.Controller):
             'ckhpoint_id': chkpoint_id
         }
 
-        # TODO permissions
-        # DataWIn = request.env['mdc.data_win'].sudo(self._get_cp_user(request))
-        DataWIn = request.env['mdc.data_win'].sudo()
+        DataWIn = request.env['mdc.data_win'].sudo(self._get_cp_user(request))
         try:
             datawin = DataWIn.from_cp_create(data_in)
             data_out['card_code'] = data_in['card_code']
