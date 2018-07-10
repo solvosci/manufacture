@@ -192,12 +192,12 @@ class DataWOut(models.Model):
         gross_weight = 0.0
 
         #retrive all cards
-        card_ids = ();
+        card_ids = ()
         if len(values.get('card_ids')) > 0:
             card_ids = values.get('card_ids')[0][2]
 
         #var to store data_win ids of cards
-        ids_win = [];
+        ids_win = []
 
         for card_id in card_ids:
             data_win = self.env['mdc.data_win'].search([('card_id', '=', card_id), ('wout_id', '=', False)])
