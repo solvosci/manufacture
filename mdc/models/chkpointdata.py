@@ -43,7 +43,7 @@ class DataWIn(models.Model):
         required=True)
     w_uom_id = fields.Many2one(
         'product.uom',
-        string='Weight_uom',
+        string='Weight UoM',
         required=True,
         domain=_get_w_uom_id_domain)
     card_id = fields.Many2one(
@@ -130,26 +130,31 @@ class DataWOut(models.Model):
         required=True)
     weight = fields.Float(
         'Weight',
-        default=0)
+        default=0,
+        required=True)
     w_uom_id = fields.Many2one(
         'product.uom',
-        string='Weight_uom')
+        string='Weight UoM',
+        required=True)
     quality_id = fields.Many2one(
         'mdc.quality',
-        string='Quality')
+        string='Quality',
+        required=True)
     card_ids = fields.Many2many(
         'mdc.card',
         string='Card')
     workstation_id = fields.Many2one(
         'mdc.workstation',
-        string='Workstation')
+        string='Workstation',
+        required=True)
     shift_id = fields.Many2one(
         'mdc.shift',
         string='Shift',
         required=True)
     employee_id = fields.Many2one(
         'hr.employee',
-        string='Employee')
+        string='Employee',
+        required=True)
     shared = fields.Boolean(
         string='Shared',
         default=False)
@@ -158,7 +163,8 @@ class DataWOut(models.Model):
         string='Shared with')
     wout_categ_id = fields.Many2one(
         'mdc.wout_categ',
-        string='Out Category')
+        string='Out Category',
+        required=True)
     gross_weight = fields.Float(
         'Gross Weight',
         readonly=True,

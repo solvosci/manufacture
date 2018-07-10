@@ -105,6 +105,16 @@ class CheckPoint(http.Controller):
         finally:
             return data_out
 
+    @http.route("/mdc/cp/wout/<int:chkpoint_id>", type='http', auth='none')
+    def cp_win(self, chkpoint_id):
+        ws_session_data = websocket.get_session_data(request.env)
+        chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
+        qualities = request.env['mdc.quality'].sudo(self._get_cp_user(request)).search([])
+        return request.render(
+            'mdc.chkpoint_wout',
+            {'chkpoints': chkpoints, 'qualities': qualities, 'ws_session_data': ws_session_data}
+        )
+
     @http.route('/mdc/cp/cardreg', type='http', auth='none')
     def cp_cardreg(self):
         devices = request.env['mdc.rfid_reader'].sudo(self._get_cp_user(request)).search([])

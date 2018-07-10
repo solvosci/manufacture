@@ -78,6 +78,102 @@
         </html>
     </template>
 
+    <template id="chkpoint_wout">
+        <html>
+            <head>
+                <title>WOUT - MDC CP</title>
+                <link rel="stylesheet" type="text/css" href="/mdc/static/src/css/cp.css"/>
+                <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
+                <script language="JavaScript" src="/mdc/static/src/js/cp_common.js"></script>
+                <script language="JavaScript" src="/mdc/static/src/js/cp_wout.js"></script>
+            </head>
+            <body>
+                <input type="hidden" id="ws_session_id" t-attf-value="{{ws_session_data['session_id']}}"/>
+                <input type="hidden" id="ws_wsapi_url" t-attf-value="{{ws_session_data['wsapi_url']}}"/>
+                <t t-foreach="chkpoints" t-as="chkpoint">
+                    <input type="hidden" id="rfid_reader_code" t-attf-value="{{chkpoint.rfid_reader_id.device_code}}"/>
+                    <input type="hidden" id="chkpoint_id" t-attf-value="{{chkpoint.id}}"/>
+                </t>
+
+                <div>MCD CP: <a href="/mdc/cp/list">Home</a> | <a href="/mdc/cp/cardreg">Card registration</a></div>
+                <hr/>
+                <div id="info_div">
+                    Waiting for websocket connection...
+                </div>
+                <div class="divTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow">
+                            <div class="divTableCell label" style="width: 75%">
+                                <div class="divTable">
+                                    <div class="divTableBody">
+                                        <div class="divTableRow">
+                                            <div class="divTableCell label">
+                                                Lot
+                                            </div>
+                                            <div class="divTableCell">
+                                                <span id="lot" style="font-size: 2em; font-weight: bold;"></span>
+                                            </div>
+                                        </div>
+                                        <div class="divTableRow">
+                                            <div class="divTableCell label">
+                                                Card(s) in
+                                            </div>
+                                            <div class="divTableCell">
+                                                <input id="card_in_1" type="text" size="10" readonly="readonly"
+                                                       class="centered"  style="font-size: 2em"/>
+                                            </div>
+                                        </div>
+                                        <div class="divTableRow">
+                                            <div class="divTableCell label">
+                                                
+                                            </div>
+                                            <div class="divTableCell">
+                                                <input id="card_in_2" type="text" size="10" readonly="readonly"
+                                                       class="centered"  style="font-size: 2em"/>
+                                            </div>
+                                        </div>
+                                        <div class="divTableRow">
+                                            <div class="divTableCell label">
+                                                Card(s) in
+                                            </div>
+                                            <div class="divTableCell">
+                                                <input id="card_workstation" type="text" size="10" readonly="readonly"
+                                                       class="centered"  style="font-size: 2em"/>
+                                            </div>
+                                        </div>
+                                        <div class="divTableRow">
+                                            <div class="divTableCell label">
+                                                Last weight
+                                            </div>
+                                            <div class="divTableCell">
+                                                <input id="last_weight" type="text" size="10" readonly="readonly"
+                                                       class="centered"  style="font-size: 2em"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divTableCell label">
+                                <select id="quality_select">
+                                    <option value="" selected="selected">Select a quality...</option>
+                                    <t t-foreach="qualities" t-as="quality">
+                                        <option t-attf-value="{{quality.id}}">
+                                            <t t-esc="quality.name"></t>
+                                        </option>
+                                    </t>
+                                </select>
+                                <p/>
+                                <button type="button" id="shared_button" style="font-size: 1.5em">Shared</button>
+                                <p/>
+                                <button type="button" id="crumbs_button" style="font-size: 1.5em">Crumbs</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </template>
+
     <template id="chkpoint_card_registration">
         <html>
             <head>
