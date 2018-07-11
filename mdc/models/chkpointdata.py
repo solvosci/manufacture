@@ -199,11 +199,17 @@ class DataWOut(models.Model):
         #var to store data_win ids of cards
         ids_win = []
 
+        # TODO invalid cards
+        current_lot_id = None
         for card_id in card_ids:
             data_win = self.env['mdc.data_win'].search([('card_id', '=', card_id), ('wout_id', '=', False)])
             if data_win:
                 ids_win.append(data_win.id)
                 gross_weight += data_win.weight
+                if current_lot_id and current_lot_id.id != data_win.lot_id.id:
+                    raise UserError(_("Card #%s comes from a different lot (current: %s)") %
+                                    (card_id.card_code, current_lot_id.name))
+                current_lot_id = data_win.lot_id
             else:
                 card = self.env['mdc.card'].search([('id', '=', card_id), ('workstation_id', '!=', False)])
                 if card:
@@ -212,6 +218,10 @@ class DataWOut(models.Model):
                     values['employee_id'] = card.workstation_id.current_employee_id.id
 
         values['gross_weight'] = gross_weight
+        # TODO Lot should be filled from view for testing purposes. Actually, it should always be computed
+        if current_lot_id:
+            values['lot_id'] = current_lot_id.id
+
         data_wout = super(DataWOut, self).create(values)
 
         #Update data_win with the data_wout id
@@ -221,5 +231,53 @@ class DataWOut(models.Model):
                 data_win.write({
                     'wout_id': data_wout.id,
                 })
+        # Alternate code
+        """
+        data_win = self.env['mdc.data_win'].browse(ids_win)
+        if data_win:
+            data_win.write({
+                'wout_id': data_wout.id 
+            })
+        """
 
         return data_wout
+
+    def from_cp_create(self, values):
+        '''
+        Saves a checkpoint entry from some input data
+        '''
+
+        # Data received:
+        # - checkpoint_id
+        # - cards_in
+        # - card_workstation
+        # - quality_id
+
+        chkpoint = self.env['mdc.chkpoint'].browse(values['chkpoint_id'])
+        if not chkpoint:
+            raise UserError(_('Checkpoint #%s not found') % values['chkpoint_id'])
+        if not chkpoint.scale_id:
+            raise UserError(_("Scale not defined"))
+        if not chkpoint.tare_id:
+            raise UserError(_("Tare not defined"))
+        try:
+            weight_value, weight_uom_id = chkpoint.scale_id.get_weight()[0:2]
+        except socket.timeout:
+            raise UserError(_("Timed out on weighing scale"))
+
+        cards_id_list = [] if len(values['cards_in']) == 0 else [card['card_id'] for card in values['cards_in']]
+        cards_id_list.append(values['card_workstation']['card_id'])
+        card_ids = [(6, False, cards_id_list)]
+
+        return self.create({
+            'line_id': chkpoint.line_id.id,
+            'lot_id': chkpoint.current_lot_active_id.id,
+            'tare': chkpoint.tare_id.tare,
+            'weight': weight_value,
+            'w_uom_id': weight_uom_id.id,
+            'quality_id': values['quality_id'],
+            'wout_categ_id': values['wout_categ_id'],
+            'card_ids': card_ids
+        })
+
+

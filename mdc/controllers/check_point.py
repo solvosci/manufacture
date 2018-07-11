@@ -92,8 +92,8 @@ class CheckPoint(http.Controller):
             'ckhpoint_id': chkpoint_id
         }
 
-        DataWIn = request.env['mdc.data_win'].sudo(self._get_cp_user(request))
         try:
+            DataWIn = request.env['mdc.data_win'].sudo(self._get_cp_user(request))
             datawin = DataWIn.from_cp_create(data_in)
             data_out['card_code'] = data_in['card_code']
             data_out['data_win_id'] = datawin.id
@@ -116,6 +116,29 @@ class CheckPoint(http.Controller):
              'card_categ_P_id': request.env.ref('mdc.mdc_card_categ_P').id,
              'card_categ_L_id': request.env.ref('mdc.mdc_card_categ_L').id }
         )
+
+    @http.route("/mdc/cp/wout/<int:chkpoint_id>/save", type='json', auth='none')
+    def cp_wout_save(self, chkpoint_id):
+        data_in = dict(request.jsonrequest)
+        data_in['chkpoint_id'] = chkpoint_id
+        # TODO category comes from cp. Remove
+        data_in['wout_categ_id'] = request.env.ref('mdc.mdc_wout_categ_P').id
+        data_out = {
+            'ckhpoint_id': chkpoint_id
+        }
+
+        try:
+            DataWOut = request.env['mdc.data_wout'].sudo(self._get_cp_user(request))
+            datawout = DataWOut.from_cp_create(data_in)
+            data_out['data_win_id'] = datawout.id
+            data_out['lot'] = datawout.lot_id.name
+            data_out['weight'] = '{0:.2f}'.format(datawout.weight)
+            data_out['w_uom'] = datawout.w_uom_id.name
+        except Exception as e:
+            data_out['err'] = e
+        finally:
+            return data_out
+
 
     @http.route('/mdc/cp/cardreg', type='http', auth='none')
     def cp_cardreg(self):
