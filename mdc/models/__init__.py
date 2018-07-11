@@ -7,5 +7,4 @@ from . import product
 from . import scale
 from . import standards
 from . import structure
-from . import reports
 from . import mdc_config_settings

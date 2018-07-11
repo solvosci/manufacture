@@ -2,7 +2,6 @@
 
 from odoo import models, fields, tools, _
 
-
 class RptTracing(models.Model):
     """
     View-mode model that ists data captured at checkpoints (data_win & data_wout) in order to be filtered by dates and exported to Excel
@@ -33,12 +32,11 @@ class RptTracing(models.Model):
                     emp.name as employee_name,
                     lot.product_id as product_id,
                     shift.shift_code as shift_code,
-                    sum(wout.weight) as gross_weight,
+                    sum(wout.gross_weight) as gross_weight,
                     sum(case when woutcat.code='P' then wout.weight-wout.tare else 0 end) as product_weight,
                     sum(case when woutcat.code='SP1' then wout.weight-wout.tare else 0 end) as sp1_weight,
                     AVG(CAST(qlty.name AS INTEGER)) as quality
         """
-        # CUIDADO CON EL SUM(wout.weight) porque debería ser SUM(wout.gross_weight)
         return select_str
 
     def _group_by(self):
@@ -67,3 +65,4 @@ class RptTracing(models.Model):
               WHERE 1=1
               %s
         """ % (self._table, self._select(), self._group_by()))
+
