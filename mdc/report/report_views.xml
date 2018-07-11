@@ -22,6 +22,17 @@
                     <field name="employee_code"/>
                     <field name="employee_name"/>
                     <field name="shift_code"/>
+                    <filter name="week" string="This Week"
+                        domain="[
+                            '&amp;',
+                            ('create_date', '>=', (context_today() + relativedelta(weeks=-1,days=1,weekday=0)).strftime('%Y-%m-%d')),
+                            ('create_date', '&lt;=', (context_today() + relativedelta(weekday=6)).strftime('%Y-%m-%d')),
+                        ]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Create Date" name="groupby_create_date" domain="[]" context="{'group_by':'create_date'}"/>
+                        <filter string="Lot Name" name="groupby_lot_name" domain="[]" context="{'group_by':'lot_name'}"/>
+                        <filter string="Employee Code" name="groupby_employee" domain="[]" context="{'group_by':'employee_code'}"/>
+                    </group>
                 </search>
             </field>
         </record>

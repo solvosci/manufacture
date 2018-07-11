@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from addons.product.models.product_attribute import ProductAttributevalue
 from odoo import models, _
 import os
 
@@ -27,7 +27,7 @@ class ReportRptTracingXlsx(models.AbstractModel):
     _name = 'report.mdc.rpt_tracing'
     _inherit = 'report.report_xlsx.abstract'
 
-    def generate_xlsx_report(self, workbook, data, data_win):
+    def generate_xlsx_report(self, workbook, data, rpt_tracing):
         report_name = "rpt_tracing"
         sheet = workbook.add_worksheet("Tracing Report")
 
@@ -48,7 +48,7 @@ class ReportRptTracingXlsx(models.AbstractModel):
         sheet.set_column('C:D', 40) # Employee name and STD name columns
 
         # write logo
-        # TODO: Get logo path
+        # TODO: get logo from Company
         # path = os.getcwd().
         logo = "../addons/manufacture/mdc/report/logo.png"
         sheet.insert_image('A1', logo, {'x_offset': 18, 'y_offset': 18, 'x_scale': 0.9, 'y_scale': 0.5})
@@ -81,12 +81,14 @@ class ReportRptTracingXlsx(models.AbstractModel):
 
         # write data rows
         row=header_row+1
-        for obj in data_win:
+        for obj in rpt_tracing:
             # ditect data from view database
+            # TODO: Get real product-attribute name
+            pr_std = self.env['product.product'].search([('id', '=', obj.product_id)])
             sheet.write(row, 0, obj.lot_name)
             sheet.write(row, 1, obj.employee_code)
             sheet.write(row, 2, obj.employee_name)
-            sheet.write(row, 3, obj.product_id)
+            sheet.write(row, 3, pr_std.name)
             sheet.write(row, 4, obj.shift_code)
             sheet.write(row, 5, obj.gross_weight)
             sheet.write(row, 6, obj.product_weight)
@@ -102,7 +104,7 @@ class ReportRptTracingXlsx(models.AbstractModel):
             row=row+1
 
         # Final Presentation
-        # Select the cells back to image
+        # Select the cells back to image & zoom presentation & split & freeze_panes
         sheet.set_selection('B2')
         sheet.set_zoom(80)
-        sheet.freeze_panes(60,0,5,0)
+        # sheet.split_panes(60,0,5,0)
