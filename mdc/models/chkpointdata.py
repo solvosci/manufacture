@@ -191,31 +191,40 @@ class DataWOut(models.Model):
     def create(self, values):
         gross_weight = 0.0
 
-        #retrive all cards
-        card_ids = ()
-        if len(values.get('card_ids')) > 0:
-            card_ids = values.get('card_ids')[0][2]
+        #retrive all card ids
+        card_ids = [] if len(values.get('card_ids')) == 0 else values.get('card_ids')[0][2]
 
         #var to store data_win ids of cards
         ids_win = []
-
-        # TODO invalid cards
         current_lot_id = None
-        for card_id in card_ids:
-            data_win = self.env['mdc.data_win'].search([('card_id', '=', card_id), ('wout_id', '=', False)])
-            if data_win:
-                ids_win.append(data_win.id)
-                gross_weight += data_win.weight
-                if current_lot_id and current_lot_id.id != data_win.lot_id.id:
-                    raise UserError(_("Card #%s comes from a different lot (current: %s)") %
-                                    (card_id.card_code, current_lot_id.name))
-                current_lot_id = data_win.lot_id
-            else:
-                card = self.env['mdc.card'].search([('id', '=', card_id), ('workstation_id', '!=', False)])
-                if card:
+
+        if len(card_ids) > 0:
+            cards = self.env['mdc.card'].browse(card_ids)
+            for card in cards:
+                # Product card
+                if card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_P').id:
+                    data_win = self.env['mdc.data_win'].search([('card_id', '=', card.id), ('wout_id', '=', False)])
+                    if data_win:
+                        if current_lot_id and current_lot_id.id != data_win.lot_id.id:
+                            raise UserError(_("Card #%s comes from a different lot (current: %s)") %
+                                            (card.name, current_lot_id.name))
+                        current_lot_id = data_win.lot_id
+                        gross_weight += data_win.weight
+                        ids_win.append(data_win.id)
+                    else:
+                        raise UserError(_("Card #%s not valid: there's not open input data linked with") % card.name)
+                # Workstation card
+                elif card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_L').id:
+                    if card.workstation_id.current_employee_id:
+                        values['employee_id'] = card.workstation_id.current_employee_id.id
+                    else:
+                        raise UserError(_("Card #%s not valid: there's not any employee assigned with") % card.name)
                     values['workstation_id'] = card.workstation_id.id
                     values['shift_id'] = card.workstation_id.shift_id.id
-                    values['employee_id'] = card.workstation_id.current_employee_id.id
+                else:
+                    # TODO other card types (e.g. "joker" card, employee card....)
+                    # TODO scrumbs management
+                    raise UserError(_("Unknown card #%s") % card.name)
 
         values['gross_weight'] = gross_weight
         # TODO Lot should be filled from view for testing purposes. Actually, it should always be computed
@@ -224,21 +233,21 @@ class DataWOut(models.Model):
 
         data_wout = super(DataWOut, self).create(values)
 
-        #Update data_win with the data_wout id
+        # Close data_win entries
+        """
         for id in ids_win:
             data_win = self.env['mdc.data_win'].search([('id', '=', id)])
             if data_win:
                 data_win.write({
                     'wout_id': data_wout.id,
                 })
-        # Alternate code
         """
-        data_win = self.env['mdc.data_win'].browse(ids_win)
-        if data_win:
-            data_win.write({
-                'wout_id': data_wout.id 
-            })
-        """
+        if len(ids_win) > 0:
+            data_win = self.env['mdc.data_win'].browse(ids_win)
+            if data_win:
+                data_win.write({
+                    'wout_id': data_wout.id
+                })
 
         return data_wout
 

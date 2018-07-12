@@ -217,7 +217,7 @@
                             </div>
                         </group>
                     </group>
-                    <group name="gr_Data_WOUT_Intro_Cards_data" string="Readed Cards">
+                    <group name="gr_Data_WOUT_Intro_Cards_data" string="Read Cards">
                         <field name="card_ids"/>
                     </group>
                     <group name="gr_Data_WOUT_Intro_Shared_data" string="Shared">
@@ -228,7 +228,7 @@
                             <field name="wout_shared_id"/>
                         </group>
                     </group>
-                  <group name="gr_Data_WOUT_Data_OUT" string="Readed in Data OUT">
+                  <group name="gr_Data_WOUT_Data_OUT" string="Read in Data OUT">
                         <group>
                             <field name="shift_id" readonly="True"/>
                             <field name="employee_id" readonly="True"/>
