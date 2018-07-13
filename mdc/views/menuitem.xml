@@ -336,37 +336,43 @@
         name="Products"
         action="product.product_template_action"
         parent="mdc_menu_master"
-        sequence="11"/>
+        sequence="15"/>
+
+    <menuitem id="mdc_customer_menu"
+        name="Customers"
+        action="base.action_partner_form"
+        parent="mdc_menu_master"
+        sequence="20"/>
 
     <menuitem id="mdc_employee_menu"
         name="Employees"
         action="hr.open_view_employee_list_my"
         parent="mdc_menu_master"
-        sequence="13"/>
+        sequence="25"/>
 
     <menuitem id="mdc_card_menu"
         name="Cards"
         action="action_mdc_card"
         parent="mdc_menu_master"
-        sequence="15"/>
+        sequence="30"/>
 
     <menuitem id="mdc_card_categ_menu"
         name="Card Categories"
         action="action_mdc_card_categ"
         parent="mdc_menu_master"
-        sequence="20"/>
+        sequence="35"/>
 
     <menuitem id="mdc_quality_menu"
         name="Quality"
         action="action_mdc_quality"
         parent="mdc_menu_master"
-        sequence="25"/>
+        sequence="40"/>
 
     <menuitem id="mdc_tare_menu"
         name="Tare"
         action="action_mdc_tare"
         parent="mdc_menu_master"
-        sequence="30"/>
+        sequence="45"/>
 
     <!-- Configuration menu -->
     <menuitem id="mdc_shift_menu"
