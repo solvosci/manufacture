@@ -151,13 +151,11 @@ class Workstation(models.Model):
         domain=[('workstation_id', '=', False)])
 
     def massive_deallocate(self):
-        #TODO: it does not work
-        for workstation in self:
-            workstation_sel = self.env['mdc.workstation'].browse(workstation.id)
-            if workstation_sel:
-                workstation_sel.write({
-                    'current_employee_id': False
-                })
+        workstation_sel = self.env['mdc.workstation'].browse(self._context['active_ids'])
+        if workstation_sel:
+            workstation_sel.write({
+                'current_employee_id': False
+            })
 
 
 class Card(models.Model):

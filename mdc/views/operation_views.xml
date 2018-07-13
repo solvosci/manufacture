@@ -191,9 +191,10 @@
         <field name="name">Masive de-allocation</field>
         <field name="model_id" ref="model_mdc_workstation" />
         <field name="binding_model_id" ref="model_mdc_workstation"/>
+        <field name="state">code</field>
         <field name="multi">True</field>
         <field name="code">
-            action = Workstation.massive_deallocate()
+            action=model.massive_deallocate()
         </field>
     </record>
 
