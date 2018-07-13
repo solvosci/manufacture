@@ -53,6 +53,7 @@
                     <field name="product_weight" readonly="True"/>
                     <field name="sp1_weight" readonly="True"/>
                     <field name="quality" readonly="True"/>
+                    <field name="total_hours" readonly="True"/>
                 </tree>
             </field>
         </record>

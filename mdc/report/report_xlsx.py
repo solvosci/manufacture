@@ -80,28 +80,76 @@ class ReportRptTracingXlsx(models.AbstractModel):
         sheet.write(header_row, 16, _("STD Workforce"), f_header)
 
         # write data rows
-        row=header_row+1
+        row=header_row
+        wlot_name = ''
+        wemployee_code = ''
+        wshift_code = ''
+        wgross_weight = 0
+        wproduct_weight = 0
+        wsp1_weight = 0
+        wquality = 0
+        wtotal_hours = 0
+        wnumreg = 0
+        wstart_date = False
+        wend_date = False
         for obj in rpt_tracing:
-            # ditect data from view database
-            # TODO: Get real product-attribute name
-            pr_std = self.env['product.product'].search([('id', '=', obj.product_id)])
-            sheet.write(row, 0, obj.lot_name)
-            sheet.write(row, 1, obj.employee_code)
-            sheet.write(row, 2, obj.employee_name)
-            sheet.write(row, 3, pr_std.name)
-            sheet.write(row, 4, obj.shift_code)
-            sheet.write(row, 5, obj.gross_weight)
-            sheet.write(row, 6, obj.product_weight)
-            sheet.write(row, 7, obj.sp1_weight)
-            sheet.write(row, 8, obj.quality)
-            sheet.write(row, 9, "TODO")
 
-            # data formulation
-            sheet.write_formula(row, 10, '=G' + str(row+1) + '/F' + str(row+1), f_percent)
-            sheet.write_formula(row, 12, '=H' + str(row+1) + '/F' + str(row+1), f_percent)
-            sheet.write_formula(row, 13, '=(G' + str(row + 1) + '+H' + str(row + 1) + ')/F' + str(row + 1), f_percent)
+            #min a max date
+            if wstart_date is False or wstart_date > obj.create_date:
+                wstart_date = obj.create_date
+            if wend_date is False or wend_date < obj.create_date:
+                wend_date = obj.create_date
 
-            row=row+1
+            if (wlot_name != obj.lot_name) or (wemployee_code != obj.employee_code) or (wshift_code != obj.shift_code):
+                row = row + 1
+
+                # direct data from view database
+                product_name = obj.product_id.name_get()[0][1]
+                sheet.write(row, 0, obj.lot_name)
+                sheet.write(row, 1, obj.employee_code)
+                sheet.write(row, 2, obj.employee_name)
+                sheet.write(row, 3, product_name)
+                sheet.write(row, 4, obj.shift_code)
+                # std columns
+                sheet.write(row, 11, obj.std_yield_product)
+                sheet.write(row, 14, obj.std_yield_sp1)
+                sheet.write(row, 16, obj.std_speed)
+                # formulation columns
+                sheet.write_formula(row, 10, '=G' + str(row+1) + '/F' + str(row+1), f_percent)
+                sheet.write_formula(row, 12, '=H' + str(row+1) + '/F' + str(row+1), f_percent)
+                sheet.write_formula(row, 13, '=(G' + str(row + 1) + '+H' + str(row + 1) + ')/F' + str(row + 1), f_percent)
+
+                wgross_weight = 0
+                wproduct_weight = 0
+                wsp1_weight = 0
+                wquality = 0
+                wtotal_hours = 0
+                wnumreg = 0
+
+            # grouped data vars
+            wgross_weight += obj.gross_weight
+            wproduct_weight += obj.product_weight
+            wsp1_weight += obj.sp1_weight
+            wquality += obj.quality
+            wtotal_hours += obj.total_hours
+            wnumreg += 1
+
+            #columns with grouped data
+            sheet.write(row, 5, wgross_weight)
+            sheet.write(row, 6, wproduct_weight)
+            sheet.write(row, 7, wsp1_weight)
+            sheet.write(row, 8, wquality/wnumreg)
+            sheet.write(row, 9, wtotal_hours)
+
+            wlot_name = obj.lot_name
+            wemployee_code = obj.employee_code
+            wshift_code = obj.shift_code
+
+        # write Filter
+        datefilter = _("Date From: %s to %s") % (wstart_date, wend_date)
+        if wstart_date == wend_date:
+            datefilter = _("Date: #%s") % wstart_date
+        sheet.write(2, 2, datefilter, f_filter)
 
         # Final Presentation
         # Select the cells back to image & zoom presentation & split & freeze_panes
