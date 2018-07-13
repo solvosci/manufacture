@@ -186,6 +186,17 @@
         </field>
     </record>
 
+    <!-- Tree view: new action to masive de-allocation -->
+    <record id="action_view_workstations_mass_deallocation" model="ir.actions.server">
+        <field name="name">Masive de-allocation</field>
+        <field name="model_id" ref="model_mdc_workstation" />
+        <field name="binding_model_id" ref="model_mdc_workstation"/>
+        <field name="multi">True</field>
+        <field name="code">
+            action = Workstation.massive_deallocate()
+        </field>
+    </record>
+
     <!-- Tree view: default view for workstations -->
     <record id="mdc_workstations_tree" model="ir.ui.view">
         <field name="name">mdc.workstations.tree</field>
