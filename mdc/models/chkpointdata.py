@@ -209,7 +209,7 @@ class DataWOut(models.Model):
                             raise UserError(_("Card #%s comes from a different lot (current: %s)") %
                                             (card.name, current_lot_id.name))
                         current_lot_id = data_win.lot_id
-                        gross_weight += data_win.weight
+                        gross_weight += data_win.weight - data_win.tare
                         ids_win.append(data_win.id)
                     else:
                         raise UserError(_("Card #%s not valid: there's not open input data linked with") % card.name)

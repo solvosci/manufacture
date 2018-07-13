@@ -95,36 +95,36 @@ class LotActive(models.Model):
     total_hours = fields.Float(
         'Total hours',
         readonly=True,
-        default=0,
-        compute='_compute_total_hours')
+        default=0)
     active = fields.Boolean(
         'Active',
         default=True)
 
-    @api.depends('start_datetime', 'end_datetime')
-    def _compute_total_hours(self):
-        """
-        Set the lot total hours
-        :return:
-        """
-        for lot_active in self:
-            total_hours = 0.0
-            # TODO total_hours = end_datetime - start_datetime
-            lot_active.update({
-                'total_hours': total_hours
-            })
+    def _compute_total_hours(self, values):
+        total_hours = 0
+        start_datetime = self.start_datetime
+        if 'start_datetime' in values:
+            start_datetime = values['start_datetime']
+        end_datetime = self.end_datetime
+        if 'end_datetime' in values:
+            end_datetime = values['end_datetime']
+        if start_datetime is not False and end_datetime is not False:
+            diference = end_datetime - start_datetime
+            total_hours = diference.hours
+
+        return total_hours
 
     @api.model
     def create(self, values):
-        _logger.info("[SLV] LotActive create")
-        # TODO: validar/cerrar el lote activo anterior del checkpoint seleccionado
+        values['total_hours'] = self._compute_total_hours(self, values)
         return super(LotActive, self).create(values)
 
     @api.multi
     def write(self, values):
         self.ensure_one()
-        # TODO actualizar total_hours de lot_employee
+        values['total_hours'] = self._compute_total_hours(self, values)
         return super(LotActive, self).write(values)
+
 
 class Worksheet(models.Model):
     """
@@ -153,42 +153,72 @@ class Worksheet(models.Model):
     workstation_id = fields.Many2one(
         'mdc.workstation',
         string='Workstation')
+    shift_id = fields.Many2one(
+        'mdc.shift',
+        string='Shift',
+        readonly=True)
+    total_hours = fields.Float(
+        'Total hours',
+        readonly=True,
+        default=0)
+
+    def _retrieve_shift(self, values):
+        shift = False
+        workstation_id = self.workstation_id
+        if 'workstation_id' in values:
+            workstation_id = values['workstation_id']
+        if workstation_id is not False:
+            workstation = self.env['mdc.workstation'].browse(workstation_id.id)
+            if workstation:
+                shift =  workstation.shift_id.id
+        return shift
+
+    @api.onchange('workstation_id')
+    def _retrieve_workstation_data(self):
+
+        for worksheet in self:
+            # search shift of workstation
+            if worksheet.workstation_id:
+                worksheet.shift_id = worksheet.workstation_id.shift_id
+
+    def _compute_total_hours(self, values):
+        total_hours = 0
+        start_datetime = self.start_datetime
+        if 'start_datetime' in values:
+            start_datetime = values['start_datetime']
+        end_datetime = self.end_datetime
+        if 'end_datetime' in values:
+            end_datetime = values['end_datetime']
+        if start_datetime is not False and end_datetime is not False:
+            end_date = datetime.datetime.strptime(end_datetime, '%Y-%m-%d %H:%M:%S')
+            start_date = datetime.datetime.strptime(start_datetime, '%Y-%m-%d %H:%M:%S')
+            timedelta = end_date - start_date
+            total_hours = timedelta.seconds / 3600
+
+        return total_hours
+
+    @api.onchange('start_datetime', 'end_datetime')
+    def _retrieve_total_hours(self):
+
+        for worksheet in self:
+            # compute total_hours
+            total_hours = 0
+            if worksheet.start_datetime is not False and worksheet.end_datetime is not False:
+                end_datetime = datetime.datetime.strptime(worksheet.end_datetime, '%Y-%m-%d %H:%M:%S')
+                start_datetime = datetime.datetime.strptime(worksheet.start_datetime, '%Y-%m-%d %H:%M:%S')
+                timedelta = end_datetime - start_datetime
+                total_hours = timedelta.seconds / 3600
+            worksheet.total_hours = total_hours
 
     @api.model
     def create(self, values):
-        _logger.info("[SLV] Worksheet create")
-        # TODO actualizar total_hours de lot_employee
+        values['shift_id'] = self._retrieve_shift(values)
+        values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).create(values)
 
     @api.multi
     def write(self, values):
         self.ensure_one()
-        # TODO actualizar total_hours de lot_employee
+        values['shift_id'] = self._retrieve_shift(values)
+        values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).write(values)
-
-
-class LotEmployee(models.Model):
-    """
-    Employee time grouped by lot
-    """
-    _name = 'mdc.lot_employee'
-    _description = 'Lot Employee Data'
-
-    lot_id = fields.Many2one(
-        'mdc.lot',
-        string='Lot',
-        required=True)
-    employee_id = fields.Many2one(
-        'hr.employee',
-        string='Employee',
-        required=True)
-    work_date = fields.Date(
-        string='Work Date',
-        required=True)
-    shift_id = fields.Many2one(
-        'mdc.shift',
-        string='Shift',
-        required=True)
-    total_hours = fields.Float(
-        'Total Hours',
-        required=True)

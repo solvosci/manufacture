@@ -30,6 +30,8 @@
                 <field name="end_datetime"/>
                 <field name="lot_id"/>
                 <field name="workstation_id"/>
+                <field name="shift_id"/>
+                <field name="total_hours"/>
             </tree>
         </field>
     </record>
@@ -52,6 +54,14 @@
                         </group>
                         <group>
                             <field name="workstation_id"/>
+                        </group>
+                    </group>
+                    <group name="gr_worksheet_other_data" string="Other data">
+                        <group>
+                            <field name="shift_id" readonly="True"/>
+                        </group>
+                        <group>
+                            <field name="total_hours" readonly="True"/>
                         </group>
                     </group>
                 </sheet>
