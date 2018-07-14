@@ -101,7 +101,7 @@ class LotActive(models.Model):
         default=True)
 
     def _compute_total_hours(self, values):
-        total_hours = 0
+        total_hours = 0.0
         start_datetime = self.start_datetime
         if 'start_datetime' in values:
             start_datetime = values['start_datetime']
@@ -109,8 +109,8 @@ class LotActive(models.Model):
         if 'end_datetime' in values:
             end_datetime = values['end_datetime']
         if start_datetime is not False and end_datetime is not False:
-            diference = end_datetime - start_datetime
-            total_hours = diference.hours
+            diference = datetime.datetime.strptime(end_datetime, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(start_datetime, '%Y-%m-%d %H:%M:%S')
+            total_hours = diference.days*24 + diference.seconds/3600
 
         return total_hours
 
