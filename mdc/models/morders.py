@@ -116,13 +116,13 @@ class LotActive(models.Model):
 
     @api.model
     def create(self, values):
-        values['total_hours'] = self._compute_total_hours(self, values)
+        values['total_hours'] = self._compute_total_hours(values)
         return super(LotActive, self).create(values)
 
     @api.multi
     def write(self, values):
         self.ensure_one()
-        values['total_hours'] = self._compute_total_hours(self, values)
+        values['total_hours'] = self._compute_total_hours(values)
         return super(LotActive, self).write(values)
 
 

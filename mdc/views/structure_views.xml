@@ -72,6 +72,8 @@
             <tree string="Shift">
                 <field name="name"/>
                 <field name="shift_code"/>
+                <field name="start_time" widget="float_time"/>
+                <field name="end_time" widget="float_time"/>
             </tree>
         </field>
     </record>
@@ -87,6 +89,12 @@
                         <group>
                             <field name="name"/>
                             <field name="shift_code"/>
+                        </group>
+                    </group>
+                    <group name="gr_shift_time" string="Shift time">
+                        <group>
+                            <field name="start_time" widget="float_time"/>
+                            <field name="end_time" widget="float_time"/>
                         </group>
                     </group>
                 </sheet>

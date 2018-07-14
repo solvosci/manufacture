@@ -114,6 +114,10 @@ class ChkPoint(models.Model):
                 'start_datetime': start_lot_datetime
             })
         values['start_lot_datetime'] = start_lot_datetime
+
+        # Process worksheet (After change Active_Lot, it's necessary to create new worksheets)
+        # TODO: Create worksheets
+        #shift = models.Shift.get_current_shift()
         return super(ChkPoint, self).write(values)
 
 class Workstation(models.Model):
@@ -233,6 +237,21 @@ class Shift(models.Model):
     shift_code = fields.Char(
         'Shift Code',
         required=True)
+    start_time = fields.Float(
+        'Start',
+        required=True)
+    end_time = fields.Float(
+        'End',
+        required = True)
+
+    @api.multi
+    def get_current_shift(self):
+        # get current shift: now between start and end datetime
+        # TODO
+        shift = False
+        # now = fields.Datetime.now()
+        # shift = self.env['mdc.shift'].search([('start_datetime', '<=', now )('end_datetime', '>=', now)])
+        return shift
 
 
 class CardCateg(models.Model):
