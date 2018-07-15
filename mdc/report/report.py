@@ -45,7 +45,7 @@ class RptTracing(models.Model):
                             sum(wout.gross_weight) as gross_weight,
                             sum(case when woutcat.code='P' then wout.weight-wout.tare else 0 end) as product_weight,
                             sum(case when woutcat.code='SP1' then wout.weight-wout.tare else 0 end) as sp1_weight,
-                            AVG(CAST(qlty.name AS INTEGER)) as quality
+                            AVG(qlty.code) as quality
                         FROM mdc_data_wout wout
                             LEFT JOIN mdc_lot lot ON lot.id=wout.lot_id
                             LEFT JOIN hr_employee emp ON emp.id=wout.employee_id

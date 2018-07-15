@@ -307,6 +307,9 @@ class Quality(models.Model):
     _description = 'Quality'
 
     name = fields.Char(
+        'Name',
+        required=True)
+    code = fields.Integer(
         'Code',
         required=True)
     descrip = fields.Char(

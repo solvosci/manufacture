@@ -1,6 +1,38 @@
 <odoo>
   <data>
 
+    <!-- Tree view: default view for quality -->
+    <record id="mdc_quality_tree" model="ir.ui.view">
+        <field name="name">mdc.quality.tree</field>
+        <field name="model">mdc.quality</field>
+        <field name="arch" type="xml">
+            <tree string="Quality">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="descrip"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for quality -->
+    <record id="mdc_quality_form" model="ir.ui.view">
+        <field name="name">mdc.quality.form</field>
+        <field name="model">mdc.quality</field>
+        <field name="arch" type="xml">
+            <form string="Quality">
+                <sheet>
+                    <group name="gr_quality_data" string="Quality">
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="descrip"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <!-- Tree view: default view for tare -->
     <record id="mdc_tare_tree" model="ir.ui.view">
         <field name="name">mdc.tare.tree</field>

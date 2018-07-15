@@ -46,14 +46,17 @@
             <!-- Quality -->
             <record id="mdc_quality_100" model="mdc.quality">
                 <field name="name">100</field>
+                <field name="code">100</field>
                 <field name="descrip">High</field>
             </record>
             <record id="mdc_quality_60" model="mdc.quality">
                 <field name="name">60</field>
+                <field name="code">60</field>
                 <field name="descrip">Medium</field>
             </record>
             <record id="mdc_quality_30" model="mdc.quality">
                 <field name="name">30</field>
+                <field name="code">30</field>
                 <field name="descrip">Low</field>
             </record>
         </data>
