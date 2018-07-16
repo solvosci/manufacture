@@ -34,7 +34,7 @@
         'data/res_users.xml',
         'data/ir_config_parameter.xml',
         'data/structure_data.xml',
-        #'demo/demo.xml',
+        'demo/demo.xml',
     ],
 
     'demo': [

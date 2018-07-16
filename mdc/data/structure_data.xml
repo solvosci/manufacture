@@ -43,5 +43,33 @@
             <field name="name">Producto Comodín</field>
         </record>
 
+        <!-- Line -->
+        <record id="mdc_line_1" model="mdc.line">
+            <field name="name">Line 1</field>
+            <field name="line_code">1</field>
+        </record>
+        <record id="mdc_line_2" model="mdc.line">
+            <field name="name">Line 2</field>
+            <field name="line_code">2</field>
+        </record>
+        <record id="mdc_line_3" model="mdc.line">
+            <field name="name">Line 3</field>
+            <field name="line_code">3</field>
+        </record>
+
+        <!-- Shift -->
+        <record id="mdc_shift_1" model="mdc.shift">
+            <field name="name">Morning</field>
+            <field name="shift_code">1</field>
+            <field name="start_time">6</field>
+            <field name="end_time">14</field>
+        </record>
+        <record id="mdc_shift_2" model="mdc.shift">
+            <field name="name">Afternoon</field>
+            <field name="shift_code">2</field>
+            <field name="start_time">14</field>
+            <field name="end_time">22</field>
+        </record>
+
     </data>
 </odoo>
