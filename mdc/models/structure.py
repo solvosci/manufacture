@@ -34,7 +34,7 @@ class Line(models.Model):
 
     _sql_constraints = [
         ('line_code_unique', 'UNIQUE(line_code)',
-         'Line_Code has been already assigned to a Line!'),
+         _('Line_Code has been already assigned to a Line!')),
     ]
 
     name = fields.Char(
@@ -55,7 +55,7 @@ class ChkPoint(models.Model):
 
     _sql_constraints = [
         ('line_chkpoint_categ_unique', 'UNIQUE(chkpoint_categ,line_id)',
-         'Combination: Line & Checkpoint category, are unique, and already Exists!'),
+         _('Combination: Line & Checkpoint category, are unique, and already Exists!')),
     ]
 
     name = fields.Char(
@@ -117,7 +117,7 @@ class Workstation(models.Model):
 
     _sql_constraints = [
         ('current_employee_unique', 'UNIQUE(current_employee_id)',
-         'The employee has been already assigned to a workstation!'),
+         _('The employee has been already assigned to a workstation!')),
     ]
 
     name = fields.Char(
@@ -215,7 +215,7 @@ class Shift(models.Model):
 
     _sql_constraints = [
         ('shift_code_unique', 'UNIQUE(shift_code)',
-         'Shift_Code has been already assigned to a Shift!'),
+         _('Shift_Code has been already assigned to a Shift!')),
     ]
 
     name = fields.Char(
@@ -312,7 +312,7 @@ class RfidReader(models.Model):
 
     _sql_constraints = [
         ('device_code_unique', 'UNIQUE(device_code)',
-         'Device_Code has been already assigned to a Device!'),
+         _('Device_Code has been already assigned to a Device!')),
     ]
 
     name = fields.Char(
