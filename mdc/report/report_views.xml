@@ -28,10 +28,10 @@
                             ('create_date', '>=', (context_today() + relativedelta(weeks=-1,days=1,weekday=0)).strftime('%Y-%m-%d')),
                             ('create_date', '&lt;=', (context_today() + relativedelta(weekday=6)).strftime('%Y-%m-%d')),
                         ]"/>
-                    <group expand="0" string="Group By">
-                        <filter string="Create Date" name="groupby_create_date" domain="[]" context="{'group_by':'create_date'}"/>
+                    <group expand="1" string="Group By">
                         <filter string="Lot Name" name="groupby_lot_name" domain="[]" context="{'group_by':'lot_name'}"/>
                         <filter string="Employee Code" name="groupby_employee" domain="[]" context="{'group_by':'employee_code'}"/>
+                        <filter string="Shift Code" name="groupby_shift" domain="[]" context="{'group_by':'shift_code'}"/>
                     </group>
                 </search>
             </field>

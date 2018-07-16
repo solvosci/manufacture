@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, tools, _
+from odoo import api, models, fields, tools, _
 
 class RptTracing(models.Model):
     """
@@ -17,11 +17,12 @@ class RptTracing(models.Model):
     employee_name = fields.Char('Employee Name', readonly=True)
     product_id = fields.Many2one('product.product', 'Product', readonly=True)
     shift_code = fields.Char('Shift Code', readonly=True)
-    gross_weight = fields.Float('Gross', readonly=True)
-    product_weight = fields.Float('Backs', readonly=True)
-    sp1_weight = fields.Float('Crumbs', readonly=True)
-    quality = fields.Float('Quality', readonly=True)
-    total_hours = fields.Float('Total Hours', readonly=True)
+    gross_weight = fields.Float('Gross', readonly=True, group_operator='sum')
+    product_weight = fields.Float('Backs', readonly=True, group_operator='sum')
+    sp1_weight = fields.Float('Crumbs', readonly=True, group_operator='sum')
+    quality = fields.Float('Quality', readonly=True, group_operator='avg')
+    total_hours = fields.Float('Total Hours', readonly=True, group_operator='sum')
+    # TODO readonly=True
     std_yield_product = fields.Float('Std Yield Product')
     std_speed = fields.Float('Std Speed')
     std_yield_sp1 = fields.Float('Std Yield Subproduct 1')
@@ -73,4 +74,16 @@ class RptTracing(models.Model):
                     LEFT JOIN mdc_std std on std.product_id = lotdata.product_id     
                 
         """ % self._table)
+
+
+    @api.model
+    def read_group(self, domain, fields, groupby, offset=0, limit=None,
+               orderby=False, lazy=True):
+        res = super(RptTracing, self).read_group(domain, fields, groupby,
+             offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+
+        # TODO if we need to customize some group operators, edit here
+        # http://danielrodriguez.esy.es/blog/sumatory-in-group/
+
+        return res
 

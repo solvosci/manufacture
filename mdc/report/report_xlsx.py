@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from addons.product.models.product_attribute import ProductAttributevalue
 from odoo import models, _
-import os
+import base64
+import tempfile
 
 def formats():
     # Python dictionary with cells formats and styles for XLSX reports
@@ -48,10 +49,19 @@ class ReportRptTracingXlsx(models.AbstractModel):
         sheet.set_column('C:D', 40) # Employee name and STD name columns
 
         # write logo
-        # TODO: get logo from Company
-        # path = os.getcwd().
-        logo = "../addons/manufacture/mdc/report/logo.png"
-        sheet.insert_image('A1', logo, {'x_offset': 18, 'y_offset': 18, 'x_scale': 0.9, 'y_scale': 0.5})
+        logo_file_name = False
+        binary_logo = self.env['res.company'].sudo().search([]).logo_web
+        if binary_logo:
+            fp = tempfile.NamedTemporaryFile(delete=False)
+            fp.write(bytes(base64.b64decode(binary_logo)))
+            fp.close()
+            logo_file_name = fp.name
+        else:
+            # TODO enhance default logo path recovery
+            logo_file_name = "../addons/manufacture/mdc/report/logo.png"
+
+        sheet.insert_image('A1', logo_file_name, {
+            'x_offset': 18, 'y_offset': 18, 'x_scale': 0.9, 'y_scale': 0.5})
 
         # write Title
         sheet.write(1, 2, _("TRACE PRODUCTION REPORT"), f_title)
@@ -78,6 +88,19 @@ class ReportRptTracingXlsx(models.AbstractModel):
         sheet.write(header_row, 14, _("STD Crum"), f_header)
         sheet.write(header_row, 15, _("Workforce"), f_header)
         sheet.write(header_row, 16, _("STD Workforce"), f_header)
+
+        # TODO alternate dict list with almost grouped data (still problems with product and date)
+        """
+        grouped_rpt_tracing = self.env['mdc.rpt_tracing'].read_group(
+            domain=[('id', 'in', rpt_tracing.ids)],
+            fields=['lot_name', 'employee_code', 'product_id', 'shift_code',
+                    'std_yield_product', 'std_yield_sp1', 'std_speed', 'gross_weight', 'product_weight',
+                    'sp1_weight', 'quality', 'total_hours'],
+            groupby=['lot_name', 'employee_code', 'shift_code'],
+            lazy=False)
+        for trace in grouped_rpt_tracing:
+            pass
+        """
 
         # write data rows
         row=header_row
