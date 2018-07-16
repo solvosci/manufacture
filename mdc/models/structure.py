@@ -87,37 +87,24 @@ class ChkPoint(models.Model):
         'mdc.lot',
         string='Current Lot Active Id')
     start_lot_datetime = fields.Datetime(
-        string = 'Start Lot Active date time')
+        string = 'Start Lot Active date time',
+        readonly=True)
 
     @api.multi
     def write(self, values):
         self.ensure_one()
-        # Modifying a current_lot_active
-        start_lot_datetime = fields.Datetime.now()
-        lot_active = self.current_lot_active_id.id
-        new_lot_active = lot_active
+        # Modifying a current_lot_active and update histocal lot_active if it is necessary
+        values['start_lot_datetime'] = fields.Datetime.now()
         if 'current_lot_active_id' in values:
-            new_lot_active = values.get('current_lot_active_id')
-        if (lot_active != new_lot_active) and (lot_active):
-            # In this case, Close historic lot_active
-            id_lot_active = self.env['mdc.lot_active'].search([('lot_id', '=', lot_active),('chkpoint_id', '=', self.id),('end_datetime', '=', False)])
-            if id_lot_active:
-                id_lot_active.write({
-                    'end_datetime': start_lot_datetime,
-                    'active': False,
-                })
-        if (lot_active != new_lot_active) and new_lot_active and (new_lot_active is not None):
-            # In this case, Open new historic lot_active
-            self.env['mdc.lot_active'].create({
-                'lot_id': new_lot_active,
-                'chkpoint_id': self.id,
-                'start_datetime': start_lot_datetime
-            })
-        values['start_lot_datetime'] = start_lot_datetime
-
+            self.env['mdc.lot_active'].update_historical(
+                chkpoint_id=self.id,
+                current_lot_active=self.current_lot_active_id,
+                new_lot_active_id=values['current_lot_active_id'],
+                start_lot_datetime=values['start_lot_datetime'])
         # Process worksheet (After change Active_Lot, it's necessary to create new worksheets)
         # TODO: Create worksheets
-        #shift = models.Shift.get_current_shift()
+        shift = self.env['mdc.shift'].get_current_shift()
+
         return super(ChkPoint, self).write(values)
 
 class Workstation(models.Model):
@@ -246,11 +233,11 @@ class Shift(models.Model):
 
     @api.multi
     def get_current_shift(self):
-        # get current shift: now between start and end datetime
-        # TODO
+        # get current shift: now between start_time and end_time
         shift = False
-        # now = fields.Datetime.now()
-        # shift = self.env['mdc.shift'].search([('start_datetime', '<=', now )('end_datetime', '>=', now)])
+        actual_time = fields.Datetime.from_string(fields.Datetime.now()) # datetime.datetime.strptime(now, '%Y-%m-%d %H:%M:%S')
+        time = actual_time.hour + actual_time.minute/60
+        shift = self.search([('start_time', '<=', time ),('end_time', '>=', time)])
         return shift
 
 

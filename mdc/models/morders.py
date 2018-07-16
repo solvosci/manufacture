@@ -111,7 +111,6 @@ class LotActive(models.Model):
         if start_datetime is not False and end_datetime is not False:
             diference = datetime.datetime.strptime(end_datetime, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(start_datetime, '%Y-%m-%d %H:%M:%S')
             total_hours = diference.days*24 + diference.seconds/3600
-
         return total_hours
 
     @api.model
@@ -124,6 +123,53 @@ class LotActive(models.Model):
         self.ensure_one()
         values['total_hours'] = self._compute_total_hours(values)
         return super(LotActive, self).write(values)
+
+
+    def update_historical(self, chkpoint_id, current_lot_active, new_lot_active_id, start_lot_datetime):
+        # Modifying a current_lot_active
+        if (current_lot_active) and (current_lot_active.id != new_lot_active_id):
+            # In this case, Close historic lot_active
+            id_lot_active = self.search(
+                [('lot_id', '=', current_lot_active.id), ('chkpoint_id', '=', chkpoint_id), ('end_datetime', '=', False)])
+            if id_lot_active:
+                id_lot_active.write({
+                    'end_datetime': start_lot_datetime,
+                    'active': False,
+                })
+        if (new_lot_active_id) and (current_lot_active.id != new_lot_active_id):
+            # In this case, Open new historic lot_active
+            self.create({
+                'lot_id': new_lot_active_id,
+                'chkpoint_id': chkpoint_id,
+                'start_datetime': start_lot_datetime
+            })
+        return
+
+
+    def update_historical_old(self, values, chkpoint_id, lot_active):
+        # Modifying a current_lot_active
+        start_lot_datetime = fields.Datetime.now()
+        new_lot_active = lot_active
+        if 'current_lot_active_id' in values:
+            new_lot_active = values.get('current_lot_active_id')
+        if (lot_active != new_lot_active) and (lot_active):
+            # In this case, Close historic lot_active
+            id_lot_active = self.search(
+                [('lot_id', '=', lot_active), ('chkpoint_id', '=', chkpoint_id), ('end_datetime', '=', False)])
+            if id_lot_active:
+                id_lot_active.write({
+                    'end_datetime': start_lot_datetime,
+                    'active': False,
+                })
+        if (lot_active != new_lot_active) and new_lot_active and (new_lot_active is not None):
+            # In this case, Open new historic lot_active
+            self.create({
+                'lot_id': new_lot_active,
+                'chkpoint_id': chkpoint_id,
+                'start_datetime': start_lot_datetime
+            })
+        values['start_lot_datetime'] = start_lot_datetime
+        return
 
 
 class Worksheet(models.Model):
@@ -148,8 +194,7 @@ class Worksheet(models.Model):
         'End Datetime')
     lot_id = fields.Many2one(
         'mdc.lot',
-        string='Lot',
-        required=True)
+        string='Lot')
     workstation_id = fields.Many2one(
         'mdc.workstation',
         string='Workstation')
