@@ -1,4 +1,5 @@
 import requests
+from requests.exceptions import Timeout
 import sys
 from websocket import create_connection
 
@@ -16,7 +17,11 @@ def get_session_data(env):
         }
     }
 
-    r = requests.post(login_url, json=login_data)
+    try:
+        r = requests.post(login_url, json=login_data, timeout=5)
+    except Timeout as te:
+        raise(Exception('Connection timeout with RFID server. Complete error message: %s' % te))
+
 
     print('Status: %s' % r.status_code, file=sys.stderr)
     print('Text: %s' % r.text, file=sys.stderr)
@@ -24,6 +29,8 @@ def get_session_data(env):
     res = r.json()
 
     print('Response: %s - %s' % (res['Response']['code'], res['Response']['message']), file=sys.stderr)
+    if res['Response']['code'] != '0':
+        raise Exception('Error authenticating on RFID server. Complete error message: %s' % res['Response']['message'])
     print('Session id.: %s  ' % r.headers['bs-session-id'], file=sys.stderr)
 
     ws = create_connection(wsapi_url)

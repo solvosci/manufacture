@@ -16,9 +16,7 @@ ws_event_received = function (event) {
 
         if ( $('#rfid_reader_code').val() === obj.Event.device_id.id ) {
             console.log('Matched!');
-            $('#info_div')
-                .removeClass('info_div_err').addClass('info_div_ok')
-                .html('Read card #' + obj.Event.user_id.user_id);
+            show_info('Read card #' + obj.Event.user_id.user_id, 'ok');
             data_win_save({
                 'card_code': obj.Event.user_id.user_id
             });
@@ -30,9 +28,7 @@ ws_event_received = function (event) {
 
     }
     catch (e) {
-        $('#info_div')
-            .removeClass('info_div_ok').addClass('info_div_err')
-            .html('ERROR: ' + e.message);
+        show_info('ERROR: ' + e.message, 'err');
     }
 
 }
@@ -56,9 +52,7 @@ loctactive_get = function () {
     }).done(function (data) {
         console.log(data.result);
         if ( data.result.err ) {
-            $('#info_div')
-                .removeClass('info_div_ok').addClass('info_div_err')
-                .html('ERROR retrieving active lot: ' + data.result.err);
+            show_info('ERROR retrieving active lot: ' + data.result.err, 'err');
             // TODO additional stuff over display
         }
         else {
@@ -66,9 +60,7 @@ loctactive_get = function () {
         }
         loctactive_get_schedule();
     }).fail(function () {
-        $('#info_div')
-            .removeClass('info_div_ok').addClass('info_div_err')
-            .html('ERROR retrieving active lot (unknown)');
+        show_info('ERROR retrieving active lot (unknown)', 'err');
         loctactive_get_schedule();
     });
 
@@ -84,23 +76,17 @@ data_win_save = function (data) {
     }).done(function (data) {
         console.log(data.result);
         if ( data.result.err ) {
-            $('#info_div')
-                .removeClass('info_div_ok').addClass('info_div_err')
-                .html('ERROR: ' + data.result.err);
+            show_info('ERROR: ' + data.result.err, 'err');
         }
         else {
-            $('#info_div')
-                .removeClass('info_div_err').addClass('info_div_ok')
-                .html('Data successfully saved');
+            show_info('Data successfully saved', 'ok');
             $('#lot').html(data.result.lotactive)
             $('#last_card_read').val(data.result.card_code).addClass('success');
             $('#last_weight').val(data.result.weight + ' ' + data.result.w_uom).addClass('success');
             window.setTimeout(function () { $('#last_card_read,#last_weight').removeClass('success'); }, 3000);
         }
     }).fail(function () {
-        $('#info_div')
-            .removeClass('info_div_ok').addClass('info_div_err')
-            .html('ERROR registering weight (unknown)');
+        show_info('ERROR registering weight (unknown)', 'err');
     });
 
 }
@@ -108,9 +94,7 @@ data_win_save = function (data) {
 $(document).ready(function() {
 
     /* var ws = */ws_create(ws_event_received);
-    $('#info_div')
-        .addClass('info_div_ok')
-        .html('Ready for card readings!!!');
+    show_info('Ready for card readings!!!', 'ok');
 
     loctactive_get();
 

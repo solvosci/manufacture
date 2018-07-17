@@ -18,9 +18,7 @@ ws_event_received = function (event) {
         if ( device && (device == obj.Event.device_id.id) ) {
             console.log('Matched!');
             $('#card_read_input').val(obj.Event.user_id.user_id);
-            $('#info_div')
-                .removeClass('info_div_err').addClass('info_div_ok')
-                .html('Read card #' + $('#card_read_input').val());
+            show_info('Read card #' + $('#card_read_input').val(), 'ok');
         }
         else {
             console.log('Skipped');
@@ -28,9 +26,7 @@ ws_event_received = function (event) {
 
     }
     catch (e) {
-        $('#info_div')
-            .removeClass('info_div_ok').addClass('info_div_err')
-            .html('ERROR: ' + e.message);
+        show_info('ERROR: ' + e.message, 'err');
     }
 
 }
@@ -66,29 +62,18 @@ card_register_click = function () {
         }).done(function (data) {
             console.log(data.result);
             if ( data.result.err ) {
-                $('#info_div')
-                    .removeClass('info_div_ok').addClass('info_div_err')
-                    .html('ERROR ' + data.result.err);
+                show_info('ERROR ' + data.result.err, 'err');
             }
             else {
-                $('#info_div')
-                    .removeClass('info_div_err').addClass('info_div_ok')
-                    .html(
-                        'Card #' + $('#card_read_input').val() +
-                        ' successfully registered with id ' + data.result.card_id
-                    );
-                $('#card_read_input').val('');
+                show_info('Card #' + $('#card_read_input').val() +
+                        ' successfully registered with id ' + data.result.card_id, 'ok');
             }
         }).fail(function () {
-            $('#info_div')
-                .removeClass('info_div_ok').addClass('info_div_err')
-                .html('ERROR registering card (unknown)');
+            show_info('ERROR registering card (unknown)', 'err');
         });
     }
     catch (e) {
-        $('#info_div')
-            .removeClass('info_div_ok').addClass('info_div_err')
-            .html('ERROR: ' + e.message);
+        show_info('ERROR: ' + e.message, 'err');
     }
 
 }
@@ -100,8 +85,6 @@ $(document).ready(function() {
     // TODO error handling
 
     /* var ws = */ws_create(ws_event_received);
-    $('#info_div')
-        .removeClass('info_div_err').addClass('info_div_ok')
-        .html('Ready for card registration!!!');
+    show_info('Ready for card registration!!!', 'ok');
 
 });

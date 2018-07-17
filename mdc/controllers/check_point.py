@@ -49,22 +49,36 @@ class CheckPoint(http.Controller):
         scales = request.env['mdc.scale'].sudo().search([])
         return res % '</td></tr><tr><td>'.join(scales.mapped('name'))
 
+    # TODO improve parameters
+    def get_error_page(self, error_message):
+        return request.render(
+            'mdc.chkpoint_err',
+            {'error_message': error_message}
+        )
+
     @http.route('/mdc/cp/list', type='http', auth='none')
     def cp_list(self):
-        chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).search([], order='order')
-        return request.render(
-            'mdc.chkpoint_list',
-            {'chkpoints': chkpoints}
-        )
+        try:
+            chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).search([], order='order')
+            return request.render(
+                'mdc.chkpoint_list',
+                {'chkpoints': chkpoints}
+            )
+        except Exception as e:
+            return self.get_error_page(e)
+
 
     @http.route("/mdc/cp/win/<int:chkpoint_id>", type='http', auth='none')
     def cp_win(self, chkpoint_id):
-        ws_session_data = websocket.get_session_data(request.env)
-        chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
-        return request.render(
-            'mdc.chkpoint_win',
-            {'chkpoints': chkpoints, 'ws_session_data': ws_session_data}
-        )
+        try:
+            ws_session_data = websocket.get_session_data(request.env)
+            chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
+            return request.render(
+                'mdc.chkpoint_win',
+                {'chkpoints': chkpoints, 'ws_session_data': ws_session_data}
+            )
+        except Exception as e:
+            return self.get_error_page(e)
 
     @http.route("/mdc/cp/win/<int:chkpoint_id>/lotactive", type='json', auth='none')
     def cp_win_lotactive(self, chkpoint_id):
@@ -107,15 +121,18 @@ class CheckPoint(http.Controller):
 
     @http.route("/mdc/cp/wout/<int:chkpoint_id>", type='http', auth='none')
     def cp_wout(self, chkpoint_id):
-        ws_session_data = websocket.get_session_data(request.env)
-        chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
-        qualities = request.env['mdc.quality'].sudo(self._get_cp_user(request)).search([])
-        return request.render(
-            'mdc.chkpoint_wout',
-            {'chkpoints': chkpoints, 'qualities': qualities, 'ws_session_data': ws_session_data,
-             'card_categ_P_id': request.env.ref('mdc.mdc_card_categ_P').id,
-             'card_categ_L_id': request.env.ref('mdc.mdc_card_categ_L').id }
-        )
+        try:
+            ws_session_data = websocket.get_session_data(request.env)
+            chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
+            qualities = request.env['mdc.quality'].sudo(self._get_cp_user(request)).search([])
+            return request.render(
+                'mdc.chkpoint_wout',
+                {'chkpoints': chkpoints, 'qualities': qualities, 'ws_session_data': ws_session_data,
+                 'card_categ_P_id': request.env.ref('mdc.mdc_card_categ_P').id,
+                 'card_categ_L_id': request.env.ref('mdc.mdc_card_categ_L').id }
+            )
+        except Exception as e:
+            return self.get_error_page(e)
 
     @http.route("/mdc/cp/wout/<int:chkpoint_id>/save", type='json', auth='none')
     def cp_wout_save(self, chkpoint_id):
@@ -142,16 +159,19 @@ class CheckPoint(http.Controller):
 
     @http.route('/mdc/cp/cardreg', type='http', auth='none')
     def cp_cardreg(self):
-        devices = request.env['mdc.rfid_reader'].sudo(self._get_cp_user(request)).search([])
-        card_categs = request.env['mdc.card_categ'].sudo(self._get_cp_user(request)).search([])
-        employees = request.env['hr.employee'].sudo(self._get_cp_user(request)).search([('employee_code', '!=', '')])
-        workstations = request.env['mdc.workstation'].sudo(self._get_cp_user(request)).search([])
-        ws_session_data = websocket.get_session_data(request.env)
-        return request.render(
-            'mdc.chkpoint_card_registration',
-            {'devices': devices, 'card_categs': card_categs, 'employees': employees, 'workstations': workstations,
-             'ws_session_data': ws_session_data}
-        )
+        try:
+            devices = request.env['mdc.rfid_reader'].sudo(self._get_cp_user(request)).search([])
+            card_categs = request.env['mdc.card_categ'].sudo(self._get_cp_user(request)).search([])
+            employees = request.env['hr.employee'].sudo(self._get_cp_user(request)).search([('employee_code', '!=', '')])
+            workstations = request.env['mdc.workstation'].sudo(self._get_cp_user(request)).search([])
+            ws_session_data = websocket.get_session_data(request.env)
+            return request.render(
+                'mdc.chkpoint_card_registration',
+                {'devices': devices, 'card_categs': card_categs, 'employees': employees, 'workstations': workstations,
+                 'ws_session_data': ws_session_data}
+            )
+        except Exception as e:
+            return self.get_error_page(e)
 
     @http.route('/mdc/cp/cardreg/save', type='json', auth='none')
     def cp_cardreg_save(self):

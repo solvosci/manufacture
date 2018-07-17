@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <template id="chkpoint_err">
+        <html>
+            <head>
+                <title>ERROR - MDC CP</title>
+                <link rel="stylesheet" type="text/css" href="/mdc/static/src/css/cp.css"/>
+                <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
+                <script language="JavaScript" src="/mdc/static/src/js/cp_common.js"></script>
+            </head>
+            <body>
+                <div>MCD CP: <a href="/mdc/cp/list">Home</a> | <a href="/mdc/cp/cardreg">Card registration</a></div>
+                <hr/>
+                <div id="info_div" class="info_div_err">
+                    <t t-esc="error_message"></t>
+                </div>
+                <p/>
+                Please contact with system administrator
+            </body>
+        </html>
+    </template>
+
+
     <template id="chkpoint_list">
         <html>
             <head>
                 <title>Checkpoint list - MDC CP</title>
+                <link rel="stylesheet" type="text/css" href="/mdc/static/src/css/cp.css"/>
                 <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
             </head>
             <body>
@@ -20,7 +43,6 @@
             </body>
         </html>
     </template>
-
 
     <template id="chkpoint_win">
         <html>
