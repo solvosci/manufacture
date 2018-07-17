@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-
         <!-- Out Categories Types -->
         <record id="mdc_wout_categ_P" model="mdc.wout_categ">
             <field name="name">Producto</field>

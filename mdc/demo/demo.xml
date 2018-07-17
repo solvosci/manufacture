@@ -1308,10 +1308,34 @@
         </data>
 
         <data noupdate="1">
+            <!-- Tipos de Contrato -->
+            <record id="mdc_hr_contract_type_C1" model="hr.contract.type">
+                <field name="name">NORMAL</field>
+                <field name="sequence">10</field>
+            </record>
+            <record id="mdc_hr_contract_type_C2" model="hr.contract.type">
+                <field name="name">FORMACIÓN</field>
+                <field name="sequence">20</field>
+            </record>
+            <record id="mdc_hr_contract_type_C3" model="hr.contract.type">
+                <field name="name">INDETERMINADO</field>
+                <field name="sequence">30</field>
+            </record>
+        </data>
+
+        <data noupdate="1">
+            <!-- Employee -->
+            <record id="mdc_hr_employee_E1" model="hr.employee">
+                <field name="name">Operario 2</field>
+            </record>
+         </data>
+
+        <data noupdate="1">
             <!-- Card -->
             <record id="mdc_card_E1" model="mdc.card">
                 <field name="name">775569841</field>
                 <field name="card_categ_id" ref="mdc_card_categ_O"/>
+                <field name="employee_id" ref="mdc_hr_employee_E1"/>
             </record>
             <record id="mdc_card_S1" model="mdc.card">
                 <field name="name">885569841</field>
@@ -1459,23 +1483,6 @@
             <record id="mdc_product_attribute_value_A2V9" model="product.attribute.value">
                 <field name="name">+3.4</field>
                 <field name="attribute_id" ref="mdc_product_attribute_A2"/>
-            </record>
-        </data>
-
-
-        <data noupdate="1">
-            <!-- Tipos de Contrato -->
-            <record id="mdc_hr_contract_type_C1" model="hr.contract.type">
-                <field name="name">NORMAL</field>
-                <field name="sequence">10</field>
-            </record>
-            <record id="mdc_hr_contract_type_C2" model="hr.contract.type">
-                <field name="name">FORMACIÓN</field>
-                <field name="sequence">20</field>
-            </record>
-            <record id="mdc_hr_contract_type_C3" model="hr.contract.type">
-                <field name="name">INDETERMINADO</field>
-                <field name="sequence">30</field>
             </record>
         </data>
 

@@ -20,6 +20,10 @@
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',
+        'data/res_users.xml',
+        'data/ir_config_parameter.xml',
+        'data/structure_data.xml',
+        'demo/demo.xml',
         'views/data_views.xml',
         'views/hr_views.xml',
         'views/operation_views.xml',
@@ -31,10 +35,6 @@
         'views/chkpoint_views.xml',
         'report/report_views.xml',
         'report/report_menuitem.xml',
-        'data/res_users.xml',
-        'data/ir_config_parameter.xml',
-        'data/structure_data.xml',
-        'demo/demo.xml',
     ],
 
     'demo': [
