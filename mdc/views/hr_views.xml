@@ -61,6 +61,14 @@
             </field>
         </record>
 
+        <!-- Employees - tree view is prior than kanban one -->
+        <record id="act_hr_view_employee_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="sequence" eval="2"/>
+            <field name="view_id" ref="hr.view_employee_tree"/>
+            <field name="act_window_id" ref="hr.open_view_employee_list_my"/>
+        </record>
+
        <record id="act_hr_employee_2_mdc_worksheet" model="ir.actions.act_window">
             <field name="name">Worksheet</field>
             <field name="res_model">mdc.worksheet</field>
