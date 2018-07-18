@@ -107,6 +107,11 @@ class ChkPoint(models.Model):
 
         return super(ChkPoint, self).write(values)
 
+    @api.model
+    def get_current_lot(self, chkpoint_categ, line_id):
+        lot = self.search([('chkpoint_categ', '=', chkpoint_categ),('line_id', '=', line_id)])
+        return lot.id
+
 class Workstation(models.Model):
     """
     Main data for a workstation
@@ -147,6 +152,13 @@ class Workstation(models.Model):
             workstation_sel.write({
                 'current_employee_id': False
             })
+
+    @api.model
+    def get_wosrkstation_assign_data(self, employee_id):
+        ws = self.search([('current_employee_id', '=', employee_id)])
+        if ws:
+            return (ws.id, ws.shift_id.id, ws.line_id.id)
+        return (False,False,False)
 
 
 class Card(models.Model):

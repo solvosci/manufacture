@@ -257,7 +257,14 @@ class Worksheet(models.Model):
 
     @api.model
     def create(self, values):
-        values['shift_id'] = self._retrieve_shift(values)
+        # get workstation from employee
+        # If workstation, get shift and line from workstation assigned to the employee
+        (ws,shift,line) = self.env['mdc.workstation'].get_wosrkstation_assign_data(values['employee_id'])
+        if ws:
+            values['workstation_id'] = ws
+            values['shift_id'] = shift
+            # with line, get lot from chkpoint (WOUT chkpoint)
+           # values['lot_id'] = self.env['mdc.chkpoint'].get_current_lot('WOUT',line)
         values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).create(values)
 
