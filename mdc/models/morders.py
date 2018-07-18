@@ -262,17 +262,19 @@ class Worksheet(models.Model):
     def create(self, values):
         # get workstation from employee
         # If workstation, get shift and line from workstation assigned to the employee
-        (ws,shift,line) = self.env['mdc.workstation'].get_wosrkstation_assign_data(values['employee_id'])
-        if ws:
-            values['workstation_id'] = ws
-            values['shift_id'] = shift
-            # with line, get lot from chkpoint (WOUT chkpoint)
-            values['lot_id'] = self.env['mdc.chkpoint'].get_current_lot('WOUT',line)
+        (ws, shift, line) = self.env['mdc.workstation'].get_wosrkstation_assign_data(values['employee_id'])
+        values['workstation_id'] = ws
+        values['shift_id'] = shift
+        # with line, get lot from chkpoint (WOUT chkpoint)
+        values['lot_id'] = self.env['mdc.chkpoint'].get_current_lot('WOUT', line)
         values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).create(values)
 
     @api.multi
     def write(self, values):
         self.ensure_one()
+        if self.employee_id.id != values['employee_id']:
+            raise UserError(_('You can´t change employee form a datasheet'))
+            values['employee_id']=self.employee.id.id
         values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).write(values)
