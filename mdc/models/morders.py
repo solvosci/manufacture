@@ -185,7 +185,8 @@ class Worksheet(models.Model):
 
     employee_id = fields.Many2one(
         'hr.employee',
-        string='Employee')
+        string='Employee',
+        required = True)
     start_datetime = fields.Datetime(
         'Start Datetime',
         required=True,
@@ -194,10 +195,12 @@ class Worksheet(models.Model):
         'End Datetime')
     lot_id = fields.Many2one(
         'mdc.lot',
-        string='Lot')
+        string='Lot',
+        readonly=True)
     workstation_id = fields.Many2one(
         'mdc.workstation',
-        string='Workstation')
+        string='Workstation',
+        readonly=True)
     shift_id = fields.Many2one(
         'mdc.shift',
         string='Shift',
@@ -264,13 +267,12 @@ class Worksheet(models.Model):
             values['workstation_id'] = ws
             values['shift_id'] = shift
             # with line, get lot from chkpoint (WOUT chkpoint)
-           # values['lot_id'] = self.env['mdc.chkpoint'].get_current_lot('WOUT',line)
+            values['lot_id'] = self.env['mdc.chkpoint'].get_current_lot('WOUT',line)
         values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).create(values)
 
     @api.multi
     def write(self, values):
         self.ensure_one()
-        values['shift_id'] = self._retrieve_shift(values)
         values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).write(values)

@@ -110,7 +110,7 @@ class ChkPoint(models.Model):
     @api.model
     def get_current_lot(self, chkpoint_categ, line_id):
         lot = self.search([('chkpoint_categ', '=', chkpoint_categ),('line_id', '=', line_id)])
-        return lot.id
+        return lot.current_lot_active_id.id
 
 class Workstation(models.Model):
     """
