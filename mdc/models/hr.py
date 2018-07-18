@@ -1,6 +1,7 @@
 
 import logging
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -66,3 +67,56 @@ class Employee(models.Model):
         _logger.info("[SLV] Employee_create")
         #values['employee_code'] = self._default_employee_code()
         return super(Employee, self).create(values)
+
+
+    def massive_worksheet_open(self):
+        Wizard = self.env['hr.employee.massworksheetopen.wizard']
+        new = Wizard.create({
+            'employee_ids': [(6, False, self._context['active_ids'])]
+        })
+        return {
+            'name': 'Massive worksheet open',
+            'res_model': 'hr.employee.massworksheetopen.wizard',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': new.id,
+            'target': 'new',
+            'type': 'ir.actions.act_window'
+        }
+
+
+class EmployeeMassWorksheetOpen(models.TransientModel):
+    _name = 'hr.employee.massworksheetopen.wizard'
+    _description = 'Employee massive worksheet open wizard'
+
+    def _default_date(self):
+        #return fields.Datetime.from_string(fields.Datetime.now())
+        return fields.Datetime.now()
+
+    start_datetime = fields.Datetime(
+        'Start Datetime',
+        required=True,
+        default=_default_date)
+    employee_ids = fields.Many2many(
+        'hr.employee',
+        string='Employees')
+
+    @api.model
+    def create(self, values):
+        # TODO
+        return super(EmployeeMassWorksheetOpen, self).create(values)
+
+    def action_save(self):
+        self.ensure_one()
+        Worksheet = self.env['mdc.worksheet']
+        for employee in self.employee_ids:
+            if employee.present:
+                # TODO improve present employee detection (e.g. display ALL present employees)
+                raise UserError(_('Cannot create open worksheet: employee %s is already present')
+                                % employee.employee_code)
+            Worksheet.create({
+                'start_datetime': self.start_datetime,
+                'employee_id': employee.id})
+
+    def action_cancel(self):
+        return True

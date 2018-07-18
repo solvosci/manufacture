@@ -110,5 +110,40 @@
             </field>
         </record>
 
+        <!-- Tree view: new action to massive worksheet open -->
+        <record id="action_view_hr_mass_worksheet_open" model="ir.actions.server">
+            <field name="name">Massive worksheet open</field>
+            <field name="model_id" ref="model_hr_employee" />
+            <field name="binding_model_id" ref="model_hr_employee"/>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="state">code</field>
+            <field name="multi">True</field>
+            <field name="code">
+                action=model.massive_worksheet_open()
+            </field>
+        </record>
+
+      <record id="hr_employee_massworksheetopen_wizard_form" model="ir.ui.view">
+        <field name="name">hr.employee.massworksheetopen.wizard.form</field>
+        <field name="model">hr.employee.massworksheetopen.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Massive worksheet open">
+                <sheet>
+                    <p>
+                        Please select a start date and hour for the worksheets:
+                    </p>
+                    <group>
+                        <field name="start_datetime"/>
+                    </group>
+                    <footer>
+                        <button name="action_save" string="Create open worksheets" type="object" class="oe_highlight"/>
+                        <button name="action_cancel" string="Cancel" type="object" class="btn-default"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+      </record>
+
   </data>
 </odoo>
