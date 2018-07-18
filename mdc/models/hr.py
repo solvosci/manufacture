@@ -22,6 +22,9 @@ class Employee(models.Model):
         'mdc.workstation',
         'current_employee_id')
     worksheets_count = fields.Integer(compute='_compute_worksheets_count', string='Worksheets')
+    worksheet_ids = fields.One2many(
+        'mdc.worksheet',
+        'employee_id')
     present = fields.Boolean(
         'Present',
         readonly=True,
@@ -29,16 +32,22 @@ class Employee(models.Model):
         store=True)
 
     def _compute_worksheets_count(self):
+        """
         # read_group as sudo, since worksheet count is displayed on form view
         worksheet_data = self.env['mdc.worksheet'].sudo().read_group([('employee_id', 'in', self.ids)], ['employee_id'],
                                                                   ['employee_id'])
         result = dict((data['employee_id'][0], data['employee_id_count']) for data in worksheet_data)
         for employee in self:
             employee.worksheets_count = result.get(employee.id, 0)
+        """
+        # TODO check count performance when growing data. If decreases, use the code above
+        for employee in self:
+            employee.worksheets_count = len(employee.worksheet_ids)
 
     @api.multi
+    @api.depends('worksheet_ids.end_datetime')
     def _compute_present(self):
-        # FIXME does NOT compute yet => link model with employee worksheets and add @api.depends
+        """
         worksheet_data = self.env['mdc.worksheet'].sudo().read_group(
             [('employee_id', 'in', self.ids), ('end_datetime', '=', False)],
             ['employee_id'],
@@ -46,6 +55,11 @@ class Employee(models.Model):
         result = dict((data['employee_id'][0], data['employee_id_count']) for data in worksheet_data)
         for employee in self:
             employee.present = True if result.get(employee.id, 0) > 0 else False
+        """
+        # TODO check filtered performance when growing data. If decreases, use the code above
+        for employee in self:
+            employee.present = len(employee.worksheet_ids.filtered(lambda r: r.end_datetime is False)) > 0
+
 
     @api.model
     def create(self, values):
