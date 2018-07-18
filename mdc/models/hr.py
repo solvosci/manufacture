@@ -22,6 +22,11 @@ class Employee(models.Model):
         'mdc.workstation',
         'current_employee_id')
     worksheets_count = fields.Integer(compute='_compute_worksheets_count', string='Worksheets')
+    present = fields.Boolean(
+        'Present',
+        readonly=True,
+        compute='_compute_present',
+        store=True)
 
     def _compute_worksheets_count(self):
         # read_group as sudo, since worksheet count is displayed on form view
@@ -30,6 +35,17 @@ class Employee(models.Model):
         result = dict((data['employee_id'][0], data['employee_id_count']) for data in worksheet_data)
         for employee in self:
             employee.worksheets_count = result.get(employee.id, 0)
+
+    @api.multi
+    def _compute_present(self):
+        # FIXME does NOT compute yet => link model with employee worksheets and add @api.depends
+        worksheet_data = self.env['mdc.worksheet'].sudo().read_group(
+            [('employee_id', 'in', self.ids), ('end_datetime', '=', False)],
+            ['employee_id'],
+            ['employee_id'])
+        result = dict((data['employee_id'][0], data['employee_id_count']) for data in worksheet_data)
+        for employee in self:
+            employee.present = True if result.get(employee.id, 0) > 0 else False
 
     @api.model
     def create(self, values):

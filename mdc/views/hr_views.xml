@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//filter[@name='message_needaction']" position="after">
                     <filter string="Operatives" name="operatives" domain="[('employee_code','!=','')]"/>
+                    <filter string="Present" name="present" domain="[('present','=',True)]"/>
                 </xpath>
             </field>
         </record>
@@ -42,6 +43,7 @@
                 </xpath>
                 <xpath expr="//field[@name='work_email']" position="before">
                     <field name="contract_type_id"/>
+                    <field name="present"/>
                 </xpath>
             </field>
         </record>
@@ -53,10 +55,10 @@
             <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
             <field name="arch" type="xml">
                 <xpath expr="//li[@id='last_login']" position="after">
-                    <li t-if="record.contract_type_id.raw_value"><field name="contract_type_id"/></li>
-                </xpath>
-                <xpath expr="//li[@id='last_login']" position="after">
                     <li t-if="record.employee_code.raw_value"><field name="employee_code"/></li>
+                    <li t-if="record.contract_type_id.raw_value"><field name="contract_type_id"/></li>
+                    <!-- Does NOT work -->
+                    <!-- li t-if="record.present.raw_value">Present</li -->
                 </xpath>
             </field>
         </record>
@@ -69,15 +71,15 @@
             <field name="act_window_id" ref="hr.open_view_employee_list_my"/>
         </record>
 
+       <!-- TODO disable create and edit? -->
        <record id="act_hr_employee_2_mdc_worksheet" model="ir.actions.act_window">
             <field name="name">Worksheet</field>
             <field name="res_model">mdc.worksheet</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            <field name="domain">[('employee_id', '=', active_id)]</field>
             <field name="context">{
-                'search_default_employee_id': [active_id],
-                'default_employee_id': active_id,
-                'search_default_group_by_state': 1
+                'default_employee_id': active_id
             }</field>
         </record>
 
@@ -93,6 +95,7 @@
                         <group>
                             <field name="employee_code"/>
                             <field name="contract_type_id"/>
+                            <field name="present"/>
                         </group>
                     </page>
                 </xpath>
