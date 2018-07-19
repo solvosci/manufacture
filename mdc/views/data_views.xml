@@ -24,7 +24,7 @@
         <field name="name">mdc.worksheets.tree</field>
         <field name="model">mdc.worksheet</field>
         <field name="arch" type="xml">
-            <tree string="Worksheets">
+            <tree delete="false" string="Worksheets">
                 <field name="employee_id"/>
                 <field name="start_datetime"/>
                 <field name="end_datetime"/>
@@ -46,19 +46,19 @@
                     <group name="gr_worksheet_main_data" string="Worksheet data">
                         <group>
                             <field name="employee_id"/>
-                            <field name="lot_id"/>
                         </group>
                         <group>
                             <field name="start_datetime"/>
                             <field name="end_datetime"/>
                         </group>
                         <group>
-                            <field name="workstation_id"/>
+                            <field name="lot_id"/>
                         </group>
                     </group>
                     <group name="gr_worksheet_other_data" string="Other data">
                         <group>
-                            <field name="shift_id" readonly="True"/>
+                            <field name="shift_id"/>
+                            <field name="workstation_id"/>
                         </group>
                         <group>
                             <field name="total_hours" readonly="True"/>
