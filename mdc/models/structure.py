@@ -101,6 +101,27 @@ class ChkPoint(models.Model):
                 current_lot_active=self.current_lot_active_id,
                 new_lot_active_id=values['current_lot_active_id'],
                 start_lot_datetime=values['start_lot_datetime'])
+            # *****************************************************************
+            # Only when lot_active has changed and chkpoint type is WOUT,
+            #  we must close the related worksheets and open new ones
+            if self.chkpoint_categ == 'WOUT':
+                # TODO why the current shift? Why not simply the current open worksheets
+                # TODO if worksheet is open the employee may be present, or may not?
+                shift = self.env['mdc.shift'].get_current_shift()
+                wsheet = self.env['mdc.worksheet'].search(
+                    [('end_datetime', '=', False),
+                     ('workstation_id.line_id', '=', self.line_id.id),
+                     ('workstation_id.shift_id', '=', shift.id)])
+                if wsheet:
+                    self.env['mdc.worksheet'].massive_close(wsheet, values['start_lot_datetime'])
+                    for employee in wsheet.mapped('employee_id'):
+                        self.env['mdc.worksheet'].create({
+                            'start_datetime': values['start_lot_datetime'],
+                            'employee_id': employee.id,
+                            'lot_id': values['current_lot_active_id']})
+            # *****************************************************************
+        """
+        # OLD code
         # Process worksheet (After change Active_Lot, Only WOUT shkpoint, it's necessary to create new worksheets)
         if self.chkpoint_categ == 'WOUT':
             # close all worksheets in this line and create new ones
@@ -117,6 +138,8 @@ class ChkPoint(models.Model):
                         'start_datetime': values['start_lot_datetime'],
                         'employee_id': ws.current_employee_id.id,
                         'lot_id': values['current_lot_active_id']})
+        """
+
         return super(ChkPoint, self).write(values)
 
     @api.model
