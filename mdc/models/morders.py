@@ -266,7 +266,8 @@ class Worksheet(models.Model):
         values['workstation_id'] = ws
         values['shift_id'] = shift
         # with line, get lot from chkpoint (WOUT chkpoint)
-        values['lot_id'] = self.env['mdc.chkpoint'].get_current_lot('WOUT', line)
+        if 'lot_id' not in values:
+            values['lot_id'] = self.env['mdc.chkpoint'].get_current_lot('WOUT', line)
         values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).create(values)
 
@@ -281,3 +282,9 @@ class Worksheet(models.Model):
                 raise UserError(_('You can´t change start_datetime form a datasheet.'))
         values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).write(values)
+
+    @api.multi
+    def massive_close(self, wsheets, end_time):
+        for item in wsheets:
+            item.write({'end_datetime': end_time})
+        return

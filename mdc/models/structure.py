@@ -101,10 +101,22 @@ class ChkPoint(models.Model):
                 current_lot_active=self.current_lot_active_id,
                 new_lot_active_id=values['current_lot_active_id'],
                 start_lot_datetime=values['start_lot_datetime'])
-        # Process worksheet (After change Active_Lot, it's necessary to create new worksheets)
-        # TODO: Create worksheets
-        shift = self.env['mdc.shift'].get_current_shift()
-
+        # Process worksheet (After change Active_Lot, Only WOUT shkpoint, it's necessary to create new worksheets)
+        if self.chkpoint_categ == 'WOUT':
+            # close all worksheets in this line and create new ones
+            shift = self.env['mdc.shift'].get_current_shift()
+            workstation_ids = self.env['mdc.workstation'].search(
+                [('line_id', '=', self.line_id.id), ('shift_id', '=', shift.id)])
+            for ws in workstation_ids:
+                if ws.current_employee_id.present:
+                    # close worksheet in this line (for current employee working in this line)
+                    wsheet = self.env['mdc.worksheet'].search([('workstation_id', '=', ws.id), ('end_datetime', '=', False)])
+                    self.env['mdc.worksheet'].massive_close(wsheet, values['start_lot_datetime'])
+                    # New worksheet for employee (current employees working in this line)
+                    self.env['mdc.worksheet'].create({
+                        'start_datetime': values['start_lot_datetime'],
+                        'employee_id': ws.current_employee_id.id,
+                        'lot_id': values['current_lot_active_id']})
         return super(ChkPoint, self).write(values)
 
     @api.model
