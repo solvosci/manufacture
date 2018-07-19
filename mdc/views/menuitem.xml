@@ -305,7 +305,7 @@
 
     <!-- Data menu -->
     <menuitem id="mdc_worksheet_menu"
-        name="Worksheet"
+        name="Worksheets"
         action="action_mdc_worksheets"
         parent="mdc_menu_data"
         sequence="15"/>
@@ -369,7 +369,7 @@
         sequence="40"/>
 
     <menuitem id="mdc_tare_menu"
-        name="Tare"
+        name="Tares"
         action="action_mdc_tare"
         parent="mdc_menu_master"
         sequence="45"/>
@@ -382,13 +382,13 @@
         sequence="10" />
 
     <menuitem id="mdc_line_menu"
-        name="Line"
+        name="Lines"
         action="action_mdc_line"
         parent="mdc_menu_configuration"
         sequence="15" />
 
     <menuitem id="mdc_chkpoint_menu"
-        name="Check Point"
+        name="Check Points"
         action="action_mdc_chkpoint"
         parent="mdc_menu_configuration"
         sequence="20" />
@@ -406,7 +406,7 @@
         sequence="30" />
 
     <menuitem id="mdc_wout_categ_menu"
-        name="Out Category"
+        name="Out Categories"
         action="action_mdc_wout_categ"
         parent="mdc_menu_configuration"
         sequence="35"/>

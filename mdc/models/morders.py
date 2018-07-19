@@ -273,8 +273,11 @@ class Worksheet(models.Model):
     @api.multi
     def write(self, values):
         self.ensure_one()
-        if self.employee_id.id != values['employee_id']:
-            raise UserError(_('You can´t change employee form a datasheet'))
-            values['employee_id']=self.employee.id.id
+        if 'employee_id' in values:
+            if self.employee_id.id != values['employee_id']:
+                raise UserError(_('You can´t change employee form a datasheet.'))
+        if 'start_datetime' in values:
+            if self.start_datetime != values['start_datetime']:
+                raise UserError(_('You can´t change start_datetime form a datasheet.'))
         values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).write(values)
