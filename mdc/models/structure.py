@@ -93,15 +93,14 @@ class ChkPoint(models.Model):
     @api.multi
     def write(self, values):
         self.ensure_one()
-        # Modifying a current_lot_active and update histocal lot_active if it is necessary
-        values['start_lot_datetime'] = fields.Datetime.now()
+        # Modifying a current_lot_active and update historic lot_active if it is necessary
         if 'current_lot_active_id' in values:
+            values['start_lot_datetime'] = fields.Datetime.now()
             self.env['mdc.lot_active'].update_historical(
                 chkpoint_id=self.id,
                 current_lot_active=self.current_lot_active_id,
                 new_lot_active_id=values['current_lot_active_id'],
                 start_lot_datetime=values['start_lot_datetime'])
-            # *****************************************************************
             # Only when lot_active has changed and chkpoint type is WOUT,
             #  we must close the related worksheets and open new ones
             if self.chkpoint_categ == 'WOUT':
@@ -119,27 +118,6 @@ class ChkPoint(models.Model):
                             'start_datetime': values['start_lot_datetime'],
                             'employee_id': employee.id,
                             'lot_id': values['current_lot_active_id']})
-            # *****************************************************************
-        """
-        # OLD code
-        # Process worksheet (After change Active_Lot, Only WOUT shkpoint, it's necessary to create new worksheets)
-        if self.chkpoint_categ == 'WOUT':
-            # close all worksheets in this line and create new ones
-            shift = self.env['mdc.shift'].get_current_shift()
-            workstation_ids = self.env['mdc.workstation'].search(
-                [('line_id', '=', self.line_id.id), ('shift_id', '=', shift.id)])
-            for ws in workstation_ids:
-                if ws.current_employee_id.present:
-                    # close worksheet in this line (for current employee working in this line)
-                    wsheet = self.env['mdc.worksheet'].search([('workstation_id', '=', ws.id), ('end_datetime', '=', False)])
-                    self.env['mdc.worksheet'].massive_close(wsheet, values['start_lot_datetime'])
-                    # New worksheet for employee (current employees working in this line)
-                    self.env['mdc.worksheet'].create({
-                        'start_datetime': values['start_lot_datetime'],
-                        'employee_id': ws.current_employee_id.id,
-                        'lot_id': values['current_lot_active_id']})
-        """
-
         return super(ChkPoint, self).write(values)
 
     @api.model
@@ -189,11 +167,27 @@ class Workstation(models.Model):
             })
 
     @api.model
-    def get_wosrkstation_assign_data(self, employee_id):
+    def get_wosrkstation_data_by_employee(self, employee_id):
         ws = self.search([('current_employee_id', '=', employee_id)])
         if ws:
             return (ws.id, ws.shift_id.id, ws.line_id.id)
         return (False,False,False)
+
+    @api.multi
+    def write(self, values):
+        self.ensure_one()
+        # Modify worksheets for employee changes
+        if 'current_employee_id' in values:
+            now = fields.Datetime.now()
+            new_employee = self.env['hr.employee'].browse(values['current_employee_id'])
+            if new_employee.id != self.current_employee_id.id:
+                if self.current_employee_id.present:
+                    # close worksheet for old employee and create new worksheet without workstation assign
+                    self.env['mdc.worksheet'].update_employee_worksheets(self.current_employee_id.id, False, now)
+                if new_employee.present:
+                    # close worksheet for new employeeCreate worksheet for new employee assigned
+                    self.env['mdc.worksheet'].update_employee_worksheets(new_employee.id, self.id, now)
+        return super(Workstation, self).write(values)
 
 
 class Card(models.Model):

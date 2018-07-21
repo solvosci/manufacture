@@ -260,14 +260,22 @@ class Worksheet(models.Model):
 
     @api.model
     def create(self, values):
-        # get workstation from employee
-        # If workstation, get shift and line from workstation assigned to the employee
-        (ws, shift, line) = self.env['mdc.workstation'].get_wosrkstation_assign_data(values['employee_id'])
-        values['workstation_id'] = ws
-        values['shift_id'] = shift
+        line_id = False
+        if 'workstation_id' not in values:
+            # get workstation pre-assigned data from employee (if the employee was pre-assigned to a workstation)
+            (ws_id, shift_id, line_id) = self.env['mdc.workstation'].get_wosrkstation_data_by_employee(values['employee_id'])
+            values['workstation_id'] = ws_id
+            values['shift_id'] = shift_id
+        else:
+            # get shift and line for specific workstation
+            if values['workstation_id']:
+                ws = self.env['mdc.workstation'].browse(values['workstation_id'])
+                line_id = ws.line_id.id
+                values['shift_id'] = ws.shift_id.id
         # with line, get lot from chkpoint (WOUT chkpoint)
         if 'lot_id' not in values:
-            values['lot_id'] = self.env['mdc.chkpoint'].get_current_lot('WOUT', line)
+            if line_id:
+                values['lot_id'] = self.env['mdc.chkpoint'].get_current_lot('WOUT', line_id)
         values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).create(values)
 
@@ -287,4 +295,18 @@ class Worksheet(models.Model):
     def massive_close(self, wsheets, end_time):
         for item in wsheets:
             item.write({'end_datetime': end_time})
+        return
+
+    @api.multi
+    def update_employee_worksheets(self, employee_id, new_workstation_id, now):
+        # Look for employee open worksheets, and close them
+        wsheet = self.search(
+            [('end_datetime', '=', False),
+             ('employee_id', '=', employee_id)])
+        self.env['mdc.worksheet'].massive_close(wsheet, now)
+        # with new workstation create a new worksheet for this employee
+        self.create({
+            'start_datetime': now,
+            'employee_id': employee_id,
+            'workstation_id': new_workstation_id})
         return
