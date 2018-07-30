@@ -8,7 +8,7 @@
             <field name="sequence" eval="18"/>
             <field name="arch" type="xml">
                 <xpath expr="//filter[@name='message_needaction']" position="after">
-                    <filter string="Operatives" name="operatives" domain="[('employee_code','!=','')]"/>
+                    <filter string="Operatives" name="operatives" domain="[('operator','=',True)]"/>
                     <filter string="Present" name="present" domain="[('present','=',True)]"/>
                 </xpath>
             </field>
@@ -93,9 +93,10 @@
                 <xpath expr="//page[@name='public']" position="before">
                     <page name="operatives" string="Operative Information">
                         <group>
-                            <field name="employee_code"/>
-                            <field name="contract_type_id"/>
-                            <field name="present"/>
+                            <field name="operator" />
+                            <field name="employee_code" attrs="{'invisible': [('operator', '=', False)]}"/>
+                            <field name="contract_type_id" attrs="{'invisible': [('operator', '=', False)], 'required': [('operator', '=', True)]}"/>
+                            <field name="present" attrs="{'invisible': [('operator', '=', False)]}"/>
                         </group>
                     </page>
                 </xpath>

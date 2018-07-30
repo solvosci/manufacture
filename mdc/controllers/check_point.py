@@ -162,7 +162,7 @@ class CheckPoint(http.Controller):
         try:
             devices = request.env['mdc.rfid_reader'].sudo(self._get_cp_user(request)).search([])
             card_categs = request.env['mdc.card_categ'].sudo(self._get_cp_user(request)).search([])
-            employees = request.env['hr.employee'].sudo(self._get_cp_user(request)).search([('employee_code', '!=', '')])
+            employees = request.env['hr.employee'].sudo(self._get_cp_user(request)).search([('operator', '=', True)])
             workstations = request.env['mdc.workstation'].sudo(self._get_cp_user(request)).search([])
             ws_session_data = websocket.get_session_data(request.env)
             return request.render(

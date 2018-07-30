@@ -9,6 +9,11 @@ _logger = logging.getLogger(__name__)
 class Employee(models.Model):
     _inherit = 'hr.employee'
 
+    _sql_constraints = [
+        ('employee_code_unique', 'UNIQUE(employee_code)',
+         _('Employee code must be unique!')),
+    ]
+
     def _default_employee_code(self):
         last_code = self.search([('employee_code', 'like', 'OPE%')], order='employee_code desc', limit=1)
         code_max_num = 1
@@ -16,8 +21,9 @@ class Employee(models.Model):
             code_max_num = int(last_code.employee_code[4:]) + 1
         return 'OPE ' + str(code_max_num).zfill(4)
 
-    employee_code = fields.Char('Employee code', required=False, default=_default_employee_code)
-    contract_type_id = fields.Many2one('hr.contract.type', string="Contract Type", required=True,
+    operator = fields.Boolean('Is operator', required=True, default=False)
+    employee_code = fields.Char('Employee code', required=False)
+    contract_type_id = fields.Many2one('hr.contract.type', string="Contract Type",
                               default=lambda self: self.env['hr.contract.type'].search([], limit=1))
     workstation_id = fields.One2many(
         'mdc.workstation',
@@ -65,9 +71,29 @@ class Employee(models.Model):
     @api.model
     def create(self, values):
         _logger.info("[SLV] Employee_create")
-        #values['employee_code'] = self._default_employee_code()
+
+        if values['operator'] and not values['employee_code']:
+            values['employee_code'] = self._default_employee_code()
+
         return super(Employee, self).create(values)
 
+    @api.multi
+    def write(self, values):
+        self.ensure_one()
+        if 'operator' in values:
+            if values['operator'] and not self.employee_code and not 'employee_code' in values:
+                # Employee is now an operator and his employee code is not set
+                values['employee_code'] = self._default_employee_code()
+            if not values['operator']:
+                # Employee is no longer an operator, then employee code and contract type must be removed
+                values['employee_code'] = False
+                values['contract_type_id'] = False
+        else:
+            if 'employee_code' in values and not values['employee_code']:
+                raise UserError(_("It's not allowed to delete employee code for an operator. "
+                                  "If you want to set an automatic code, first unset operator check and save"))
+
+        return super(Employee, self).write(values)
 
     def massive_worksheet_open(self):
         Wizard = self.env['hr.employee.massworksheetopen.wizard']

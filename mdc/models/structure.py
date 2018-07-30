@@ -212,7 +212,7 @@ class Card(models.Model):
     employee_id = fields.Many2one(
         'hr.employee',
         string='Employee',
-        domain=[('employee_code', '!=', '')])
+        domain=[('operator', '=', True)])
     workstation_id = fields.Many2one(
         'mdc.workstation',
         string='Workstation')

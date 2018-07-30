@@ -208,7 +208,7 @@
                 <field name="line_id"/>
                 <field name="name"/>
                 <field name="seat"/>
-                <field name="current_employee_id" domain="[('workstation_id', '=', False),('employee_code', '!=', False)]"/>
+                <field name="current_employee_id" domain="[('workstation_id', '=', False),('operator', '=', True)]"/>
             </tree>
         </field>
     </record>

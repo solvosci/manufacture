@@ -1326,7 +1326,8 @@
         <data noupdate="1">
             <!-- Employee -->
             <record id="mdc_hr_employee_E1" model="hr.employee">
-                <field name="name">Operario 2</field>
+                <field name="name">Operario 1</field>
+                <field name="operator" eval="True"/>
             </record>
          </data>
 
