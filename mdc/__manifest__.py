@@ -13,6 +13,7 @@
     'website': "http://www.solvos.es",
 
     'category': 'Manufacturing',
+    'license': 'LGPL-3',
     'version': '0.1',
 
     'depends': ['base', 'product', 'hr', 'hr_contract', 'stock', 'report_xlsx'],
