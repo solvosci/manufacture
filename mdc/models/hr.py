@@ -72,7 +72,7 @@ class Employee(models.Model):
     def create(self, values):
         _logger.info("[SLV] Employee_create")
 
-        if values['operator'] and not values['employee_code']:
+        if values.get('operator') and not values.get('employee_code'):
             values['employee_code'] = self._default_employee_code()
 
         return super(Employee, self).create(values)
