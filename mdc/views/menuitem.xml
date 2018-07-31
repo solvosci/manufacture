@@ -242,6 +242,23 @@
         <field name="target">inline</field>
     </record>
 
+    <!-- New action: present operator employees, ready for worksheet open -->
+    <record id="action_hr_employee_massworksheetopen" model="ir.actions.act_window">
+        <field name="name">Massive Worksheet open</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.employee</field>
+        <field name="domain">[('operator', '=', True), ('present', '=', False)]</field>
+        <field name="search_view_id" ref="mdc.view_hr_employee_filter"/>
+        <field name="view_id" ref="mdc.hr_employee_tree_massworksheetopen"/>
+        <field name="help" type="html">
+            <p>
+                Every operator is already present.
+            </p>
+            <p>
+                When an operator is unable to make his open worksheet, you'll find him here.
+            </p>
+        </field>
+    </record>
 
     <!-- Top menu item -->
     <menuitem
@@ -254,6 +271,7 @@
     <menuitem id="mdc_menu_operations"
         name="Operations"
         parent="mdc_menu_root"
+        groups="group_mdc_manager"
         sequence="10"/>
 
     <menuitem id="mdc_menu_data"
@@ -302,6 +320,12 @@
         action="action_mdc_lots_actives"
         parent="mdc_menu_operations"
         sequence="25"/>
+
+    <menuitem id="mdc_massworksheetopen_menu"
+        name="Massive worksheet open"
+        action="action_hr_employee_massworksheetopen"
+        parent="mdc_menu_operations"
+        sequence="30"/>
 
     <!-- Data menu -->
     <menuitem id="mdc_worksheet_menu"
