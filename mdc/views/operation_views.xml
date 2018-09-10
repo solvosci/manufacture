@@ -17,6 +17,7 @@
     <record id="mdc_chkpoints_lots_actives_tree" model="ir.ui.view">
         <field name="name">mdc.chkpoints_lots_actives.tree</field>
         <field name="model">mdc.chkpoint</field>
+        <field name="priority" eval="20"/>
         <field name="arch" type="xml">
             <tree editable="top" create="false" delete="false" string="Check Point Lots Actives">
                 <field name="name" readonly="True"/>
