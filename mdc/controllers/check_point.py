@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import http, _
+from odoo import http, fields, _
 from odoo.exceptions import UserError
 from odoo.http import request
 
@@ -156,7 +156,6 @@ class CheckPoint(http.Controller):
         finally:
             return data_out
 
-
     @http.route('/mdc/cp/cardreg', type='http', auth='none')
     def cp_cardreg(self):
         try:
@@ -190,6 +189,22 @@ class CheckPoint(http.Controller):
             return {
                 'err': e
             }
+
+    @http.route('/mdc/cp/cardlot', type='http', auth='none')
+    def cp_cardlot(self):
+        try:
+            devices = request.env['mdc.rfid_reader'].sudo(self._get_cp_user(request)).search([])
+            lots = request.env['mdc.lot'].sudo(self._get_cp_user(request))\
+                .search(['&', ('start_date', '<=', fields.Date.today()),
+                         '|', ('end_date', '=', False), ('end_date', '>=', fields.Date.today())])
+            ws_session_data = ws_rfid_server.get_session_data(request.env)
+            return request.render(
+                'mdc.chkpoint_card_lot_assignment',
+                {'devices': devices, 'lots': lots,
+                 'ws_session_data': ws_session_data}
+            )
+        except Exception as e:
+            return self.get_error_page(e)
 
     @http.route('/mdc/cp/carddata/<string:card_code>', type='json', auth='none')
     def cp_carddata(self, card_code):

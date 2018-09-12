@@ -5,6 +5,15 @@ from websocket import create_connection
 
 
 def get_session_data(env):
+
+    # TODO comment this for testing purposes
+    """"""
+    return {
+        'session_id': 'fake',
+        'wsapi_url': 'fake'
+    }
+    """"""
+
     IrConfigParameter = env['ir.config_parameter'].sudo()
 
     login_url = '%s/api/login' % IrConfigParameter.get_param('mdc.rfid_server_url')

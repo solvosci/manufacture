@@ -9,6 +9,9 @@ show_info = function (message, level) {
 
 ws_create = function (onmessage_function) {
 
+    // TODO comment this for testing purposes
+    /****/ return false; /****/
+
     var sessionId = $('#ws_session_id').val();
     var ws = new WebSocket($('#ws_wsapi_url').val());
 
@@ -23,4 +26,16 @@ ws_create = function (onmessage_function) {
 
     return ws;
 
+}
+
+if (!String.prototype.format) {
+  String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function(match, number) {
+      return typeof args[number] != 'undefined'
+        ? args[number]
+        : match
+      ;
+    });
+  };
 }
