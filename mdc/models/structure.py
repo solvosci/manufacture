@@ -232,8 +232,24 @@ class Card(models.Model):
     @api.multi
     def write(self, values):
         self.ensure_one()
-        # TODO _card_preprocess() not ready for update validation
-        # values = self._card_preprocess(values)
+        if 'card_categ_id' in values:
+            raise UserError(_('Modifying card category is not allowed. Please contact Administrator'))
+        if self.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_O').id:
+            if 'employee_id' in values and not values.get('employee_id'):
+                raise UserError(_('You must select an employee for this card'))
+            values.pop('lot_id', None)
+            values.pop('workstation_id', None)
+        if self.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_L').id:
+            if 'workstation_id' in values and not values.get('workstation_id'):
+                raise UserError(_('You must select a workstation for this card'))
+            values.pop('lot_id', None)
+            values.pop('employee_id', None)
+        if self.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_PC').id:
+            if 'lot_id' in values and not values.get('lot_id'):
+                raise UserError(_('You must select a lot for this card'))
+            values.pop('employee_id', None)
+            values.pop('workstation_id', None)
+        # TODO product and subproduct cards should clear assignment fields
         return super(Card, self).write(values)
 
     # TODO modify _card_preprocess() for update validation
@@ -254,6 +270,7 @@ class Card(models.Model):
                 raise UserError(_('You must select a lot for this card or select another category'))
             values.pop('employee_id', None)
             values.pop('workstation_id', None)
+        # TODO product and subproduct cards should clear assignment fields
         return values
 
 # ******************************************************************

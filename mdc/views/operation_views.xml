@@ -298,7 +298,8 @@
                         <field name="name"/>
                     </group>
                     <group>
-                        <field name="card_categ_id" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                        <field name="card_categ_id" options="{'no_create': 1, 'no_create_edit': 1}"
+                            attrs="{'readonly': [('id', '!=', False)]}"/>
                     </group>
                     <group name="gr_card_data" string="Card Assignment">
                         <group>

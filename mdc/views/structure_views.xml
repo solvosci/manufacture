@@ -85,6 +85,34 @@
         </field>
     </record>
 
+    <!-- Search view: default search for joker card assignation lots -->
+    <record id="mdc_card_lot_assign_search" model="ir.ui.view">
+        <field name="name">mdc.card_lot_assign.search</field>
+        <field name="model">mdc.card</field>
+        <field name="arch" type="xml">
+            <search string="Card lot assignment">
+                <field name="name"/>
+                <field name="lot_id"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tree view: default view for joker card assignation lots -->
+    <record id="mdc_card_lot_assign_tree" model="ir.ui.view">
+        <field name="name">mdc.card_lot_assign.tree</field>
+        <field name="model">mdc.card</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+            <tree editable="top" create="false" delete="false" string="Card lot assignment">
+                <field name="name" readonly="True"/>
+                <field name="lot_id" context="{'name_extended': True}" domain="['&amp;',('create_date','&lt;=',current_date),'|',('end_date','>=',current_date),('end_date','=',False)]"
+                       required="True" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                <field name="write_date" readonly="True" string="Last assignment date"/>
+            </tree>
+        </field>
+    </record>
+
+
     <!-- Tree view: default view for wout_categ -->
     <record id="mdc_wout_categ_tree" model="ir.ui.view">
         <field name="name">mdc.wout_categ.tree</field>

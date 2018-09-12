@@ -260,6 +260,32 @@
         </field>
     </record>
 
+     <!-- Action: Card lot assignment -->
+    <record model="ir.actions.act_window" id="action_mdc_card_lotassign">
+        <field name="name">Card lot assignment</field>
+        <field name="res_model">mdc.card</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <!-- FIXME unable to filter by joker card (ref and '%' not working) -->
+        <field name="domain">[('card_categ_id.name', '=', 'Producto Comodín')]</field>
+        <field name="search_view_id" ref="mdc_card_lot_assign_search"/>
+        <field name="limit">25</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Not possible.
+          </p><p>
+            Unable to register new cards in this view.
+          </p>
+        </field>
+    </record>
+
+     <record id="action_mdc_chkpoint_lots_actives_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="sequence" eval="4"/>
+        <field name="view_id" ref="mdc_card_lot_assign_tree"/>
+        <field name="act_window_id" ref="action_mdc_card_lotassign"/>
+    </record>
+
     <!-- Top menu item -->
     <menuitem
         id="mdc_menu_root"
@@ -327,6 +353,11 @@
         parent="mdc_menu_operations"
         sequence="30"/>
 
+    <menuitem id="mdc_cardlotassign_menu"
+        name="Card lot assignment"
+        action="action_mdc_card_lotassign"
+        parent="mdc_menu_operations"
+        sequence="40"/>
     <!-- Data menu -->
     <menuitem id="mdc_worksheet_menu"
         name="Worksheets"
