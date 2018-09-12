@@ -3,6 +3,17 @@ body, select, button, input {
   font-family: sans-serif;
 }
 
+.UpperTitle
+{
+    text-align: center;
+    padding: 25px 15px;
+    font-weight:bold;
+    font-size: 55px
+    border-radius: 10px;
+    position: relative;
+}
+.UpperTitle img { position: absolute; left: 15px; top: 10px; }
+
 button {
   margin: 10px;
   padding: 15px;

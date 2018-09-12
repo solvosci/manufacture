@@ -313,11 +313,15 @@
                     <span id="t_cardlot_lot_err">there is no lot selected</span>
                     <span id="t_cardlot_slide_err">first slide a card</span>
                     <span id="t_cardlot_card_info">Read card #{0}</span>
+                    <span id="t_cardlot_card_waiting">Assigning card...</span>
                     <span id="t_cardlot_success">Card #{0} successfully assigned to lot {1}</span>
                     <span id="t_cardlot_err_unknown">ERROR assigning card to lot (unknown)</span>
                 </div>
 
-                <div>MCD CP: <a href="/mdc/cp/list">Home</a> | <a href="/mdc/cp/cardreg">Card registration</a></div>
+                <div class="UpperTitle">
+                    <img src="/web/binary/company_logo" />
+                    <t t-esc="title"></t>
+                </div>
                 <hr/>
                 <div id="info_div">
                     Waiting for websocket connection...

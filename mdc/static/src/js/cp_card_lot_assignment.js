@@ -46,14 +46,10 @@ card_assign_lot_click = function () {
 
         var data = {
             'card_code': parseInt($('#card_read_input').val()),
-            'card_categ_id': parseInt($('#card_categ_select').val(), 10),
-            'employee_id': parseInt($('#employee_select').val(), 10),
-            'workstation_id': parseInt($('#workstation_select').val(), 10)
+            'lot_id': parseInt($('#lot_select').val(), 10)
         }
 
-        $('#info_div')
-            .removeClass('info_div_err').addClass('info_div_ok')
-            .html('Assigning card... ');
+        show_info($('#t_cardlot_card_waiting').html(), 'ok');
         $.ajax({
             url: '/mdc/cp/cardlot/save',
             type: 'POST',

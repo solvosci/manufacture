@@ -273,6 +273,27 @@ class Card(models.Model):
         # TODO product and subproduct cards should clear assignment fields
         return values
 
+    def from_cp_assign_lot(self, values):
+        """
+        Assign a lot to a card read
+        """
+
+        # Data received:
+        # - card_code
+        # - lot_id
+        card = self.search([('name', '=', values['card_code'])])
+        if not card:
+            raise UserError(_('Card #%s not found') % values['card_code'])
+        if card.card_categ_id.id != self.env.ref('mdc.mdc_card_categ_PC').id:
+            raise UserError(_('Card #%s is not a joker card!') % values['card_code'])
+        card.write({
+            'lot_id': values['lot_id'],
+        })
+        return {
+            'card_id': card.id,
+            'lot_name': card.lot_id.name
+        }
+
 # ******************************************************************
 
 class Shift(models.Model):

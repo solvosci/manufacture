@@ -30,6 +30,9 @@ class CheckPoint(http.Controller):
     def _get_cp_user(self, request):
         return request.env.ref('mdc.mdc_user_cp')
 
+    def _get_company(self, request):
+        return request.env['res.company'].sudo().search([])[0]
+
     # Example route
     # TODO remove
     @http.route('/mdc/scales', type='http', auth='none')
@@ -200,11 +203,22 @@ class CheckPoint(http.Controller):
             ws_session_data = ws_rfid_server.get_session_data(request.env)
             return request.render(
                 'mdc.chkpoint_card_lot_assignment',
-                {'devices': devices, 'lots': lots,
+                {'title': _('Card lot assignment'), 'devices': devices, 'lots': lots,
                  'ws_session_data': ws_session_data}
             )
         except Exception as e:
             return self.get_error_page(e)
+
+    @http.route('/mdc/cp/cardlot/save', type='json', auth='none')
+    def cp_cardlot_save(self):
+        data_in = dict(request.jsonrequest)
+        Card = request.env['mdc.card'].sudo(self._get_cp_user(request))
+        try:
+            return Card.from_cp_assign_lot(data_in)
+        except Exception as e:
+            return {
+                'err': e
+            }
 
     @http.route('/mdc/cp/carddata/<string:card_code>', type='json', auth='none')
     def cp_carddata(self, card_code):
