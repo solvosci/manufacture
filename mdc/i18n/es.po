@@ -485,9 +485,9 @@ msgid "Cost used for stock valuation in standard price and as a first price to s
 msgstr "Coste utilizado para la valuación de acciones en precio estándar y como primer precio para establecer en promedio/fifo. También se utiliza como precio base para las listas de precios. Expresado en la unidad de medida predeterminada del producto."
 
 #. module: mdc
-#: model:ir.model.fields,field_description:mdc.field_mdc_lot_create_date
-msgid "Create_Date"
-msgstr "Fecha de creación"
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_start_date
+msgid "Start Date"
+msgstr "Fecha de Inicio"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_card_categ_create_uid

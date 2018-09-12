@@ -20,6 +20,10 @@ class Lot(models.Model):
     _name = 'mdc.lot'
     _description = 'Lot'
 
+    def _default_date(self):
+        #return fields.Datetime.from_string(fields.Datetime.now())
+        return fields.Datetime.now()
+
     name = fields.Char(
         'Name',
         required=True)
@@ -37,9 +41,10 @@ class Lot(models.Model):
         string='Customer')
     descrip = fields.Char(
         'Description')
-    create_date = fields.Date(
-        'Create_Date',
-        required = True)
+    start_date = fields.Date(
+        'Start Date',
+        required = True,
+        default=_default_date)
     end_date = fields.Date(
         'End_Date')
 
@@ -59,7 +64,7 @@ class Lot(models.Model):
                     caduca = ''
                 else:
                     caduca = entry.end_date
-                res.append((entry.id, '[%s (%s , %s)]: %s - (%s)' % (entry.name, entry.create_date, caduca, entry.product_id.name, cliente)))
+                res.append((entry.id, '[%s (%s , %s)]: %s - (%s)' % (entry.name, entry.start_date, caduca, entry.product_id.name, cliente)))
         else:
             for entry in self:
                 res.append((entry.id, '%s' % (entry.name)))
