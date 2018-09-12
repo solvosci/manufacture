@@ -21,7 +21,7 @@
         <field name="arch" type="xml">
             <tree editable="top" create="false" delete="false" string="Check Point Lots Actives">
                 <field name="name" readonly="True"/>
-                <field name="current_lot_active_id" context="{'name_extended': True}" domain="['&amp;',('create_date','&lt;=',current_date),'|',('end_date','>=',current_date),('end_date','=',False)]" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                <field name="current_lot_active_id" context="{'name_extended': True}" domain="['&amp;',('start_date','&lt;=',current_date),'|',('end_date','>=',current_date),('end_date','=',False)]" options="{'no_create': 1, 'no_create_edit': 1}"/>
                 <field name="start_lot_datetime" readonly="True"/>
             </tree>
         </field>
@@ -91,7 +91,7 @@
                     </group>
                      <group name="gr_lot_active_expiration_dates" string="Active and Expiration Dates">
                         <group>
-                            <field name="create_date"/>
+                            <field name="start_date"/>
                         </group>
                         <group>
                             <field name="end_date"/>
