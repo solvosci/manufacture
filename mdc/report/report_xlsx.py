@@ -85,9 +85,14 @@ class ReportRptTracingXlsx(models.AbstractModel):
         sheet.write(header_row, 11, _("STD Back"), f_header)
         sheet.write(header_row, 12, _("% Crumbs"), f_header)
         sheet.write(header_row, 13, _("% Total Yield"), f_header)
-        sheet.write(header_row, 14, _("STD Crum"), f_header)
+        sheet.write(header_row, 14, _("STD Crumbs"), f_header)
         sheet.write(header_row, 15, _("Workforce"), f_header)
         sheet.write(header_row, 16, _("STD Workforce"), f_header)
+        sheet.write(header_row, 17, _("IND Backs"), f_header)
+        sheet.write(header_row, 18, _("IND Workforce"), f_header)
+        sheet.write(header_row, 19, _("IND Crumbs"), f_header)
+        sheet.write(header_row, 20, _("IND Quality"), f_header)
+        sheet.write(header_row, 21, _("IND Cleaning"), f_header)
 
         # TODO alternate dict list with almost grouped data (still problems with product and date)
         """
@@ -141,6 +146,12 @@ class ReportRptTracingXlsx(models.AbstractModel):
                 sheet.write_formula(row, 10, '=G' + str(row+1) + '/F' + str(row+1), f_percent)
                 sheet.write_formula(row, 12, '=H' + str(row+1) + '/F' + str(row+1), f_percent)
                 sheet.write_formula(row, 13, '=(G' + str(row + 1) + '+H' + str(row + 1) + ')/F' + str(row + 1), f_percent)
+                # Ind columns
+                sheet.write(row, 17, obj.std_yield_product)
+                sheet.write(row, 18, obj.std_yield_sp1)
+                sheet.write(row, 19, obj.std_speed)
+                sheet.write(row, 20, obj.std_yield_sp1)
+                sheet.write(row, 21, obj.std_speed)
 
                 wgross_weight = 0
                 wproduct_weight = 0

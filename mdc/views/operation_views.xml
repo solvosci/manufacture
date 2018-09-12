@@ -302,10 +302,14 @@
                     </group>
                     <group name="gr_card_data" string="Card Assignment">
                         <group>
-                            <field name="employee_id" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                            <field name="employee_id" options="{'no_create': 1, 'no_create_edit': 1}"
+                                attrs="{'readonly': [('card_categ_id', '!=', %(mdc.mdc_card_categ_O)d)], 'required': [('card_categ_id', '=', %(mdc.mdc_card_categ_O)d)]}"/>
+                            <field name="lot_id" options="{'no_create': 1, 'no_create_edit': 1}"
+                                attrs="{'readonly': [('card_categ_id', '!=', %(mdc.mdc_card_categ_PC)d)], 'required': [('card_categ_id', '=', %(mdc.mdc_card_categ_PC)d)]}"/>
                         </group>
                         <group>
-                            <field name="workstation_id" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                            <field name="workstation_id" options="{'no_create': 1, 'no_create_edit': 1}"
+                                attrs="{'readonly': [('card_categ_id', '!=', %(mdc.mdc_card_categ_L)d)], 'required': [('card_categ_id', '=', %(mdc.mdc_card_categ_L)d)]}"/>
                         </group>
                     </group>
                     <group name="gr_card_status" string="Card Status">

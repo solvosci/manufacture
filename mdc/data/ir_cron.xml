@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_worksheet_oc_listener" model="ir.cron">
+        <field name="name">MDC: Worksheet open/close listener</field>
+        <field name="model_id" ref="model_mdc_worksheet"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="state">code</field>
+        <field name="code">model._listen()</field>
+        <field name='interval_number'>1</field>
+        <field name='interval_type'>minutes</field>
+        <field name="nextcall" eval="(datetime.now() + timedelta(minutes=1)).strftime('%Y-%m-%d %H:%M:%S')" />
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+    </record>
+</odoo>
