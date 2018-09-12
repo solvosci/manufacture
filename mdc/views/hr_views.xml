@@ -177,5 +177,53 @@
         </field>
       </record>
 
+      <!-- Tree view: new view for massive worksheet close action -->
+      <record id="hr_employee_tree_massworksheetclose" model="ir.ui.view">
+            <field name="name">hr.employee.tree.massworksheetclose</field>
+            <field name="model">hr.employee</field>
+            <field name="priority" eval="20" />
+            <field name="arch" type="xml">
+                <tree editable="top" create="false" delete="false" string="Massive worksheet close">
+                    <field name="name" readonly="True"/>
+                    <field name="employee_code" readonly="True"/>
+                </tree>
+            </field>
+      </record>
+
+      <!-- Server action: new action to massive worksheet close -->
+      <record id="action_view_hr_mass_worksheet_close" model="ir.actions.server">
+            <field name="name">Massive worksheet close</field>
+            <field name="model_id" ref="model_hr_employee" />
+            <field name="binding_model_id" ref="model_hr_employee"/>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="state">code</field>
+            <field name="multi">True</field>
+            <field name="code">
+                action=model.massive_worksheet_close()
+            </field>
+      </record>
+
+      <record id="hr_employee_massworksheetclose_wizard_form" model="ir.ui.view">
+        <field name="name">hr.employee.massworksheetclose.wizard.form</field>
+        <field name="model">hr.employee.massworksheetclose.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Massive worksheet close">
+                <sheet>
+                    <p>
+                        Please select a start date and hour for the worksheets:
+                    </p>
+                    <group>
+                        <field name="end_datetime"/>
+                    </group>
+                    <footer>
+                        <button name="action_save" string="Create close worksheets" type="object" class="oe_highlight"/>
+                        <button name="action_cancel" string="Cancel" type="object" class="btn-default"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+      </record>
+
   </data>
 </odoo>
