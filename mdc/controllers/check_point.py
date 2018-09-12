@@ -3,7 +3,7 @@ from odoo import http, _
 from odoo.exceptions import UserError
 from odoo.http import request
 
-from . import websocket
+from .. import ws_rfid_server
 
 
 # class SlvMdc(http.Controller):
@@ -71,7 +71,7 @@ class CheckPoint(http.Controller):
     @http.route("/mdc/cp/win/<int:chkpoint_id>", type='http', auth='none')
     def cp_win(self, chkpoint_id):
         try:
-            ws_session_data = websocket.get_session_data(request.env)
+            ws_session_data = ws_rfid_server.get_session_data(request.env)
             chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
             return request.render(
                 'mdc.chkpoint_win',
@@ -122,7 +122,7 @@ class CheckPoint(http.Controller):
     @http.route("/mdc/cp/wout/<int:chkpoint_id>", type='http', auth='none')
     def cp_wout(self, chkpoint_id):
         try:
-            ws_session_data = websocket.get_session_data(request.env)
+            ws_session_data = ws_rfid_server.get_session_data(request.env)
             chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
             qualities = request.env['mdc.quality'].sudo(self._get_cp_user(request)).search([])
             return request.render(
@@ -164,7 +164,7 @@ class CheckPoint(http.Controller):
             card_categs = request.env['mdc.card_categ'].sudo(self._get_cp_user(request)).search([])
             employees = request.env['hr.employee'].sudo(self._get_cp_user(request)).search([('operator', '=', True)])
             workstations = request.env['mdc.workstation'].sudo(self._get_cp_user(request)).search([])
-            ws_session_data = websocket.get_session_data(request.env)
+            ws_session_data = ws_rfid_server.get_session_data(request.env)
             return request.render(
                 'mdc.chkpoint_card_registration',
                 {'devices': devices, 'card_categs': card_categs, 'employees': employees, 'workstations': workstations,

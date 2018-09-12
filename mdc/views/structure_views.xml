@@ -79,6 +79,7 @@
                 <field name="card_categ_id"/>
                 <field name="employee_id"/>
                 <field name="workstation_id"/>
+                <field name="lot_id"/>
                 <field name="status"/>
             </tree>
         </field>

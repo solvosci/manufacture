@@ -5,6 +5,11 @@ import datetime
 from odoo import api, models, fields, _
 from odoo.exceptions import UserError
 
+from .. import ws_rfid_server
+import websocket
+import ast
+
+
 _logger = logging.getLogger(__name__)
 
 
@@ -310,3 +315,49 @@ class Worksheet(models.Model):
             'employee_id': employee_id,
             'workstation_id': new_workstation_id})
         return
+
+    @api.model
+    def _listen(self):
+        """
+        Start listening open and close worksheet events through a websocket connection with RFID server
+        :return:
+        """
+        _logger.info('[mdc.worksheet] Started listener')
+
+        def on_message(ws, message):
+            """
+            ['Event']['user_id']['user_id']  <== card id.
+            ['Event']['device_id']['id']  <== device id
+            """
+            _logger.info('[mdc.worksheet] Received: %s' % message)
+            event = ast.literal_eval(message)
+            # TODO verify proper event format (e.g. open websocket event is different)
+            _logger.info('[mdc.worksheet] Read %s card from %s device!!!' %
+                         (event['Event']['user_id']['user_id'], event['Event']['device_id']['id']))
+            # TODO business logic (register an open/close worksheet)
+
+        def on_error(ws, error):
+            _logger.info('[mdc.worksheet] Websocket error: %s' % error)
+            # TODO reconnect? Finish monitoring?
+
+        def on_close(ws):
+            _logger.info('[mdc.worksheet] Websocket closed!')
+
+        def on_open(ws):
+            _logger.info('[mdc.worksheet] Websocket open')
+            ws.send('bs-session-id=%s' % ws_session_data['session_id'])
+            _logger.info('[mdc.worksheet] Websocket session id sent')
+
+        # TODO manage server errors and notice them
+        ws_session_data = ws_rfid_server.get_session_data(self.env)
+        # websocket.enableTrace(True)
+        ws_server = websocket.WebSocketApp(ws_session_data['wsapi_url'],
+                                           on_message=on_message,
+                                           on_error=on_error,
+                                           on_close=on_close)
+        ws_server.on_open = on_open
+        ws_server.run_forever()
+
+        # Only when websocket is closed will end listener. Then, cron jon should restart as soon as possible
+        _logger.info('[mdc.worksheet] Ended listener')
+

@@ -216,6 +216,10 @@ class Card(models.Model):
     workstation_id = fields.Many2one(
         'mdc.workstation',
         string='Workstation')
+    lot_id = fields.Many2one(
+        'mdc.lot',
+        string='Associated lot',
+        domain=['&', ('create_date', '<=', fields.Date.today()), '|', ('end_date', '=', False), ('end_date', '>=', fields.Date.today())])
     status = fields.Selection(
         selection='_get_card_status_selection',
         string='Status')
@@ -239,10 +243,17 @@ class Card(models.Model):
             if not values.get('employee_id'):
                 raise UserError(_('You must select an employee for this card or select another category'))
             values.pop('workstation_id', None)
+            values.pop('lot_id', None)
         if categ == self.env.ref('mdc.mdc_card_categ_L').id:
             if not values.get('workstation_id'):
                 raise UserError(_('You must select a workstation for this card or select another category'))
             values.pop('employee_id', None)
+            values.pop('lot_id', None)
+        if categ == self.env.ref('mdc.mdc_card_categ_PC').id:
+            if not values.get('lot_id'):
+                raise UserError(_('You must select a lot for this card or select another category'))
+            values.pop('employee_id', None)
+            values.pop('workstation_id', None)
         return values
 
 # ******************************************************************
