@@ -70,6 +70,12 @@ class Lot(models.Model):
                 res.append((entry.id, '%s' % (entry.name)))
         return res
 
+    @api.constrains('end_date')
+    def _check_end_date(self):
+        for l in self:
+            if l.end_date < l.start_date:
+                raise models.ValidationError(_('End date must be older than start date'))
+
 class LotActive(models.Model):
     """
     Main data for active lots

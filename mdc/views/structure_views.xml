@@ -105,7 +105,7 @@
         <field name="arch" type="xml">
             <tree editable="top" create="false" delete="false" string="Card lot assignment">
                 <field name="name" readonly="True"/>
-                <field name="lot_id" context="{'name_extended': True}" domain="['&amp;',('create_date','&lt;=',current_date),'|',('end_date','>=',current_date),('end_date','=',False)]"
+                <field name="lot_id" context="{'name_extended': True}"
                        required="True" options="{'no_create': 1, 'no_create_edit': 1}"/>
                 <field name="write_date" readonly="True" string="Last assignment date"/>
             </tree>

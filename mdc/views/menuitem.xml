@@ -81,6 +81,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="mdc_lots_search"/>
+        <field name="context">{"search_default_inforce":1}</field>
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
