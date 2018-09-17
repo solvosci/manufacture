@@ -407,12 +407,17 @@ class RfidReader(models.Model):
 
     name = fields.Char(
         'Name',
-        required=True)
+        required=True,
+        default=_('New RFID device'),
+        copy=False)
     device_code = fields.Char(
         'Device Code',
-        required=True)
+        required=True,
+        default='0',
+        copy=False)
     tcp_address_ip = fields.Char(
-        'IP Address')
+        'IP Address',
+        copy=False)
     tcp_address_port = fields.Integer(
         'IP Port')
     active = fields.Boolean(

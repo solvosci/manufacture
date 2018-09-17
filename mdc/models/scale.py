@@ -18,7 +18,9 @@ class Scale(models.Model):
 
     name = fields.Char(
         'Name',
-        required=True)
+        required=True,
+        copy=False,
+        default=_('New scale'))
     tcp_address_ip = fields.Char(
         'IP Address',
         required=True)
