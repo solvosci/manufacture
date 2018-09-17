@@ -9,8 +9,8 @@ show_info = function (message, level) {
 
 ws_create = function (onmessage_function) {
 
-    // TODO comment this for testing purposes
-    /****/ return false; /****/
+    // TODO uncomment this for testing purposes
+    // return false;
 
     var sessionId = $('#ws_session_id').val();
     var ws = new WebSocket($('#ws_wsapi_url').val());
