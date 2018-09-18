@@ -6,10 +6,6 @@
         name="Cumulative Report"
         res_model="mdc.data_win"/>
     <act_window
-        id="action_mdc_gross_weight_lot_report"
-        name="Gross Weight Report"
-        res_model="mdc.data_win"/>
-    <act_window
         id="action_mdc_indicators_report"
         name="Indicators Report"
         res_model="mdc.data_win"/>
@@ -38,6 +34,29 @@
     </record>
 
 
+    <!-- Action: Manufacturing Report -->
+    <record model="ir.actions.act_window" id="action_mdc_rpt_manufacturing">
+        <field name="name">Manufacturing Report</field>
+        <field name="res_model">mdc.rpt_manufacturing</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref="mdc_rpt_manufacturing_search"/>
+        <field name="limit">25</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Not possible.
+          </p><p>
+            Can't create or update records in this view.
+          </p>
+        </field>
+    </record>
+
+     <record id="action_mdc_rpt_manufacturing_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="sequence" eval="4"/>
+        <field name="view_id" ref="mdc_rpt_manufacturing_tree"/>
+        <field name="act_window_id" ref="action_mdc_rpt_manufacturing"/>
+    </record>
+
     <!-- Reporting menu -->
     <menuitem id="mdc_rpt_tracing_menu"
         name="Tracing Report"
@@ -45,9 +64,9 @@
         parent="mdc_menu_reporting"
         sequence="10"/>
 
-    <menuitem id="mdc_gross_weight_lot_report_menu"
-        name="Gross Weight Lot Report"
-        action="action_mdc_gross_weight_lot_report"
+    <menuitem id="mdc_rpt_manufacturing_menu"
+        name="Manufacturing Report"
+        action="action_mdc_rpt_manufacturing"
         parent="mdc_menu_reporting"
         sequence="15"/>
 

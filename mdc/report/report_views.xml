@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <data>
          <report
             id="tracing_xlsx"
@@ -58,4 +57,67 @@
             </field>
         </record>
     </data>
+
+    <data>
+         <report
+            id="manufacturing_xlsx"
+            model="mdc.rpt_manufacturing"
+            string="Print to XLSX"
+            report_type="xlsx"
+            name="mdc.rpt_manufacturing"
+            file="mdc_rpt_manufacturing"
+            attachment_use="False"
+        />
+
+        <!-- Search view: default search for Manufacturing Report -->
+        <record id="mdc_rpt_manufacturing_search" model="ir.ui.view">
+            <field name="name">mdc.rpt_manufacturing.search</field>
+            <field name="model">mdc.rpt_manufacturing</field>
+            <field name="arch" type="xml">
+                <search string="Manufacturing Report">
+                    <field name="employee_code"/>
+                    <field name="employee_name"/>
+                    <field name="contract_name"/>
+                    <field name="lot_name"/>
+                    <field name="shift_code"/>
+                    <filter name="week" string="This Week"
+                        domain="[
+                            '&amp;',
+                            ('create_date', '>=', (context_today() + relativedelta(weeks=-1,days=1,weekday=0)).strftime('%Y-%m-%d')),
+                            ('create_date', '&lt;=', (context_today() + relativedelta(weekday=6)).strftime('%Y-%m-%d')),
+                        ]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Lot Name" name="groupby_lot_name" domain="[]" context="{'group_by':'lot_name'}"/>
+                        <filter string="Employee Code" name="groupby_employee" domain="[]" context="{'group_by':'employee_code'}"/>
+                        <filter string="Contract Name" name="groupby_contract" domain="[]" context="{'group_by':'contract_name'}"/>
+                        <filter string="Shift Code" name="groupby_shift" domain="[]" context="{'group_by':'shift_code'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Tree view: default view for Manufacturing Report -->
+        <record id="mdc_rpt_manufacturing_tree" model="ir.ui.view">
+            <field name="name">mdc.rpt_manufacturing.tree</field>
+            <field name="model">mdc.rpt_manufacturing</field>
+            <field name="arch" type="xml">
+                <tree editable="top" create="false" delete="false" string="Manufacturing Report">
+                    <field name="create_date" readonly="True"/>
+                    <field name="workstation_name" readonly="True"/>
+                    <field name="employee_code" readonly="True"/>
+                    <field name="employee_name" readonly="True"/>
+                    <field name="contract_name" readonly="True"/>
+                    <field name="lot_name" readonly="True"/>
+                    <field name="product_id" readonly="True"/>
+                    <field name="shift_code" readonly="True"/>
+                    <field name="gross_weight" readonly="True"/>
+                    <field name="product_weight" readonly="True"/>
+                    <field name="sp1_weight" readonly="True"/>
+                    <field name="quality" readonly="True"/>
+                    <field name="total_hours" readonly="True"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+
 </odoo>
