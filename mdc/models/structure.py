@@ -273,6 +273,44 @@ class Card(models.Model):
         # TODO product and subproduct cards should clear assignment fields
         return values
 
+    def from_cp_get_card_data(self, card_code):
+        """
+        Retrieves relevant data from the card current usage
+        :param card_code: card read numeric code
+        :return: current usage card data
+        """
+        data_out = {
+            'card_code': card_code
+        }
+        card = self.search([('name', '=', card_code)])
+        if not card:
+            raise UserError(_('Card #%s not found') % card_code)
+
+        data_out['card_id'] = card.id
+        data_out['card_categ_id'] = card.card_categ_id.id
+        if card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_P').id:
+            win = self.env['mdc.data_win'].search([('card_id', '=', card.id), ('wout_id', '=', False)])
+            if win:
+                data_out['win_lot'] = win[0].lot_id.name
+                data_out['win_weight'] = win[0].weight
+                data_out['win_uom'] = win[0].w_uom_id.name
+        elif card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_L').id:
+            if card.workstation_id:
+                data_out['workstation'] = card.workstation_id.name
+        elif card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_PC').id:
+            # TODO is a joker card
+            # data_out['special'] = _('Joker card')
+            pass
+        elif card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_O').id:
+            # TODO retrieve employee description
+            # data_out['employee_code'] = ...
+            # data_out['employee_name'] = ...
+            pass
+        else:
+            raise UserError(_('Card not valid (#%s)') % card_code)
+
+        return data_out
+
     def from_cp_assign_lot(self, values):
         """
         Assign a lot to a card read
@@ -407,12 +445,17 @@ class RfidReader(models.Model):
 
     name = fields.Char(
         'Name',
-        required=True)
+        required=True,
+        default=_('New RFID device'),
+        copy=False)
     device_code = fields.Char(
         'Device Code',
-        required=True)
+        required=True,
+        default='0',
+        copy=False)
     tcp_address_ip = fields.Char(
-        'IP Address')
+        'IP Address',
+        copy=False)
     tcp_address_port = fields.Integer(
         'IP Port')
     active = fields.Boolean(

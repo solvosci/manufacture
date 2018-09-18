@@ -27,10 +27,15 @@ var WoutState = /*(*/function () {
                 // Too many product cards
                 throw new Error(`Card #${card_data.card_code} not valid. Workstation card is expected`);
             }
-            // TODO check card already read
+            if ( !('win_weight' in card_data) ) {
+                throw new Error(`Card #${card_data.card_code} not valid, there is no input associated!`);
+            }
             // TODO check same associated lot
             // Product card is allowed
             cards_in.push(card_data);
+
+            $('#card_in_' + cards_in.length).val('{0} {1}'.format(card_data.win_weight, card_data.win_uom));
+
             info(`Added product Card #${card_data.card_code}`, 'ok');
         }
         else if ( card_data.card_categ_id === card_categ_L_id ) {
@@ -39,8 +44,14 @@ var WoutState = /*(*/function () {
                 // Workstation card is not allowed
                 throw new Error(`Card #${card_data.card_code} not valid. Product card is expected`);
             }
+
+            if ( !('workstation' in card_data) ) {
+                throw new Error(`Card #${card_data.card_code} not valid, there is no workstation associated!`);
+            }
+
             // Workstation card is allowed: fire saving data
             card_workstation = card_data;
+            $('#card_workstation').val(card_data.workstation);
             console.log(`Added workstation Card #${card_data.card_code}. Saving...`)
             save();
             return;

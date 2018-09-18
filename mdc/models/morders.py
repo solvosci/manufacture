@@ -129,6 +129,12 @@ class LotActive(models.Model):
             total_hours = diference.days*24 + diference.seconds/3600
         return total_hours
 
+    @api.constrains('end_datetime')
+    def _check_end_datetime(self):
+        for l in self:
+            if l.end_datetime < l.start_datetime:
+                raise models.ValidationError(_('End date must be older than start date'))
+
     @api.model
     def create(self, values):
         values['total_hours'] = self._compute_total_hours(values)
@@ -237,6 +243,12 @@ class Worksheet(models.Model):
                 shift =  workstation.shift_id.id
         return shift
 
+    @api.constrains('end_datetime')
+    def _check_end_datetime(self):
+        for l in self:
+            if l.end_datetime < l.start_datetime:
+                raise models.ValidationError(_('End date must be older than start date'))
+
     @api.onchange('workstation_id')
     def _retrieve_workstation_data(self):
 
@@ -277,6 +289,18 @@ class Worksheet(models.Model):
     @api.model
     def create(self, values):
         line_id = False
+        em = self.env['hr.employee'].browse(values['employee_id'])
+        if 'start_datetime' in values:
+            # start_datetime must to be greater than last end_datetime
+            if em.worksheet_end_datetime is not False and str(values['start_datetime']) < str(em.worksheet_end_datetime):
+                raise UserError(_('It can´t be start datetime less than last end datetime to employee %s') % em.employee_code)
+        else:
+            # must be give a start date
+            raise UserError(_('The start date has to be filled'))
+        if 'end_datetime' in values:
+            # end_datetime must to be greater than start_datetime
+            if str(values['end_datetime']) < str(values['start_datetime']):
+                raise UserError(_('It can´t be end datetime less than start date to employee %s') % em.employee_code)
         if 'workstation_id' not in values:
             # get workstation pre-assigned data from employee (if the employee was pre-assigned to a workstation)
             (ws_id, shift_id, line_id) = self.env['mdc.workstation'].get_wosrkstation_data_by_employee(values['employee_id'])
@@ -304,6 +328,13 @@ class Worksheet(models.Model):
         if 'start_datetime' in values:
             if self.start_datetime != values['start_datetime']:
                 raise UserError(_('You can´t change start_datetime form a datasheet.'))
+            # start_datetime must to be greater than last end_datetime
+            if self.employee_id.worksheet_end_datetime is not False and str(values['start_datetime']) < str(self.employee_id.worksheet_end_datetime):
+                raise UserError(_('It can´t be start datetime less than last end datetime to employee %s') % self.employee_id.employee_code)
+        if 'end_datetime' in values:
+            # end_datetime must to be greater than start_datetime
+            if str(values['end_datetime']) < str(self.start_datetime):
+                raise UserError(_('It can´t be end datetime less than start date to employee %s') % self.employee_id.employee_code)
         values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).write(values)
 
