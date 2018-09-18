@@ -186,6 +186,8 @@
                 <tree editable="top" create="false" delete="false" string="Massive worksheet close">
                     <field name="name" readonly="True"/>
                     <field name="employee_code" readonly="True"/>
+                    <field name="worksheet_start_datetime" readonly="True"/>
+                    <field name="worksheet_status" readonly="True"/>
                 </tree>
             </field>
       </record>
