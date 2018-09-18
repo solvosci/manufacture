@@ -39,3 +39,12 @@ if (!String.prototype.format) {
     });
   };
 }
+
+switch_enabled = function (obj) {
+    if ( $(obj).hasClass('enabled') ) {
+        $(obj).removeClass('enabled').addClass('disabled');
+    }
+    else {
+        $(obj).removeClass('disabled').addClass('enabled');
+    }
+}

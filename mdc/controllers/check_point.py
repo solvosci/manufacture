@@ -222,18 +222,6 @@ class CheckPoint(http.Controller):
 
     @http.route('/mdc/cp/carddata/<string:card_code>', type='json', auth='none')
     def cp_carddata(self, card_code):
-        """
-        data_out = {
-            'card_code': card_code
-        }
-        card = request.env['mdc.card'].sudo(self._get_cp_user(request)).search([('name', '=', card_code)])
-        if card:
-            data_out['card_id'] = card.id
-            data_out['card_categ_id'] = card.card_categ_id.id
-        else:
-            data_out['err'] = _('Card #%s not found') % card_code
-        return data_out
-        """
         try:
             return request.env['mdc.card'].sudo(self._get_cp_user(request)).from_cp_get_card_data(card_code)
         except Exception as e:
