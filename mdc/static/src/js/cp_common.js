@@ -1,3 +1,7 @@
+page_reload = function () {
+    window.location.reload(true);
+}
+
 show_info = function (message, level) {
 
     $('#info_div')
@@ -48,3 +52,11 @@ switch_enabled = function (obj) {
         $(obj).removeClass('disabled').addClass('enabled');
     }
 }
+
+$(document).ready(function () {
+
+    $('#reload_button').click(function () {
+        page_reload();
+    });
+
+});

@@ -13,6 +13,7 @@ body, select, button, input {
     position: relative;
 }
 .UpperTitle img { position: absolute; left: 15px; top: 10px; }
+.UpperTitle button { position: absolute; right: 15px; top: 10px; }
 
 button {
   margin: 10px;
@@ -83,9 +84,14 @@ input.success {
     background: #50FF50
 }
 
-#one_input_button, #shared_button, #crumbs_button {
-    width: 135px;
-    height: 135px;
+#reload_button, #one_input_button, #shared_button, #crumbs_button {
+    width: 80px;
+    height: 80px;
+}
+
+#reload_button {
+    background-image: url(/mdc/static/src/img/reload-72.png);
+    background-repeat: no-repeat;
 }
 
 #shared_button.disabled {
