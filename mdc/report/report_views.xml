@@ -120,4 +120,113 @@
         </record>
     </data>
 
+    <data>
+         <report
+            id="indicators_xlsx"
+            model="mdc.rpt_indicators"
+            string="Print to XLSX"
+            report_type="xlsx"
+            name="mdc.rpt_indicators"
+            file="mdc_rpt_indicators"
+            attachment_use="False"
+        />
+
+        <!-- Search view: default search for Indicators Report -->
+        <record id="mdc_rpt_indicators_search" model="ir.ui.view">
+            <field name="name">mdc.rpt_indicators.search</field>
+            <field name="model">mdc.rpt_indicators</field>
+            <field name="arch" type="xml">
+                <search string="Indicators Report">
+                    <field name="employee_code"/>
+                    <field name="employee_name"/>
+                    <field name="shift_code"/>
+                    <filter name="week" string="This Week"
+                        domain="[
+                            '&amp;',
+                            ('create_date', '>=', (context_today() + relativedelta(weeks=-1,days=1,weekday=0)).strftime('%Y-%m-%d')),
+                            ('create_date', '&lt;=', (context_today() + relativedelta(weekday=6)).strftime('%Y-%m-%d')),
+                        ]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Employee Code" name="groupby_employee" domain="[]" context="{'group_by':'employee_code'}"/>
+                        <filter string="Shift Code" name="groupby_shift" domain="[]" context="{'group_by':'shift_code'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Tree view: default view for Indicators Report -->
+        <record id="mdc_rpt_indicators_tree" model="ir.ui.view">
+            <field name="name">mdc.rpt_indicators.tree</field>
+            <field name="model">mdc.rpt_indicators</field>
+            <field name="arch" type="xml">
+                <tree editable="top" create="false" delete="false" string="Indicators Report">
+                    <field name="create_date" readonly="True"/>
+                    <field name="employee_code" readonly="True"/>
+                    <field name="employee_name" readonly="True"/>
+                    <field name="shift_code" readonly="True"/>
+                    <field name="gross_weight" readonly="True"/>
+                    <field name="product_weight" readonly="True"/>
+                    <field name="sp1_weight" readonly="True"/>
+                    <field name="quality" readonly="True"/>
+                    <field name="total_hours" readonly="True"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+
+
+    <data>
+         <report
+            id="cumulative_xlsx"
+            model="mdc.rpt_cumulative"
+            string="Print to XLSX"
+            report_type="xlsx"
+            name="mdc.rpt_cumulative"
+            file="mdc_rpt_cumulative"
+            attachment_use="False"
+        />
+
+        <!-- Search view: default search for Cumulative Report -->
+        <record id="mdc_rpt_cumulative_search" model="ir.ui.view">
+            <field name="name">mdc.rpt_cumulative.search</field>
+            <field name="model">mdc.rpt_cumulative</field>
+            <field name="arch" type="xml">
+                <search string="Cumulative Report">
+                    <field name="employee_code"/>
+                    <field name="employee_name"/>
+                    <field name="shift_code"/>
+                    <filter name="week" string="This Week"
+                        domain="[
+                            '&amp;',
+                            ('create_date', '>=', (context_today() + relativedelta(weeks=-1,days=1,weekday=0)).strftime('%Y-%m-%d')),
+                            ('create_date', '&lt;=', (context_today() + relativedelta(weekday=6)).strftime('%Y-%m-%d')),
+                        ]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Employee Code" name="groupby_employee" domain="[]" context="{'group_by':'employee_code'}"/>
+                        <filter string="Shift Code" name="groupby_shift" domain="[]" context="{'group_by':'shift_code'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Tree view: default view for Cumulative Report -->
+        <record id="mdc_rpt_cumulative_tree" model="ir.ui.view">
+            <field name="name">mdc.rpt_cumulative.tree</field>
+            <field name="model">mdc.rpt_cumulative</field>
+            <field name="arch" type="xml">
+                <tree editable="top" create="false" delete="false" string="Cumulative Report">
+                    <field name="create_date" readonly="True"/>
+                    <field name="employee_code" readonly="True"/>
+                    <field name="employee_name" readonly="True"/>
+                    <field name="shift_code" readonly="True"/>
+                    <field name="gross_weight" readonly="True"/>
+                    <field name="product_weight" readonly="True"/>
+                    <field name="sp1_weight" readonly="True"/>
+                    <field name="quality" readonly="True"/>
+                    <field name="total_hours" readonly="True"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+
 </odoo>
