@@ -21,7 +21,6 @@
         </html>
     </template>
 
-
     <template id="chkpoint_list">
         <html>
             <head>
@@ -40,6 +39,36 @@
                         </a>
                     </li>
                 </ul>
+            </body>
+        </html>
+    </template>
+
+    <template id="chkpoint_rfid_base">
+        <html>
+            <head>
+                <title><t t-esc="title"></t></title>
+                <link rel="stylesheet" type="text/css" href="/mdc/static/src/css/cp.css"/>
+                <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
+                <script language="JavaScript" src="/mdc/static/src/js/cp_common.js"></script>
+            </head>
+            <body>
+                <input type="hidden" id="ws_session_id" t-attf-value="{{ws_session_data['session_id']}}"/>
+                <input type="hidden" id="ws_wsapi_url" t-attf-value="{{ws_session_data['wsapi_url']}}"/>
+
+                <div id="translations" style="display: none;">
+                </div>
+
+                <div class="UpperTitle">
+                    <img src="/web/binary/company_logo" />
+                    <t t-esc="title"></t>
+                    <button type="button" id="reload_button"></button>
+                </div>
+                <hr/>
+                <div id="info_div">
+                    Waiting for websocket connection...
+                </div>
+
+                <div id="content"></div>
             </body>
         </html>
     </template>
@@ -112,6 +141,17 @@
             <body>
                 <input type="hidden" id="ws_session_id" t-attf-value="{{ws_session_data['session_id']}}"/>
                 <input type="hidden" id="ws_wsapi_url" t-attf-value="{{ws_session_data['wsapi_url']}}"/>
+
+                <div id="chkpoint_wout_traslations" style="display: none;">
+                    <span id="t_chkpoint_wout_input_workstation_expected_err">Card #{0} not valid. Workstation card is expected</span>
+                    <span id="t_chkpoint_wout_input_no_input_err">Card #${0} not valid, there is no input associated!</span>
+                    <span id="t_chkpoint_wout_input_lot_err">Input card read #{0} belongs to a different lot ({1}) than the current one</span>
+                    <span id="t_chkpoint_wout_workstation_input_expected_err">Card #{0} not valid. Product card is expected</span>
+                    <span id="t_chkpoint_wout_workstation_no_workstation_err">Card #{0} not valid, there is no workstation associated!</span>
+                    <span id="t_chkpoint_wout_invalid_card_err">Card #{0} not valid</span>
+                </div>
+
+
                 <input type="hidden" id="card_categ_P_id" t-attf-value="{{card_categ_P_id}}"/>
                 <input type="hidden" id="card_categ_L_id" t-attf-value="{{card_categ_L_id}}"/>
                 <t t-foreach="chkpoints" t-as="chkpoint">
@@ -128,20 +168,20 @@
                 <div class="divTable">
                     <div class="divTableBody">
                         <div class="divTableRow">
-                            <div class="divTableCell label" style="width: 75%">
+                            <div class="divTableCell" style="width: 75%">
                                 <div class="divTable">
                                     <div class="divTableBody">
                                         <div class="divTableRow">
                                             <div class="divTableCell label">
                                                 Lot
                                             </div>
-                                            <div class="divTableCell">
+                                            <div class="divTableCell data_displayed">
                                                 <span id="lot" style="font-size: 2em; font-weight: bold;"></span>
                                             </div>
                                         </div>
                                         <div class="divTableRow">
                                             <div class="divTableCell label">
-                                                Card(s) in
+                                                Input(s) read
                                             </div>
                                             <div class="divTableCell">
                                                 <input id="card_in_1" type="text" size="10" readonly="readonly"
@@ -159,11 +199,11 @@
                                         </div>
                                         <div class="divTableRow">
                                             <div class="divTableCell label">
-                                                Workstation card
+                                                Workstation
                                             </div>
                                             <div class="divTableCell">
-                                                <input id="card_workstation" type="text" size="10" readonly="readonly"
-                                                       class="centered"  style="font-size: 2em"/>
+                                                <input id="card_workstation" type="text" size="20" readonly="readonly"
+                                                       class="centered"  style="font-size: 1.5em"/>
                                             </div>
                                         </div>
                                         <div class="divTableRow">
@@ -172,6 +212,15 @@
                                             </div>
                                             <div class="divTableCell">
                                                 <input id="last_weight" type="text" size="10" readonly="readonly"
+                                                       class="centered"  style="font-size: 2em"/>
+                                            </div>
+                                        </div>
+                                        <div class="divTableRow">
+                                            <div class="divTableCell label">
+                                                Last quality
+                                            </div>
+                                            <div class="divTableCell">
+                                                <input id="last_quality" type="text" size="10" readonly="readonly"
                                                        class="centered"  style="font-size: 2em"/>
                                             </div>
                                         </div>
@@ -188,9 +237,11 @@
                                     </t>
                                 </select>
                                 <p/>
-                                <button type="button" id="shared_button" style="font-size: 1.5em">Shared</button>
-                                <p/>
-                                <button type="button" id="crumbs_button" style="font-size: 1.5em">Crumbs</button>
+                                <button type="button" id="shared_button" class="disabled"></button>
+                                <br/>
+                                <button type="button" id="crumbs_button" class="disabled"></button>
+                                <br/>
+                                <button type="button" id="one_input_button" class="disabled"></button>
                             </div>
                         </div>
                     </div>
@@ -295,7 +346,8 @@
         </html>
     </template>
 
-    <template id="chkpoint_card_lot_assignment">
+    <!-- TODO deprecated. Remove -->
+    <template id="chkpoint_card_lot_assignment_old">
         <html>
             <head>
                 <title>Card lot assignment - MDC CP</title>
@@ -371,6 +423,66 @@
                 </div>
             </body>
         </html>
+    </template>
+
+    <template id="chkpoint_card_lot_assignment" inherit_id="chkpoint_rfid_base">
+        <xpath expr="//head" position="inside">
+            <script language="JavaScript" src="/mdc/static/src/js/cp_card_lot_assignment.js"></script>
+        </xpath>
+        <xpath expr="//div[@id='translations']" position="inside">
+            <span id="t_cardlot_device_err">there is no device selected</span>
+            <span id="t_cardlot_lot_err">there is no lot selected</span>
+            <span id="t_cardlot_slide_err">first slide a card</span>
+            <span id="t_cardlot_card_info">Read card #{0}</span>
+            <span id="t_cardlot_card_waiting">Assigning card...</span>
+            <span id="t_cardlot_success">Card #{0} successfully assigned to lot {1}</span>
+            <span id="t_cardlot_err_unknown">ERROR assigning card to lot (unknown)</span>
+        </xpath>
+        <xpath expr="//div[@id='content']" position="inside">
+            <div class="divTable">
+                <div class="divTableBody">
+                    <div class="divTableRow">
+                        <div class="divTableCell label">
+                                Device
+                        </div>
+                        <div class="divTableCell">
+                            <select id="device_select">
+                                <option value="" selected="selected">Select a device...</option>
+                                <t t-foreach="devices" t-as="device">
+                                    <option t-attf-value="{{device.device_code}}">
+                                        <t t-esc="device.name"></t>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="divTableRow">
+                        <div class="divTableCell label">
+                            Assigned lot
+                        </div>
+                        <div class="divTableCell">
+                            <select id="lot_select">
+                                <option value="" selected="selected">Select a lot...</option>
+                                <t t-foreach="lots" t-as="lot">
+                                    <option t-attf-value="{{lot.id}}">
+                                        <t t-esc="lot.name"></t>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="centered" style="font-size: 1.5em; margin-top: 20px; margin-bottom: 20px">
+                Last card read:<br/>
+                <input id="card_read_input" type="text" size="10" readonly="readonly"
+                       class="centered"  style="font-size: 1.5em; background: #D0D0D0;"/>
+            </div>
+            <div class="centered">
+                <button type="button" id="confirm_button" style="font-size: 1.5em">Assign lot</button>
+            </div>
+        </xpath>
     </template>
 
 </odoo>

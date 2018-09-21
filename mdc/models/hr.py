@@ -1,8 +1,10 @@
 
 import logging
-import pytz
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+
+import datetime as DT
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DF
 
 _logger = logging.getLogger(__name__)
 
@@ -110,8 +112,14 @@ class Employee(models.Model):
                 if last_end_datetime is None and ws.end_datetime is not False:
                     last_end_datetime = ws.end_datetime
                 if worksheet_change_status is None and ws.end_datetime is False:
-                    #TODO: Format ws.start_datetime in Odoo timezone
-                    worksheet_change_status = '%s : %s - %s ' % (ws.start_datetime, ws.lot_id.name or '', ws.workstation_id.name or '')
+                    # TODO including formatted date into this description is not working properly when Odoo write user
+                    #      has timezone unset. In that cases we'll get instead UTC time
+                    #      Other solution should be explicity indicate "UTC" when formatting (as shown below):
+                    # worksheet_change_status = '%s UTC: %s - %s ' % (ws.start_datetime, ws.lot_id.name or '', ws.workstation_id.name or '')
+                    start_date_utc = DT.datetime.strptime(ws.start_datetime, DF)
+                    start_date_tz = fields.Datetime.context_timestamp(self, start_date_utc)
+                    worksheet_change_status = '%s : %s - %s ' % (
+                        start_date_tz.strftime(DF), ws.lot_id.name or '', ws.workstation_id.name or '')
 
             # set the calculated values
             employee.worksheet_start_datetime = last_start_datetime_real

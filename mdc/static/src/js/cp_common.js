@@ -1,3 +1,7 @@
+page_reload = function () {
+    window.location.reload(true);
+}
+
 show_info = function (message, level) {
 
     $('#info_div')
@@ -39,3 +43,20 @@ if (!String.prototype.format) {
     });
   };
 }
+
+switch_enabled = function (obj) {
+    if ( $(obj).hasClass('enabled') ) {
+        $(obj).removeClass('enabled').addClass('disabled');
+    }
+    else {
+        $(obj).removeClass('disabled').addClass('enabled');
+    }
+}
+
+$(document).ready(function () {
+
+    $('#reload_button').click(function () {
+        page_reload();
+    });
+
+});

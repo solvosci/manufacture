@@ -13,6 +13,7 @@ body, select, button, input {
     position: relative;
 }
 .UpperTitle img { position: absolute; left: 15px; top: 10px; }
+.UpperTitle button { position: absolute; right: 15px; top: 10px; }
 
 button {
   margin: 10px;
@@ -70,10 +71,56 @@ button {
     text-align: right;
 }
 
+.data_displayed {
+    text-align: left;
+}
+
+
 .centered {
     text-align: center;
 }
 
 input.success {
     background: #50FF50
+}
+
+#reload_button, #one_input_button, #shared_button, #crumbs_button {
+    width: 80px;
+    height: 80px;
+}
+
+#reload_button {
+    background-image: url(/mdc/static/src/img/reload-72.png);
+    background-repeat: no-repeat;
+}
+
+#shared_button.disabled {
+    background-image: url(/mdc/static/src/img/shared-disabled-128.png);
+    background-repeat: no-repeat;
+}
+
+#shared_button.enabled {
+    background-image: url(/mdc/static/src/img/shared-enabled-128.png);
+    background-repeat: no-repeat;
+}
+
+#crumbs_button.disabled {
+    background-image: url(/mdc/static/src/img/crumbs-disabled-128.png);
+    background-repeat: no-repeat;
+}
+
+#crumbs_button.enabled {
+    background-image: url(/mdc/static/src/img/crumbs-enabled-128.png);
+    background-repeat: no-repeat;
+}
+
+
+#one_input_button.disabled {
+    background-image: url(/mdc/static/src/img/one-input-disabled-128.png);
+    background-repeat: no-repeat;
+}
+
+#one_input_button.enabled {
+    background-image: url(/mdc/static/src/img/one-input-enabled-128.png);
+    background-repeat: no-repeat;
 }

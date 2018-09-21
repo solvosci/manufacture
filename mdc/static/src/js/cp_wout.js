@@ -15,6 +15,14 @@ var WoutState = /*(*/function () {
         // TODO more suff?
     }
 
+    var currentLotId = function () {
+        return (
+            cards_in.length > 0 ?
+            cards_in[0].win_lot_id :
+            ''
+        );
+    }
+
     var addCard = function (card_data) {
         // TODO validation stuff
         // 1.- Check card_categ
@@ -25,15 +33,28 @@ var WoutState = /*(*/function () {
             // Product card received
             if ( cards_in.length === 2 ) {
                 // Too many product cards
-                throw new Error(`Card #${card_data.card_code} not valid. Workstation card is expected`);
+                throw new Error(
+                    $('#t_chkpoint_wout_input_workstation_expected_err').html()
+                        .format(card_data.card_code)
+                );
             }
             if ( !('win_weight' in card_data) ) {
-                throw new Error(`Card #${card_data.card_code} not valid, there is no input associated!`);
+                throw new Error(
+                    $('#t_chkpoint_wout_input_no_input_err').html()
+                        .format(card_data.card_code)
+                );
             }
-            // TODO check same associated lot
+            var lotId = currentLotId();
+            if ( lotId && (lotId != card_data.win_lot_id) ) {
+                throw new Error(
+                    $('#t_chkpoint_wout_input_lot_err').html()
+                        .format(card_data.card_code, card_data.win_lot_name)
+               );
+            }
             // Product card is allowed
             cards_in.push(card_data);
 
+            $('#lot').html(card_data.win_lot_name);
             $('#card_in_' + cards_in.length).val('{0} {1}'.format(card_data.win_weight, card_data.win_uom));
 
             info(`Added product Card #${card_data.card_code}`, 'ok');
@@ -42,11 +63,17 @@ var WoutState = /*(*/function () {
             // Workstation card received
             if ( cards_in.length === 0 ) {
                 // Workstation card is not allowed
-                throw new Error(`Card #${card_data.card_code} not valid. Product card is expected`);
+                throw new Error(
+                    $('#t_chkpoint_wout_workstation_input_expected_err').html()
+                        .format(card_data.card_code)
+                );
             }
 
             if ( !('workstation' in card_data) ) {
-                throw new Error(`Card #${card_data.card_code} not valid, there is no workstation associated!`);
+                throw new Error(
+                    $('#t_chkpoint_wout_workstation_no_workstation_err').html()
+                        .format(card_data.card_code)
+                );
             }
 
             // Workstation card is allowed: fire saving data
@@ -57,7 +84,10 @@ var WoutState = /*(*/function () {
             return;
         }
         else {
-            throw new Error(`Card ${card_data.card_code} not valid`);
+            throw new Error(
+                $('#t_chkpoint_wout_invalid_card_err').html()
+                    .format(card_data.card_code)
+            );
         }
 
     }
@@ -196,6 +226,11 @@ $(document).ready(function() {
     show_info('Ready for card readings!!!', 'ok');
 
     // TODO additional initial stuff
+
+    // Button events
+    $('#one_input_button,#crumbs_button,#shared_button').click(function () {
+        switch_enabled(this);
+    });
 
     woutState = WoutState();
 
