@@ -78,7 +78,7 @@ class CheckPoint(http.Controller):
             chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
             return request.render(
                 'mdc.chkpoint_win',
-                {'chkpoints': chkpoints, 'ws_session_data': ws_session_data}
+                {'title': chkpoints[0].name, 'chkpoints': chkpoints, 'ws_session_data': ws_session_data}
             )
         except Exception as e:
             return self.get_error_page(e)
@@ -130,7 +130,8 @@ class CheckPoint(http.Controller):
             qualities = request.env['mdc.quality'].sudo(self._get_cp_user(request)).search([])
             return request.render(
                 'mdc.chkpoint_wout',
-                {'chkpoints': chkpoints, 'qualities': qualities, 'ws_session_data': ws_session_data,
+                {'title': chkpoints[0].name, 'chkpoints': chkpoints, 'qualities': qualities,
+                 'ws_session_data': ws_session_data,
                  'card_categ_P_id': request.env.ref('mdc.mdc_card_categ_P').id,
                  'card_categ_L_id': request.env.ref('mdc.mdc_card_categ_L').id }
             )
