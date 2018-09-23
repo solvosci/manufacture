@@ -84,9 +84,14 @@ input.success {
     background: #50FF50
 }
 
-#reload_button, #one_input_button, #shared_button, #crumbs_button {
+#reload_button {
     width: 80px;
     height: 80px;
+}
+
+#one_input_button, #shared_button, #crumbs_button {
+    width: 135px;
+    height: 135px;
 }
 
 #reload_button {

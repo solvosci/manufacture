@@ -44,13 +44,14 @@ if (!String.prototype.format) {
   };
 }
 
-switch_enabled = function (obj) {
+switch_enabled = function (obj, force_readonly) {
     if ( $(obj).hasClass('enabled') ) {
         $(obj).removeClass('enabled').addClass('disabled');
     }
     else {
         $(obj).removeClass('disabled').addClass('enabled');
     }
+    $(obj).prop('disabled', force_readonly);
 }
 
 $(document).ready(function () {
