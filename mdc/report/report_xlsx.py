@@ -823,7 +823,6 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
             # Final Footer Row
             sheet.write_formula(row + 1, 5, '=SUM(F' + str(header_row + 1) + ':F' + str(row + 1) + ')', f_footer)
             sheet.write_formula(row + 1, 6, '=SUM(G' + str(header_row + 1) + ':G' + str(row + 1) + ')', f_footer)
-            sheet.write_formula(row + 1, 7, '=SUM(H' + str(header_row + 1) + ':H' + str(row + 1) + ')', f_footer)
 
         # write Filter
         datefilter = _("Date From: %s to %s") % (wstart_date, wend_date)
