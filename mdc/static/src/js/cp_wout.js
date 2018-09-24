@@ -23,18 +23,43 @@ var WoutState = /*(*/function () {
         );
     }
 
+    var inputCount = function () {
+        return cards_in.length;
+    }
+
+    var isOneInput = function () {
+        return $('#one_input_button').hasClass('enabled');
+    }
+
     var addCard = function (card_data) {
-        // TODO validation stuff
+
+        // 0.- If is first read, we must clear screen (that is currently showing last operation data)
+        check_reset_screen();
+
         // 1.- Check card_categ
         console.log('Checking card category ' + card_data.card_categ_id + '...');
         // 2.- Check data saving
 
         if ( card_data.card_categ_id === card_categ_P_id ) {
             // Product card received
-            if ( cards_in.length === 2 ) {
+            if ( inputCount() === 2 ) {
                 // Too many product cards
                 throw new Error(
                     $('#t_chkpoint_wout_input_workstation_expected_err').html()
+                        .format(card_data.card_code)
+                );
+            }
+            if ( (inputCount() === 1) && isOneInput() ) {
+                // Second input card when one input mode is set
+                throw new Error(
+                    $('#t_chkpoint_wout_input_one_input_already_selected_err').html()
+                        .format(card_data.card_code)
+                );
+            }
+            if ( (inputCount() === 1) && (card_data.card_code === cards_in[0].card_code) ) {
+                // Repeated card
+                throw new Error(
+                    $('#t_chkpoint_wout_input_repeated_err').html()
                         .format(card_data.card_code)
                 );
             }
@@ -51,8 +76,13 @@ var WoutState = /*(*/function () {
                         .format(card_data.card_code, card_data.win_lot_name)
                );
             }
+
             // Product card is allowed
             cards_in.push(card_data);
+            // - Too late for set one input mode
+            if  ( cards_in.length == 2 ) {
+                $('#one_input_button').prop('disabled', true);
+            }
 
             $('#lot').html(card_data.win_lot_name);
             $('#card_in_' + cards_in.length).val('{0} {1}'.format(card_data.win_weight, card_data.win_uom));
@@ -79,6 +109,7 @@ var WoutState = /*(*/function () {
             // Workstation card is allowed: fire saving data
             card_workstation = card_data;
             $('#card_workstation').val(card_data.workstation);
+            $('#last_quality').val($('#quality_select option:selected').text().trim());
             console.log(`Added workstation Card #${card_data.card_code}. Saving...`)
             save();
             return;
@@ -122,25 +153,21 @@ var WoutState = /*(*/function () {
             }
             catch (e) {
                 info(e.message, 'err')
-                // TODO additional stuff over display
+                reset();
             }
         }).fail(function () {
             info('ERROR saving data (unknown)', 'err');
+            reset();
         });
 
     }
 
     var displayUpdate = function (data) {
-        $('#lot').html(data.lot);
-        $('#card_in_1').val(cards_in[0].card_code).addClass('success');
-        if ( cards_in.length > 1 ) {
-            $('#card_in_2').val(cards_in[1].card_code).addClass('success');
-        }
-        $('#card_workstation').val(card_workstation.card_code).addClass('success');
-        $('#last_weight').val(data.weight + ' ' + data.w_uom).addClass('success');
+        $('#last_weight').val(data.weight + ' ' + data.w_uom);
+        $('#card_in_1,#card_in_2,#card_workstation,#last_weight,#last_quality').addClass('success');
         info('Weight saved successfully', 'ok')
         window.setTimeout(function () {
-                $('#card_in_1,#card_in_2,#card_workstation,#last_weight').removeClass('success');
+                $('#card_in_1,#card_in_2,#card_workstation,#last_weight,#last_quality').removeClass('success');
             },
             3000
         );
@@ -149,6 +176,15 @@ var WoutState = /*(*/function () {
     var reset = function () {
         cards_in = [];
         card_workstation = null;
+        $('#quality_select').val($('#initial_quality_id').val()).change();
+        if ( isOneInput() )  switch_enabled($('#one_input_button'), false);
+    }
+
+    var check_reset_screen = function () {
+        if ( inputCount() === 0  && (card_workstation === null) ) {
+            $('#lot').html('');
+            $('#card_in_1,#card_in_2,#card_workstation,#last_weight,#last_quality').val('');
+        }
     }
 
     return {
@@ -229,8 +265,12 @@ $(document).ready(function() {
 
     // Button events
     $('#one_input_button,#crumbs_button,#shared_button').click(function () {
-        switch_enabled(this);
+        switch_enabled(this, true);
     });
+
+    /*$('#one_input_button').click(function () {
+        one_input_validation(this);
+    });*/
 
     woutState = WoutState();
 
