@@ -4,6 +4,7 @@
     <act_window
         id="action_mdc_data_wins"
         name="Data In"
+        context="{'search_default_open':1}"
         res_model="mdc.data_win"/>
     <act_window
         id="action_mdc_data_wouts"
@@ -243,7 +244,7 @@
         <field name="target">inline</field>
     </record>
 
-    <!-- New action: present operator employees, ready for worksheet open -->
+    <!-- New action: not present operator employees, ready for worksheet open -->
     <record id="action_hr_employee_massworksheetopen" model="ir.actions.act_window">
         <field name="name">Massive Worksheet open</field>
         <field name="type">ir.actions.act_window</field>

@@ -50,8 +50,13 @@ class Employee(models.Model):
         readonly=True,
         compute='_compute_worksheet_data',
         store=True)
-    worksheet_status = fields.Char(
-        'Worksheet Status',
+    worksheet_status_start_datetime = fields.Datetime(
+        'Worksheet Status Start Datetime',
+        readonly=True,
+        compute='_compute_worksheet_data',
+        store=True)
+    worksheet_status_data = fields.Char(
+        'Worksheet Status data',
         readonly=True,
         compute='_compute_worksheet_data',
         store=True)
@@ -95,7 +100,8 @@ class Employee(models.Model):
             # compute the last end datetime (to use to validate on create and write a worksheet)
             last_end_datetime = None
             # compute the last start datetime (to built worksheet status = last start date opened + lot + workstation)
-            worksheet_change_status = None
+            last_start_datetime = None
+            worksheet_data_status = None
             # to do this we need de last worksheet of te employee
             #TODO: find another way to do this -> find another way withour limit
             we = self.env['mdc.worksheet'].search([('employee_id', '=', employee.id)]
@@ -111,20 +117,15 @@ class Employee(models.Model):
                         break
                 if last_end_datetime is None and ws.end_datetime is not False:
                     last_end_datetime = ws.end_datetime
-                if worksheet_change_status is None and ws.end_datetime is False:
-                    # TODO including formatted date into this description is not working properly when Odoo write user
-                    #      has timezone unset. In that cases we'll get instead UTC time
-                    #      Other solution should be explicity indicate "UTC" when formatting (as shown below):
-                    # worksheet_change_status = '%s UTC: %s - %s ' % (ws.start_datetime, ws.lot_id.name or '', ws.workstation_id.name or '')
-                    start_date_utc = DT.datetime.strptime(ws.start_datetime, DF)
-                    start_date_tz = fields.Datetime.context_timestamp(self, start_date_utc)
-                    worksheet_change_status = '%s : %s - %s ' % (
-                        start_date_tz.strftime(DF), ws.lot_id.name or '', ws.workstation_id.name or '')
+                if worksheet_data_status is None and ws.end_datetime is False:
+                    last_start_datetime = ws.start_datetime
+                    worksheet_data_status = '%s - %s ' % (ws.lot_id.name or '', ws.workstation_id.name or '')
 
             # set the calculated values
             employee.worksheet_start_datetime = last_start_datetime_real
             employee.worksheet_end_datetime = last_end_datetime
-            employee.worksheet_status = worksheet_change_status
+            employee.worksheet_status_start_datetime = last_start_datetime
+            employee.worksheet_status_data = worksheet_data_status
 
 
     @api.model
