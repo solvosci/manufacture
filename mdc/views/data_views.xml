@@ -77,6 +77,13 @@
             <search string="Data_win">
                 <field name="line_id"/>
                 <field name="lot_id"/>
+                <!-- FIXME this filter gives a "ValueError: No known conversion for %H" error -->
+                <filter name="last_24_hours" string="Last 24 hours"
+                        domain="[('create_datetime', '&gt;=', ((context_today() - datetime.timedelta(hours=24)).strftime('%%Y-%%m-%%d %%H:%%M:%%S')))]"/>
+                <filter name="open" string="Open" domain="[('wout_id', '=', False)]"/>
+                <separator/>
+                <filter name="cancelled" string="Cancelled" domain="[('active', '=', False)]"/>
+                <filter name="all" string="All" domain="['|', ('active','=', True), ('active', '=', False)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Line" name="groupby_line" domain="[]" context="{'group_by':'line_id'}"/>
                     <filter string="Lot" name="groupby_lot" domain="[]" context="{'group_by':'lot_id'}"/>
@@ -90,7 +97,7 @@
         <field name="name">mdc.data_wins.tree</field>
         <field name="model">mdc.data_win</field>
         <field name="arch" type="xml">
-            <tree string="Data_wins">
+            <tree string="Data_wins" decoration-danger="active==False">
                 <field name="line_id"/>
                 <field name="lot_id"/>
                 <field name="create_datetime"/>
@@ -101,8 +108,9 @@
                 <!-- FIXME confirm message is not working -->
                 <button name="cancel_input" string="Cancel" type="object" help="Cancels this input"
                     confirm="Are you sure to cancel this input? This will release the related card"
-                    attrs="{'invisible': [('wout_id', '!=', False)]}"
+                    attrs="{'invisible': ['|', ('active', '=', False), ('wout_id', '!=', False)]}"
                     groups="mdc.group_mdc_manager"/>
+                <field name="active" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -184,6 +192,7 @@
         <field name="model">mdc.data_wout</field>
         <field name="arch" type="xml">
             <tree string="Data_wouts">
+                <field name="id" string="Id."/>
                 <field name="line_id"/>
                 <field name="lot_id"/>
                 <field name="create_datetime"/>

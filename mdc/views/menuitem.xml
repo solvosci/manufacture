@@ -4,6 +4,7 @@
     <act_window
         id="action_mdc_data_wins"
         name="Data In"
+        context="{'search_default_open':1}"
         res_model="mdc.data_win"/>
     <act_window
         id="action_mdc_data_wouts"
