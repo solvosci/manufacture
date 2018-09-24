@@ -16,6 +16,7 @@ class RptTracing(models.Model):
     employee_code = fields.Char('Employee Code', readonly=True)
     employee_name = fields.Char('Employee Name', readonly=True)
     product_id = fields.Many2one('product.product', 'Product', readonly=True)
+    client_name = fields.Char('Client', readonly=True)
     shift_code = fields.Char('Shift Code', readonly=True)
     gross_weight = fields.Float('Gross', readonly=True, group_operator='sum')
     product_weight = fields.Float('Backs', readonly=True, group_operator='sum')
@@ -31,22 +32,23 @@ class RptTracing(models.Model):
         tools.drop_view_if_exists(self._cr, self._table)
         self._cr.execute("""
             CREATE view %s as 
-                SELECT lotdata.id, lotdata.create_date, lotdata.lot_name, lotdata.product_id, 
+                SELECT lotdata.id, lotdata.create_date, lotdata.lot_name, lotdata.product_id, cli.name as client_name,
                     lotdata.employee_code, lotdata.employee_name, lotdata.shift_code, 
-                    lotdata.gross_weight, lotdata.product_weight, lotdata.sp1_weight, lotdata.quality, 
+                    lotdata.gross_weight, lotdata.product_weight, lotdata.sp1_weight, 
+                    lotdata.quality_weight/lotdata.product_weight as quality, 
                     lotemp.total_hours, 
                     std.std_yield_product, std.std_speed, std.std_yield_sp1 
                     FROM (
                         SELECT
                             MIN(wout.id) as id,
                             date(wout.create_datetime) as create_date,
-                            lot.id as lot_id, lot.name as lot_name,lot.product_id as product_id,
+                            lot.id as lot_id, lot.name as lot_name, lot.product_id as product_id, lot.partner_id as partner_id,
                             emp.id as employee_id, emp.employee_code as employee_code,emp.name as employee_name,
                             shift.id shift_id, shift.shift_code as shift_code,
                             sum(wout.gross_weight) as gross_weight,
                             sum(case when woutcat.code='P' then wout.weight-wout.tare else 0 end) as product_weight,
                             sum(case when woutcat.code='SP1' then wout.weight-wout.tare else 0 end) as sp1_weight,
-                            AVG(qlty.code) as quality
+                            sum(case when woutcat.code='P' then qlty.code * (wout.weight-wout.tare) else 0 end) as quality_weight
                         FROM mdc_data_wout wout
                             LEFT JOIN mdc_lot lot ON lot.id=wout.lot_id
                             LEFT JOIN hr_employee emp ON emp.id=wout.employee_id
@@ -71,6 +73,7 @@ class RptTracing(models.Model):
                     ) lotemp ON lotemp.start_date=lotdata.create_date 
                             and lotemp.lot_id=lotdata.lot_id and lotemp.employee_id=lotdata.employee_id 
                             and lotemp.shift_id=lotdata.shift_id 
+                    LEFT JOIN res_partner cli on cli.id = lotdata.partner_id 
                     LEFT JOIN mdc_std std on std.product_id = lotdata.product_id     
                 
         """ % self._table)
@@ -259,7 +262,7 @@ class RptIndicators(models.Model):
                             ws.lot_id, ws.employee_id, ws.shift_id
                     ) lotemp ON lotemp.start_date=lotdata.create_date 
                             and lotemp.lot_id=lotdata.lot_id and lotemp.employee_id=lotdata.employee_id 
-                            and lotemp.shift_id=lotdata.shift_id 
+                            and lotemp.shift_id=lotdata.shift_id        
                     LEFT JOIN mdc_std std on std.product_id = lotdata.product_id     
 
         """ % self._table)
