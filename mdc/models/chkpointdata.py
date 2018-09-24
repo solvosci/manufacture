@@ -54,6 +54,9 @@ class DataWIn(models.Model):
     wout_id = fields.Many2one(
         'mdc.data_wout',
         string='WOut')
+    active = fields.Boolean(
+        'Active',
+        default=True)
 
     @api.model
     def create(self, values):
@@ -100,6 +103,18 @@ class DataWIn(models.Model):
             'w_uom_id': weight_uom_id.id,
             'card_id': card.id
         })
+
+    @api.multi
+    def cancel_input(self):
+        """
+        Cancels (if possible) the current input data
+        :return:
+        """
+        for w in self:
+            if w.wout_id:
+                raise UserError(_("Cannot cancel input '%s - %s - %s' because it's been already linked with an output")
+                                % (w.line_id.name, w.lot_id.name, w.create_datetime))
+            w.write({'active': False})
 
 
 class DataWOut(models.Model):

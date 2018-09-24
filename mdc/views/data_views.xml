@@ -98,6 +98,11 @@
                 <field name="w_uom_id"/>
                 <field name="card_id"/>
                 <field name="wout_id"/>
+                <!-- FIXME confirm message is not working -->
+                <button name="cancel_input" string="Cancel" type="object" help="Cancels this input"
+                    confirm="Are you sure to cancel this input? This will release the related card"
+                    attrs="{'invisible': [('wout_id', '!=', False)]}"
+                    groups="mdc.group_mdc_manager"/>
             </tree>
         </field>
     </record>
@@ -108,6 +113,12 @@
         <field name="model">mdc.data_win</field>
         <field name="arch" type="xml">
             <form string="Data_wins">
+                <header>
+                    <button name="cancel_input" string="Cancel input" type="object" help="Cancels this input"
+                        confirm="Are you sure to cancel this input? This will release the related card"
+                        attrs="{'invisible': ['|', ('id', '=', False), ('wout_id', '!=', False)]}"
+                        groups="mdc.group_mdc_manager" class="btn-primary"/>
+                </header>
                 <sheet>
                    <group name="gr_Data_WIN_chkpoint_data" string="Check Point Data">
                         <group>
