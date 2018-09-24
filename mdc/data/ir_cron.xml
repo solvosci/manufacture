@@ -12,4 +12,16 @@
         <field name="numbercall">-1</field>
         <field name="doall" eval="False" />
     </record>
+
+    <record id="ir_cron_data_win_close" model="ir.cron">
+        <field name="name">MDC: Old unlinked inputs cancellation</field>
+        <field name="model_id" ref="model_mdc_data_win"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="state">code</field>
+        <field name="code">model._cancel_expired_inputs()</field>
+        <field name='interval_number'>5</field>
+        <field name='interval_type'>minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+    </record>
 </odoo>

@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 
+import datetime as dt
+import logging
 import socket
 from odoo import api, models, fields, _
 from odoo.exceptions import UserError
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DF
+
+_logger = logging.getLogger(__name__)
+
 
 class DataWIn(models.Model):
     """
@@ -115,6 +121,21 @@ class DataWIn(models.Model):
                 raise UserError(_("Cannot cancel input '%s - %s - %s' because it's been already linked with an output")
                                 % (w.line_id.name, w.lot_id.name, w.create_datetime))
             w.write({'active': False})
+            _logger.info('[mdc.data_win] Cancelled input %s - % - %s' % (w.line_id.name, w.lot_id.name, w.create_datetime))
+
+    def _cancel_expired_inputs(self):
+        """
+        Cancels all the inputs created at least a day ago and not yet linked with an output
+        :return:
+        """
+        expiration_date = dt.datetime.now() + dt.timedelta(days=-1)
+        cancellable_inputs = self.search([('wout_id', '=', False),
+                                          ('create_datetime', '<=', expiration_date.strftime(DF))])
+        if cancellable_inputs:
+            try:
+                cancellable_inputs.cancel_input()
+            except UserError as e:
+                _logger.error('[mdc.data_win] _cancel_expired_inputs:  %s' % e)
 
 
 class DataWOut(models.Model):
