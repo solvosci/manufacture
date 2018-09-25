@@ -124,7 +124,8 @@ class RptManufacturing(models.Model):
             CREATE view %s as 
                 SELECT lotdata.id, lotdata.create_date, lotdata.lot_name, lotdata.product_id, 
                     lotdata.employee_code, lotdata.employee_name, lotdata.contract_name, lotdata.shift_code, 
-                    lotdata.gross_weight, lotdata.product_weight, lotdata.sp1_weight, lotdata.quality, 
+                    lotdata.gross_weight, lotdata.product_weight, lotdata.sp1_weight,
+                    lotdata.quality_weight/lotdata.product_weight as quality, 
                     lotdata.workstation_name, 
                     lotemp.total_hours, 
                     std.std_yield_product, std.std_speed, std.std_yield_sp1 
@@ -140,7 +141,7 @@ class RptManufacturing(models.Model):
                             sum(wout.gross_weight) as gross_weight,
                             sum(case when woutcat.code='P' then wout.weight-wout.tare else 0 end) as product_weight,
                             sum(case when woutcat.code='SP1' then wout.weight-wout.tare else 0 end) as sp1_weight,
-                            AVG(qlty.code) as quality
+                            sum(case when woutcat.code='P' then qlty.code * (wout.weight-wout.tare) else 0 end) as quality_weight
                         FROM mdc_data_wout wout
                             LEFT JOIN mdc_lot lot ON lot.id=wout.lot_id
                             LEFT JOIN hr_employee emp ON emp.id=wout.employee_id
@@ -198,9 +199,6 @@ class RptIndicators(models.Model):
     lot_name = fields.Char('Lot', readonly=True)
     employee_code = fields.Char('Employee Code', readonly=True)
     employee_name = fields.Char('Employee Name', readonly=True)
-    contract_name = fields.Char('Contract Name', readonly=True)
-    workstation_name = fields.Char('Workstation Name', readonly=True)
-    product_id = fields.Many2one('product.product', 'Product', readonly=True)
     shift_code = fields.Char('Shift Code', readonly=True)
     gross_weight = fields.Float('Gross', readonly=True, group_operator='sum')
     product_weight = fields.Float('Backs', readonly=True, group_operator='sum')
@@ -211,17 +209,30 @@ class RptIndicators(models.Model):
     std_yield_product = fields.Float('Std Yield Product')
     std_speed = fields.Float('Std Speed')
     std_yield_sp1 = fields.Float('Std Yield Subproduct 1')
+    ind_backs = fields.Float('IND Backs', readonly=True, group_operator='avg')
+    ind_mo = fields.Float('IND MO', readonly=True, group_operator='avg')
+    ind_crumbs = fields.Float('IND Crumbs', readonly=True, group_operator='avg')
+    ind_cal = fields.Float('IND Quality', readonly=True, group_operator='avg')
+    ind_cleaning = fields.Float('IND Cleaning', readonly=True, group_operator='avg')
 
     def init(self):
         tools.drop_view_if_exists(self._cr, self._table)
         self._cr.execute("""
             CREATE view %s as 
-                SELECT lotdata.id, lotdata.create_date, lotdata.lot_name, lotdata.product_id, 
-                    lotdata.employee_code, lotdata.employee_name, lotdata.contract_name, lotdata.shift_code, 
-                    lotdata.gross_weight, lotdata.product_weight, lotdata.sp1_weight, lotdata.quality, 
-                    lotdata.workstation_name, 
+                SELECT lotdata.id, lotdata.create_date, lotdata.lot_name,  
+                    lotdata.employee_code, lotdata.employee_name, lotdata.shift_code, 
+                    lotdata.gross_weight, lotdata.product_weight, lotdata.sp1_weight,
+                    lotdata.quality_weight/lotdata.product_weight as quality,
                     lotemp.total_hours, 
-                    std.std_yield_product, std.std_speed, std.std_yield_sp1 
+                    std.std_yield_product, std.std_speed, std.std_yield_sp1, 
+                    case when coalesce(std.std_yield_product,0) = 0 then 0 else (lotdata.product_weight / lotdata.gross_weight) / std.std_yield_product/ 1.15 end as ind_backs,
+                    case when coalesce(std.std_speed,0) = 0 then 0 else (lotemp.total_hours * 60 / lotdata.gross_weight) / std.std_speed / 1.15 end as ind_mo,
+                    case when coalesce(lotdata.sp1_weight,0) =0 then 0 else std.std_yield_sp1 / (lotdata.sp1_weight / lotdata.gross_weight) / 1.15 end as ind_crumbs,
+                    lotdata.quality_weight / lotdata.product_weight as ind_cal,
+                    case when coalesce(std.std_yield_product,0)*coalesce(std.std_speed,0) = 0 then 0 else
+                    (0.6 *  ((lotdata.product_weight / lotdata.gross_weight) / std.std_yield_product/ 1.15)) 
+                    + (0.3 * ((lotemp.total_hours * 60 / lotdata.gross_weight) / std.std_speed / 1.15)) 
+                    + (0.1 * (lotdata.quality_weight / lotdata.product_weight)) end as ind_cleaning 
                     FROM (
                         SELECT
                             MIN(wout.id) as id,
@@ -234,7 +245,7 @@ class RptIndicators(models.Model):
                             sum(wout.gross_weight) as gross_weight,
                             sum(case when woutcat.code='P' then wout.weight-wout.tare else 0 end) as product_weight,
                             sum(case when woutcat.code='SP1' then wout.weight-wout.tare else 0 end) as sp1_weight,
-                            AVG(qlty.code) as quality
+                            sum(case when woutcat.code='P' then qlty.code * (wout.weight-wout.tare) else 0 end) as quality_weight
                         FROM mdc_data_wout wout
                             LEFT JOIN mdc_lot lot ON lot.id=wout.lot_id
                             LEFT JOIN hr_employee emp ON emp.id=wout.employee_id

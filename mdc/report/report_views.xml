@@ -140,6 +140,7 @@
                     <field name="employee_code"/>
                     <field name="employee_name"/>
                     <field name="shift_code"/>
+                    <field name="lot_name"/>
                     <filter name="week" string="This Week"
                         domain="[
                             '&amp;',
@@ -147,6 +148,7 @@
                             ('create_date', '&lt;=', (context_today() + relativedelta(weekday=6)).strftime('%Y-%m-%d')),
                         ]"/>
                     <group expand="1" string="Group By">
+                        <filter string="Lot Name" name="groupby_lot_name" domain="[]" context="{'group_by':'lot_name'}"/>
                         <filter string="Employee Code" name="groupby_employee" domain="[]" context="{'group_by':'employee_code'}"/>
                         <filter string="Shift Code" name="groupby_shift" domain="[]" context="{'group_by':'shift_code'}"/>
                     </group>
@@ -164,11 +166,12 @@
                     <field name="employee_code" readonly="True"/>
                     <field name="employee_name" readonly="True"/>
                     <field name="shift_code" readonly="True"/>
-                    <field name="gross_weight" readonly="True"/>
-                    <field name="product_weight" readonly="True"/>
-                    <field name="sp1_weight" readonly="True"/>
-                    <field name="quality" readonly="True"/>
-                    <field name="total_hours" readonly="True"/>
+                    <field name="lot_name" readonly="True"/>
+                    <field name="ind_backs" readonly="True"/>
+                    <field name="ind_mo" readonly="True"/>
+                    <field name="ind_crumbs" readonly="True"/>
+                    <field name="ind_cal" readonly="True"/>
+                    <field name="ind_cleaning" readonly="True"/>
                 </tree>
             </field>
         </record>
