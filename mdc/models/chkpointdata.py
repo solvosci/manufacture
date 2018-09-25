@@ -121,7 +121,7 @@ class DataWIn(models.Model):
                 raise UserError(_("Cannot cancel input '%s - %s - %s' because it's been already linked with an output")
                                 % (w.line_id.name, w.lot_id.name, w.create_datetime))
             w.write({'active': False})
-            _logger.info('[mdc.data_win] Cancelled input %s - % - %s' % (w.line_id.name, w.lot_id.name, w.create_datetime))
+            _logger.info('[mdc.data_win] Cancelled input %s - %s - %s' % (w.line_id.name, w.lot_id.name, w.create_datetime))
 
     def _cancel_expired_inputs(self):
         """
@@ -297,7 +297,10 @@ class DataWOut(models.Model):
         # - cards_in
         # - card_workstation
         # - quality_id
-
+        # - wout_categ_code
+        wout_categ_id = self.env['mdc.wout_categ'].search([('code', '=', values['wout_categ_code'])])
+        if not wout_categ_id:
+            raise UserError(_('WOUT categ code #%s not found') % values['wout_categ_code'])
         chkpoint = self.env['mdc.chkpoint'].browse(values['chkpoint_id'])
         if not chkpoint:
             raise UserError(_('Checkpoint #%s not found') % values['chkpoint_id'])
@@ -321,7 +324,7 @@ class DataWOut(models.Model):
             'weight': weight_value,
             'w_uom_id': weight_uom_id.id,
             'quality_id': values['quality_id'],
-            'wout_categ_id': values['wout_categ_id'],
+            'wout_categ_id': wout_categ_id.id,
             'card_ids': card_ids
         })
 
