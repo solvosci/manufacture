@@ -31,6 +31,10 @@ var WoutState = /*(*/function () {
         return $('#one_input_button').hasClass('enabled');
     }
 
+    var isCrumbsMode = function () {
+        return $('#crumbs_button').hasClass('enabled');
+    }
+
     var addCard = function (card_data) {
 
         // 0.- If is first read, we must clear screen (that is currently showing last operation data)
@@ -42,8 +46,8 @@ var WoutState = /*(*/function () {
 
         if ( card_data.card_categ_id === card_categ_P_id ) {
             // Product card received
-            if ( inputCount() === 2 ) {
-                // Too many product cards
+            if ( (inputCount() === 2) || isCrumbsMode() ) {
+                // Too many product cards or crumbs mode is selected
                 throw new Error(
                     $('#t_chkpoint_wout_input_workstation_expected_err').html()
                         .format(card_data.card_code)
@@ -64,6 +68,7 @@ var WoutState = /*(*/function () {
                 );
             }
             if ( !('win_weight' in card_data) ) {
+                // Product card with no data associated
                 throw new Error(
                     $('#t_chkpoint_wout_input_no_input_err').html()
                         .format(card_data.card_code)
@@ -71,6 +76,7 @@ var WoutState = /*(*/function () {
             }
             var lotId = currentLotId();
             if ( lotId && (lotId != card_data.win_lot_id) ) {
+                // Product card associated to a different lot
                 throw new Error(
                     $('#t_chkpoint_wout_input_lot_err').html()
                         .format(card_data.card_code, card_data.win_lot_name)
@@ -83,6 +89,8 @@ var WoutState = /*(*/function () {
             if  ( cards_in.length == 2 ) {
                 $('#one_input_button').prop('disabled', true);
             }
+            // - Too late for crumbs mode
+            $('#crumbs_button').prop('disabled', true);
 
             $('#lot').html(card_data.win_lot_name);
             $('#card_in_' + cards_in.length).val('{0} {1}'.format(card_data.win_weight, card_data.win_uom));
@@ -91,8 +99,15 @@ var WoutState = /*(*/function () {
         }
         else if ( card_data.card_categ_id === card_categ_L_id ) {
             // Workstation card received
-            if ( cards_in.length === 0 ) {
-                // Workstation card is not allowed
+            if ( (inputCount() === 0) && !isCrumbsMode() ) {
+                // Workstation card is not allowed when no input data is present (only in crumbs mode)
+                throw new Error(
+                    $('#t_chkpoint_wout_workstation_input_expected_err').html()
+                        .format(card_data.card_code)
+                );
+            }
+            if ( (inputCount() === 1) && !isOneInput() ) {
+                // Workstation card is not allowed when only one input present (only in "one input" mode)
                 throw new Error(
                     $('#t_chkpoint_wout_workstation_input_expected_err').html()
                         .format(card_data.card_code)
@@ -136,8 +151,11 @@ var WoutState = /*(*/function () {
             data: JSON.stringify({
                 cards_in: cards_in,
                 card_workstation: card_workstation,
-                quality_id: quality_id/*,
-                wout_categ_id: ... */
+                quality_id: quality_id,
+                wout_categ_code: (
+                    isCrumbsMode() ?
+                    'SP1' : 'P'
+                )
             })
         }).done(function (data) {
             try {
@@ -178,6 +196,7 @@ var WoutState = /*(*/function () {
         card_workstation = null;
         $('#quality_select').val($('#initial_quality_id').val()).change();
         if ( isOneInput() )  switch_enabled($('#one_input_button'), false);
+        if ( isCrumbsMode() )  switch_enabled($('#crumbs_button'), false);
     }
 
     var check_reset_screen = function () {
