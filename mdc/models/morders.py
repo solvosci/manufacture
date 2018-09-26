@@ -140,7 +140,7 @@ class LotActive(models.Model):
             end_datetime = values['end_datetime']
         if end_datetime is False:
             end_datetime = fields.Datetime.now()
-        if start_datetime is not False and end_datetime is not False:
+        if start_datetime is not False and end_datetime is not False and start_datetime < end_datetime:
             difference = datetime.datetime.strptime(end_datetime, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(start_datetime, '%Y-%m-%d %H:%M:%S')
             total_hours = difference.days*24 + difference.seconds/3600
         return total_hours
@@ -313,7 +313,7 @@ class Worksheet(models.Model):
             end_datetime = values['end_datetime']
         if end_datetime is False:
             end_datetime = fields.Datetime.now()
-        if start_datetime is not False and end_datetime is not False:
+        if start_datetime is not False and end_datetime is not False and start_datetime < end_datetime:
             end_date = datetime.datetime.strptime(end_datetime, '%Y-%m-%d %H:%M:%S')
             start_date = datetime.datetime.strptime(start_datetime, '%Y-%m-%d %H:%M:%S')
             timedelta = end_date - start_date

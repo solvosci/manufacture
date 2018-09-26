@@ -123,6 +123,63 @@ class DataWIn(models.Model):
             w.write({'active': False})
             _logger.info('[mdc.data_win] Cancelled input %s - %s - %s' % (w.line_id.name, w.lot_id.name, w.create_datetime))
 
+    def _calculate_lot_average_data(self):
+        w_create_datetime = None
+        w_tare = None
+        w_uom_id = None
+        w_weight = 0
+        w_numwin = 0
+        w_timewout = 0
+        w_numwout = 0
+        win_lots = self.env['mdc.data_win'].search([('line_id', '=', self.line_id.id), ('lot_id', '=', self.lot_id.id)], order='create_datetime asc')
+        if win_lots:
+            for wi in win_lots:
+                if w_tare is None:
+                    w_tare = wi.tare
+                    w_uom_id = wi.w_uom_id.id
+                # if we don´t find any wout we have the first create_datetime
+                if w_create_datetime is None:
+                    w_create_datetime = wi.create_datetime
+                # just keep in mind records with the same tare
+                if wi.tare == w_tare and wi.w_uom_id.id == w_uom_id:
+                    w_weight += wi.weight
+                    w_numwin += 1
+                    _logger.info('[mdc.data_win] _calculate_lot_average_data WIN %s - weight: %s ' % (w_numwin, wi.weight))
+                # to calculate create_datetime we need the create_datetime of the wout
+                if wi.wout_id is not None:
+                    # retrieve de wout record
+                    wo = self.env['mdc.data_wout'].browse(wi.wout_id.id)
+                    if wo:
+                        w_numwout += 1
+                        difference = dt.datetime.strptime(wo.create_datetime, '%Y-%m-%d %H:%M:%S') - dt.datetime.strptime(wi.create_datetime, '%Y-%m-%d %H:%M:%S')
+                        dif_hours = difference.days * 24 + difference.seconds / 3600
+                        w_timewout += dif_hours
+                        _logger.info(
+                            '[mdc.data_win] _calculate_lot_average_data WOUT %s - datetime_in: %s - datetime_out: %s - difference: %s'
+                            % (w_numwout, wi.create_datetime, wo.create_datetime, dif_hours))
+
+        # calculate de average of the weight
+        if w_numwin > 0:
+            w_weight = w_weight / w_numwin
+        # calculate de average of the timewout
+        # if we don´t find any wout we have the first create_datetime
+        if w_numwout > 0:
+            w_timewout = w_timewout / w_numwout
+            ww_create_datetime = dt.datetime.now() - dt.timedelta(hours=w_timewout)
+            w_create_datetime = ww_create_datetime.strftime("%Y-%m-%d %H:%M:%S")
+
+        # return data to create de joker win reg
+        _logger.info('[mdc.data_win] _calculate_lot_average_data to lot %s and line %s: '
+                     'avg_time: %s - numwout: % s - create_datetime: %s - '
+                     'numwin:%s - tare: %s - weight: %s - uom: %s'
+                     % (self.lot_id.name, self.line_id.name, w_timewout, w_numwout, w_create_datetime, w_numwin, w_tare, w_weight, w_uom_id))
+        return {
+            'create_datetime': w_create_datetime,
+            'tare': w_tare,
+            'weight': w_weight,
+            'w_uom_id': w_uom_id
+        }
+
     def _cancel_expired_inputs(self):
         """
         Cancels all the inputs created at least a day ago and not yet linked with an output
