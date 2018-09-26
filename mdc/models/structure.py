@@ -266,8 +266,11 @@ class Card(models.Model):
             values.pop('employee_id', None)
             values.pop('lot_id', None)
         if categ == self.env.ref('mdc.mdc_card_categ_PC').id:
+            """
+            # TODO from mdc controller interface it's possible to register a joker card without initial lot assignment
             if not values.get('lot_id'):
                 raise UserError(_('You must select a lot for this card or select another category'))
+            """
             values.pop('employee_id', None)
             values.pop('workstation_id', None)
         # TODO product and subproduct cards should clear assignment fields
@@ -289,6 +292,7 @@ class Card(models.Model):
         data_out['card_id'] = card.id
         data_out['card_categ_id'] = card.card_categ_id.id
         if card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_P').id:
+            # - Product card. We provide input data associated with, if exists
             win = self.env['mdc.data_win'].search([('card_id', '=', card.id), ('wout_id', '=', False)])
             if win:
                 data_out['win_lot_id'] = win[0].lot_id.id
@@ -296,12 +300,14 @@ class Card(models.Model):
                 data_out['win_weight'] = win[0].weight
                 data_out['win_uom'] = win[0].w_uom_id.name
         elif card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_L').id:
+            # - Workstation card. We provide workstation data associated with, if exists
             if card.workstation_id:
                 data_out['workstation'] = card.workstation_id.name
         elif card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_PC').id:
-            # TODO is a joker card
-            # data_out['special'] = _('Joker card')
-            pass
+            # - Joker card. We provide lot data associated with, if exists
+            if card.lot_id:
+                data_out['win_lot_id'] = card.lot_id.id
+                data_out['win_lot_name'] = card.lot_id.name
         elif card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_O').id:
             # TODO retrieve employee description
             # data_out['employee_code'] = ...

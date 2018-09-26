@@ -4,6 +4,7 @@ var WoutState = /*(*/function () {
     var chkpoint_id = +$('#chkpoint_id').val();
     var card_categ_P_id = +$('#card_categ_P_id').val();
     var card_categ_L_id = +$('#card_categ_L_id').val();
+    var card_categ_PC_id = +$('#card_categ_PC_id').val();
 
     var cards_in = [];
     var card_workstation = null;
@@ -44,7 +45,8 @@ var WoutState = /*(*/function () {
         console.log('Checking card category ' + card_data.card_categ_id + '...');
         // 2.- Check data saving
 
-        if ( card_data.card_categ_id === card_categ_P_id ) {
+        if ( (card_data.card_categ_id === card_categ_P_id) || (card_data.card_categ_id === card_categ_PC_id) ) {
+            var bProductCard = (card_data.card_categ_id === card_categ_P_id);
             // Product card received
             if ( (inputCount() === 2) || isCrumbsMode() ) {
                 // Too many product cards or crumbs mode is selected
@@ -67,23 +69,30 @@ var WoutState = /*(*/function () {
                         .format(card_data.card_code)
                 );
             }
-            if ( !('win_weight' in card_data) ) {
+            if ( bProductCard && !('win_weight' in card_data) ) {
                 // Product card with no data associated
                 throw new Error(
                     $('#t_chkpoint_wout_input_no_input_err').html()
                         .format(card_data.card_code)
                 );
             }
+            if ( !bProductCard && !('win_lot_id' in card_data) ) {
+                // Joker card with no lot associated
+                throw new Error(
+                    $('#t_chkpoint_wout_jc_no_lot_err').html()
+                        .format(card_data.card_code)
+                );
+            }
             var lotId = currentLotId();
             if ( lotId && (lotId != card_data.win_lot_id) ) {
-                // Product card associated to a different lot
+                // Product/Joker card associated to a different lot
                 throw new Error(
                     $('#t_chkpoint_wout_input_lot_err').html()
                         .format(card_data.card_code, card_data.win_lot_name)
                );
             }
 
-            // Product card is allowed
+            // Product/Joker card is allowed
             cards_in.push(card_data);
             // - Too late for set one input mode
             if  ( cards_in.length == 2 ) {
@@ -93,9 +102,13 @@ var WoutState = /*(*/function () {
             $('#crumbs_button').prop('disabled', true);
 
             $('#lot').html(card_data.win_lot_name);
-            $('#card_in_' + cards_in.length).val('{0} {1}'.format(card_data.win_weight, card_data.win_uom));
+            $('#card_in_' + cards_in.length).val(
+                bProductCard ?
+                '{0} {1}'.format(card_data.win_weight, card_data.win_uom) :
+                $('#t_chkpoint_wout_jc_description').html()
+            );
 
-            info(`Added product Card #${card_data.card_code}`, 'ok');
+            info($('#t_chkpoint_wout_input_jc_added').html().format(card_data.card_code), 'ok');
         }
         else if ( card_data.card_categ_id === card_categ_L_id ) {
             // Workstation card received
@@ -197,6 +210,7 @@ var WoutState = /*(*/function () {
         $('#quality_select').val($('#initial_quality_id').val()).change();
         if ( isOneInput() )  switch_enabled($('#one_input_button'), false);
         if ( isCrumbsMode() )  switch_enabled($('#crumbs_button'), false);
+        $('#one_input_button,#crumbs_button').prop('disabled', false);
     }
 
     var check_reset_screen = function () {
@@ -245,6 +259,11 @@ ws_event_received = function (event) {
 
 }
 
+ws_event_open = function () {
+    console.log('WOUT ws open!!!');
+    show_info($('#t_ws_rfid_onopen_ready').html(), 'ok');
+}
+
 read_card_manage = function (card_code) {
 
     $.ajax({
@@ -277,8 +296,8 @@ var woutState = null;
 
 $(document).ready(function() {
 
-    /* var ws = */ws_create(ws_event_received);
-    show_info('Ready for card readings!!!', 'ok');
+    /* var ws = */ws_create(ws_event_received, { 'onopen_function': ws_event_open });
+    show_info($('#t_ws_rfid_onopen_wait').html(), 'ok');
 
     // TODO additional initial stuff
 

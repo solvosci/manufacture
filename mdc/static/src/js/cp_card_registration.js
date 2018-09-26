@@ -1,3 +1,8 @@
+ws_event_open = function () {
+    console.log('Card registration ws open!!!');
+    show_info($('#t_ws_rfid_onopen_ready').html(), 'ok');
+}
+
 ws_event_received = function (event) {
 
     try {
@@ -84,7 +89,7 @@ $(document).ready(function() {
 
     // TODO error handling
 
-    /* var ws = */ws_create(ws_event_received);
-    show_info('Ready for card registration!!!', 'ok');
+    /* var ws = */ws_create(ws_event_received, { 'onopen_function': ws_event_open });
+    show_info($('#t_ws_rfid_onopen_wait').html(), 'ok');
 
 });

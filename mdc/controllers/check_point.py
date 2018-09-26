@@ -133,7 +133,9 @@ class CheckPoint(http.Controller):
                 {'title': chkpoints[0].name, 'chkpoints': chkpoints, 'qualities': qualities,
                  'ws_session_data': ws_session_data,
                  'card_categ_P_id': request.env.ref('mdc.mdc_card_categ_P').id,
-                 'card_categ_L_id': request.env.ref('mdc.mdc_card_categ_L').id }
+                 'card_categ_L_id': request.env.ref('mdc.mdc_card_categ_L').id,
+                 'card_categ_PC_id': request.env.ref('mdc.mdc_card_categ_PC').id
+                 }
             )
         except Exception as e:
             return self.get_error_page(e)
@@ -170,7 +172,8 @@ class CheckPoint(http.Controller):
             ws_session_data = ws_rfid_server.get_session_data(request.env)
             return request.render(
                 'mdc.chkpoint_card_registration',
-                {'devices': devices, 'card_categs': card_categs, 'employees': employees, 'workstations': workstations,
+                {'title': _('Card registration'),
+                 'devices': devices, 'card_categs': card_categs, 'employees': employees, 'workstations': workstations,
                  'ws_session_data': ws_session_data}
             )
         except Exception as e:

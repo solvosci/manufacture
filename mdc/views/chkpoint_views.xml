@@ -58,6 +58,8 @@
                 </div>
 
                 <div id="translations" style="display: none;">
+                    <span id="t_ws_rfid_onopen_wait">Waiting for websocket acceptance...</span>
+                    <span id="t_ws_rfid_onopen_ready">Ready for card readings!!!</span>
                 </div>
 
                 <div class="UpperTitle">
@@ -86,7 +88,11 @@
             </t>
         </xpath>
         <xpath expr="//div[@id='translations']" position="inside">
-
+            <span id="t_chkpoint_win_read_card">Read card #{0}</span>
+            <span id="t_chkpoint_win_lot_err">ERROR retrieving active lot: {0}</span>
+            <span id="t_chkpoint_win_lot_err_unknown">ERROR retrieving active lot (unknown)</span>
+            <span id="t_chkpoint_win_save_err_unknown">ERROR registering weight (unknown)</span>
+            <span id="t_chkpoint_win_save_ok">Data successfully saved</span>
         </xpath>
         <xpath expr="//div[@id='content']" position="inside">
             <div class="divTable">
@@ -130,6 +136,7 @@
         <xpath expr="//div[@id='hidden_content']" position="inside">
             <input type="hidden" id="card_categ_P_id" t-attf-value="{{card_categ_P_id}}"/>
             <input type="hidden" id="card_categ_L_id" t-attf-value="{{card_categ_L_id}}"/>
+            <input type="hidden" id="card_categ_PC_id" t-attf-value="{{card_categ_PC_id}}"/>
             <t t-foreach="chkpoints" t-as="chkpoint">
                 <input type="hidden" id="rfid_reader_code" t-attf-value="{{chkpoint.rfid_reader_id.device_code}}"/>
                 <input type="hidden" id="chkpoint_id" t-attf-value="{{chkpoint.id}}"/>
@@ -137,11 +144,14 @@
             </t>
         </xpath>
         <xpath expr="//div[@id='translations']" position="inside">
+            <span id="t_chkpoint_wout_jc_description">Joker card</span>
             <span id="t_chkpoint_wout_input_workstation_expected_err">Card #{0} not valid. Workstation card is expected</span>
             <span id="t_chkpoint_wout_input_repeated_err">Card #{0} was already read!</span>
             <span id="t_chkpoint_wout_input_no_input_err">Card #{0} not valid, there is no input associated!</span>
-            <span id="t_chkpoint_wout_input_lot_err">Input card read #{0} belongs to a different lot ({1}) than the current one</span>
+            <span id="t_chkpoint_wout_jc_no_lot_err">Joker card #{0} not valid, there is no lot associated!</span>
+            <span id="t_chkpoint_wout_input_lot_err">Card read #{0} belongs to a different lot ({1}) than the current one</span>
             <span id="t_chkpoint_wout_input_one_input_already_selected_err">Product card #{0} not valid. One input mode is selected!</span>
+            <span id="t_chkpoint_wout_input_jc_added">Added product/joker card Card #{0}</span>
             <span id="t_chkpoint_wout_workstation_input_expected_err">Card #{0} not valid. Product card is expected</span>
             <span id="t_chkpoint_wout_workstation_no_workstation_err">Card #{0} not valid, there is no workstation associated!</span>
             <span id="t_chkpoint_wout_invalid_card_err">Card #{0} not valid</span>
@@ -158,7 +168,7 @@
                                             Lot
                                         </div>
                                         <div class="divTableCell data_displayed">
-                                            <span id="lot" style="font-size: 2em; font-weight: bold;"></span>
+                                            <span id="lot" style="font-size: 1.25em; font-weight: bold;"></span>
                                         </div>
                                     </div>
                                     <div class="divTableRow">
@@ -184,7 +194,7 @@
                                             Workstation
                                         </div>
                                         <div class="divTableCell">
-                                            <input id="card_workstation" type="text" size="20" readonly="readonly"
+                                            <input id="card_workstation" type="text" size="25" readonly="readonly"
                                                    class="centered"  style="font-size: 1.5em"/>
                                         </div>
                                     </div>
@@ -210,13 +220,16 @@
                             </div>
                         </div>
                         <div class="divTableCell centered">
+                            <span style="font-size: 1.5em">Q</span>
                             <select id="quality_select">
                                 <!-- option value="" selected="selected">Select a quality...</option -->
-                                <t t-foreach="qualities" t-as="quality">
-                                    <option t-attf-value="{{quality.id}}">
-                                        <t t-esc="quality.descrip"></t>
-                                    </option>
-                                </t>
+                                <optgroup>
+                                    <t t-foreach="qualities" t-as="quality">
+                                        <option t-attf-value="{{quality.id}}">
+                                            <t t-esc="quality.descrip"></t>
+                                        </option>
+                                    </t>
+                                </optgroup>
                             </select>
                             <p/>
                             <button type="button" id="shared_button" class="disabled"></button>
@@ -231,100 +244,89 @@
         </xpath>
     </template>
 
-    <template id="chkpoint_card_registration">
-        <html>
-            <head>
-                <title>Card registration - MDC CP</title>
-                <link rel="stylesheet" type="text/css" href="/mdc/static/src/css/cp.css"/>
-                <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
-                <script language="JavaScript" src="/mdc/static/src/js/cp_common.js"></script>
-                <script language="JavaScript" src="/mdc/static/src/js/cp_card_registration.js"></script>
-            </head>
-            <body>
-                <input type="hidden" id="ws_session_id" t-attf-value="{{ws_session_data['session_id']}}"/>
-                <input type="hidden" id="ws_wsapi_url" t-attf-value="{{ws_session_data['wsapi_url']}}"/>
-
-
-                <div>MCD CP: <a href="/mdc/cp/list">Home</a> | <a href="/mdc/cp/cardreg">Card registration</a></div>
-                <hr/>
-                <div id="info_div">
-                    Waiting for websocket connection...
-                </div>
-                <div class="divTable">
-                    <div class="divTableBody">
-                        <div class="divTableRow">
-                            <div class="divTableCell label">
-                                    Device
-                            </div>
-                            <div class="divTableCell">
-                                <select id="device_select">
-                                    <option value="" selected="selected">Select a device...</option>
-                                    <t t-foreach="devices" t-as="device">
-                                        <option t-attf-value="{{device.device_code}}">
-                                            <t t-esc="device.name"></t>
-                                        </option>
-                                    </t>
-                                </select>
-                            </div>
+    <template id="chkpoint_card_registration" inherit_id="chkpoint_rfid_base" primary="True">
+        <xpath expr="//head" position="inside">
+            <script language="JavaScript" src="/mdc/static/src/js/cp_card_registration.js"></script>
+        </xpath>
+        <xpath expr="//div[@id='hidden_content']" position="inside">
+        </xpath>
+        <xpath expr="//div[@id='translations']" position="inside">
+        </xpath>
+        <xpath expr="//div[@id='content']" position="inside">
+            <div class="divTable">
+                <div class="divTableBody">
+                    <div class="divTableRow">
+                        <div class="divTableCell label">
+                                Device
                         </div>
-                        <div class="divTableRow">
-                            <div class="divTableCell label">
-                                Card category
-                            </div>
-                            <div class="divTableCell">
-                                <select id="card_categ_select">
-                                    <option value="" selected="selected">Select a category...</option>
-                                    <t t-foreach="card_categs" t-as="card_categ">
-                                        <option t-attf-value="{{card_categ.id}}">
-                                            <t t-esc="card_categ.name"></t>
-                                        </option>
-                                    </t>
-                                </select>
-                            </div>
+                        <div class="divTableCell">
+                            <select id="device_select">
+                                <option value="" selected="selected">Select a device...</option>
+                                <t t-foreach="devices" t-as="device">
+                                    <option t-attf-value="{{device.device_code}}">
+                                        <t t-esc="device.name"></t>
+                                    </option>
+                                </t>
+                            </select>
                         </div>
-                        <div class="divTableRow">
-                            <div class="divTableCell label">
-                                Employee
-                            </div>
-                            <div class="divTableCell">
-                                <select id="employee_select">
-                                    <option value="" selected="selected">Select an employee...</option>
-                                    <t t-foreach="employees" t-as="employee">
-                                        <option t-attf-value="{{employee.id}}">
-                                            <t t-esc="employee.employee_code"></t>
-                                        </option>
-                                    </t>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="divTableRow">
+                        <div class="divTableCell label">
+                            Card category
                         </div>
-                        <div class="divTableRow">
-                            <div class="divTableCell label">
-                                Workstation
-                            </div>
-                            <div class="divTableCell">
-                                <select id="workstation_select">
-                                    <option value="" selected="selected">Select a workstation...</option>
-                                    <t t-foreach="workstations" t-as="workstation">
-                                        <option t-attf-value="{{workstation.id}}">
-                                            <t t-esc="workstation.name"></t>
-                                        </option>
-                                    </t>
-                                </select>
-                            </div>
+                        <div class="divTableCell">
+                            <select id="card_categ_select">
+                                <option value="" selected="selected">Select a category...</option>
+                                <t t-foreach="card_categs" t-as="card_categ">
+                                    <option t-attf-value="{{card_categ.id}}">
+                                        <t t-esc="card_categ.name"></t>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="divTableRow">
+                        <div class="divTableCell label">
+                            Employee
+                        </div>
+                        <div class="divTableCell">
+                            <select id="employee_select">
+                                <option value="" selected="selected">Select an employee...</option>
+                                <t t-foreach="employees" t-as="employee">
+                                    <option t-attf-value="{{employee.id}}">
+                                        <t t-esc="employee.employee_code"></t>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="divTableRow">
+                        <div class="divTableCell label">
+                            Workstation
+                        </div>
+                        <div class="divTableCell">
+                            <select id="workstation_select">
+                                <option value="" selected="selected">Select a workstation...</option>
+                                <t t-foreach="workstations" t-as="workstation">
+                                    <option t-attf-value="{{workstation.id}}">
+                                        <t t-esc="workstation.name"></t>
+                                    </option>
+                                </t>
+                            </select>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="centered" style="font-size: 1.5em; margin-top: 20px; margin-bottom: 20px">
-                    Last card read:<br/>
-                    <input id="card_read_input" type="text" size="10" readonly="readonly"
-                           class="centered"  style="font-size: 1.5em; background: #D0D0D0;"/>
-                </div>
-                <div class="centered">
-                    <button type="button" id="confirm_button" style="font-size: 1.5em">Register card</button>
-                </div>
-            </body>
-        </html>
+            <div class="centered" style="font-size: 1.5em; margin-top: 20px; margin-bottom: 20px">
+                Last card read:<br/>
+                <input id="card_read_input" type="text" size="10" readonly="readonly"
+                       class="centered"  style="font-size: 1.5em; background: #D0D0D0;"/>
+            </div>
+            <div class="centered">
+                <button type="button" id="confirm_button" style="font-size: 1.5em">Register card</button>
+            </div>
+        </xpath>
     </template>
 
     <template id="chkpoint_card_lot_assignment" inherit_id="chkpoint_rfid_base" primary="True">
