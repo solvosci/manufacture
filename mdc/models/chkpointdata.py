@@ -257,9 +257,24 @@ class DataWOut(models.Model):
                         raise UserError(_("Card #%s not valid: there's not any employee assigned with") % card.name)
                     values['workstation_id'] = card.workstation_id.id
                     values['shift_id'] = card.workstation_id.shift_id.id
+                elif card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_PC').id:
+                    # Joker card. Prior to create the output we should make a related input
+                    # Conventions:
+                    # - There isn't lot validation (we take the output one)
+                    # FIXME Tare: WOUT checkpoint tare, not the WIN one! Should associate a tare with every joker card?
+                    # - weight: the current average for the lot
+                    # FIXME w_uom_id: we don't know how to fill, then we take the WOUT scale
+                    joker_win = self.env['mdc.data_win'].create({
+                        'line_id': values['line_id'],
+                        'lot_id': values['lot_id'],
+                        'tare': values['tare'],
+                        'weight': self.env['mdc.lot'].browse(values['lot_id']).get_input_avg_weight(),
+                        'w_uom_id': values['w_uom_id'],
+                        'card_id': card.id
+                    })
+                    ids_win.append(joker_win.id)
                 else:
-                    # TODO other card types (e.g. "joker" card, employee card....)
-                    # TODO scrumbs management
+                    # TODO other card types (e.g. employee card....)
                     raise UserError(_("Unknown card #%s") % card.name)
 
         values['gross_weight'] = gross_weight

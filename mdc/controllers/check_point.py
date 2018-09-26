@@ -133,7 +133,9 @@ class CheckPoint(http.Controller):
                 {'title': chkpoints[0].name, 'chkpoints': chkpoints, 'qualities': qualities,
                  'ws_session_data': ws_session_data,
                  'card_categ_P_id': request.env.ref('mdc.mdc_card_categ_P').id,
-                 'card_categ_L_id': request.env.ref('mdc.mdc_card_categ_L').id }
+                 'card_categ_L_id': request.env.ref('mdc.mdc_card_categ_L').id,
+                 'card_categ_PC_id': request.env.ref('mdc.mdc_card_categ_PC').id
+                 }
             )
         except Exception as e:
             return self.get_error_page(e)

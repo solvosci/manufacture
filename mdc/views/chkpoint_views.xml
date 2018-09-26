@@ -130,6 +130,7 @@
         <xpath expr="//div[@id='hidden_content']" position="inside">
             <input type="hidden" id="card_categ_P_id" t-attf-value="{{card_categ_P_id}}"/>
             <input type="hidden" id="card_categ_L_id" t-attf-value="{{card_categ_L_id}}"/>
+            <input type="hidden" id="card_categ_PC_id" t-attf-value="{{card_categ_PC_id}}"/>
             <t t-foreach="chkpoints" t-as="chkpoint">
                 <input type="hidden" id="rfid_reader_code" t-attf-value="{{chkpoint.rfid_reader_id.device_code}}"/>
                 <input type="hidden" id="chkpoint_id" t-attf-value="{{chkpoint.id}}"/>
@@ -137,11 +138,14 @@
             </t>
         </xpath>
         <xpath expr="//div[@id='translations']" position="inside">
+            <span id="t_chkpoint_wout_jc_description">Joker card</span>
             <span id="t_chkpoint_wout_input_workstation_expected_err">Card #{0} not valid. Workstation card is expected</span>
             <span id="t_chkpoint_wout_input_repeated_err">Card #{0} was already read!</span>
             <span id="t_chkpoint_wout_input_no_input_err">Card #{0} not valid, there is no input associated!</span>
-            <span id="t_chkpoint_wout_input_lot_err">Input card read #{0} belongs to a different lot ({1}) than the current one</span>
+            <span id="t_chkpoint_wout_jc_no_lot_err">Joker card #{0} not valid, there is no lot associated!</span>
+            <span id="t_chkpoint_wout_input_lot_err">Card read #{0} belongs to a different lot ({1}) than the current one</span>
             <span id="t_chkpoint_wout_input_one_input_already_selected_err">Product card #{0} not valid. One input mode is selected!</span>
+            <span id="t_chkpoint_wout_input_jc_added">Added product/joker card Card #{0}</span>
             <span id="t_chkpoint_wout_workstation_input_expected_err">Card #{0} not valid. Product card is expected</span>
             <span id="t_chkpoint_wout_workstation_no_workstation_err">Card #{0} not valid, there is no workstation associated!</span>
             <span id="t_chkpoint_wout_invalid_card_err">Card #{0} not valid</span>
