@@ -33,6 +33,14 @@
                         </div>
                     </div>
                 </group>
+                <group string="Lots Parameters">
+                    <div>
+                        <div>
+                            <label for="lot_default_life_days"/>
+                            <field name="lot_default_life_days" required="True"/>
+                        </div>
+                    </div>
+                </group>
             </form>
         </field>
     </record>

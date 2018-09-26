@@ -43,10 +43,11 @@ class Lot(models.Model):
         'Description')
     start_date = fields.Date(
         'Start Date',
-        required = True,
+        required=True,
         default=_default_date)
     end_date = fields.Date(
-        'End_Date')
+        'End_Date',
+        required=True)
 
     def name_get(self, context=None):
         if context is None:
@@ -75,6 +76,19 @@ class Lot(models.Model):
         for l in self:
             if l.end_date < l.start_date:
                 raise models.ValidationError(_('End date must be older than start date'))
+
+    @api.onchange('start_date')
+    def _calculate_end_date(self):
+        IrConfigParameter = self.env['ir.config_parameter'].sudo()
+        default_life_days = int(IrConfigParameter.get_param('mdc.lot_default_life_days'))
+        for lot in self:
+            if lot.start_date is not None:
+                w_start_date = fields.Datetime.from_string(lot.start_date)
+                w_end_date = w_start_date + datetime.timedelta(days=default_life_days)
+                lot.end_date = w_end_date.strftime("%Y-%m-%d %H:%M:%S")
+            else:
+                lot.end_date = None
+
 
 class LotActive(models.Model):
     """

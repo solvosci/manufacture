@@ -9,6 +9,7 @@ class MdcConfigSettings(models.TransientModel):
     rfid_server_user = fields.Char('RFID Server User')
     rfid_server_password = fields.Char('RFID Server Password')
     rfid_ws_server_url = fields.Char('RFID WebSocket Server URL')
+    lot_default_life_days = fields.Char('Lots default life in days')
 
     @api.model
     def get_values(self):
@@ -18,7 +19,8 @@ class MdcConfigSettings(models.TransientModel):
             rfid_server_url=IrConfigParameter.get_param('mdc.rfid_server_url'),
             rfid_server_user=IrConfigParameter.get_param('mdc.rfid_server_user'),
             rfid_server_password=IrConfigParameter.get_param('mdc.rfid_server_password'),
-            rfid_ws_server_url=IrConfigParameter.get_param('mdc.rfid_ws_server_url')
+            rfid_ws_server_url=IrConfigParameter.get_param('mdc.rfid_ws_server_url'),
+            lot_default_life_days=IrConfigParameter.get_param('mdc.lot_default_life_days')
         )
         return res
 
@@ -32,4 +34,5 @@ class MdcConfigSettings(models.TransientModel):
         IrConfigParameter.set_param('mdc.rfid_server_user', self.rfid_server_user)
         IrConfigParameter.set_param('mdc.rfid_server_password', self.rfid_server_password)
         IrConfigParameter.set_param('mdc.rfid_ws_server_url', self.rfid_ws_server_url)
+        IrConfigParameter.set_param('mdc.lot_default_life_days', self.lot_default_life_days)
 
