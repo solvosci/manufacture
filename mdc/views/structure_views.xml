@@ -322,7 +322,7 @@
                     <group name="gr_wout_categ_data" string="WOut Category">
                         <group>
                             <field name="name"/>
-                            <field name="code"/>
+                            <field name="code" attrs="{'readonly': [('id', '!=', False)]}"/>
                         </group>
                     </group>
                 </sheet>

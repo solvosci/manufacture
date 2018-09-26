@@ -21,7 +21,7 @@ class RptTracing(models.Model):
     gross_weight = fields.Float('Gross', readonly=True, group_operator='sum')
     product_weight = fields.Float('Backs', readonly=True, group_operator='sum')
     sp1_weight = fields.Float('Crumbs', readonly=True, group_operator='sum')
-    quality = fields.Float('Quality', readonly=True, group_operator='avg')
+    quality = fields.Float('Quality', readonly=True)
     total_hours = fields.Float('Total Hours', readonly=True, group_operator='sum')
     # TODO readonly=True
     std_yield_product = fields.Float('Std Yield Product')
@@ -78,16 +78,22 @@ class RptTracing(models.Model):
                 
         """ % self._table)
 
-
+    # --------------- Calculate Grouped Values with Weighted average or complicated dropued formulas
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None,
                orderby=False, lazy=True):
         res = super(RptTracing, self).read_group(domain, fields, groupby,
              offset=offset, limit=limit, orderby=orderby, lazy=lazy)
-
-        # TODO if we need to customize some group operators, edit here
-        # http://danielrodriguez.esy.es/blog/sumatory-in-group/
-
+        if 'quality' in fields:
+            for line in res:
+                if '__domain' in line:
+                    quality_weight = 0
+                    total_weight = 0
+                    lines = self.search(line['__domain'])
+                    for line_item in lines:
+                        quality_weight += line_item.quality * line_item.product_weight
+                        total_weight += line_item.product_weight
+                    line['quality'] = quality_weight / total_weight
         return res
 
 
@@ -111,7 +117,7 @@ class RptManufacturing(models.Model):
     gross_weight = fields.Float('Gross', readonly=True, group_operator='sum')
     product_weight = fields.Float('Backs', readonly=True, group_operator='sum')
     sp1_weight = fields.Float('Crumbs', readonly=True, group_operator='sum')
-    quality = fields.Float('Quality', readonly=True, group_operator='avg')
+    quality = fields.Float('Quality', readonly=True)
     total_hours = fields.Float('Total Hours', readonly=True, group_operator='sum')
     # TODO readonly=True
     std_yield_product = fields.Float('Std Yield Product')
@@ -174,15 +180,22 @@ class RptManufacturing(models.Model):
 
         """ % self._table)
 
+    # --------------- Calculate Grouped Values with Weighted average or complicated dropued formulas
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None,
                    orderby=False, lazy=True):
         res = super(RptManufacturing, self).read_group(domain, fields, groupby,
                                                  offset=offset, limit=limit, orderby=orderby, lazy=lazy)
-
-        # TODO if we need to customize some group operators, edit here
-        # http://danielrodriguez.esy.es/blog/sumatory-in-group/
-
+        if 'quality' in fields:
+            for line in res:
+                if '__domain' in line:
+                    quality_weight = 0
+                    total_weight = 0
+                    lines = self.search(line['__domain'])
+                    for line_item in lines:
+                        quality_weight += line_item.quality * line_item.product_weight
+                        total_weight += line_item.product_weight
+                    line['quality'] = quality_weight / total_weight
         return res
 
 
@@ -203,7 +216,7 @@ class RptIndicators(models.Model):
     gross_weight = fields.Float('Gross', readonly=True, group_operator='sum')
     product_weight = fields.Float('Backs', readonly=True, group_operator='sum')
     sp1_weight = fields.Float('Crumbs', readonly=True, group_operator='sum')
-    quality = fields.Float('Quality', readonly=True, group_operator='avg')
+    quality = fields.Float('Quality', readonly=True)
     total_hours = fields.Float('Total Hours', readonly=True, group_operator='sum')
     # TODO readonly=True
     std_yield_product = fields.Float('Std Yield Product')
@@ -212,7 +225,7 @@ class RptIndicators(models.Model):
     ind_backs = fields.Float('IND Backs', readonly=True, group_operator='avg')
     ind_mo = fields.Float('IND MO', readonly=True, group_operator='avg')
     ind_crumbs = fields.Float('IND Crumbs', readonly=True, group_operator='avg')
-    ind_cal = fields.Float('IND Quality', readonly=True, group_operator='avg')
+    ind_quality = fields.Float('IND Quality', readonly=True, group_operator='avg')
     ind_cleaning = fields.Float('IND Cleaning', readonly=True, group_operator='avg')
 
     def init(self):
@@ -228,7 +241,7 @@ class RptIndicators(models.Model):
                     case when coalesce(std.std_yield_product,0) = 0 then 0 else (lotdata.product_weight / lotdata.gross_weight) / std.std_yield_product/ 1.15 end as ind_backs,
                     case when coalesce(std.std_speed,0) = 0 then 0 else (lotemp.total_hours * 60 / lotdata.gross_weight) / std.std_speed / 1.15 end as ind_mo,
                     case when coalesce(lotdata.sp1_weight,0) =0 then 0 else std.std_yield_sp1 / (lotdata.sp1_weight / lotdata.gross_weight) / 1.15 end as ind_crumbs,
-                    lotdata.quality_weight / lotdata.product_weight as ind_cal,
+                    lotdata.quality_weight / lotdata.product_weight as ind_quality,
                     case when coalesce(std.std_yield_product,0)*coalesce(std.std_speed,0) = 0 then 0 else
                     (0.6 *  ((lotdata.product_weight / lotdata.gross_weight) / std.std_yield_product/ 1.15)) 
                     + (0.3 * ((lotemp.total_hours * 60 / lotdata.gross_weight) / std.std_speed / 1.15)) 
@@ -278,15 +291,22 @@ class RptIndicators(models.Model):
 
         """ % self._table)
 
+    # --------------- Calculate Grouped Values with Weighted average or complicated dropued formulas
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None,
                    orderby=False, lazy=True):
         res = super(RptIndicators, self).read_group(domain, fields, groupby,
                                                  offset=offset, limit=limit, orderby=orderby, lazy=lazy)
-
-        # TODO if we need to customize some group operators, edit here
-        # http://danielrodriguez.esy.es/blog/sumatory-in-group/
-
+        if 'ind_quality' in fields:
+            for line in res:
+                if '__domain' in line:
+                    ind_quality_weight = 0
+                    total_weight = 0
+                    lines = self.search(line['__domain'])
+                    for line_item in lines:
+                        ind_quality_weight += line_item.quality * line_item.product_weight
+                        total_weight += line_item.product_weight
+                    line['ind_quality'] = ind_quality_weight / total_weight
         return res
 
 

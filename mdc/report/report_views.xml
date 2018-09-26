@@ -170,7 +170,7 @@
                     <field name="ind_backs" readonly="True"/>
                     <field name="ind_mo" readonly="True"/>
                     <field name="ind_crumbs" readonly="True"/>
-                    <field name="ind_cal" readonly="True"/>
+                    <field name="ind_quality" readonly="True"/>
                     <field name="ind_cleaning" readonly="True"/>
                 </tree>
             </field>
