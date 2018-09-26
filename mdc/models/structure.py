@@ -266,8 +266,11 @@ class Card(models.Model):
             values.pop('employee_id', None)
             values.pop('lot_id', None)
         if categ == self.env.ref('mdc.mdc_card_categ_PC').id:
+            """
+            # TODO from mdc controller interface it's possible to register a joker card without initial lot assignment
             if not values.get('lot_id'):
                 raise UserError(_('You must select a lot for this card or select another category'))
+            """
             values.pop('employee_id', None)
             values.pop('workstation_id', None)
         # TODO product and subproduct cards should clear assignment fields

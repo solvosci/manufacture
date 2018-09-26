@@ -1,3 +1,8 @@
+ws_event_open = function () {
+    console.log('WIN ws open!!!');
+    show_info($('#t_ws_rfid_onopen_ready').html(), 'ok');
+}
+
 ws_event_received = function (event) {
 
     try {
@@ -16,7 +21,7 @@ ws_event_received = function (event) {
 
         if ( $('#rfid_reader_code').val() === obj.Event.device_id.id ) {
             console.log('Matched!');
-            show_info('Read card #' + obj.Event.user_id.user_id, 'ok');
+            show_info($('#t_chkpoint_win_read_card').html().format(obj.Event.user_id.user_id), 'ok');
             data_win_save({
                 'card_code': obj.Event.user_id.user_id
             });
@@ -52,7 +57,7 @@ loctactive_get = function () {
     }).done(function (data) {
         console.log(data.result);
         if ( data.result.err ) {
-            show_info('ERROR retrieving active lot: ' + data.result.err, 'err');
+            show_info($('#t_chkpoint_win_lot_err').html().format(data.result.err), 'err');
             // TODO additional stuff over display
         }
         else {
@@ -60,7 +65,7 @@ loctactive_get = function () {
         }
         loctactive_get_schedule();
     }).fail(function () {
-        show_info('ERROR retrieving active lot (unknown)', 'err');
+        show_info($('#t_chkpoint_win_lot_err_unknown').html(), 'err');
         loctactive_get_schedule();
     });
 
@@ -86,15 +91,15 @@ data_win_save = function (data) {
             window.setTimeout(function () { $('#last_card_read,#last_weight').removeClass('success'); }, 3000);
         }
     }).fail(function () {
-        show_info('ERROR registering weight (unknown)', 'err');
+        show_info($('#t_chkpoint_win_save_err_unknown').html(), 'err');
     });
 
 }
 
 $(document).ready(function() {
 
-    /* var ws = */ws_create(ws_event_received);
-    show_info('Ready for card readings!!!', 'ok');
+    /* var ws = */ws_create(ws_event_received, { 'onopen_function': ws_event_open });
+    show_info($('#t_ws_rfid_onopen_wait').html(), 'ok');
 
     loctactive_get();
 

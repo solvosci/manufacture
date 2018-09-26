@@ -3,6 +3,10 @@ body, select, button, input {
   font-family: sans-serif;
 }
 
+select, optgroup, option {
+    font-size: 45px;
+}
+
 .UpperTitle
 {
     text-align: center;
@@ -21,7 +25,7 @@ button {
 }
 
 #info_div {
-  font-size: 1.5em;
+  font-size: 1.3em;
   padding-top: 10px;
   padding-bottom: 10px;
   font-weight: bold;

@@ -172,7 +172,8 @@ class CheckPoint(http.Controller):
             ws_session_data = ws_rfid_server.get_session_data(request.env)
             return request.render(
                 'mdc.chkpoint_card_registration',
-                {'devices': devices, 'card_categs': card_categs, 'employees': employees, 'workstations': workstations,
+                {'title': _('Card registration'),
+                 'devices': devices, 'card_categs': card_categs, 'employees': employees, 'workstations': workstations,
                  'ws_session_data': ws_session_data}
             )
         except Exception as e:

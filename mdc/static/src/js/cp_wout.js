@@ -210,6 +210,7 @@ var WoutState = /*(*/function () {
         $('#quality_select').val($('#initial_quality_id').val()).change();
         if ( isOneInput() )  switch_enabled($('#one_input_button'), false);
         if ( isCrumbsMode() )  switch_enabled($('#crumbs_button'), false);
+        $('#one_input_button,#crumbs_button').prop('disabled', false);
     }
 
     var check_reset_screen = function () {
@@ -258,6 +259,11 @@ ws_event_received = function (event) {
 
 }
 
+ws_event_open = function () {
+    console.log('WOUT ws open!!!');
+    show_info($('#t_ws_rfid_onopen_ready').html(), 'ok');
+}
+
 read_card_manage = function (card_code) {
 
     $.ajax({
@@ -290,8 +296,8 @@ var woutState = null;
 
 $(document).ready(function() {
 
-    /* var ws = */ws_create(ws_event_received);
-    show_info('Ready for card readings!!!', 'ok');
+    /* var ws = */ws_create(ws_event_received, { 'onopen_function': ws_event_open });
+    show_info($('#t_ws_rfid_onopen_wait').html(), 'ok');
 
     // TODO additional initial stuff
 

@@ -11,10 +11,12 @@ show_info = function (message, level) {
 
 }
 
-ws_create = function (onmessage_function) {
+ws_create = function (onmessage_function, other_funcs) {
 
     // TODO uncomment this for testing purposes
     // return false;
+
+    other_funcs = (other_funcs || {});
 
     var sessionId = $('#ws_session_id').val();
     var ws = new WebSocket($('#ws_wsapi_url').val());
@@ -22,6 +24,9 @@ ws_create = function (onmessage_function) {
     ws.onopen = function(){
         console.log('WebSocket opened');
         ws.send('bs-session-id' + "=" + sessionId);
+        if ( other_funcs.onopen_function && (typeof other_funcs.onopen_function === 'function') ) {
+            other_funcs.onopen_function();
+        }
     };
 
     ws.onmessage = onmessage_function;
