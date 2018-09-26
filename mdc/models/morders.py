@@ -138,9 +138,11 @@ class LotActive(models.Model):
         end_datetime = self.end_datetime
         if 'end_datetime' in values:
             end_datetime = values['end_datetime']
+        if end_datetime is False:
+            end_datetime = fields.Datetime.now()
         if start_datetime is not False and end_datetime is not False:
-            diference = datetime.datetime.strptime(end_datetime, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(start_datetime, '%Y-%m-%d %H:%M:%S')
-            total_hours = diference.days*24 + diference.seconds/3600
+            difference = datetime.datetime.strptime(end_datetime, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(start_datetime, '%Y-%m-%d %H:%M:%S')
+            total_hours = difference.days*24 + difference.seconds/3600
         return total_hours
 
     @api.constrains('end_datetime')
@@ -206,6 +208,36 @@ class LotActive(models.Model):
             })
         values['start_lot_datetime'] = start_lot_datetime
         return
+
+    def _online_update_total_hours(self):
+        """
+        Calculate total hours of lots without end date
+        :return:
+        """
+        opened_lotActive = self.search([('end_datetime', '=', False)])
+        if opened_lotActive:
+            try:
+                for lot in opened_lotActive:
+                    # we execute write method without calculate total hours (we send zero)
+                    # because in write method we calculate the real total_hours
+                    lot.write({'total_hours': 0})
+                    _logger.info('[mdc.lot_active] update_total_hours %s' % (lot.lot_id.name))
+            except UserError as e:
+                _logger.error('[mdc.lot_active] _online_update_total_hours:  %s' % e)
+        """
+        Calculate total hours of worksheet without end date
+        :return:
+        """
+        opened_worksheet = self.env['mdc.worksheet'].search([('end_datetime', '=', False)])
+        if opened_worksheet:
+            try:
+                for ws in opened_worksheet:
+                    # we execute write method without calculate total hours (we send zero)
+                    # because in write method we calculate the real total_hours
+                    ws.write({'total_hours': 0})
+                    _logger.info('[mdc.worksheet] update_total_hours %s - %s' % (ws.employee_id.name, ws.workstation_id.name))
+            except UserError as e:
+                _logger.error('[mdc.worksheet] _online_update_total_hours:  %s' % e)
 
 
 class Worksheet(models.Model):
@@ -279,6 +311,8 @@ class Worksheet(models.Model):
         end_datetime = self.end_datetime
         if 'end_datetime' in values:
             end_datetime = values['end_datetime']
+        if end_datetime is False:
+            end_datetime = fields.Datetime.now()
         if start_datetime is not False and end_datetime is not False:
             end_date = datetime.datetime.strptime(end_datetime, '%Y-%m-%d %H:%M:%S')
             start_date = datetime.datetime.strptime(start_datetime, '%Y-%m-%d %H:%M:%S')

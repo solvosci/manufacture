@@ -24,4 +24,16 @@
         <field name="numbercall">-1</field>
         <field name="doall" eval="False" />
     </record>
+
+    <record id="ir_cron_lotactive_total_hours" model="ir.cron">
+        <field name="name">MDC: Calculate total hours of lots without end date</field>
+        <field name="model_id" ref="model_mdc_lot_active"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="state">code</field>
+        <field name="code">model._online_update_total_hours()</field>
+        <field name='interval_number'>5</field>
+        <field name='interval_type'>minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+    </record>
 </odoo>
