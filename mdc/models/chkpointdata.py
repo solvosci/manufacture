@@ -123,7 +123,10 @@ class DataWIn(models.Model):
             w.write({'active': False})
             _logger.info('[mdc.data_win] Cancelled input %s - %s - %s' % (w.line_id.name, w.lot_id.name, w.create_datetime))
 
-    def _calculate_lot_average_data(self):
+    def get_average_data(self, context):
+        """
+        Obtains average data for the given context (e.g. line_id and lot_id)
+        """
         w_create_datetime = None
         w_tare = None
         w_uom_id = None
@@ -131,7 +134,8 @@ class DataWIn(models.Model):
         w_numwin = 0
         w_timewout = 0
         w_numwout = 0
-        win_lots = self.env['mdc.data_win'].search([('line_id', '=', self.line_id.id), ('lot_id', '=', self.lot_id.id)], order='create_datetime asc')
+        win_lots = self.search([('line_id', '=', context['line_id']), ('lot_id', '=', context['lot_id'])],
+                               order='create_datetime asc')
         if win_lots:
             for wi in win_lots:
                 if w_tare is None:
@@ -144,18 +148,20 @@ class DataWIn(models.Model):
                 if wi.tare == w_tare and wi.w_uom_id.id == w_uom_id:
                     w_weight += wi.weight
                     w_numwin += 1
-                    _logger.info('[mdc.data_win] _calculate_lot_average_data WIN %s - weight: %s ' % (w_numwin, wi.weight))
+                    _logger.info('[mdc.data_win] _calculate_lot_average_data WIN %s - weight: %s ' %
+                                 (w_numwin, wi.weight))
                 # to calculate create_datetime we need the create_datetime of the wout
                 if wi.wout_id is not None:
-                    # retrieve de wout record
+                    # retrieve the wout record
                     wo = self.env['mdc.data_wout'].browse(wi.wout_id.id)
                     if wo:
                         w_numwout += 1
-                        difference = dt.datetime.strptime(wo.create_datetime, '%Y-%m-%d %H:%M:%S') - dt.datetime.strptime(wi.create_datetime, '%Y-%m-%d %H:%M:%S')
+                        difference = dt.datetime.strptime(wo.create_datetime, '%Y-%m-%d %H:%M:%S') - \
+                                     dt.datetime.strptime(wi.create_datetime, '%Y-%m-%d %H:%M:%S')
                         dif_hours = difference.days * 24 + difference.seconds / 3600
                         w_timewout += dif_hours
                         _logger.info(
-                            '[mdc.data_win] _calculate_lot_average_data WOUT %s - datetime_in: %s - datetime_out: %s - difference: %s'
+                            '[mdc.data_win] get_average_data WOUT %s - datetime_in: %s - datetime_out: %s - diff.: %s'
                             % (w_numwout, wi.create_datetime, wo.create_datetime, dif_hours))
 
         # calculate de average of the weight
@@ -169,12 +175,13 @@ class DataWIn(models.Model):
             w_create_datetime = ww_create_datetime.strftime("%Y-%m-%d %H:%M:%S")
 
         # return data to create de joker win reg
-        _logger.info('[mdc.data_win] _calculate_lot_average_data to lot %s and line %s: '
+        _logger.info('[mdc.data_win] _calculate_lot_average_data to lot id %s and line id %s: '
                      'avg_time: %s - numwout: % s - create_datetime: %s - '
                      'numwin:%s - tare: %s - weight: %s - uom: %s'
-                     % (self.lot_id.name, self.line_id.name, w_timewout, w_numwout, w_create_datetime, w_numwin, w_tare, w_weight, w_uom_id))
+                     % (context['lot_id'], context['line_id'], w_timewout, w_numwout, w_create_datetime, w_numwin,
+                        w_tare, w_weight, w_uom_id))
         return {
-            'create_datetime': w_create_datetime,
+            'create_datetime': w_create_datetime or fields.Datetime.now(),
             'tare': w_tare,
             'weight': w_weight,
             'w_uom_id': w_uom_id
@@ -321,6 +328,7 @@ class DataWOut(models.Model):
                     # FIXME Tare: WOUT checkpoint tare, not the WIN one! Should associate a tare with every joker card?
                     # - weight: the current average for the lot
                     # FIXME w_uom_id: we don't know how to fill, then we take the WOUT scale
+                    """
                     joker_win = self.env['mdc.data_win'].create({
                         'line_id': values['line_id'],
                         'lot_id': values['lot_id'],
@@ -329,6 +337,13 @@ class DataWOut(models.Model):
                         'w_uom_id': values['w_uom_id'],
                         'card_id': card.id
                     })
+                    """
+                    joker_win_data = self.env['mdc.data_win'].get_average_data({
+                        'lot_id': values['lot_id'], 'line_id': values['line_id']})
+                    joker_win_data['lot_id'] = values['lot_id']
+                    joker_win_data['line_id'] = values['line_id']
+                    joker_win_data['card_id'] = card.id
+                    joker_win = self.env['mdc.data_win'].create(joker_win_data)
                     ids_win.append(joker_win.id)
                 else:
                     # TODO other card types (e.g. employee card....)
@@ -391,6 +406,7 @@ class DataWOut(models.Model):
 
         return self.create({
             'line_id': chkpoint.line_id.id,
+            # TODO select from cards_id_list!!!!
             'lot_id': chkpoint.current_lot_active_id.id,
             'tare': chkpoint.tare_id.tare,
             'weight': weight_value,
