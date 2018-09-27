@@ -2,7 +2,7 @@
 
 import logging
 import datetime
-from odoo import api, models, fields, _
+from odoo import api, models, fields, _, registry
 from odoo.exceptions import UserError
 
 from .. import ws_rfid_server
@@ -420,6 +420,43 @@ class Worksheet(models.Model):
         """
         _logger.info('[mdc.worksheet] Started listener')
 
+        def process_card(card_code, card_datetime):
+            # TODO since this process appears to execute in a single (and unique transaction),
+            #      a new environment is needed
+            # https://www.odoo.com/es_ES/forum/ayuda-1/question/how-to-get-a-new-cursor-on-new-api-on-thread-63441
+            with api.Environment.manage():
+                with registry(self.env.cr.dbname).cursor() as new_cr:
+                    # Create a new environment with new cursor database
+                    new_env = api.Environment(new_cr, self.env.uid, self.env.context)
+
+                    ###############################################################################################
+                    card = new_env['mdc.card'].search([('name', '=', card_code)])
+                    try:
+                        if card:
+                            if card.employee_id:
+                                if card.employee_id.present:
+                                    card.employee_id.worksheet_close(card_datetime)
+                                    _logger.info(
+                                        '[mdc.worksheet] Made close worksheet action for employee with code %s' %
+                                        card.employee_id.employee_code)
+                                else:
+                                    card.employee_id.worksheet_open(card_datetime)
+                                    _logger.info(
+                                        '[mdc.worksheet] Made open worksheet action for employee with code %s' %
+                                        card.employee_id.employee_code)
+                            else:
+                                raise UserError(_('Card #%s is not an employee one') % card_code)
+                        else:
+                            raise UserError(_('Unknown card code #%s') % card_code)
+
+                    except UserError as e:
+                        _logger.error('[mdc.worksheet] Processing card: %s', e)
+                    ###############################################################################################
+
+                    new_env.cr.commit()  # Don't show a invalid-commit in this case
+                # You don't need close your cr because is closed when finish "with"
+            # You don't need clear caches because is cleared when finish "with"
+
         def on_message(ws, message):
             """
             ['Event']['user_id']['user_id']  <== card id.
@@ -430,7 +467,8 @@ class Worksheet(models.Model):
             # TODO verify proper event format (e.g. open websocket event is different)
             _logger.info('[mdc.worksheet] Read %s card from %s device!!!' %
                          (event['Event']['user_id']['user_id'], event['Event']['device_id']['id']))
-            # TODO business logic (register an open/close worksheet)
+            process_card(event['Event']['user_id']['user_id'], fields.Datetime.now())
+
 
         def on_error(ws, error):
             _logger.info('[mdc.worksheet] Websocket error: %s' % error)
@@ -454,6 +492,6 @@ class Worksheet(models.Model):
         ws_server.on_open = on_open
         ws_server.run_forever()
 
-        # Only when websocket is closed will end listener. Then, cron jon should restart as soon as possible
+        # Only when websocket is closed will end listener. Then, cron job should restart as soon as possible
         _logger.info('[mdc.worksheet] Ended listener')
 

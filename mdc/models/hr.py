@@ -155,6 +155,29 @@ class Employee(models.Model):
 
         return super(Employee, self).write(values)
 
+    @api.multi
+    def worksheet_open(self, start_datetime):
+        self.ensure_one()
+        if self.present:
+            raise UserError(_('Cannot create open worksheet: employee %s is already present') % self.employee_code)
+        self.env['mdc.worksheet'].create({
+            'start_datetime': start_datetime,
+            'employee_id': self.id})
+
+    @api.multi
+    def worksheet_close(self, end_datetime):
+        self.ensure_one()
+        if not self.present:
+            raise UserError(_('Cannot create close worksheet: employee %s is not present') % self.employee_code)
+        self.worksheet_ids.filtered(lambda r: r.end_datetime is False).write({'end_datetime': end_datetime})
+        # TODO check filtered performance when growing data. If decreases, use the code above
+        """
+        Worksheet = self.env['mdc.worksheet'].search(
+            [('end_datetime', '=', False),
+             ('employee_id', '=', self.id)])
+        Worksheet.write({'end_datetime': self.end_datetime})
+        """
+
     def massive_worksheet_open(self):
         Wizard = self.env['hr.employee.massworksheetopen.wizard']
         new = Wizard.create({
