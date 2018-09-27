@@ -232,15 +232,8 @@ class EmployeeMassWorksheetOpen(models.TransientModel):
 
     def action_save(self):
         self.ensure_one()
-        Worksheet = self.env['mdc.worksheet']
         for employee in self.employee_ids:
-            if employee.present:
-                # TODO improve present employee detection (e.g. display ALL present employees)
-                raise UserError(_('Cannot create open worksheet: employee %s is already present')
-                                % employee.employee_code)
-            Worksheet.create({
-                'start_datetime': self.start_datetime,
-                'employee_id': employee.id})
+            employee.worksheet_open(self.start_datetime)
 
     def action_cancel(self):
         return True
@@ -270,14 +263,7 @@ class EmployeeMassWorksheetClose(models.TransientModel):
     def action_save(self):
         self.ensure_one()
         for employee in self.employee_ids:
-            if not employee.present:
-                # TODO improve not present employee detection (e.g. display ALL present employees)
-                raise UserError(_('Cannot create close worksheet: employee %s is not present')
-                                % employee.employee_code)
-            Worksheet = self.env['mdc.worksheet'].search(
-                [('end_datetime', '=', False),
-                 ('employee_id', '=', employee.id)])
-            Worksheet.write({'end_datetime': self.end_datetime})
+            employee.worksheet_close(self.end_datetime)
 
     def action_cancel(self):
         return True
