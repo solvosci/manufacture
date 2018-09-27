@@ -88,12 +88,10 @@ class RptTracing(models.Model):
             for line in res:
                 if '__domain' in line:
                     quality_weight = 0
-                    total_weight = 0
                     lines = self.search(line['__domain'])
                     for line_item in lines:
                         quality_weight += line_item.quality * line_item.product_weight
-                        total_weight += line_item.product_weight
-                    line['quality'] = quality_weight / total_weight
+                    line['quality'] = quality_weight / line['product_weight']
         return res
 
 
@@ -190,12 +188,10 @@ class RptManufacturing(models.Model):
             for line in res:
                 if '__domain' in line:
                     quality_weight = 0
-                    total_weight = 0
                     lines = self.search(line['__domain'])
                     for line_item in lines:
                         quality_weight += line_item.quality * line_item.product_weight
-                        total_weight += line_item.product_weight
-                    line['quality'] = quality_weight / total_weight
+                    line['quality'] = quality_weight / line['product_weight']
         return res
 
 
