@@ -57,6 +57,7 @@
         <field name="res_model">mdc.chkpoint</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="mdc_chkpoints_lots_actives_tree"/>
         <field name="search_view_id" ref="mdc_chkpoints_lots_actives_search"/>
         <field name="limit">25</field>
         <field name="help" type="html">
@@ -66,13 +67,6 @@
             Unable to register new checkpoints in this view.
           </p>
         </field>
-    </record>
-
-     <record id="action_mdc_chkpoint_lots_actives_tree" model="ir.actions.act_window.view">
-        <field name="view_mode">tree</field>
-        <field name="sequence" eval="4"/>
-        <field name="view_id" ref="mdc_chkpoints_lots_actives_tree"/>
-        <field name="act_window_id" ref="action_mdc_chkpoint_lots_actives"/>
     </record>
 
     <!-- Action: loads Lots -->
