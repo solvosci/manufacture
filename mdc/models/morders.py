@@ -121,12 +121,6 @@ class Lot(models.Model):
             else:
                 lot.end_date = None
 
-    @api.multi
-    def get_input_avg_weight(self):
-        self.ensure_one()
-        # TODO current average input weight calculation
-        return 1.23
-
 
 class LotActive(models.Model):
     """
