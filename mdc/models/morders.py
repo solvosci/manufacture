@@ -20,6 +20,11 @@ class Lot(models.Model):
     _name = 'mdc.lot'
     _description = 'Lot'
 
+    _sql_constraints = [
+        ('lot_name_unique', 'UNIQUE(name)',
+         _('The selected lot name already exists')),
+    ]
+
     def _default_date(self):
         #return fields.Datetime.from_string(fields.Datetime.now())
         return fields.Datetime.now()
