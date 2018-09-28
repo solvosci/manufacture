@@ -71,6 +71,38 @@ class Lot(models.Model):
                 res.append((entry.id, '%s' % (entry.name)))
         return res
 
+    def _lot_format(self, values):
+        lotName = values['name']
+        # lotPart2 must be current year (las 2 digits)
+        currYear2 = str(datetime.datetime.now().year)[2:4]
+        lotPart1 = '1'
+        lotPart2 = currYear2
+        lotRightFormat = True
+        if lotName.find('/') > 0:
+            lotPart1 = lotName[0:lotName.find('/')]
+            lotPart2 = lotName[lotName.find('/')+1:len(lotName)]
+        if lotName.find('/') == -1:
+            lotPart1 = lotName
+        if not lotPart1.isnumeric() or len(lotPart1) > 5:
+            raise UserError(_('Lot Format is not right. The right format is NNNNN/AA (NNNNN=number)'))
+        if lotPart2 != currYear2:
+            raise UserError(_('Lot Format is not right. The right format is NNNNN/AA (AA=current year) %s != %s'
+                              % (lotPart2, currYear2)))
+
+        return lotPart1.zfill(5)+'/'+lotPart2
+
+    @api.model
+    def create(self, values):
+        values['name'] = self._lot_format(values)
+        return super(Lot, self).create(values)
+
+    @api.multi
+    def write(self, values):
+        self.ensure_one()
+        if 'name' in values:
+            values['name'] = self._lot_format(values)
+        return super(Lot, self).write(values)
+
     @api.constrains('end_date')
     def _check_end_date(self):
         for l in self:
