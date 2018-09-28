@@ -4,15 +4,15 @@ import sys
 from websocket import create_connection
 
 
-def get_session_data(env):
+def get_session_data(env, simul=False):
 
     # TODO comment this for testing purposes
-    """
-    return {
-        'session_id': 'fake',
-        'wsapi_url': 'fake'
-    }
-    """
+    if simul:
+        return {
+            'simul': True,
+            'session_id': 'fake',
+            'wsapi_url': 'fake'
+        }
 
     IrConfigParameter = env['ir.config_parameter'].sudo()
 
@@ -57,6 +57,7 @@ def get_session_data(env):
     print('Text: %s' % r2.text, file=sys.stderr)
 
     session_data = {
+        'simul': False,
         'session_id': r.headers['bs-session-id'],
         'wsapi_url': wsapi_url
     }

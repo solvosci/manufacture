@@ -78,8 +78,9 @@
                 <field name="line_id"/>
                 <field name="lot_id"/>
                 <!-- FIXME this filter gives a "ValueError: No known conversion for %H" error -->
-                <filter name="last_24_hours" string="Last 24 hours"
-                        domain="[('create_datetime', '&gt;=', ((context_today() - datetime.timedelta(hours=24)).strftime('%%Y-%%m-%%d %%H:%%M:%%S')))]"/>
+                <!-- filter name="last_24_hours" string="Last 24 hours"
+                        domain="[('create_datetime', '&gt;=', ((context_today() - datetime.timedelta(hours=24)).strftime('%%Y-%%m-%%d %%H:%%M:%%S')))]"/ -->
+                <filter name="today" string="Today" domain="[('create_datetime', '&gt;=', current_date)]"/>
                 <filter name="open" string="Open" domain="[('wout_id', '=', False)]"/>
                 <separator/>
                 <filter name="cancelled" string="Cancelled" domain="[('active', '=', False)]"/>

@@ -86,7 +86,7 @@ data_win_save = function (data) {
         else {
             show_info('Data successfully saved', 'ok');
             $('#lot').html(data.result.lotactive)
-            $('#last_card_read').val(data.result.card_code).addClass('success');
+            // $('#last_card_read').val(data.result.card_code).addClass('success');
             $('#last_weight').val(data.result.weight + ' ' + data.result.w_uom).addClass('success');
             window.setTimeout(function () { $('#last_card_read,#last_weight').removeClass('success'); }, 3000);
         }
@@ -100,6 +100,16 @@ $(document).ready(function() {
 
     /* var ws = */ws_create(ws_event_received, { 'onopen_function': ws_event_open });
     show_info($('#t_ws_rfid_onopen_wait').html(), 'ok');
+
+    if ( $('#ws_simul').val().toLowerCase() === 'true' ) {
+        $('#last_card_read').change(function () {
+            data_win_save({
+                'card_code': $(this).val()
+            });
+        });
+        $('#rfid_simul_data').show();
+    }
+
 
     loctactive_get();
 

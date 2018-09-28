@@ -70,11 +70,10 @@ class CheckPoint(http.Controller):
         except Exception as e:
             return self.get_error_page(e)
 
-
     @http.route("/mdc/cp/win/<int:chkpoint_id>", type='http', auth='none')
-    def cp_win(self, chkpoint_id):
+    def cp_win(self, chkpoint_id, **kwargs):
         try:
-            ws_session_data = ws_rfid_server.get_session_data(request.env)
+            ws_session_data = ws_rfid_server.get_session_data(request.env, simul=('rfidsimul' in kwargs))
             chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
             return request.render(
                 'mdc.chkpoint_win',

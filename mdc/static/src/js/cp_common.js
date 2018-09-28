@@ -15,6 +15,7 @@ ws_create = function (onmessage_function, other_funcs) {
 
     // TODO uncomment this for testing purposes
     // return false;
+    if ( $('#ws_simul').val().toLowerCase() === 'true' )  return;
 
     other_funcs = (other_funcs || {});
 
