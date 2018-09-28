@@ -136,6 +136,8 @@ class Workstation(models.Model):
     _sql_constraints = [
         ('current_employee_unique', 'UNIQUE(current_employee_id)',
          _('The employee has been already assigned to a workstation!')),
+        ('workstation_unique', 'UNIQUE(line_id, shift_id, seat)',
+         _("There's already a workstation with the same line, shift and seat values")),
     ]
 
     name = fields.Char(
@@ -154,7 +156,7 @@ class Workstation(models.Model):
         required=True)
     current_employee_id = fields.Many2one(
         'hr.employee',
-        string = 'Employee',
+        string='Employee',
         index=True,
         ondelete='cascade',
         domain=[('workstation_id', '=', False)])

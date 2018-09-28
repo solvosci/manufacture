@@ -286,6 +286,12 @@ class DataWOut(models.Model):
                     dataWOut.shift_id = card.workstation_id.shift_id.id
                     dataWOut.employee_id = card.workstation_id.current_employee_id.id
 
+    @api.multi
+    def name_get(self):
+        res = []
+        for rec in self:
+            res.append((rec.id, str(rec.id)))
+        return res
 
     @api.model
     def create(self, values):
@@ -297,6 +303,9 @@ class DataWOut(models.Model):
         #var to store data_win ids of cards
         ids_win = []
         current_lot_id = None
+
+        # For further validations
+        workstation_card = None
 
         if len(card_ids) > 0:
             cards = self.env['mdc.card'].browse(card_ids)
@@ -315,12 +324,15 @@ class DataWOut(models.Model):
                         raise UserError(_("Card #%s not valid: there's not open input data linked with") % card.name)
                 # Workstation card
                 elif card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_L').id:
+                    if workstation_card:
+                        raise UserError(_("Only one workstation card is allowed"))
                     if card.workstation_id.current_employee_id:
                         values['employee_id'] = card.workstation_id.current_employee_id.id
                     else:
                         raise UserError(_("Card #%s not valid: there's not any employee assigned with") % card.name)
                     values['workstation_id'] = card.workstation_id.id
                     values['shift_id'] = card.workstation_id.shift_id.id
+                    workstation_card = card
                 elif card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_PC').id:
                     # Joker card. Prior to create the output we should make a related input
                     # Conventions:
@@ -349,6 +361,20 @@ class DataWOut(models.Model):
                     # TODO other card types (e.g. employee card....)
                     raise UserError(_("Unknown card #%s") % card.name)
 
+        if not workstation_card:
+            raise UserError(_("You must provide a workstation card"))
+
+        wout_shared_data = None
+        if values.get('shared', False):
+            # Shared management
+            # * Shared closing: there is a unlinked WOUT shared too with the same lot, line and seat
+            wout_shared_data = self.search([('shared', '=', True), ('wout_shared_id', '=', False),
+                                           ('lot_id', '=', values['lot_id']), ('line_id', '=', values['line_id'])])
+            if wout_shared_data:
+                # TODO discard shared wout if it's the same worksheet (seat)?
+                values['wout_shared_id'] = wout_shared_data.id
+            # * Shared opening: others
+
         values['gross_weight'] = gross_weight
         # TODO Lot should be filled from view for testing purposes. Actually, it should always be computed
         if current_lot_id:
@@ -357,20 +383,17 @@ class DataWOut(models.Model):
         data_wout = super(DataWOut, self).create(values)
 
         # Close data_win entries
-        """
-        for id in ids_win:
-            data_win = self.env['mdc.data_win'].search([('id', '=', id)])
-            if data_win:
-                data_win.write({
-                    'wout_id': data_wout.id,
-                })
-        """
         if len(ids_win) > 0:
             data_win = self.env['mdc.data_win'].browse(ids_win)
             if data_win:
                 data_win.write({
                     'wout_id': data_wout.id
                 })
+
+        # If comes from a previous shared output, link themselves
+        if wout_shared_data:
+            wout_shared_data.write({
+                'wout_shared_id': data_wout.id})
 
         return data_wout
 
@@ -412,6 +435,7 @@ class DataWOut(models.Model):
             'weight': weight_value,
             'w_uom_id': weight_uom_id.id,
             'quality_id': values['quality_id'],
+            'shared': values['shared'],
             'wout_categ_id': wout_categ_id.id,
             'card_ids': card_ids
         })

@@ -177,6 +177,10 @@
                 <field name="shift_id"/>
                 <field name="workstation_id"/>
                 <field name="employee_id"/>
+                <filter name="today" string="Today" domain="[('create_datetime', '&gt;=', current_date)]"/>
+                <filter name="shared_open" string="Shared open" domain="[('shared', '=', True), ('wout_shared_id', '=', False)]"/>
+                <filter name="shared_close" string="Shared close" domain="[('shared', '=', True), ('wout_shared_id', '!=', False)]"/>
+                <separator/>
                 <group expand="0" string="Group By">
                     <filter string="Line" name="groupby_line" domain="[]" context="{'group_by':'line_id'}"/>
                     <filter string="Lot" name="groupby_lot" domain="[]" context="{'group_by':'lot_id'}"/>
@@ -191,19 +195,21 @@
         <field name="name">mdc.data_wouts.tree</field>
         <field name="model">mdc.data_wout</field>
         <field name="arch" type="xml">
-            <tree string="Data_wouts">
-                <field name="id" string="Id."/>
+            <tree string="Data_wouts" decoration-danger="shared and not wout_shared_id"
+                  decoration-info="shared and wout_shared_id">
+                <field name="id" string="#id"/>
                 <field name="line_id"/>
                 <field name="lot_id"/>
                 <field name="create_datetime"/>
                 <field name="weight"/>
-                <field name="w_uom_id"/>
+                <field name="w_uom_id" string=" "/>
                 <field name="quality_id"/>
                 <field name="shift_id"/>
                 <field name="workstation_id"/>
                 <field name="employee_id"/>
                 <field name="shared"/>
-                <field name="wout_categ_id"/>
+                <field name="wout_shared_id" string="Shared #id"/>
+                <field name="wout_categ_id" string="Type"/>
             </tree>
         </field>
     </record>

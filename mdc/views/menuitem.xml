@@ -9,6 +9,7 @@
     <act_window
         id="action_mdc_data_wouts"
         name="Data Out"
+        context="{'search_default_today':1}"
         res_model="mdc.data_wout"/>
     <act_window
         id="action_mdc_std"

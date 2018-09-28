@@ -36,6 +36,10 @@ var WoutState = /*(*/function () {
         return $('#crumbs_button').hasClass('enabled');
     }
 
+    var isSharedMode = function () {
+        return $('#shared_button').hasClass('enabled');
+    }
+
     var addCard = function (card_data) {
 
         // 0.- If is first read, we must clear screen (that is currently showing last operation data)
@@ -112,15 +116,15 @@ var WoutState = /*(*/function () {
         }
         else if ( card_data.card_categ_id === card_categ_L_id ) {
             // Workstation card received
-            if ( (inputCount() === 0) && !isCrumbsMode() ) {
-                // Workstation card is not allowed when no input data is present (only in crumbs mode)
+            if ( (inputCount() === 0) && !isCrumbsMode() && !isSharedMode() ) {
+                // Workstation card is not allowed when no input data is present (but crumbs and shared mode)
                 throw new Error(
                     $('#t_chkpoint_wout_workstation_input_expected_err').html()
                         .format(card_data.card_code)
                 );
             }
-            if ( (inputCount() === 1) && !isOneInput() ) {
-                // Workstation card is not allowed when only one input present (only in "one input" mode)
+            if ( (inputCount() === 1) && !isOneInput() && !isSharedMode() ) {
+                // Workstation card is not allowed when only one input present (only in "one input" mode or shared mode)
                 throw new Error(
                     $('#t_chkpoint_wout_workstation_input_expected_err').html()
                         .format(card_data.card_code)
@@ -165,6 +169,7 @@ var WoutState = /*(*/function () {
                 cards_in: cards_in,
                 card_workstation: card_workstation,
                 quality_id: quality_id,
+                shared: isSharedMode(),
                 wout_categ_code: (
                     isCrumbsMode() ?
                     'SP1' : 'P'
@@ -210,7 +215,8 @@ var WoutState = /*(*/function () {
         $('#quality_select').val($('#initial_quality_id').val()).change();
         if ( isOneInput() )  switch_enabled($('#one_input_button'), false);
         if ( isCrumbsMode() )  switch_enabled($('#crumbs_button'), false);
-        $('#one_input_button,#crumbs_button').prop('disabled', false);
+        if ( isSharedMode() )  switch_enabled($('#shared_button'), false);
+        $('#one_input_button,#crumbs_button,#shared_button').prop('disabled', false);
     }
 
     var check_reset_screen = function () {
@@ -305,10 +311,13 @@ $(document).ready(function() {
     $('#one_input_button,#crumbs_button,#shared_button').click(function () {
         switch_enabled(this, true);
     });
-
-    /*$('#one_input_button').click(function () {
-        one_input_validation(this);
-    });*/
+    // - Crumbs and shared mode are incompatible
+    $('#shared_button').click(function () {
+        $('#crumbs_button').prop('disabled', true);
+    });
+    $('#crumbs_button').click(function () {
+        $('#shared_button').prop('disabled', true);
+    });
 
     woutState = WoutState();
 
