@@ -115,6 +115,11 @@ class RptManufacturing(models.Model):
     gross_weight = fields.Float('Gross', readonly=True, group_operator='sum')
     product_weight = fields.Float('Backs', readonly=True, group_operator='sum')
     sp1_weight = fields.Float('Crumbs', readonly=True, group_operator='sum')
+    shared_gross_weight = fields.Float('Shared Gross', readonly=True, group_operator='sum')
+    shared_product_weight = fields.Float('Shared Backs', readonly=True, group_operator='sum')
+    shared_sp1_weight = fields.Float('Shared Crumbs', readonly=True, group_operator='sum')
+    product_boxes = fields.Float('Box Backs', readonly=True, group_operator='sum')
+    sp1_boxes = fields.Float('Box Crumbs', readonly=True, group_operator='sum')
     quality = fields.Float('Quality', readonly=True)
     total_hours = fields.Float('Total Hours', readonly=True, group_operator='sum')
     # TODO readonly=True
@@ -129,8 +134,10 @@ class RptManufacturing(models.Model):
                 SELECT lotdata.id, lotdata.create_date, lotdata.lot_name, lotdata.product_id, 
                     lotdata.employee_code, lotdata.employee_name, lotdata.contract_name, lotdata.shift_code, 
                     lotdata.gross_weight, lotdata.product_weight, lotdata.sp1_weight,
+                    lotdata.shared_gross_weight, lotdata.shared_product_weight, lotdata.shared_sp1_weight,
                     lotdata.quality_weight/lotdata.product_weight as quality, 
                     lotdata.workstation_name, 
+                    lotdata.product_boxes, lotdata.sp1_boxes,
                     lotemp.total_hours, 
                     std.std_yield_product, std.std_speed, std.std_yield_sp1 
                     FROM (
@@ -145,7 +152,12 @@ class RptManufacturing(models.Model):
                             sum(wout.gross_weight) as gross_weight,
                             sum(case when woutcat.code='P' then wout.weight-wout.tare else 0 end) as product_weight,
                             sum(case when woutcat.code='SP1' then wout.weight-wout.tare else 0 end) as sp1_weight,
-                            sum(case when woutcat.code='P' then qlty.code * (wout.weight-wout.tare) else 0 end) as quality_weight
+                            sum(case when shared='true' then wout.gross_weight else 0 end) as shared_gross_weight,
+                            sum(case when shared='true' and woutcat.code='P' then wout.weight-wout.tare else 0 end) as shared_product_weight,
+                            sum(case when shared='true' and woutcat.code='SP1' then wout.weight-wout.tare else 0 end) as shared_sp1_weight,
+                            sum(case when woutcat.code='P' then qlty.code * (wout.weight-wout.tare) else 0 end) as quality_weight,
+                            sum(case when woutcat.code='P' then 1 else 0 end) as product_boxes,
+                            sum(case when woutcat.code='SP1' then 1 else 0 end) as sp1_boxes
                         FROM mdc_data_wout wout
                             LEFT JOIN mdc_lot lot ON lot.id=wout.lot_id
                             LEFT JOIN hr_employee emp ON emp.id=wout.employee_id
