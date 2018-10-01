@@ -427,10 +427,13 @@ class DataWOut(models.Model):
         cards_id_list.append(values['card_workstation']['card_id'])
         card_ids = [(6, False, cards_id_list)]
 
+        # TODO if there is no input associated (e.g. shared mode without inputs) we should omit the lot and calculate it
+        lot_id = chkpoint.current_lot_active_id.id if len(values['cards_in']) == 0 \
+            else values['cards_in'][0]['win_lot_id']
+
         return self.create({
             'line_id': chkpoint.line_id.id,
-            # TODO select from cards_id_list!!!!
-            'lot_id': chkpoint.current_lot_active_id.id,
+            'lot_id': lot_id,
             'tare': chkpoint.tare_id.tare,
             'weight': weight_value,
             'w_uom_id': weight_uom_id.id,

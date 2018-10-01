@@ -326,4 +326,12 @@ $(document).ready(function() {
         .val($('#initial_quality_id').val())
         .change();
 
+    // Simulation support
+    if ( $('#ws_simul').val().toLowerCase() === 'true' ) {
+        $('#card_in_simul').change(function () {
+            if ( $(this).val() )  read_card_manage($(this).val());
+        });
+        $('#rfid_simul_data').show();
+    }
+
 });

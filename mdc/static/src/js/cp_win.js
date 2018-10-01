@@ -101,11 +101,10 @@ $(document).ready(function() {
     /* var ws = */ws_create(ws_event_received, { 'onopen_function': ws_event_open });
     show_info($('#t_ws_rfid_onopen_wait').html(), 'ok');
 
+    // Simulation support
     if ( $('#ws_simul').val().toLowerCase() === 'true' ) {
         $('#last_card_read').change(function () {
-            data_win_save({
-                'card_code': $(this).val()
-            });
+            if ( $(this).val() )  data_win_save({'card_code': $(this).val()});
         });
         $('#rfid_simul_data').show();
     }

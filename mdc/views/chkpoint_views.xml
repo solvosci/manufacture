@@ -55,6 +55,7 @@
                 <div id="hidden_content" style="display: none;">
                     <input type="hidden" id="ws_session_id" t-attf-value="{{ws_session_data['session_id']}}"/>
                     <input type="hidden" id="ws_wsapi_url" t-attf-value="{{ws_session_data['wsapi_url']}}"/>
+                    <input type="hidden" id="ws_simul" t-attf-value="{{ws_session_data['simul']}}"/>
                 </div>
 
                 <div id="translations" style="display: none;">
@@ -82,7 +83,6 @@
             <script language="JavaScript" src="/mdc/static/src/js/cp_win.js"></script>
         </xpath>
         <xpath expr="//div[@id='hidden_content']" position="inside">
-            <input type="hidden" id="ws_simul" t-attf-value="{{ws_session_data['simul']}}"/>
             <t t-foreach="chkpoints" t-as="chkpoint">
                 <input type="hidden" id="rfid_reader_code" t-attf-value="{{chkpoint.rfid_reader_id.device_code}}"/>
                 <input type="hidden" id="chkpoint_id" t-attf-value="{{chkpoint.id}}"/>
@@ -164,6 +164,15 @@
                         <div class="divTableCell" style="width: 75%">
                             <div class="divTable">
                                 <div class="divTableBody">
+                                    <div class="divTableRow" id="rfid_simul_data" style="display: none;">
+                                        <div class="divTableCell label">
+                                            Sim. input
+                                        </div>
+                                        <div class="divTableCell">
+                                            <input id="card_in_simul" type="text" size="10"
+                                                   class="centered"  style="font-size: 2em"/>
+                                        </div>
+                                    </div>
                                     <div class="divTableRow">
                                         <div class="divTableCell label">
                                             Lot

@@ -122,9 +122,9 @@ class CheckPoint(http.Controller):
             return data_out
 
     @http.route("/mdc/cp/wout/<int:chkpoint_id>", type='http', auth='none')
-    def cp_wout(self, chkpoint_id):
+    def cp_wout(self, chkpoint_id, **kwargs):
         try:
-            ws_session_data = ws_rfid_server.get_session_data(request.env)
+            ws_session_data = ws_rfid_server.get_session_data(request.env, simul=('rfidsimul' in kwargs))
             chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
             qualities = request.env['mdc.quality'].sudo(self._get_cp_user(request)).search([])
             return request.render(
