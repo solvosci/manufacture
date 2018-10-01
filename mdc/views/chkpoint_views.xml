@@ -227,7 +227,7 @@
                                 <optgroup>
                                     <t t-foreach="qualities" t-as="quality">
                                         <option t-attf-value="{{quality.id}}">
-                                            <t t-esc="quality.descrip"></t>
+                                            <t t-esc="quality.name"></t>
                                         </option>
                                     </t>
                                 </optgroup>

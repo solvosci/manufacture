@@ -436,9 +436,7 @@ class Quality(models.Model):
     code = fields.Integer(
         'Code',
         required=True)
-    descrip = fields.Char(
-        'Description',
-        required=True)
+
 
 class RfidReader(models.Model):
     '''

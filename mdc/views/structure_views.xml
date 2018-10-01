@@ -9,7 +9,6 @@
             <tree string="Quality">
                 <field name="name"/>
                 <field name="code"/>
-                <field name="descrip"/>
             </tree>
         </field>
     </record>
@@ -25,7 +24,6 @@
                         <group>
                             <field name="name"/>
                             <field name="code"/>
-                            <field name="descrip"/>
                         </group>
                     </group>
                 </sheet>
