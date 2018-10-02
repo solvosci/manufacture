@@ -58,9 +58,9 @@
                 <field name="weight"/>
                 <field name="w_uom_id"/>
                 <field name="partner_id"/>
-                <field name="descrip"/>
                 <field name="start_date"/>
                 <field name="end_date"/>
+                <field name="descrip"/>
             </tree>
         </field>
     </record>
@@ -92,13 +92,25 @@
                         <group>
                             <field name="descrip"/>
                         </group>
-                    </group>
+                     </group>
                      <group name="gr_lot_active_expiration_dates" string="Active and Expiration Dates">
                         <group>
                             <field name="start_date"/>
                         </group>
                         <group>
                             <field name="end_date"/>
+                        </group>
+                    </group>
+                     <group name="gr_lot_active_std_data" string="Standard data">
+                        <group>
+                            <field name="std_loss"/>
+                            <field name="std_speed"/>
+                        </group>
+                        <group>
+                            <field name="std_yield_product"/>
+                            <field name="std_yield_sp1"/>
+                            <field name="std_yield_sp2" invisible="1"/>
+                            <field name="std_yield_sp3" invisible="1"/>
                         </group>
                     </group>
                 </sheet>
@@ -256,11 +268,12 @@
         <field name="arch" type="xml">
             <tree string="Standards">
                 <field name="product_id"/>
-                <field name="std_yield_product"/>
+                <field name="std_loss"/>
                 <field name="std_speed"/>
+                <field name="std_yield_product"/>
                 <field name="std_yield_sp1"/>
-                <field name="std_yield_sp2"/>
-                <field name="std_yield_sp3"/>
+                <field name="std_yield_sp2" invisible="1"/>
+                <field name="std_yield_sp3" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -270,20 +283,21 @@
         <field name="name">mdc.stds.form</field>
         <field name="model">mdc.std</field>
         <field name="arch" type="xml">
-            <form string="Standards">
+            <form string="Standards" copy="False">
                 <sheet>
                     <group>
                         <field name="product_id" options="{'no_create': 1, 'no_create_edit': 1}"/>
                     </group>
                     <group name="gr_std_data" string="Standard Detail">
                         <group>
-                            <field name="std_yield_product"/>
+                            <field name="std_loss"/>
                             <field name="std_speed"/>
                         </group>
                         <group>
+                            <field name="std_yield_product"/>
                             <field name="std_yield_sp1"/>
-                            <field name="std_yield_sp2"/>
-                            <field name="std_yield_sp3"/>
+                            <field name="std_yield_sp2" invisible="1"/>
+                            <field name="std_yield_sp3" invisible="1"/>
                         </group>
                     </group>
                 </sheet>

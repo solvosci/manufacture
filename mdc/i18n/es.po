@@ -136,6 +136,11 @@ msgid "Active and Expiration Dates"
 msgstr "Fechas de activación y caducidad"
 
 #. module: mdc
+#: model:ir.ui.view,arch_db:mdc.mdc_lots_form
+msgid "Standard data"
+msgstr "Datos Estándar"
+
+#. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_activity_ids
 msgid "Activities"
 msgstr "Actividades"
@@ -151,10 +156,14 @@ msgid "BACORETA"
 msgstr "BACORETA"
 
 #. module: mdc
-#: model:product.template,name:mdc.mdc_product_template_P19
 #: model:product.template,name:mdc.mdc_product_template_P4
 msgid "BIG EYE"
 msgstr "BIG EYE"
+
+#. module: mdc
+#: model:product.template,name:mdc.mdc_product_template_P19
+msgid "BIG EYE (OBESUS)"
+msgstr "BIG EYE (OBESUS)"
 
 #. module: mdc
 #: model:product.template,name:mdc.mdc_product_template_P1
@@ -695,11 +704,15 @@ msgid "Depending on the modules installed, this will allow you to define the rou
 msgstr "Dependiendo de los módulos instalados, este permite definir la ruta del producto: si será comprado, facturado, bajo pedido o desde stock..."
 
 #. module: mdc
-#: model:ir.model.fields,field_description:mdc.field_mdc_lot_descrip
 #: model:ir.model.fields,field_description:mdc.field_mdc_quality_descrip
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_description
 msgid "Description"
 msgstr "Descripción"
+
+#. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_descrip
+msgid "Observation"
+msgstr "Observación"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_description_pickingout
@@ -1461,13 +1474,17 @@ msgstr "Exportar a Excel"
 
 #. module: mdc
 #: model:ir.model,name:mdc.model_product_product
-#: model:ir.model.fields,field_description:mdc.field_mdc_lot_product_id
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_tracing_product_id
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_product_id
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_product_variant_id
 #: model:ir.ui.view,arch_db:mdc.mdc_lots_search
 msgid "Product"
 msgstr "Producto"
+
+#. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_product_id
+msgid "Product (Standard)"
+msgstr "Producto (Estándar)"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_attribute_line_ids
@@ -1909,30 +1926,41 @@ msgstr "Estado basado en actividades\n"
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_tracing_std_speed
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_std_speed
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_std_speed
 msgid "Std Speed"
 msgstr "STD Velocidad"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_tracing_std_yield_product
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_std_yield_product
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_std_yield_product
 msgid "Std Yield Product"
 msgstr "STD Rdto. Producto"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_tracing_std_yield_sp1
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_std_yield_sp1
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_std_yield_sp1
 msgid "Std Yield Subproduct 1"
 msgstr "STD Rdto. Migas"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_std_yield_sp2
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_std_yield_sp2
 msgid "Std Yield Subproduct 2"
 msgstr "STD Rdto. Subproducto 2"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_std_yield_sp3
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_std_yield_sp3
 msgid "Std Yield Subproduct 3"
 msgstr "STD Rdto. Subproducto 3"
+
+#. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_std_std_loss
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_std_loss
+msgid "Std Loss"
+msgstr "Merma Estimada"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_stock_move_ids

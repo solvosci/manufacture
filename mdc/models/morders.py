@@ -28,24 +28,28 @@ class Lot(models.Model):
     def _default_date(self):
         #return fields.Datetime.from_string(fields.Datetime.now())
         return fields.Datetime.now()
+    def _default_uom(self):
+        return self.env.ref('product.product_uom_kgm')
 
     name = fields.Char(
         'Name',
         required=True)
     product_id = fields.Many2one(
         'product.product',
-        string='Product',
+        string='Product (Standard)',
         required=True)
     weight =fields.Float(
-        'Weight')
+        'Weight',
+        required=True)
     w_uom_id = fields.Many2one(
         'product.uom',
-        string = 'Weight Unit')
+        string = 'Weight Unit',
+        default=_default_uom)
     partner_id = fields.Many2one(
         'res.partner',
         string='Customer')
     descrip = fields.Char(
-        'Description')
+        'Observation')
     start_date = fields.Date(
         'Start Date',
         required=True,
@@ -53,6 +57,23 @@ class Lot(models.Model):
     end_date = fields.Date(
         'End_Date',
         required=True)
+    std_loss = fields.Float(
+        'Std Loss')
+    std_yield_product = fields.Float(
+        'Std Yield Product',
+        digits=(10,3))
+    std_speed = fields.Float(
+        'Std Speed',
+        digits=(10,3))
+    std_yield_sp1 = fields.Float(
+        'Std Yield Subproduct 1',
+        digits=(10,3))
+    std_yield_sp2 = fields.Float(
+        'Std Yield Subproduct 2',
+        digits=(10,3))
+    std_yield_sp3 = fields.Float(
+        'Std Yield Subproduct 3',
+        digits=(10,3))
 
     def name_get(self, context=None):
         if context is None:
@@ -113,6 +134,17 @@ class Lot(models.Model):
         for l in self:
             if l.end_date < l.start_date:
                 raise models.ValidationError(_('End date must be older than start date'))
+
+    @api.onchange('product_id')
+    def _retrieve_std_data(self):
+        for lot in self:
+            std = self.env['mdc.std'].search([('product_id', '=', lot.product_id.id)])
+            lot.std_loss = std.std_loss
+            lot.std_yield_product = std.std_yield_product
+            lot.std_speed = std.std_speed
+            lot.std_yield_sp1 = std.std_yield_sp1
+            lot.std_yield_sp2 = std.std_yield_sp2
+            lot.std_yield_sp3 = std.std_yield_sp3
 
     @api.onchange('start_date')
     def _calculate_end_date(self):
