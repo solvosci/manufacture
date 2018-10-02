@@ -25,6 +25,8 @@ class DataWIn(models.Model):
         # TODO add filter "card is not in use"
         return [('card_categ_id', '=', self.env.ref('mdc.mdc_card_categ_P').id)]
 
+    def _default_uom(self):
+        return self.env.ref('product.product_uom_kgm')
     def _get_w_uom_id_domain(self):
         return [('category_id', '=', self.env.ref('product.product_uom_categ_kgm').id)]
 
@@ -51,7 +53,8 @@ class DataWIn(models.Model):
         'product.uom',
         string='Weight UoM',
         required=True,
-        domain=_get_w_uom_id_domain)
+        domain=_get_w_uom_id_domain,
+        default=_default_uom)
     card_id = fields.Many2one(
         'mdc.card',
         string='Card',
@@ -213,6 +216,8 @@ class DataWOut(models.Model):
         #return fields.Datetime.from_string(fields.Datetime.now())
         return fields.Datetime.now()
 
+    def _default_uom(self):
+        return self.env.ref('product.product_uom_kgm')
     def _get_w_uom_id_domain(self):
         return [('category_id', '=', self.env.ref('product.product_uom_categ_kgm').id)]
 
@@ -239,7 +244,8 @@ class DataWOut(models.Model):
         'product.uom',
         string='Weight UoM',
         required=True,
-        domain=_get_w_uom_id_domain)
+        domain=_get_w_uom_id_domain,
+        default=_default_uom)
     quality_id = fields.Many2one(
         'mdc.quality',
         string='Quality',
@@ -355,6 +361,7 @@ class DataWOut(models.Model):
                     joker_win_data['lot_id'] = values['lot_id']
                     joker_win_data['line_id'] = values['line_id']
                     joker_win_data['card_id'] = card.id
+                    gross_weight += joker_win_data['weight'] - joker_win_data['tare']
                     joker_win = self.env['mdc.data_win'].create(joker_win_data)
                     ids_win.append(joker_win.id)
                 else:
@@ -394,6 +401,9 @@ class DataWOut(models.Model):
         if wout_shared_data:
             wout_shared_data.write({
                 'wout_shared_id': data_wout.id})
+
+        # Finaly calculate total gross weight in lot
+        self.env['mdc.lot'].compute_total_gross_weight({'lot_id': values['lot_id']})
 
         return data_wout
 

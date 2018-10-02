@@ -1963,6 +1963,11 @@ msgid "Std Loss"
 msgstr "Merma Estimada"
 
 #. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_total_gross_weight
+msgid "Real Total Gross Weight"
+msgstr "Peso Bruto en Línea"
+
+#. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_stock_move_ids
 msgid "Stock Move"
 msgstr "Movimiento de Stock"
@@ -2284,10 +2289,14 @@ msgstr "Básculas"
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_data_win_weight
 #: model:ir.model.fields,field_description:mdc.field_mdc_data_wout_weight
-#: model:ir.model.fields,field_description:mdc.field_mdc_lot_weight
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_weight
 msgid "Weight"
 msgstr "Peso"
+
+#. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_weight
+msgid "Weight"
+msgstr "Peso Congelado"
 
 #. module: mdc
 #: model:ir.model,name:mdc.model_mdc_data_win

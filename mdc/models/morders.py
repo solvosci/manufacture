@@ -74,6 +74,10 @@ class Lot(models.Model):
     std_yield_sp3 = fields.Float(
         'Std Yield Subproduct 3',
         digits=(10,3))
+    total_gross_weight = fields.Float(
+        'Real Total Gross Weight',
+        readonly=True,
+        default=0)
 
     def name_get(self, context=None):
         if context is None:
@@ -116,6 +120,16 @@ class Lot(models.Model):
                               % (lotPart2, currYear2)))
 
         return lotPart1.zfill(5)+'/'+lotPart2
+
+    # compute total_gross_
+    def compute_total_gross_weight(self, context):
+        tot_gross_weight = 0
+        woutlot = self.env['mdc.data_wout'].search([('lot_id', '=', context['lot_id'])])
+        for wo in woutlot:
+            tot_gross_weight += wo.gross_weight
+        lot = self.browse(context['lot_id'])
+        if lot:
+            lot.total_gross_weight = tot_gross_weight
 
     @api.model
     def create(self, values):
@@ -361,7 +375,8 @@ class Worksheet(models.Model):
     @api.constrains('end_datetime')
     def _check_end_datetime(self):
         for l in self:
-            if l.end_datetime < l.start_datetime:
+            if l.end_datetime is not False and l.start_datetime is not False \
+                    and l.end_datetime < l.start_datetime:
                 raise models.ValidationError(_('End date must be older than start date'))
 
     @api.onchange('workstation_id')
@@ -416,7 +431,7 @@ class Worksheet(models.Model):
             raise UserError(_('The start date has to be filled'))
         if 'end_datetime' in values:
             # end_datetime must to be greater than start_datetime
-            if str(values['end_datetime']) < str(values['start_datetime']):
+            if values['end_datetime'] is not False and str(values['end_datetime']) < str(values['start_datetime']):
                 raise UserError(_('It can´t be end datetime less than start date to employee %s') % em.employee_code)
         if 'workstation_id' not in values:
             # get workstation pre-assigned data from employee (if the employee was pre-assigned to a workstation)

@@ -88,6 +88,7 @@
                         <group>
                             <field name="weight"/>
                             <field name="w_uom_id" domain="[('category_id','=',2)]" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                            <field name="total_gross_weight" readonly="True"/>
                         </group>
                         <group>
                             <field name="descrip"/>
