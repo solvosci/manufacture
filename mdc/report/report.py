@@ -32,36 +32,29 @@ class RptTracing(models.Model):
         tools.drop_view_if_exists(self._cr, self._table)
         self._cr.execute("""
             CREATE view %s as 
-                SELECT lotdata.id, lotdata.create_date, lotdata.lot_name, lotdata.product_id, cli.name as client_name,
-                    lotdata.employee_code, lotdata.employee_name, lotdata.shift_code, 
-                    lotdata.gross_weight, lotdata.product_weight, lotdata.sp1_weight, 
-                    lotdata.quality_weight/lotdata.product_weight as quality, 
+                SELECT woutdata.id, woutdata.create_date, lot.name as lot_name, lot.product_id, cli.name as client_name,
+                    emp.employee_code, emp.name as employee_name, shift.shift_code, 
+                    woutdata.gross_weight, woutdata.product_weight, woutdata.sp1_weight, 
+                    woutdata.quality_weight/woutdata.product_weight as quality, 
                     lotemp.total_hours, 
-                    std.std_yield_product, std.std_speed, std.std_yield_sp1 
+                    lot.std_yield_product, lot.std_speed, lot.std_yield_sp1 
                     FROM (
                         SELECT
                             MIN(wout.id) as id,
                             date(wout.create_datetime) as create_date,
-                            lot.id as lot_id, lot.name as lot_name, lot.product_id as product_id, lot.partner_id as partner_id,
-                            emp.id as employee_id, emp.employee_code as employee_code,emp.name as employee_name,
-                            shift.id shift_id, shift.shift_code as shift_code,
+                            wout.lot_id, wout.employee_id, wout.shift_id, 
                             sum(wout.gross_weight) as gross_weight,
                             sum(case when woutcat.code='P' then wout.weight-wout.tare else 0 end) as product_weight,
                             sum(case when woutcat.code='SP1' then wout.weight-wout.tare else 0 end) as sp1_weight,
                             sum(case when woutcat.code='P' then qlty.code * (wout.weight-wout.tare) else 0 end) as quality_weight
                         FROM mdc_data_wout wout
-                            LEFT JOIN mdc_lot lot ON lot.id=wout.lot_id
-                            LEFT JOIN hr_employee emp ON emp.id=wout.employee_id
-                            LEFT JOIN mdc_shift shift ON shift.id=wout.shift_id
                             LEFT JOIN mdc_wout_categ woutcat ON woutcat.id=wout.wout_categ_id 
                             LEFT JOIN mdc_quality qlty ON qlty.id=wout.quality_id
                         WHERE 1=1
                         GROUP BY 
                             date(wout.create_datetime),
-                            lot.id, lot.name, lot.product_id,
-                            emp.id, emp.employee_code, emp.name,
-                            shift.id, shift.shift_code
-                    ) lotdata
+                            wout.lot_id,wout.employee_id, wout.shift_id
+                    ) woutdata
                     LEFT JOIN (SELECT 
                             date(ws.start_datetime) as start_date,
                             ws.lot_id, ws.employee_id, ws.shift_id, 
@@ -70,11 +63,13 @@ class RptTracing(models.Model):
                         WHERE 1=1
                         GROUP BY date(ws.start_datetime),
                             ws.lot_id, ws.employee_id, ws.shift_id
-                    ) lotemp ON lotemp.start_date=lotdata.create_date 
-                            and lotemp.lot_id=lotdata.lot_id and lotemp.employee_id=lotdata.employee_id 
-                            and lotemp.shift_id=lotdata.shift_id 
-                    LEFT JOIN res_partner cli on cli.id = lotdata.partner_id 
-                    LEFT JOIN mdc_std std on std.product_id = lotdata.product_id     
+                    ) lotemp ON lotemp.start_date=woutdata.create_date 
+                            and lotemp.lot_id=woutdata.lot_id and lotemp.employee_id=woutdata.employee_id 
+                            and lotemp.shift_id=woutdata.shift_id 
+                    LEFT JOIN mdc_lot lot ON lot.id=woutdata.lot_id
+                    LEFT JOIN res_partner cli on cli.id = lot.partner_id
+                    LEFT JOIN hr_employee emp ON emp.id=woutdata.employee_id
+                    LEFT JOIN mdc_shift shift ON shift.id=woutdata.shift_id  
                 
         """ % self._table)
 
