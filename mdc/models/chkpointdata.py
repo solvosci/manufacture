@@ -119,7 +119,11 @@ class DataWIn(models.Model):
         Cancels (if possible) the current input data
         :return:
         """
-        for w in self:
+        # TODO since this model has special rule access, this action is guaranteed
+        # TODO  for that users allowed to reach this action
+        # TODO  Consider create a "cancel_uid" and fill it in order to find out the cancellation responsible user
+        wins = self.sudo().browse(self.ids)
+        for w in wins:
             if w.wout_id:
                 raise UserError(_("Cannot cancel input '%s - %s - %s' because it's been already linked with an output")
                                 % (w.line_id.name, w.lot_id.name, w.create_datetime))

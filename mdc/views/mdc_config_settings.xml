@@ -12,7 +12,7 @@
                     <button string="Cancel" type="object"
                         name="cancel" class="oe_link"/>
                 </header>
-                <group string="RFID server">
+                <group string="RFID server" groups="mdc.group_mdc_manager">
                     <label for="id" string="Server credentials"/>
                     <div>
                         <div>

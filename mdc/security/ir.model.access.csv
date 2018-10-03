@@ -16,10 +16,10 @@ acl_mdc_worksheet_office_worker,mdc.worksheet_office_worker,model_mdc_worksheet,
 acl_mdc_worksheet_cp,mdc.worksheet_cp,model_mdc_worksheet,group_mdc_cp,1,1,0,0
 
 acl_mdc_data_win,mdc.data_win default,model_mdc_data_win,,1,0,0,0
-acl_mdc_data_win_office_worker,mdc.data_win_office_worker,model_mdc_data_win,group_mdc_office_worker,1,1,1,1
+acl_mdc_data_win_manager,mdc.data_win_manager,model_mdc_data_win,group_mdc_manager,1,1,1,1
 acl_mdc_data_win_cp,mdc.data_win_cp,model_mdc_data_win,group_mdc_cp,1,1,1,1
 acl_mdc_data_wout,mdc.data_wout default,model_mdc_data_wout,,1,0,0,0
-acl_mdc_data_wout_office_worker,mdc.data_wout_office_worker,model_mdc_data_wout,group_mdc_office_worker,1,1,1,1
+acl_mdc_data_wout_manager,mdc.data_wout_manager,model_mdc_data_wout,group_mdc_manager,1,1,1,1
 acl_mdc_data_wout_cp,mdc.data_wout_cp,model_mdc_data_wout,group_mdc_cp,1,1,1,1
 
 acl_mdc_line,mdc.line default,model_mdc_line,,1,0,0,0

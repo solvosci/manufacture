@@ -110,7 +110,7 @@
                 <button name="cancel_input" string="Cancel" type="object" help="Cancels this input"
                     confirm="Are you sure to cancel this input? This will release the related card"
                     attrs="{'invisible': ['|', ('active', '=', False), ('wout_id', '!=', False)]}"
-                    groups="mdc.group_mdc_manager"/>
+                    groups="mdc.group_mdc_office_worker"/>
                 <field name="active" invisible="1"/>
             </tree>
         </field>
@@ -126,7 +126,7 @@
                     <button name="cancel_input" string="Cancel input" type="object" help="Cancels this input"
                         confirm="Are you sure to cancel this input? This will release the related card"
                         attrs="{'invisible': ['|', ('id', '=', False), ('wout_id', '!=', False)]}"
-                        groups="mdc.group_mdc_manager" class="btn-primary"/>
+                        groups="mdc.group_mdc_office_worker" class="btn-primary"/>
                 </header>
                 <sheet>
                    <group name="gr_Data_WIN_chkpoint_data" string="Check Point Data">
