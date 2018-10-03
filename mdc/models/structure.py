@@ -225,6 +225,9 @@ class Card(models.Model):
     status = fields.Selection(
         selection='_get_card_status_selection',
         string='Status')
+    active = fields.Boolean(
+        'Active',
+        default=True)
 
     @api.model
     def create(self, values):
@@ -421,6 +424,9 @@ class Tare(models.Model):
     uom_id = fields.Many2one(
         'product.uom',
         string = 'Tare Unit')
+    active = fields.Boolean(
+        'Active',
+        default=True)
 
 
 class Quality(models.Model):
@@ -436,6 +442,9 @@ class Quality(models.Model):
     code = fields.Integer(
         'Code',
         required=True)
+    active = fields.Boolean(
+        'Active',
+        default=True)
 
 
 class RfidReader(models.Model):
