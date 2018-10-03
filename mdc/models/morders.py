@@ -103,6 +103,8 @@ class Lot(models.Model):
 
     def _lot_format(self, values):
         lotName = values['name']
+        if lotName is None or lotName is False or lotName == '':
+            return ''
         # lotPart2 must be current year (las 2 digits)
         currYear2 = str(datetime.datetime.now().year)[2:4]
         lotPart1 = '1'
@@ -131,23 +133,16 @@ class Lot(models.Model):
         if lot:
             lot.total_gross_weight = tot_gross_weight
 
-    @api.model
-    def create(self, values):
-        values['name'] = self._lot_format(values)
-        return super(Lot, self).create(values)
-
-    @api.multi
-    def write(self, values):
-        self.ensure_one()
-        if 'name' in values:
-            values['name'] = self._lot_format(values)
-        return super(Lot, self).write(values)
-
     @api.constrains('end_date')
     def _check_end_date(self):
         for l in self:
             if l.end_date < l.start_date:
                 raise models.ValidationError(_('End date must be older than start date'))
+
+    @api.onchange('name')
+    def _retrieve_lot_format(self):
+        for lot in self:
+            lot.name = self._lot_format({'name': lot.name})
 
     @api.onchange('product_id')
     def _retrieve_std_data(self):
