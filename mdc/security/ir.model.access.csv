@@ -12,7 +12,7 @@ acl_mdc_lot_active,mdc.lot_active default,model_mdc_lot_active,,1,0,0,0
 acl_mdc_lot_active_office_worker,mdc.lot_active_office_worker,model_mdc_lot_active,group_mdc_office_worker,1,1,1,1
 acl_mdc_lot_active_cp,mdc.lot_active_cp,model_mdc_lot_active,group_mdc_cp,1,1,0,0
 acl_mdc_worksheet,mdc.worksheet default,model_mdc_worksheet,,1,0,0,0
-acl_mdc_worksheet_office_worker,mdc.worksheet_office_worker,model_mdc_worksheet,group_mdc_office_worker,1,1,1,1
+acl_mdc_worksheet_manager,mdc.worksheet_manager,model_mdc_worksheet,group_mdc_manager,1,1,1,1
 acl_mdc_worksheet_cp,mdc.worksheet_cp,model_mdc_worksheet,group_mdc_cp,1,1,0,0
 
 acl_mdc_data_win,mdc.data_win default,model_mdc_data_win,,1,0,0,0

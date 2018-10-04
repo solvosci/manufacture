@@ -155,21 +155,32 @@ class Employee(models.Model):
 
         return super(Employee, self).write(values)
 
+    def _check_worksheet_permissions(self):
+        """
+        perm_group_id = self.env.ref('group_mdc_office_worker').id
+        my_group_ids = self.env.user.groups_id.ids
+        if perm_group_id not in my_group_ids:
+            raise UserError(_('You are not allowed to open/close worksheets'))
+        """
+        return self.env.user.has_group('mdc.group_mdc_office_worker')
+
     @api.multi
     def worksheet_open(self, start_datetime):
         self.ensure_one()
+        self._check_worksheet_permissions()
         if self.present:
             raise UserError(_('Cannot create open worksheet: employee %s is already present') % self.employee_code)
-        self.env['mdc.worksheet'].create({
+        self.env['mdc.worksheet'].sudo().create({
             'start_datetime': start_datetime,
             'employee_id': self.id})
 
     @api.multi
     def worksheet_close(self, end_datetime):
         self.ensure_one()
+        self._check_worksheet_permissions()
         if not self.present:
             raise UserError(_('Cannot create close worksheet: employee %s is not present') % self.employee_code)
-        self.worksheet_ids.filtered(lambda r: r.end_datetime is False).write({'end_datetime': end_datetime})
+        self.worksheet_ids.filtered(lambda r: r.end_datetime is False).sudo().write({'end_datetime': end_datetime})
         # TODO check filtered performance when growing data. If decreases, use the code above
         """
         Worksheet = self.env['mdc.worksheet'].search(
