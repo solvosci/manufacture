@@ -281,7 +281,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <!-- FIXME unable to filter by joker card (ref and '%' not working) -->
-        <field name="domain">[('card_categ_id.name', '=', 'Producto Comodín')]</field>
+        <field name="domain">[('card_categ_id.code', '=', 'PC')]</field>
         <field name="search_view_id" ref="mdc_card_lot_assign_search"/>
         <field name="limit">25</field>
         <field name="help" type="html">

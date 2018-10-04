@@ -385,11 +385,19 @@ class CardCateg(models.Model):
     """
     Card Categories
     """
+    _sql_constraints = [
+        ('card_categ_code_unique', 'UNIQUE(code)',
+         _('Card Categ Code has been already assigned to a Card Categ!')),
+    ]
+
     _name = 'mdc.card_categ'
     _description = 'Card Category'
 
     name = fields.Char(
         'Name',
+        required=True)
+    code = fields.Char(
+        'Code',
         required=True)
 
 
@@ -397,6 +405,11 @@ class WOutCateg(models.Model):
     """
     Categories for weight output
     """
+
+    _sql_constraints = [
+        ('wout_categ_code_unique', 'UNIQUE(code)',
+         _('Wout Categ Code has been already assigned to a Wout Categ!')),
+    ]
     _name = 'mdc.wout_categ'
     _description = 'wout Category'
 

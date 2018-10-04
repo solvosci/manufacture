@@ -120,19 +120,6 @@
         </field>
     </record>
 
-
-    <!-- Tree view: default view for wout_categ -->
-    <record id="mdc_wout_categ_tree" model="ir.ui.view">
-        <field name="name">mdc.wout_categ.tree</field>
-        <field name="model">mdc.wout_categ</field>
-        <field name="arch" type="xml">
-            <tree string="Out Category">
-                <field name="name"/>
-                <field name="code"/>
-            </tree>
-        </field>
-    </record>
-
     <!-- Tree view: default view for shifts -->
     <record id="mdc_shift_tree" model="ir.ui.view">
         <field name="name">mdc.shift.tree</field>
@@ -301,6 +288,36 @@
                         </group>
                         <group>
                             <field name="tcp_address_port"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree view: default view for Out categories -->
+    <record id="mdc_card_categ_tree" model="ir.ui.view">
+        <field name="name">mdc.card_categ.tree</field>
+        <field name="model">mdc.card_categ</field>
+        <field name="arch" type="xml">
+            <tree string="Card Category">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for card_categories -->
+    <record id="mdc_card_categ_form" model="ir.ui.view">
+        <field name="name">mdc.card_categ.form</field>
+        <field name="model">mdc.card_categ</field>
+        <field name="arch" type="xml">
+            <form string="Card Category">
+                <sheet>
+                    <group name="gr_card_categ_data" string="WOut Category">
+                        <group>
+                            <field name="name"/>
+                            <field name="code" attrs="{'readonly': [('id', '!=', False)]}"/>
                         </group>
                     </group>
                 </sheet>
