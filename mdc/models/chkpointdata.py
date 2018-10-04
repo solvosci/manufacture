@@ -63,6 +63,11 @@ class DataWIn(models.Model):
     wout_id = fields.Many2one(
         'mdc.data_wout',
         string='WOut')
+    cancel_user_id = fields.Many2one(
+        'res.users',
+        string='Cancelled by')
+    cancel_datetime = fields.Datetime(
+        'Cancel date')
     active = fields.Boolean(
         'Active',
         default=True)
@@ -119,15 +124,17 @@ class DataWIn(models.Model):
         Cancels (if possible) the current input data
         :return:
         """
-        # TODO since this model has special rule access, this action is guaranteed
-        # TODO  for that users allowed to reach this action
-        # TODO  Consider create a "cancel_uid" and fill it in order to find out the cancellation responsible user
+        # Since this model has special rule access, this action is guaranteed
+        #  for that users allowed to reach this action
         wins = self.sudo().browse(self.ids)
         for w in wins:
             if w.wout_id:
                 raise UserError(_("Cannot cancel input '%s - %s - %s' because it's been already linked with an output")
                                 % (w.line_id.name, w.lot_id.name, w.create_datetime))
-            w.write({'active': False})
+            w.write({
+                'active': False,
+                'cancel_user_id': self.env.user.id,
+                'cancel_datetime': fields.Datetime.now()})
             _logger.info('[mdc.data_win] Cancelled input %s - %s - %s' % (w.line_id.name, w.lot_id.name, w.create_datetime))
 
     def get_average_data(self, context):

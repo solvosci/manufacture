@@ -133,6 +133,7 @@
                         <group>
                             <field name="line_id"/>
                             <field name="lot_id"/>
+                            <field name="cancel_user_id" readonly="1"/>
                         </group>
                         <group>
                             <field name="create_datetime"/>
@@ -160,6 +161,14 @@
                     </group>
                     <group name="gr_Data_WIN_Data_OUT" string="Read in Data OUT">
                         <field name="wout_id" readonly="True"/>
+                    </group>
+                    <group name="gr_Data_WIN_audit_data" string="Audit data">
+                        <group>
+                            <field name="cancel_user_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="cancel_datetime" readonly="1"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
