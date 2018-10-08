@@ -128,6 +128,12 @@
             <search string="Active Lot">
                 <field name="lot_id"/>
                 <field name="chkpoint_id"/>
+                <filter name="week" string="This Week"
+                        domain="[
+                            '&amp;',
+                            ('start_datetime', '>=', (context_today() + relativedelta(weeks=-1,days=1,weekday=0)).strftime('%Y-%m-%d')),
+                            ('start_datetime', '&lt;=', (context_today() + relativedelta(weekday=6)).strftime('%Y-%m-%d')),
+                        ]"/>
                 <group expand="0" string="Group By">
                     <filter string="Lot" name="groupby_product" domain="[]" context="{'group_by':'lot_id'}"/>
                     <filter string="Line" name="groupby_partner" domain="[]" context="{'group_by':'line_id'}"/>

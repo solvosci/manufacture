@@ -109,6 +109,7 @@
         <field name="view_mode">tree,form</field>
         <field name="domain">[('active', '!=', True)]</field>
         <field name="search_view_id" ref="mdc_lots_actives_search"/>
+        <field name="context">{"search_default_week":1}</field>
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
@@ -170,6 +171,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="mdc_worksheets_search"/>
+        <field name="context">{"search_default_today":1}</field>
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">

@@ -11,6 +11,7 @@
                 <field name="start_datetime"/>
                 <field name="end_datetime"/>
                 <field name="lot_id"/>
+                <filter name="today" string="Today" domain="[('start_datetime', '&gt;=', current_date)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Employee" name="groupby_employee" domain="[]" context="{'group_by':'employee_id'}"/>
                     <filter string="Lot" name="groupby_lot" domain="[]" context="{'group_by':'lot_id'}"/>
