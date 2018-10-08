@@ -89,7 +89,8 @@ class RptTracing(models.Model):
                     lines = self.search(line['__domain'])
                     for line_item in lines:
                         quality_weight += line_item.quality * line_item.product_weight
-                    line['quality'] = quality_weight / line['product_weight']
+                    if line['product_weight'] > 0:
+                        line['quality'] = quality_weight / line['product_weight']
         return res
 
 
@@ -211,7 +212,8 @@ class RptManufacturing(models.Model):
                     for line_item in lines:
                         quality_weight += line_item.quality * line_item.product_weight
                         total_weight += line_item.product_weight + line_item.shared_product_weight / 2
-                    line['quality'] = quality_weight / total_weight
+                    if total_weight > 0:
+                        line['quality'] = quality_weight / total_weight
         return res
 
 
@@ -330,7 +332,8 @@ class RptIndicators(models.Model):
                     for line_item in lines:
                         ind_quality_weight += line_item.ind_quality * line_item.product_weight
                         total_weight += line_item.product_weight + line_item.shared_product_weight /2
-                    line['ind_quality'] = ind_quality_weight / total_weight
+                    if total_weight > 0:
+                        line['ind_quality'] = ind_quality_weight / total_weight
         return res
 
 
@@ -450,6 +453,7 @@ class RptCumulative(models.Model):
                             quality_weight += line_item.quality * line_item.product_weight
                             total_yield_weight += line_item.total_yield * line_item.product_weight
                             total_weight += line_item.product_weight + line_item.shared_product_weight / 2
-                        line['quality'] = quality_weight / total_weight
-                        line['total_yield'] = total_yield_weight / total_weight
+                        if total_weight > 0:
+                            line['quality'] = quality_weight / total_weight
+                            line['total_yield'] = total_yield_weight / total_weight
             return res

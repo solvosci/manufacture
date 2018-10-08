@@ -179,10 +179,10 @@ class ReportRptTracingXlsx(models.AbstractModel):
                 sheet.write(row, 15, obj.std_yield_sp1, f_data)
                 sheet.write(row, 17, obj.std_speed, f_data)
                 # formulation columns
-                sheet.write_formula(row, 11, '=H' + str(row+1) + '/G' + str(row+1), f_percent) # - % Backs
-                sheet.write_formula(row, 13, '=I' + str(row+1) + '/G' + str(row+1), f_percent) # - % Crumbs
-                sheet.write_formula(row, 14, '=(H' + str(row + 1) + '+I' + str(row + 1) + ')/G' + str(row + 1), f_percent) # - % Total Yield
-                sheet.write_formula(row, 15, '=(K' + str(row + 1) + ' * 60)/G' + str(row + 1), f_data) # - MO
+                sheet.write_formula(row, 11, '=IF(G' + str(row + 1) + '= 0, 0, H' + str(row+1) + '/G' + str(row+1) + ')', f_percent) # - % Backs
+                sheet.write_formula(row, 13, '=IF(G' + str(row + 1) + '= 0, 0, I' + str(row+1) + '/G' + str(row+1) + ')', f_percent) # - % Crumbs
+                sheet.write_formula(row, 14, '=IF(G' + str(row + 1) + '= 0, 0, (H' + str(row + 1) + '+I' + str(row + 1) + ')/G' + str(row + 1) + ')', f_percent) # - % Total Yield
+                sheet.write_formula(row, 15, '=IF(G' + str(row + 1) + '= 0, 0, (K' + str(row + 1) + ' * 60)/G' + str(row + 1) + ')', f_data) # - MO
                 # Ind columns
                 sheet.write_formula(row, 18, '=IF(M' + str(row + 1) + '= 0, 0, (L' + str(row + 1) + '/M' + str(row + 1) + '/1,15) * 100)', f_data) # - IND Backs
                 sheet.write_formula(row, 19, '=IF(R' + str(row + 1) + '= 0, 0, (Q' + str(row + 1) + '/R' + str(row + 1) + '/1,15) * 100)', f_data) # - IND MO
@@ -209,7 +209,7 @@ class ReportRptTracingXlsx(models.AbstractModel):
             sheet.write(row, 6, wgross_weight, f_data)
             sheet.write(row, 7, wproduct_weight, f_data)
             sheet.write(row, 8, wsp1_weight, f_data)
-            sheet.write(row, 9, wquality/wproduct_weight, f_data)
+            sheet.write(row, 9, wquality/wproduct_weight if wproduct_weight == 0 else 0 , f_data)
             sheet.write(row, 10, wtotal_hours, f_data)
 
             wlot_name = obj.lot_name
@@ -377,10 +377,10 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
                 sheet.write(row, 17, obj.std_yield_sp1, f_data)
                 sheet.write(row, 19, obj.std_speed, f_data)
                 # formulation columns
-                sheet.write_formula(row, 13, '=G' + str(row + 1) + '/F' + str(row + 1), f_percent)  # - % Backs
-                sheet.write_formula(row, 15, '=H' + str(row + 1) + '/F' + str(row + 1), f_percent)  # - % Crumbs
-                sheet.write_formula(row, 16, '=(G' + str(row + 1) + '+H' + str(row + 1) + ')/F' + str(row + 1),f_percent)  # - % Total Yield
-                sheet.write_formula(row, 18, '=(M' + str(row + 1) + ' * 60)/F' + str(row + 1), f_data)  # - MO
+                sheet.write_formula(row, 13, '=IF(F' + str(row + 1) + '= 0, 0, G' + str(row + 1) + '/F' + str(row + 1) + ')', f_percent)  # - % Backs
+                sheet.write_formula(row, 15, '=IF(F' + str(row + 1) + '= 0, 0, H' + str(row + 1) + '/F' + str(row + 1) + ')', f_percent)  # - % Crumbs
+                sheet.write_formula(row, 16, '=IF(F' + str(row + 1) + '= 0, 0, (G' + str(row + 1) + '+H' + str(row + 1) + ')/F' + str(row + 1) + ')' ,f_percent)  # - % Total Yield
+                sheet.write_formula(row, 18, '=IF(F' + str(row + 1) + '= 0, 0, (M' + str(row + 1) + ' * 60)/F' + str(row + 1) + ')', f_data)  # - MO
                 # Ind columns
                 sheet.write_formula(row, 20, '=IF(O' + str(row + 1) + '= 0, 0, (N' + str(row + 1) + '/O' + str(row + 1) + '/1,15) * 100)', f_data) # - IND Backs
                 sheet.write_formula(row, 21, '=IF(T' + str(row + 1) + '= 0, 0, (S' + str(row + 1) + '/T' + str(row + 1) + '/1,15) * 100)', f_data) # - IND MO
@@ -420,7 +420,7 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
             sheet.write(row, 8, wshared_gross_weight, f_data)
             sheet.write(row, 9, wshared_product_weight, f_data)
             sheet.write(row, 10, wshared_sp1_weight, f_data)
-            sheet.write(row, 11, wquality/(wproduct_weight + wshared_product_weight/2), f_data)
+            sheet.write(row, 11, wquality/(wproduct_weight + wshared_product_weight/2) if (wproduct_weight + wshared_product_weight/2) == 0 else 0 , f_data)
             sheet.write(row, 12, wtotal_hours, f_data)
             sheet.write(row, 25, wproduct_boxes, f_data)
             sheet.write(row, 26, wsp1_boxes, f_data)
@@ -630,7 +630,7 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
             sheet.write(row, 4, wgross_weight, f_data)
             sheet.write(row, 5, wproduct_weight, f_data)
             sheet.write(row, 6, wsp1_weight, f_data)
-            sheet.write(row, 7, wquality/(wproduct_weight + wshared_product_weight/2), f_data)
+            sheet.write(row, 7, wquality/(wproduct_weight + wshared_product_weight/2) if (wproduct_weight + wshared_product_weight/2) == 0 else 0, f_data)
             sheet.write(row, 8, wtotal_hours, f_data)
 
             wlot_name = obj.lot_name
@@ -785,12 +785,12 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
                 sheet.write(row, 17, obj.std_yield_sp1, f_data)
                 sheet.write(row, 18, obj.std_speed, f_data)
                 # formulation columns
-                sheet.write_formula(row, 9, '=D' + str(row + 1) + '/C' + str(row + 1), f_percent)  # - % Backs
-                sheet.write_formula(row, 10, '=E' + str(row + 1) + '/C' + str(row + 1), f_percent)  # - % Crumbs
-                sheet.write_formula(row, 11, '=(D' + str(row + 1) + '+E' + str(row + 1) + ')/C' + str(row + 1), f_percent) # - % Total Yield
+                sheet.write_formula(row, 9, '=IF(C' + str(row + 1) + '= 0, 0, D' + str(row + 1) + '/C' + str(row + 1) + ')', f_percent)  # - % Backs
+                sheet.write_formula(row, 10, '=IF(C' + str(row + 1) + '= 0, 0, E' + str(row + 1) + '/C' + str(row + 1) + ')', f_percent)  # - % Crumbs
+                sheet.write_formula(row, 11, '=IF(C' + str(row + 1) + '= 0, 0, (D' + str(row + 1) + '+E' + str(row + 1) + ')/C' + str(row + 1) + ')', f_percent) # - % Total Yield
                 sheet.write_formula(row, 12, '=(C' + str(row + 1) + '-D' + str(row + 1) + '-E' + str(row + 1),  f_data)  # - Weast
-                sheet.write_formula(row, 13, '=(M' + str(row + 1) + ')/C' + str(row + 1), f_percent)  # - % Weast
-                sheet.write_formula(row, 15, '=(I' + str(row + 1) + ' * 60)/C' + str(row + 1), f_data)  # - MO
+                sheet.write_formula(row, 13, '=IF(C' + str(row + 1) + '= 0, 0, (M' + str(row + 1) + ')/C' + str(row + 1) + ')', f_percent)  # - % Weast
+                sheet.write_formula(row, 15, '=IF(C' + str(row + 1) + '= 0, 0, (I' + str(row + 1) + ' * 60)/C' + str(row + 1) + ')', f_data)  # - MO
                 # Ind columns
                 sheet.write_formula(row, 19, '=IF(Q' + str(row + 1) + '= 0, 0, (J' + str(row + 1) + '/Q' + str(row + 1) + '/1,15) * 100)', f_data)  # - IND Backs
                 sheet.write_formula(row, 20, '=IF(S' + str(row + 1) + '= 0, 0, (P' + str(row + 1) + '/S' + str(row + 1) + '/1,15) * 100)', f_data)  # - IND MO
@@ -826,7 +826,7 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
             sheet.write(row, 5, wshared_gross_weight, f_data)
             sheet.write(row, 6, wshared_product_weight, f_data)
             sheet.write(row, 7, wshared_sp1_weight, f_data)
-            sheet.write(row, 8, wquality / (wproduct_weight + wshared_product_weight / 2), f_data)
+            sheet.write(row, 8, wquality/(wproduct_weight + wshared_product_weight/2) if (wproduct_weight + wshared_product_weight/2) == 0 else 0, f_data)
             sheet.write(row, 14, wtotal_hours, f_data)
 
             wlot_name = obj.lot_name
