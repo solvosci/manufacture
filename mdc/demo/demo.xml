@@ -1540,4 +1540,14 @@
             </record>
         </data>
 
+        <data>
+            <!-- This will create all the product variants for the current templates -->
+            <function name="create_variant_ids" model="product.template">
+                <function name="search" model="product.template">
+                    <value eval="[]"/>
+                </function>
+            </function>
+        </data>
+
+
 </odoo>
