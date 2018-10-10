@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import api, fields, models, exceptions
 
 
 class MdcConfigSettings(models.TransientModel):
@@ -27,8 +27,8 @@ class MdcConfigSettings(models.TransientModel):
     @api.multi
     def set_values(self):
         super(MdcConfigSettings, self).set_values()
-        if not self.user_has_groups('mdc.group_mdc_manager'):
-            return
+        if not self.user_has_groups('mdc.group_mdc_office_worker'):
+            raise exceptions.UserError(_('You are not allowed to change this values'))
         IrConfigParameter = self.env['ir.config_parameter'].sudo()
         IrConfigParameter.set_param('mdc.rfid_server_url', self.rfid_server_url)
         IrConfigParameter.set_param('mdc.rfid_server_user', self.rfid_server_user)

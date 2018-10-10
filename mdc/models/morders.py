@@ -474,12 +474,14 @@ class Worksheet(models.Model):
     @api.multi
     def update_employee_worksheets(self, employee_id, new_workstation_id, now):
         # Look for employee open worksheets, and close them
-        wsheet = self.search(
+        if not self.user_has_groups('mdc.group_mdc_office_worker'):
+            raise UserError(_('You are not allowed to change this values'))
+        wsheet = self.sudo().search(
             [('end_datetime', '=', False),
              ('employee_id', '=', employee_id)])
-        self.env['mdc.worksheet'].massive_close(wsheet, now)
+        self.sudo().massive_close(wsheet, now)
         # with new workstation create a new worksheet for this employee
-        self.create({
+        self.sudo().create({
             'start_datetime': now,
             'employee_id': employee_id,
             'workstation_id': new_workstation_id})
