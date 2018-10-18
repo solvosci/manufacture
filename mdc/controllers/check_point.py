@@ -52,12 +52,9 @@ class CheckPoint(http.Controller):
         scales = request.env['mdc.scale'].sudo().search([])
         return res % '</td></tr><tr><td>'.join(scales.mapped('name'))
 
-    # TODO improve parameters
-    def get_error_page(self, error_message):
-        return request.render(
-            'mdc.chkpoint_err',
-            {'error_message': error_message}
-        )
+    def get_error_page(self, data):
+        data['title'] = 'ERROR - MDC CP'
+        return request.render('mdc.chkpoint_err', data)
 
     @http.route('/mdc/cp/list', type='http', auth='none')
     def cp_list(self):
@@ -68,7 +65,8 @@ class CheckPoint(http.Controller):
                 {'chkpoints': chkpoints}
             )
         except Exception as e:
-            return self.get_error_page(e)
+            return self.get_error_page({
+                'error_message': e})
 
     @http.route("/mdc/cp/win/<int:chkpoint_id>", type='http', auth='none')
     def cp_win(self, chkpoint_id, **kwargs):
@@ -80,7 +78,8 @@ class CheckPoint(http.Controller):
                 {'title': chkpoints[0].name, 'chkpoints': chkpoints, 'ws_session_data': ws_session_data}
             )
         except Exception as e:
-            return self.get_error_page(e)
+            return self.get_error_page({
+                'error_message': e})
 
     @http.route("/mdc/cp/win/<int:chkpoint_id>/lotactive", type='json', auth='none')
     def cp_win_lotactive(self, chkpoint_id):
@@ -137,7 +136,8 @@ class CheckPoint(http.Controller):
                  }
             )
         except Exception as e:
-            return self.get_error_page(e)
+            return self.get_error_page({
+                'error_message': e})
 
     @http.route("/mdc/cp/wout/<int:chkpoint_id>/save", type='json', auth='none')
     def cp_wout_save(self, chkpoint_id):
@@ -176,7 +176,8 @@ class CheckPoint(http.Controller):
                  'ws_session_data': ws_session_data}
             )
         except Exception as e:
-            return self.get_error_page(e)
+            return self.get_error_page({
+                'error_message': e})
 
     @http.route('/mdc/cp/cardreg/save', type='json', auth='none')
     def cp_cardreg_save(self):
@@ -210,7 +211,8 @@ class CheckPoint(http.Controller):
                  'ws_session_data': ws_session_data}
             )
         except Exception as e:
-            return self.get_error_page(e)
+            return self.get_error_page({
+                'error_message': e})
 
     @http.route('/mdc/cp/cardlot/save', type='json', auth='none')
     def cp_cardlot_save(self):
