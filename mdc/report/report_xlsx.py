@@ -747,8 +747,8 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
         sheet.write('J' + header_row_str, _("% Backs"), f_header)
         sheet.write('K' + header_row_str, _("% Crumbs"), f_header)
         sheet.write('L' + header_row_str, _("% Total Yield"), f_header)
-        sheet.write('M' + header_row_str, _("Weast"), f_header)
-        sheet.write('N' + header_row_str, _("% Weast"), f_header)
+        sheet.write('M' + header_row_str, _("Waste"), f_header)
+        sheet.write('N' + header_row_str, _("% Waste"), f_header)
         sheet.write('O' + header_row_str, _("Time"), f_header)
         sheet.write('P' + header_row_str, _("MO"), f_header)
         sheet.write('Q' + header_row_str, _("STD Back"), f_header)
@@ -816,8 +816,8 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
                 sheet.write_formula(row, 9, '=IF(C' + str(row + 1) + '= 0, 0, D' + str(row + 1) + '/C' + str(row + 1) + ')', f_percent)  # - % Backs
                 sheet.write_formula(row, 10, '=IF(C' + str(row + 1) + '= 0, 0, E' + str(row + 1) + '/C' + str(row + 1) + ')', f_percent)  # - % Crumbs
                 sheet.write_formula(row, 11, '=IF(C' + str(row + 1) + '= 0, 0, (D' + str(row + 1) + '+E' + str(row + 1) + ')/C' + str(row + 1) + ')', f_percent) # - % Total Yield
-                sheet.write_formula(row, 12, '=(C' + str(row + 1) + '-D' + str(row + 1) + '-E' + str(row + 1),  f_data)  # - Weast
-                sheet.write_formula(row, 13, '=IF(C' + str(row + 1) + '= 0, 0, (M' + str(row + 1) + ')/C' + str(row + 1) + ')', f_percent)  # - % Weast
+                sheet.write_formula(row, 12, '=(C' + str(row + 1) + '-D' + str(row + 1) + '-E' + str(row + 1),  f_data)  # - Waste
+                sheet.write_formula(row, 13, '=IF(C' + str(row + 1) + '= 0, 0, (M' + str(row + 1) + ')/C' + str(row + 1) + ')', f_percent)  # - % Waste
                 sheet.write_formula(row, 15, '=IF(C' + str(row + 1) + '= 0, 0, (I' + str(row + 1) + ' * 60)/C' + str(row + 1) + ')', f_data)  # - MO
                 # Ind columns
                 sheet.write_formula(row, 19, '=IF(Q' + str(row + 1) + '= 0, 0, (J' + str(row + 1) + '/Q' + str(row + 1) + '/1,15) * 100)', f_data)  # - IND Backs
