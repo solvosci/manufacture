@@ -18,6 +18,22 @@ def formats():
                              'text_wrap': True,
                              'align': 'center',
                              'size': 12}
+    dic_formats["header_ind"] = {'bold': True,
+                             'font_color': '#004080',
+                             'bg_color': '#BBDDBB',
+                             'bottom': True,
+                             'top': True,
+                             'text_wrap': True,
+                             'align': 'center',
+                             'size': 12}
+    dic_formats["header_ind_old"] = {'bold': True,
+                             'font_color': '#004080',
+                             'bg_color': '#DDDDDD',
+                             'bottom': True,
+                             'top': True,
+                             'text_wrap': True,
+                             'align': 'center',
+                             'size': 12}
     dic_formats["footer"] = {'bold': True,
                              'font_color': '#003060',
                              'bg_color': '#CCCCCC',
@@ -50,6 +66,7 @@ class ReportRptTracingXlsx(models.AbstractModel):
         f_cells = formats()
         f_title = workbook.add_format(f_cells["title"])
         f_header = workbook.add_format(f_cells ["header"])
+        f_header_ind = workbook.add_format(f_cells["header_ind"])
         f_filter = workbook.add_format(f_cells["filter"])
         f_percent = workbook.add_format(f_cells ["percent"])
         f_data = workbook.add_format(f_cells ["data"])
@@ -100,11 +117,11 @@ class ReportRptTracingXlsx(models.AbstractModel):
         sheet.write('P' + header_row_str, _("STD Crumbs"), f_header)
         sheet.write('Q' + header_row_str, _("MO"), f_header)
         sheet.write('R' + header_row_str, _("STD MO"), f_header)
-        sheet.write('S' + header_row_str, _("IND Backs"), f_header)
-        sheet.write('T' + header_row_str, _("IND MO"), f_header)
-        sheet.write('U' + header_row_str, _("IND Crumbs"), f_header)
-        sheet.write('V' + header_row_str, _("IND Quality"), f_header)
-        sheet.write('W' + header_row_str, _("IND Cleaning"), f_header)
+        sheet.write('S' + header_row_str, _("IND Backs"), f_header_ind)
+        sheet.write('T' + header_row_str, _("IND MO"), f_header_ind)
+        sheet.write('U' + header_row_str, _("IND Crumbs"), f_header_ind)
+        sheet.write('V' + header_row_str, _("IND Quality"), f_header_ind)
+        sheet.write('W' + header_row_str, _("IND Cleaning"), f_header_ind)
         # -------------------------------------------------------
 
         # TODO alternate dict list with almost grouped data (still problems with product and date)
@@ -250,13 +267,15 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
         f_cells = formats()
         f_title = workbook.add_format(f_cells["title"])
         f_header = workbook.add_format(f_cells ["header"])
+        f_header_ind = workbook.add_format(f_cells["header_ind"])
+        f_header_ind_old = workbook.add_format(f_cells["header_ind_old"])
         f_filter = workbook.add_format(f_cells["filter"])
         f_percent = workbook.add_format(f_cells ["percent"])
         f_data = workbook.add_format(f_cells ["data"])
         f_footer = workbook.add_format(f_cells["footer"])
 
         # Set columns widths
-        sheet.set_column('A:W', 13)
+        sheet.set_column('A:AD', 13)
         sheet.set_column('C:C', 32) # Employee name
 
         # write logo
@@ -303,13 +322,16 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
         sheet.write('R' + header_row_str, _("STD Crumbs"), f_header)
         sheet.write('S' + header_row_str, _("MO"), f_header)
         sheet.write('T' + header_row_str, _("STD MO"), f_header)
-        sheet.write('U' + header_row_str, _("IND Backs"), f_header)
-        sheet.write('V' + header_row_str, _("IND MO"), f_header)
-        sheet.write('W' + header_row_str, _("IND Crumbs"), f_header)
-        sheet.write('X' + header_row_str, _("IND Quality"), f_header)
-        sheet.write('Y' + header_row_str, _("IND Cleaning"), f_header)
+        sheet.write('U' + header_row_str, _("IND Backs"), f_header_ind)
+        sheet.write('V' + header_row_str, _("IND MO"), f_header_ind)
+        sheet.write('W' + header_row_str, _("IND Crumbs"), f_header_ind)
+        sheet.write('X' + header_row_str, _("IND Quality"), f_header_ind)
+        sheet.write('Y' + header_row_str, _("IND Cleaning"), f_header_ind)
         sheet.write('Z' + header_row_str, _("Box Backs"), f_header)
         sheet.write('AA' + header_row_str, _("Box Crumbs"), f_header)
+        sheet.write('AB' + header_row_str, _("MO"), f_header_ind_old)
+        sheet.write('AC' + header_row_str, _("IND MO"), f_header_ind_old)
+        sheet.write('AD' + header_row_str, _("IND Cleaning"), f_header_ind_old)
         # -------------------------------------------------------
 
         # TODO alternate dict list with almost grouped data (still problems with product and date)
@@ -387,6 +409,10 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
                 sheet.write_formula(row, 22, '=IF(P' + str(row + 1) + '= 0, 0, (R' + str(row + 1) + '/P' + str(row + 1) + '/1,15) * 100)', f_data) # - IND Crumbs
                 sheet.write_formula(row, 23, '=L' + str(row + 1), f_data) # - IND Quality
                 sheet.write_formula(row, 24, '0,6 * U' + str(row + 1) + ' + 0,3 * V' + str(row + 1) + ' + 0,1 * X' + str(row + 1), f_data) # - IND Cleaning
+                # Ind Old Columns
+                sheet.write_formula(row, 27, 'S' + str(row + 1) + '*' + str(obj.coef_weight_lot), f_data)  # - MO
+                sheet.write_formula(row, 28, '=IF(T' + str(row + 1) + '= 0, 0, (AB' + str(row + 1) + '/T' + str(row + 1) + '/1,15) * 100)', f_data)  # - IND MO
+                sheet.write_formula(row, 29, '0,6 * U' + str(row + 1) + ' + 0,3 * AC' + str(row + 1) + ' + 0,1 * X' + str(row + 1), f_data)  # - IND Cleaning
 
                 wgross_weight = 0
                 wproduct_weight = 0
@@ -430,7 +456,7 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
             wworkstation_name = obj.workstation_name
 
             # Final Footer Row ------------------------------------------
-            for numcol in range (0, 26):
+            for numcol in range (0, 30):
                 sheet.write(row + 1, numcol, '' ,f_footer)
             sheet.write_formula(row + 1, 5, '=SUM(F' + str(header_row + 1) + ':F' + str(row + 1) + ')', f_footer)
             sheet.write_formula(row + 1, 6, '=SUM(G' + str(header_row + 1) + ':G' + str(row + 1) + ')', f_footer)
@@ -476,6 +502,7 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
         f_cells = formats()
         f_title = workbook.add_format(f_cells["title"])
         f_header = workbook.add_format(f_cells ["header"])
+        f_header_ind = workbook.add_format(f_cells["header_ind"])
         f_filter = workbook.add_format(f_cells["filter"])
         f_percent = workbook.add_format(f_cells ["percent"])
         f_data = workbook.add_format(f_cells ["data"])
@@ -526,11 +553,11 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
         sheet.write('M' + header_row_str, _("STD Crumbs"), f_header)
         sheet.write('N' + header_row_str, _("MO"), f_header)
         sheet.write('O' + header_row_str, _("STD MO"), f_header)
-        sheet.write('P' + header_row_str, _("IND Backs"), f_header)
-        sheet.write('Q' + header_row_str, _("IND MO"), f_header)
-        sheet.write('R' + header_row_str, _("IND Crumbs"), f_header)
-        sheet.write('S' + header_row_str, _("IND Quality"), f_header)
-        sheet.write('T' + header_row_str, _("IND Cleaning"), f_header)
+        sheet.write('P' + header_row_str, _("IND Backs"), f_header_ind)
+        sheet.write('Q' + header_row_str, _("IND MO"), f_header_ind)
+        sheet.write('R' + header_row_str, _("IND Crumbs"), f_header_ind)
+        sheet.write('S' + header_row_str, _("IND Quality"), f_header_ind)
+        sheet.write('T' + header_row_str, _("IND Cleaning"), f_header_ind)
         # -------------------------------------------------------
 
         # TODO alternate dict list with almost grouped data (still problems with product and date)
@@ -673,6 +700,7 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
         f_cells = formats()
         f_title = workbook.add_format(f_cells["title"])
         f_header = workbook.add_format(f_cells ["header"])
+        f_header_ind = workbook.add_format(f_cells["header_ind"])
         f_filter = workbook.add_format(f_cells["filter"])
         f_percent = workbook.add_format(f_cells ["percent"])
         f_data = workbook.add_format(f_cells ["data"])
@@ -726,11 +754,11 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
         sheet.write('Q' + header_row_str, _("STD Back"), f_header)
         sheet.write('R' + header_row_str, _("STD Crumbs"), f_header)
         sheet.write('S' + header_row_str, _("STD MO"), f_header)
-        sheet.write('T' + header_row_str, _("IND Backs"), f_header)
-        sheet.write('U' + header_row_str, _("IND MO"), f_header)
-        sheet.write('V' + header_row_str, _("IND Crumbs"), f_header)
-        sheet.write('W' + header_row_str, _("IND Quality"), f_header)
-        sheet.write('X' + header_row_str, _("IND Cleaning"), f_header)
+        sheet.write('T' + header_row_str, _("IND Backs"), f_header_ind)
+        sheet.write('U' + header_row_str, _("IND MO"), f_header_ind)
+        sheet.write('V' + header_row_str, _("IND Crumbs"), f_header_ind)
+        sheet.write('W' + header_row_str, _("IND Quality"), f_header_ind)
+        sheet.write('X' + header_row_str, _("IND Cleaning"), f_header_ind)
         # -------------------------------------------------------
 
         # TODO alternate dict list with almost grouped data (still problems with product and date)

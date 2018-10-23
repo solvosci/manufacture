@@ -126,6 +126,8 @@ class RptManufacturing(models.Model):
     std_yield_product = fields.Float('Std Yield Product')
     std_speed = fields.Float('Std Speed')
     std_yield_sp1 = fields.Float('Std Yield Subproduct 1')
+    weight_std_lot = fields.Float('Std Weight Lot')
+    coef_weight_lot = fields.Float('Coef Weight Lot')
     ind_backs = fields.Float('IND Backs', readonly=True, group_operator='avg')
     ind_mo = fields.Float('IND MO', readonly=True, group_operator='avg')
     ind_crumbs = fields.Float('IND Crumbs', readonly=True, group_operator='avg')
@@ -145,7 +147,9 @@ class RptManufacturing(models.Model):
                     wst.name as workstation_name, 
                     woutdata.product_boxes, woutdata.sp1_boxes, 
                     lotemp.total_hours, 
-                    lot.std_yield_product, lot.std_speed, lot.std_yield_sp1, 
+                    lot.std_yield_product, lot.std_speed, lot.std_yield_sp1,
+                    lot.weight*(1-coalesce(lot.std_loss,0)/100) as weight_std_lot,
+                    case when coalesce(lot.total_gross_weight,0) = 0 then 1 else lot.weight*(1-coalesce(lot.std_loss,0)/100)/lot.total_gross_weight end as coef_weight_lot,
                     case when coalesce(lot.std_yield_product,0) = 0 then 0 else (woutdata.product_weight / woutdata.gross_weight) / lot.std_yield_product/ 1.15 end as ind_backs,
                     case when coalesce(lot.std_speed,0) = 0 then 0 else (lotemp.total_hours * 60 / woutdata.gross_weight) / lot.std_speed / 1.15 end as ind_mo,
                     case when coalesce(woutdata.sp1_weight,0) =0 then 0 else lot.std_yield_sp1 / (woutdata.sp1_weight / woutdata.gross_weight) / 1.15 end as ind_crumbs,
