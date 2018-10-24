@@ -84,7 +84,7 @@ data_win_save = function (data) {
             show_info('ERROR: ' + data.result.err, 'err');
         }
         else {
-            show_info('Data successfully saved', 'ok');
+            show_info($('#t_chkpoint_win_save_ok').html(), 'ok');
             $('#lot').html(data.result.lotactive)
             // $('#last_card_read').val(data.result.card_code).addClass('success');
             $('#last_weight').val(data.result.weight + ' ' + data.result.w_uom).addClass('success');

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-23 15:20+0000\n"
-"PO-Revision-Date: 2018-10-23 15:20+0000\n"
+"POT-Creation-Date: 2018-10-24 07:56+0000\n"
+"PO-Revision-Date: 2018-10-24 07:56+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -73,6 +73,21 @@ msgid "-1.8"
 msgstr "-1.8"
 
 #. module: mdc
+#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V2
+msgid "03-jun"
+msgstr "03-jun"
+
+#. module: mdc
+#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V6
+msgid "05-oct"
+msgstr "05-oct"
+
+#. module: mdc
+#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V3
+msgid "06-oct"
+msgstr "06-oct"
+
+#. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V8
 msgid "1.8/3.4"
 msgstr "1.8/3.4"
@@ -124,7 +139,10 @@ msgid "<span id=\"t_chkpoint_wout_jc_description\">Joker card</span>\n"
 "            <span id=\"t_chkpoint_wout_input_jc_added\">Added product/joker card Card #{0}</span>\n"
 "            <span id=\"t_chkpoint_wout_workstation_input_expected_err\">Card #{0} not valid. Product card is expected</span>\n"
 "            <span id=\"t_chkpoint_wout_workstation_no_workstation_err\">Card #{0} not valid, there is no workstation associated!</span>\n"
-"            <span id=\"t_chkpoint_wout_invalid_card_err\">Card #{0} not valid</span>"
+"            <span id=\"t_chkpoint_wout_invalid_card_err\">Card #{0} not valid</span>\n"
+"            <span id=\"t_chkpoint_wout_save_ok\">Weight saved successfully</span>\n"
+"            <span id=\"t_chkpoint_wout_save_err\">ERROR saving data: {0}</span>\n"
+"            <span id=\"t_chkpoint_wout_save_err_unknown\">ERROR saving data (unknown)</span>"
 msgstr "<span id=\"t_chkpoint_wout_jc_description\">Tarjeta Comodín</span>\n"
 "            <span id=\"t_chkpoint_wout_input_workstation_expected_err\">Tarjeta #{0} no válida. Se espera tarjeta de puesto</span>\n"
 "            <span id=\"t_chkpoint_wout_input_repeated_err\">Tarjeta #{0} ya fue leída!</span>\n"
@@ -135,7 +153,10 @@ msgstr "<span id=\"t_chkpoint_wout_jc_description\">Tarjeta Comodín</span>\n"
 "            <span id=\"t_chkpoint_wout_input_jc_added\">Tarjeta de producto/comodín añadida. Tarjeta #{0}</span>\n"
 "            <span id=\"t_chkpoint_wout_workstation_input_expected_err\">Tarjeta #{0} no válida. Se espera tarjeta de producto</span>\n"
 "            <span id=\"t_chkpoint_wout_workstation_no_workstation_err\">Tarjeta #{0} no válida, no existe puesto asociado!</span>\n"
-"            <span id=\"t_chkpoint_wout_invalid_card_err\">Tarjeta #{0} no válida</span>"
+"            <span id=\"t_chkpoint_wout_invalid_card_err\">Tarjeta #{0} no válida</span>\n"
+"            <span id=\"t_chkpoint_wout_save_ok\">Peso grabado con éxito</span>\n"
+"            <span id=\"t_chkpoint_wout_save_err\">ERROR grabando datos: {0}</span>\n"
+"            <span id=\"t_chkpoint_wout_save_err_unknown\">ERROR grabando datos (desconocido)</span>"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.chkpoint_rfid_base
@@ -680,7 +701,7 @@ msgstr "Coef Peso Lote"
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_color
 msgid "Color Index"
-msgstr "Índice de color"
+msgstr "Índice de Colores"
 
 #. module: mdc
 #: code:addons/mdc/models/structure.py:58
@@ -1232,7 +1253,7 @@ msgstr "Peso bruto"
 #: model:ir.ui.view,arch_db:mdc.mdc_worksheets_search
 #: model:ir.ui.view,arch_db:mdc.mdc_workstations_search
 msgid "Group By"
-msgstr "Agrupar por"
+msgstr "Agrupar Por"
 
 #. module: mdc
 #: model:ir.ui.menu,name:mdc.mdc_historical_lot_active_menu
@@ -1596,7 +1617,7 @@ msgstr "Última actualización de"
 #: model:ir.model.fields,field_description:mdc.field_mdc_workstation_write_date
 #: model:ir.model.fields,field_description:mdc.field_mdc_wout_categ_write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Última actualización el"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.mdc_card_lot_assign_tree
@@ -2572,7 +2593,7 @@ msgstr "Horario del turno"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:243
-#: code:addons/mdc/report/+report_xlsx.py:478
+#: code:addons/mdc/report/report_xlsx.py:478
 #: code:addons/mdc/report/report_xlsx.py:676
 #, python-format
 msgid "Shift: %s"
@@ -3353,11 +3374,6 @@ msgstr "report.mdc.rpt_indicators"
 #: model:ir.model,name:mdc.model_report_mdc_rpt_manufacturing
 msgid "report.mdc.rpt_manufacturing"
 msgstr "report.mdc.rpt_manufacturing"
-
-#. module: mdc
-#: model:ir.model,name:mdc.model_report_mdc_rpt_manufacturingt
-msgid "report.mdc.rpt_manufacturingt"
-msgstr "report.mdc.rpt_manufacturingt"
 
 #. module: mdc
 #: model:ir.model,name:mdc.model_report_mdc_rpt_tracing

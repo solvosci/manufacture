@@ -179,7 +179,7 @@ var WoutState = /*(*/function () {
             try {
                 console.log(data.result);
                 if ( data.result.err ) {
-                    throw new Error('ERROR saving data: ' + data.result.err);
+                    throw new Error($('#t_chkpoint_wout_save_err').html().format(data.result.err));
                 }
                 else {
                     displayUpdate(data.result);
@@ -192,7 +192,7 @@ var WoutState = /*(*/function () {
                 reset();
             }
         }).fail(function () {
-            info('ERROR saving data (unknown)', 'err');
+            info($('#t_chkpoint_wout_save_err_unknown').html(), 'err');
             reset();
         });
 
@@ -201,7 +201,7 @@ var WoutState = /*(*/function () {
     var displayUpdate = function (data) {
         $('#last_weight').val(data.weight + ' ' + data.w_uom);
         $('#card_in_1,#card_in_2,#card_workstation,#last_weight,#last_quality').addClass('success');
-        info('Weight saved successfully', 'ok')
+        info($('#t_chkpoint_wout_save_ok').html(), 'ok')
         window.setTimeout(function () {
                 $('#card_in_1,#card_in_2,#card_workstation,#last_weight,#last_quality').removeClass('success');
             },

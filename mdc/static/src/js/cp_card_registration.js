@@ -40,12 +40,15 @@ card_register_click = function () {
 
     try {
         if ( !$('#device_select').val() ) {
+            // TODO translate
             throw new Error('there is no device selected');
         }
         if ( !$('#card_categ_select').val() ) {
+            // TODO translate
             throw new Error('there is no card category selected');
         }
         if ( !$('#card_read_input').val() ) {
+            // TODO translate
             throw new Error('first slide a card');
         }
 
@@ -56,6 +59,7 @@ card_register_click = function () {
             'workstation_id': parseInt($('#workstation_select').val(), 10)
         }
 
+        // TODO translate
         $('#info_div')
             .removeClass('info_div_err').addClass('info_div_ok')
             .html('Registering card... ');
@@ -70,14 +74,17 @@ card_register_click = function () {
                 show_info('ERROR ' + data.result.err, 'err');
             }
             else {
+                // TODO translate
                 show_info('Card #' + $('#card_read_input').val() +
                         ' successfully registered with id ' + data.result.card_id, 'ok');
             }
         }).fail(function () {
+            // TODO translate
             show_info('ERROR registering card (unknown)', 'err');
         });
     }
     catch (e) {
+        // TODO translate?
         show_info('ERROR: ' + e.message, 'err');
     }
 

@@ -150,6 +150,9 @@
             <span id="t_chkpoint_wout_workstation_input_expected_err">Card #{0} not valid. Product card is expected</span>
             <span id="t_chkpoint_wout_workstation_no_workstation_err">Card #{0} not valid, there is no workstation associated!</span>
             <span id="t_chkpoint_wout_invalid_card_err">Card #{0} not valid</span>
+            <span id="t_chkpoint_wout_save_ok">Weight saved successfully</span>
+            <span id="t_chkpoint_wout_save_err">ERROR saving data: {0}</span>
+            <span id="t_chkpoint_wout_save_err_unknown">ERROR saving data (unknown)</span>
         </xpath>
         <xpath expr="//div[@id='content']" position="inside">
             <div class="divTable">
