@@ -118,8 +118,8 @@ class Lot(models.Model):
         if not lotPart1.isnumeric() or len(lotPart1) > 5:
             raise UserError(_('Lot Format is not right. The right format is NNNNN/AA (NNNNN=number)'))
         if lotPart2 != currYear2:
-            raise UserError(_('Lot Format is not right. The right format is NNNNN/AA (AA=current year) %s != %s'
-                              % (lotPart2, currYear2)))
+            raise UserError(_('Lot Format is not right. The right format is NNNNN/AA (AA=current year) %s != %s')
+                              % (lotPart2, currYear2))
 
         return lotPart1.zfill(5)+'/'+lotPart2
 
