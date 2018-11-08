@@ -162,11 +162,12 @@ class Workstation(models.Model):
         domain=[('workstation_id', '=', False)])
 
     def massive_deallocate(self):
-        workstation_sel = self.env['mdc.workstation'].browse(self._context['active_ids'])
+        workstation_sel = self.browse(self._context['active_ids'])
         if workstation_sel:
-            workstation_sel.write({
-                'current_employee_id': False
-            })
+            for wk in workstation_sel:
+                wk.write({
+                    'current_employee_id': False
+                })
 
     @api.model
     def get_wosrkstation_data_by_employee(self, employee_id):
