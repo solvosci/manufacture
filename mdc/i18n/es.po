@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-24 07:56+0000\n"
-"PO-Revision-Date: 2018-10-24 07:56+0000\n"
+"POT-Creation-Date: 2018-11-11 08:57+0000\n"
+"PO-Revision-Date: 2018-11-11 08:57+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -74,18 +74,18 @@ msgstr "-1.8"
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V2
-msgid "03-jun"
-msgstr "03-jun"
+msgid "03/06"
+msgstr "03/06"
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V6
-msgid "05-oct"
-msgstr "05-oct"
+msgid "05/10"
+msgstr "05/10"
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V3
-msgid "06-oct"
-msgstr "06-oct"
+msgid "06/10"
+msgstr "06/10"
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V8
@@ -153,10 +153,7 @@ msgstr "<span id=\"t_chkpoint_wout_jc_description\">Tarjeta Comodín</span>\n"
 "            <span id=\"t_chkpoint_wout_input_jc_added\">Tarjeta de producto/comodín añadida. Tarjeta #{0}</span>\n"
 "            <span id=\"t_chkpoint_wout_workstation_input_expected_err\">Tarjeta #{0} no válida. Se espera tarjeta de producto</span>\n"
 "            <span id=\"t_chkpoint_wout_workstation_no_workstation_err\">Tarjeta #{0} no válida, no existe puesto asociado!</span>\n"
-"            <span id=\"t_chkpoint_wout_invalid_card_err\">Tarjeta #{0} no válida</span>\n"
-"            <span id=\"t_chkpoint_wout_save_ok\">Peso grabado con éxito</span>\n"
-"            <span id=\"t_chkpoint_wout_save_err\">ERROR grabando datos: {0}</span>\n"
-"            <span id=\"t_chkpoint_wout_save_err_unknown\">ERROR grabando datos (desconocido)</span>"
+"            <span id=\"t_chkpoint_wout_invalid_card_err\">Tarjeta #{0} no válida</span>"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.chkpoint_rfid_base
@@ -273,10 +270,14 @@ msgid "BACORETA"
 msgstr "BACORETA"
 
 #. module: mdc
-#: model:product.template,name:mdc.mdc_product_template_P19
 #: model:product.template,name:mdc.mdc_product_template_P4
 msgid "BIG EYE"
 msgstr "BIG EYE"
+
+#. module: mdc
+#: model:product.template,name:mdc.mdc_product_template_P19
+msgid "BIG EYE (OBESUS)"
+msgstr "BIG EYE (OBESUS)"
 
 #. module: mdc
 #: model:product.template,name:mdc.mdc_product_template_P1
@@ -468,21 +469,21 @@ msgid "Card #%s comes from a different lot (current: %s)"
 msgstr "La Tarjeta #%s procede de diferente lote (actual: %s)"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:338
+#: code:addons/mdc/models/structure.py:339
 #, python-format
 msgid "Card #%s is not a joker card!"
 msgstr "La Tarjeta #%s no es una tarjeta comodín!"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:523
+#: code:addons/mdc/models/morders.py:525
 #, python-format
 msgid "Card #%s is not an employee one"
 msgstr "La Tarjeta #%s no es de empleado"
 
 #. module: mdc
 #: code:addons/mdc/models/chkpointdata.py:108
-#: code:addons/mdc/models/structure.py:295
-#: code:addons/mdc/models/structure.py:336
+#: code:addons/mdc/models/structure.py:296
+#: code:addons/mdc/models/structure.py:337
 #, python-format
 msgid "Card #%s not found"
 msgstr "Tarjeta #%s no encontrada"
@@ -505,7 +506,7 @@ msgid "Card Assignment"
 msgstr "Asignación de tarjetas"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:390
+#: code:addons/mdc/models/structure.py:391
 #: sql_constraint:mdc.card_categ:0
 #, python-format
 msgid "Card Categ Code has been already assigned to a Card Categ!"
@@ -542,10 +543,10 @@ msgstr "Tipo de tarjeta"
 #: model:ir.ui.view,arch_db:mdc.mdc_card_lot_assign_tree
 #, python-format
 msgid "Card lot assignment"
-msgstr "Asignación de tarjeta de lote"
+msgstr "Tarjetas Comodín-lote"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:322
+#: code:addons/mdc/models/structure.py:323
 #, python-format
 msgid "Card not valid (#%s)"
 msgstr "Tarjeta no válida (#%s)"
@@ -701,7 +702,7 @@ msgstr "Coef Peso Lote"
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_color
 msgid "Color Index"
-msgstr "Índice de Colores"
+msgstr "Índice de color"
 
 #. module: mdc
 #: code:addons/mdc/models/structure.py:58
@@ -743,7 +744,7 @@ msgstr "Tipo de contrato"
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_standard_price
 msgid "Cost"
-msgstr "Coste"
+msgstr "Precio de coste"
 
 #. module: mdc
 #: model:ir.model.fields,help:mdc.field_mdc_std_standard_price
@@ -1027,7 +1028,7 @@ msgid "Device Code"
 msgstr "Código de dispositivo"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:472
+#: code:addons/mdc/models/structure.py:473
 #: sql_constraint:mdc.rfid_reader:0
 #, python-format
 msgid "Device_Code has been already assigned to a Device!"
@@ -1154,9 +1155,9 @@ msgid "End Datetime"
 msgstr "Hora final"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:140
-#: code:addons/mdc/models/morders.py:230
-#: code:addons/mdc/models/morders.py:375
+#: code:addons/mdc/models/morders.py:142
+#: code:addons/mdc/models/morders.py:232
+#: code:addons/mdc/models/morders.py:377
 #, python-format
 msgid "End date must be older than start date"
 msgstr "Fecha Fin debe ser posterior a Fecha Inicio"
@@ -1253,7 +1254,7 @@ msgstr "Peso bruto"
 #: model:ir.ui.view,arch_db:mdc.mdc_worksheets_search
 #: model:ir.ui.view,arch_db:mdc.mdc_workstations_search
 msgid "Group By"
-msgstr "Agrupar Por"
+msgstr "Agrupar por"
 
 #. module: mdc
 #: model:ir.ui.menu,name:mdc.mdc_historical_lot_active_menu
@@ -1296,7 +1297,7 @@ msgstr "Raíz"
 #: model:ir.model.fields,field_description:mdc.field_report_mdc_rpt_manufacturing_id
 #: model:ir.model.fields,field_description:mdc.field_report_mdc_rpt_tracing_id
 msgid "ID"
-msgstr "ID (identificación)"
+msgstr "ID"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:120
@@ -1440,7 +1441,7 @@ msgid "Indicators Report"
 msgstr "Informe de Indicadores"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:181
+#: code:addons/mdc/models/morders.py:183
 #: code:addons/mdc/models/structure.py:16
 #, python-format
 msgid "Input"
@@ -1503,15 +1504,15 @@ msgid "Is operator"
 msgstr "Es operario"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:430
-#: code:addons/mdc/models/morders.py:464
+#: code:addons/mdc/models/morders.py:432
+#: code:addons/mdc/models/morders.py:466
 #, python-format
 msgid "It can´t be end datetime less than start date to employee %s"
 msgstr "No es posible fecha-hora final menor que fecha-hora inicial para el empleado %s"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:423
-#: code:addons/mdc/models/morders.py:460
+#: code:addons/mdc/models/morders.py:425
+#: code:addons/mdc/models/morders.py:462
 #, python-format
 msgid "It can´t be start datetime less than last end datetime to employee %s"
 msgstr "No es posible fecha-hora inicial menor que última fecha-hora final para el empleado %s"
@@ -1617,7 +1618,7 @@ msgstr "Última actualización de"
 #: model:ir.model.fields,field_description:mdc.field_mdc_workstation_write_date
 #: model:ir.model.fields,field_description:mdc.field_mdc_wout_categ_write_date
 msgid "Last Updated on"
-msgstr "Última actualización el"
+msgstr "Última actualización en"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.mdc_card_lot_assign_tree
@@ -1727,6 +1728,7 @@ msgstr "Ubicación"
 #: model:ir.model.fields,field_description:mdc.field_mdc_data_win_lot_id
 #: model:ir.model.fields,field_description:mdc.field_mdc_data_wout_lot_id
 #: model:ir.model.fields,field_description:mdc.field_mdc_lot_active_lot_id
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_lot_code
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_lot_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_lot_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_lot_name
@@ -1750,13 +1752,13 @@ msgid "Lot Activation"
 msgstr "Activción de lotes"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:122
+#: code:addons/mdc/models/morders.py:123
 #, python-format
 msgid "Lot Format is not right. The right format is NNNNN/AA (AA=current year) %s != %s"
 msgstr "Formato de lote no correcto. El formato correcto es NNNNN/AA (AA=año actual) %s != %s"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:119
+#: code:addons/mdc/models/morders.py:121
 #, python-format
 msgid "Lot Format is not right. The right format is NNNNN/AA (NNNNN=number)"
 msgstr "Formato de lote no correcto. El formato correcto es NNNNN/AA (NNNNN=número)"
@@ -1768,6 +1770,11 @@ msgstr "Formato de lote no correcto. El formato correcto es NNNNN/AA (NNNNN=núm
 #: model:ir.ui.view,arch_db:mdc.mdc_rpt_tracing_search
 msgid "Lot Name"
 msgstr "Nombre del lote"
+
+#. module: mdc
+#: model:ir.ui.view,arch_db:mdc.mdc_lots_form
+msgid "Lot Notes"
+msgstr "Anotaciones"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.mdc_lots_form
@@ -1935,7 +1942,7 @@ msgid "Minimum Stock Rules"
 msgstr "Reglas de stock mínimo"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:241
+#: code:addons/mdc/models/structure.py:242
 #, python-format
 msgid "Modifying card category is not allowed. Please contact Administrator"
 msgstr "No está permitido modificar el Tipo de tarjeta. Por favor, contacte con el administrador"
@@ -1944,20 +1951,18 @@ msgstr "No está permitido modificar el Tipo de tarjeta. Por favor, contacte con
 #: model:ir.model.fields,field_description:mdc.field_mdc_card_categ_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_chkpoint_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_line_name
-#: model:ir.model.fields,field_description:mdc.field_mdc_lot_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_quality_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_rfid_reader_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_scale_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_shift_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_tare_name
-#: model:ir.model.fields,field_description:mdc.field_mdc_workstation_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_wout_categ_name
 msgid "Name"
 msgstr "Nombre"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:478
+#: code:addons/mdc/models/structure.py:479
 #, python-format
 msgid "New RFID device"
 msgstr "Nuevo dispositivo RFID"
@@ -2009,9 +2014,19 @@ msgid "Number of unread messages"
 msgstr "Número de mensajes no leidos"
 
 #. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_name
+msgid "OF"
+msgstr "OF"
+
+#. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_lot_descrip
-msgid "Observation"
-msgstr "Observación"
+msgid "Observations"
+msgstr "Observaciones"
+
+#. module: mdc
+#: model:ir.ui.view,arch_db:mdc.mdc_lots_form
+msgid "Observations..."
+msgstr "Anote aquí sus Observaciones..."
 
 #. module: mdc
 #: code:addons/mdc/models/chkpointdata.py:345
@@ -2061,7 +2076,7 @@ msgid "Outgoing"
 msgstr "Saliente"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:182
+#: code:addons/mdc/models/morders.py:184
 #: code:addons/mdc/models/structure.py:17
 #, python-format
 msgid "Output"
@@ -2600,7 +2615,7 @@ msgid "Shift: %s"
 msgstr "Turno: %s"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:358
+#: code:addons/mdc/models/structure.py:359
 #: sql_constraint:mdc.shift:0
 #, python-format
 msgid "Shift_Code has been already assigned to a Shift!"
@@ -2753,7 +2768,7 @@ msgstr "Movimiento de Stock"
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_stock_quant_ids
 msgid "Stock Quant"
-msgstr "Cantidad almacenada"
+msgstr "Stock Quant"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:94
@@ -2840,7 +2855,7 @@ msgid "The selected lot name already exists"
 msgstr "El nombre de lote seleccionado ya existe"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:426
+#: code:addons/mdc/models/morders.py:428
 #, python-format
 msgid "The start date has to be filled"
 msgstr "Debe rellenar la Fecha de Inicio"
@@ -2869,7 +2884,7 @@ msgid "There's already a workstation with the same line, shift and seat values"
 msgstr "Ya existe un puesto con los mismos calores de: línea, turno y asiento"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:204
+#: code:addons/mdc/models/structure.py:205
 #: sql_constraint:mdc.card:0
 #, python-format
 msgid "There's another card with the same code"
@@ -3015,7 +3030,7 @@ msgid "Unknown card #%s"
 msgstr "Tarjeta desconocida #%s"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:525
+#: code:addons/mdc/models/morders.py:527
 #, python-format
 msgid "Unknown card code #%s"
 msgstr "Código de tarjeta desconocido #%s"
@@ -3224,6 +3239,7 @@ msgstr "Fichajes"
 #: model:ir.model.fields,field_description:mdc.field_mdc_card_workstation_id
 #: model:ir.model.fields,field_description:mdc.field_mdc_data_wout_workstation_id
 #: model:ir.model.fields,field_description:mdc.field_mdc_worksheet_workstation_id
+#: model:ir.model.fields,field_description:mdc.field_mdc_workstation_name
 #: model:ir.ui.view,arch_db:mdc.chkpoint_card_registration
 #: model:ir.ui.view,arch_db:mdc.chkpoint_wout
 #: model:ir.ui.view,arch_db:mdc.mdc_workstations_form
@@ -3249,7 +3265,7 @@ msgid "Workstations"
 msgstr "Puestos"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:411
+#: code:addons/mdc/models/structure.py:412
 #: sql_constraint:mdc.wout_categ:0
 #, python-format
 msgid "Wout Categ Code has been already assigned to a Wout Categ!"
@@ -3267,7 +3283,7 @@ msgstr "YELOWFIN COLAS "
 
 #. module: mdc
 #: code:addons/mdc/models/mdc_config_settings.py:31
-#: code:addons/mdc/models/morders.py:478
+#: code:addons/mdc/models/morders.py:480
 #, python-format
 msgid "You are not allowed to change this values"
 msgstr "No tiene permiso para cambiar este valor"
@@ -3298,13 +3314,13 @@ msgid "You can register and track weighing scales."
 msgstr "Puede registrar y testear básculas."
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:454
+#: code:addons/mdc/models/morders.py:456
 #, python-format
 msgid "You can´t change employee form a datasheet."
 msgstr "No puede cambiar el empleado desde un fichaje."
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:457
+#: code:addons/mdc/models/morders.py:459
 #, python-format
 msgid "You can´t change start_datetime form a datasheet."
 msgstr "No puede cambiar la fecha-hora de inicio desde un fichaje."
@@ -3316,31 +3332,31 @@ msgid "You must provide a workstation card"
 msgstr "Debe proporcionar una tarjeta de puesto"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:254
+#: code:addons/mdc/models/structure.py:255
 #, python-format
 msgid "You must select a lot for this card"
 msgstr "Debe seleccionar un lote para esta tarjeta"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:249
+#: code:addons/mdc/models/structure.py:250
 #, python-format
 msgid "You must select a workstation for this card"
 msgstr "Debe seleccionar un puesto para esta tarjeta"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:270
+#: code:addons/mdc/models/structure.py:271
 #, python-format
 msgid "You must select a workstation for this card or select another category"
 msgstr "Debe seleccionar un puesto para esta tarjeta o elegir otro tipo"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:244
+#: code:addons/mdc/models/structure.py:245
 #, python-format
 msgid "You must select an employee for this card"
 msgstr "Debe seleccionar un operario para esta tarjeta"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:265
+#: code:addons/mdc/models/structure.py:266
 #, python-format
 msgid "You must select an employee for this card or select another category"
 msgstr "Debe seleccionar un operario para esta tarjeta o elegir otro tipo"
@@ -3374,6 +3390,11 @@ msgstr "report.mdc.rpt_indicators"
 #: model:ir.model,name:mdc.model_report_mdc_rpt_manufacturing
 msgid "report.mdc.rpt_manufacturing"
 msgstr "report.mdc.rpt_manufacturing"
+
+#. module: mdc
+#: model:ir.model,name:mdc.model_report_mdc_rpt_manufacturingt
+msgid "report.mdc.rpt_manufacturingt"
+msgstr "report.mdc.rpt_manufacturingt"
 
 #. module: mdc
 #: model:ir.model,name:mdc.model_report_mdc_rpt_tracing

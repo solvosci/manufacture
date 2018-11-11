@@ -141,7 +141,7 @@ class Workstation(models.Model):
     ]
 
     name = fields.Char(
-        'Name',
+        'Workstation',
         required=True)
     line_id = fields.Many2one(
         'mdc.line',

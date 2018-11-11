@@ -35,6 +35,7 @@
             <search string="Lot">
                 <field name="name"/>
                 <field name="product_id"/>
+                <field name="lot_code"/>
                 <field name="partner_id"/>
                 <field name="descrip"/>
                 <filter string="In force" name="inforce"
@@ -57,6 +58,7 @@
                 <field name="product_id"/>
                 <field name="weight"/>
                 <field name="w_uom_id"/>
+                <field name="lot_code"/>
                 <field name="partner_id"/>
                 <field name="start_date"/>
                 <field name="end_date"/>
@@ -83,6 +85,7 @@
                     <group name="gr_lot_main_data" string="Lot parameters">
                         <group>
                             <field name="product_id" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                            <field name="lot_code"/>
                             <field name="partner_id" domain="[('customer','=',True), ('parent_id','=',False)]" context="{'search_default_customer':1, 'show_address': 1}" options="{&quot;always_reload&quot;: True}"/>
                         </group>
                         <group>
@@ -90,9 +93,7 @@
                             <field name="w_uom_id" domain="[('category_id','=',2)]" options="{'no_create': 1, 'no_create_edit': 1}"/>
                             <field name="total_gross_weight" readonly="True"/>
                         </group>
-                        <group>
-                            <field name="descrip"/>
-                        </group>
+                        <field name="descrip" placeholder="_Observations..." colspan="4"/>
                      </group>
                      <group name="gr_lot_active_expiration_dates" string="Active and Expiration Dates">
                         <group>

@@ -32,7 +32,7 @@ class Lot(models.Model):
         return self.env.ref('product.product_uom_kgm')
 
     name = fields.Char(
-        'Name',
+        'OF',
         required=True)
     product_id = fields.Many2one(
         'product.product',
@@ -48,8 +48,10 @@ class Lot(models.Model):
     partner_id = fields.Many2one(
         'res.partner',
         string='Customer')
-    descrip = fields.Char(
-        'Observation')
+    lot_code= fields.Char(
+        'Lot')
+    descrip = fields.Text(
+        'Observations')
     start_date = fields.Date(
         'Start Date',
         required=True,
