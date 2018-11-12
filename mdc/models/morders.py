@@ -145,7 +145,7 @@ class Lot(models.Model):
     @api.depends('name', 'lot_code')
     def _compute_alias_cp(self):
         for lot in self:
-            lot.alias_cp = '%s / %s' % (lot.name, lot.lot_code or '')
+            lot.alias_cp = '%s - %s' % (lot.name, lot.lot_code or '')
 
     @api.constrains('end_date')
     def _check_end_date(self):
