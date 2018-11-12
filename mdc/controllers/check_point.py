@@ -91,7 +91,7 @@ class CheckPoint(http.Controller):
             if chkpoints:
                 data['lotactive'] = ''
                 if chkpoints[0].current_lot_active_id:
-                    data['lotactive'] = chkpoints[0].current_lot_active_id.name
+                    data['lotactive'] = chkpoints[0].current_lot_active_id.alias_cp
             else:
                 raise UserError(_('Checkpoint #%s not found') % chkpoint_id)
         except UserError as e:
@@ -112,7 +112,7 @@ class CheckPoint(http.Controller):
             datawin = DataWIn.from_cp_create(data_in)
             data_out['card_code'] = data_in['card_code']
             data_out['data_win_id'] = datawin.id
-            data_out['lotactive'] = datawin.lot_id.name
+            data_out['lotactive'] = datawin.lot_id.alias_cp
             data_out['weight'] = '{0:.2f}'.format(datawin.weight)
             data_out['w_uom'] = datawin.w_uom_id.name
         except Exception as e:

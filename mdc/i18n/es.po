@@ -154,6 +154,9 @@ msgstr "<span id=\"t_chkpoint_wout_jc_description\">Tarjeta Comodín</span>\n"
 "            <span id=\"t_chkpoint_wout_workstation_input_expected_err\">Tarjeta #{0} no válida. Se espera tarjeta de producto</span>\n"
 "            <span id=\"t_chkpoint_wout_workstation_no_workstation_err\">Tarjeta #{0} no válida, no existe puesto asociado!</span>\n"
 "            <span id=\"t_chkpoint_wout_invalid_card_err\">Tarjeta #{0} no válida</span>"
+"            <span id=\"t_chkpoint_wout_save_ok\">Peso grabado con éxito</span>\n"
+"            <span id=\"t_chkpoint_wout_save_err\">ERROR guardando datos: {0}</span>\n"
+"            <span id=\"t_chkpoint_wout_save_err_unknown\">ERROR guardando datos (desconocido)</span>"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.chkpoint_rfid_base

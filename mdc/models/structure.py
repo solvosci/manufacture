@@ -302,7 +302,7 @@ class Card(models.Model):
             win = self.env['mdc.data_win'].search([('card_id', '=', card.id), ('wout_id', '=', False)])
             if win:
                 data_out['win_lot_id'] = win[0].lot_id.id
-                data_out['win_lot_name'] = win[0].lot_id.name
+                data_out['win_lot_name'] = win[0].lot_id.alias_cp
                 data_out['win_weight'] = win[0].weight
                 data_out['win_uom'] = win[0].w_uom_id.name
         elif card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_L').id:
@@ -313,7 +313,7 @@ class Card(models.Model):
             # - Joker card. We provide lot data associated with, if exists
             if card.lot_id:
                 data_out['win_lot_id'] = card.lot_id.id
-                data_out['win_lot_name'] = card.lot_id.name
+                data_out['win_lot_name'] = card.lot_id.alias_cp
         elif card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_O').id:
             # TODO retrieve employee description
             # data_out['employee_code'] = ...
@@ -342,7 +342,7 @@ class Card(models.Model):
         })
         return {
             'card_id': card.id,
-            'lot_name': card.lot_id.name
+            'lot_name': card.lot_id.alias_cp
         }
 
 # ******************************************************************

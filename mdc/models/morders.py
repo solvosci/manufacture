@@ -81,6 +81,10 @@ class Lot(models.Model):
         'Real Total Gross Weight',
         readonly=True,
         default=0)
+    alias_cp = fields.Char(
+        'Alias CP name',
+        compute='_compute_alias_cp',
+    )
 
     def name_get(self, context=None):
         if context is None:
@@ -136,6 +140,12 @@ class Lot(models.Model):
         lot = self.browse(context['lot_id'])
         if lot:
             lot.total_gross_weight = tot_gross_weight
+
+    @api.multi
+    @api.depends('name', 'lot_code')
+    def _compute_alias_cp(self):
+        for lot in self:
+            lot.alias_cp = '%s / %s' % (lot.name, lot.lot_code or '')
 
     @api.constrains('end_date')
     def _check_end_date(self):

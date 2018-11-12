@@ -376,7 +376,7 @@
                                 <option value="" selected="selected">Select a lot...</option>
                                 <t t-foreach="lots" t-as="lot">
                                     <option t-attf-value="{{lot.id}}">
-                                        <t t-esc="lot.name"></t>
+                                        <t t-esc="lot.alias_cp"></t>
                                     </option>
                                 </t>
                             </select>
