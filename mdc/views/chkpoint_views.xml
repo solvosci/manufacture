@@ -201,7 +201,7 @@
                                             Workstation
                                         </div>
                                         <div class="divTableCell">
-                                            <input id="card_workstation" type="text" size="25" readonly="readonly"
+                                            <input id="card_workstation" type="text" size="15" readonly="readonly"
                                                    class="centered"  style="font-size: 1.5em"/>
                                         </div>
                                     </div>
