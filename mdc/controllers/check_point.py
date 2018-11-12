@@ -27,8 +27,13 @@ from .. import ws_rfid_server
 
 class CheckPoint(http.Controller):
 
-    def _get_cp_user(self, request):
-        return request.env.ref('mdc.mdc_user_cp')
+    def _get_cp_user_and_lang_context(self, request):
+        cp_user = request.env.ref('mdc.mdc_user_cp')
+        # https://stackoverflow.com/questions/42411147/update-context-in-odoo-controller-request-env-context' \
+        context = request.env.context.copy()
+        context.update({'lang': cp_user.sudo().lang})
+        request.env.context = context
+        return cp_user
 
     def _get_company(self, request):
         return request.env['res.company'].sudo().search([])[0]
@@ -59,7 +64,8 @@ class CheckPoint(http.Controller):
     @http.route('/mdc/cp/list', type='http', auth='none')
     def cp_list(self):
         try:
-            chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).search([], order='order')
+            cp_user = self._get_cp_user_and_lang_context(request)
+            chkpoints = request.env['mdc.chkpoint'].sudo(cp_user).search([], order='order')
             return request.render(
                 'mdc.chkpoint_list',
                 {'chkpoints': chkpoints}
@@ -71,8 +77,9 @@ class CheckPoint(http.Controller):
     @http.route("/mdc/cp/win/<int:chkpoint_id>", type='http', auth='none')
     def cp_win(self, chkpoint_id, **kwargs):
         try:
+            cp_user = self._get_cp_user_and_lang_context(request)
             ws_session_data = ws_rfid_server.get_session_data(request.env, simul=('rfidsimul' in kwargs))
-            chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
+            chkpoints = request.env['mdc.chkpoint'].sudo(cp_user).browse(chkpoint_id)
             return request.render(
                 'mdc.chkpoint_win',
                 {'title': chkpoints[0].name, 'chkpoints': chkpoints, 'ws_session_data': ws_session_data}
@@ -83,7 +90,8 @@ class CheckPoint(http.Controller):
 
     @http.route("/mdc/cp/win/<int:chkpoint_id>/lotactive", type='json', auth='none')
     def cp_win_lotactive(self, chkpoint_id):
-        chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
+        cp_user = self._get_cp_user_and_lang_context(request)
+        chkpoints = request.env['mdc.chkpoint'].sudo(cp_user).browse(chkpoint_id)
         data = {
             'ckhpoint_id': chkpoint_id
         }
@@ -101,6 +109,7 @@ class CheckPoint(http.Controller):
 
     @http.route("/mdc/cp/win/<int:chkpoint_id>/save", type='json', auth='none')
     def cp_win_save(self, chkpoint_id):
+        cp_user = self._get_cp_user_and_lang_context(request)
         data_in = dict(request.jsonrequest)
         data_in['chkpoint_id'] = chkpoint_id
         data_out = {
@@ -108,7 +117,7 @@ class CheckPoint(http.Controller):
         }
 
         try:
-            DataWIn = request.env['mdc.data_win'].sudo(self._get_cp_user(request))
+            DataWIn = request.env['mdc.data_win'].sudo(cp_user)
             datawin = DataWIn.from_cp_create(data_in)
             data_out['card_code'] = data_in['card_code']
             data_out['data_win_id'] = datawin.id
@@ -123,9 +132,10 @@ class CheckPoint(http.Controller):
     @http.route("/mdc/cp/wout/<int:chkpoint_id>", type='http', auth='none')
     def cp_wout(self, chkpoint_id, **kwargs):
         try:
+            cp_user = self._get_cp_user_and_lang_context(request)
             ws_session_data = ws_rfid_server.get_session_data(request.env, simul=('rfidsimul' in kwargs))
-            chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
-            qualities = request.env['mdc.quality'].sudo(self._get_cp_user(request)).search([], order='code')
+            chkpoints = request.env['mdc.chkpoint'].sudo(cp_user).browse(chkpoint_id)
+            qualities = request.env['mdc.quality'].sudo(cp_user).search([], order='code')
             return request.render(
                 'mdc.chkpoint_wout',
                 {'title': chkpoints[0].name, 'chkpoints': chkpoints, 'qualities': qualities,
@@ -141,6 +151,7 @@ class CheckPoint(http.Controller):
 
     @http.route("/mdc/cp/wout/<int:chkpoint_id>/save", type='json', auth='none')
     def cp_wout_save(self, chkpoint_id):
+        cp_user = self._get_cp_user_and_lang_context(request)
         data_in = dict(request.jsonrequest)
         data_in['chkpoint_id'] = chkpoint_id
         # TODO category comes from cp. Remove
@@ -150,7 +161,7 @@ class CheckPoint(http.Controller):
         }
 
         try:
-            DataWOut = request.env['mdc.data_wout'].sudo(self._get_cp_user(request))
+            DataWOut = request.env['mdc.data_wout'].sudo(cp_user)
             datawout = DataWOut.from_cp_create(data_in)
             data_out['data_win_id'] = datawout.id
             data_out['lot'] = datawout.lot_id.name
@@ -164,10 +175,11 @@ class CheckPoint(http.Controller):
     @http.route('/mdc/cp/cardreg', type='http', auth='none')
     def cp_cardreg(self):
         try:
-            devices = request.env['mdc.rfid_reader'].sudo(self._get_cp_user(request)).search([])
-            card_categs = request.env['mdc.card_categ'].sudo(self._get_cp_user(request)).search([])
-            employees = request.env['hr.employee'].sudo(self._get_cp_user(request)).search([('operator', '=', True)])
-            workstations = request.env['mdc.workstation'].sudo(self._get_cp_user(request)).search([])
+            cp_user = self._get_cp_user_and_lang_context(request)
+            devices = request.env['mdc.rfid_reader'].sudo(cp_user).search([])
+            card_categs = request.env['mdc.card_categ'].sudo(cp_user).search([])
+            employees = request.env['hr.employee'].sudo(cp_user).search([('operator', '=', True)])
+            workstations = request.env['mdc.workstation'].sudo(cp_user).search([])
             ws_session_data = ws_rfid_server.get_session_data(request.env)
             return request.render(
                 'mdc.chkpoint_card_registration',
@@ -181,7 +193,8 @@ class CheckPoint(http.Controller):
 
     @http.route('/mdc/cp/cardreg/save', type='json', auth='none')
     def cp_cardreg_save(self):
-        Card = request.env['mdc.card'].sudo(self._get_cp_user(request))
+        cp_user = self._get_cp_user_and_lang_context(request)
+        Card = request.env['mdc.card'].sudo(cp_user)
         try:
             card = Card.create({
                 'name': request.jsonrequest['card_code'],
@@ -200,8 +213,9 @@ class CheckPoint(http.Controller):
     @http.route('/mdc/cp/cardlot', type='http', auth='none')
     def cp_cardlot(self):
         try:
-            devices = request.env['mdc.rfid_reader'].sudo(self._get_cp_user(request)).search([])
-            lots = request.env['mdc.lot'].sudo(self._get_cp_user(request))\
+            cp_user = self._get_cp_user_and_lang_context(request)
+            devices = request.env['mdc.rfid_reader'].sudo(cp_user).search([])
+            lots = request.env['mdc.lot'].sudo(cp_user)\
                 .search(['&', ('start_date', '<=', fields.Date.today()),
                          '|', ('end_date', '=', False), ('end_date', '>=', fields.Date.today())])
             ws_session_data = ws_rfid_server.get_session_data(request.env)
@@ -216,8 +230,9 @@ class CheckPoint(http.Controller):
 
     @http.route('/mdc/cp/cardlot/save', type='json', auth='none')
     def cp_cardlot_save(self):
+        cp_user = self._get_cp_user_and_lang_context(request)
         data_in = dict(request.jsonrequest)
-        Card = request.env['mdc.card'].sudo(self._get_cp_user(request))
+        Card = request.env['mdc.card'].sudo(cp_user)
         try:
             return Card.from_cp_assign_lot(data_in)
         except Exception as e:
@@ -228,7 +243,8 @@ class CheckPoint(http.Controller):
     @http.route('/mdc/cp/carddata/<string:card_code>', type='json', auth='none')
     def cp_carddata(self, card_code):
         try:
-            return request.env['mdc.card'].sudo(self._get_cp_user(request)).from_cp_get_card_data(card_code)
+            cp_user = self._get_cp_user_and_lang_context(request)
+            return request.env['mdc.card'].sudo(cp_user).from_cp_get_card_data(card_code)
         except Exception as e:
             return {
                 'card_code': card_code,
