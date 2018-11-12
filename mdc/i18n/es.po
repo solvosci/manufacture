@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-11 08:57+0000\n"
-"PO-Revision-Date: 2018-11-11 08:57+0000\n"
+"POT-Creation-Date: 2018-11-12 15:56+0000\n"
+"PO-Revision-Date: 2018-11-12 15:56+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -219,7 +219,7 @@ msgstr "Lote activo"
 #: model:ir.actions.act_window,name:mdc.action_mdc_lots_actives
 #: model:ir.ui.menu,name:mdc.mdc_lot_active_menu
 msgid "Active Lots"
-msgstr "Lotes activos"
+msgstr "Lotes en Curso"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.mdc_lots_form
@@ -254,8 +254,8 @@ msgstr "Lote asignado"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_card_lot_id
-msgid "Associated lot"
-msgstr "Lote asociado"
+msgid "Associated MO"
+msgstr "OF Asociada"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_attribute_value_ids
@@ -478,7 +478,7 @@ msgid "Card #%s is not a joker card!"
 msgstr "La Tarjeta #%s no es una tarjeta comodín!"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:525
+#: code:addons/mdc/models/morders.py:527
 #, python-format
 msgid "Card #%s is not an employee one"
 msgstr "La Tarjeta #%s no es de empleado"
@@ -546,7 +546,7 @@ msgstr "Tipo de tarjeta"
 #: model:ir.ui.view,arch_db:mdc.mdc_card_lot_assign_tree
 #, python-format
 msgid "Card lot assignment"
-msgstr "Tarjetas Comodín-lote"
+msgstr "Tarjetas Comodín-Lote"
 
 #. module: mdc
 #: code:addons/mdc/models/structure.py:323
@@ -810,7 +810,7 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:mdc.field_mdc_workstation_create_date
 #: model:ir.model.fields,field_description:mdc.field_mdc_wout_categ_create_date
 msgid "Created on"
-msgstr "Creado en"
+msgstr "Creado el"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:110
@@ -841,8 +841,8 @@ msgstr "Moneda"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_chkpoint_current_lot_active_id
-msgid "Current Lot Active Id"
-msgstr "Identificador del lote activo actual"
+msgid "Current MO Active Id"
+msgstr "Identificador de OF en Curso"
 
 #. module: mdc
 #: model:ir.model.fields,help:mdc.field_mdc_std_qty_available
@@ -1068,7 +1068,7 @@ msgstr "Código de dispositivo ya asignado a un dispositivo!"
 #: model:ir.model.fields,field_description:mdc.field_report_mdc_rpt_manufacturing_display_name
 #: model:ir.model.fields,field_description:mdc.field_report_mdc_rpt_tracing_display_name
 msgid "Display Name"
-msgstr "Nombre mostrado"
+msgstr "Nombre a Mostrar"
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A1V2
@@ -1158,9 +1158,9 @@ msgid "End Datetime"
 msgstr "Hora final"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:142
-#: code:addons/mdc/models/morders.py:232
-#: code:addons/mdc/models/morders.py:377
+#: code:addons/mdc/models/morders.py:144
+#: code:addons/mdc/models/morders.py:234
+#: code:addons/mdc/models/morders.py:379
 #, python-format
 msgid "End date must be older than start date"
 msgstr "Fecha Fin debe ser posterior a Fecha Inicio"
@@ -1444,7 +1444,7 @@ msgid "Indicators Report"
 msgstr "Informe de Indicadores"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:183
+#: code:addons/mdc/models/morders.py:185
 #: code:addons/mdc/models/structure.py:16
 #, python-format
 msgid "Input"
@@ -1507,15 +1507,15 @@ msgid "Is operator"
 msgstr "Es operario"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:432
-#: code:addons/mdc/models/morders.py:466
+#: code:addons/mdc/models/morders.py:434
+#: code:addons/mdc/models/morders.py:468
 #, python-format
 msgid "It can´t be end datetime less than start date to employee %s"
 msgstr "No es posible fecha-hora final menor que fecha-hora inicial para el empleado %s"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:425
-#: code:addons/mdc/models/morders.py:462
+#: code:addons/mdc/models/morders.py:427
+#: code:addons/mdc/models/morders.py:464
 #, python-format
 msgid "It can´t be start datetime less than last end datetime to employee %s"
 msgstr "No es posible fecha-hora inicial menor que última fecha-hora final para el empleado %s"
@@ -1728,15 +1728,7 @@ msgstr "Ubicación"
 #: code:addons/mdc/report/report_xlsx.py:309
 #: code:addons/mdc/report/report_xlsx.py:544
 #: model:ir.model,name:mdc.model_mdc_lot
-#: model:ir.model.fields,field_description:mdc.field_mdc_data_win_lot_id
-#: model:ir.model.fields,field_description:mdc.field_mdc_data_wout_lot_id
-#: model:ir.model.fields,field_description:mdc.field_mdc_lot_active_lot_id
 #: model:ir.model.fields,field_description:mdc.field_mdc_lot_lot_code
-#: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_lot_name
-#: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_lot_name
-#: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_lot_name
-#: model:ir.model.fields,field_description:mdc.field_mdc_rpt_tracing_lot_name
-#: model:ir.model.fields,field_description:mdc.field_mdc_worksheet_lot_id
 #: model:ir.ui.view,arch_db:mdc.chkpoint_win
 #: model:ir.ui.view,arch_db:mdc.chkpoint_wout
 #: model:ir.ui.view,arch_db:mdc.mdc_data_wins_search
@@ -1752,19 +1744,7 @@ msgstr "Lote"
 #: model:ir.ui.view,arch_db:mdc.mdc_lots_actives_form
 #: model:ir.ui.view,arch_db:mdc.mdc_workstations_form
 msgid "Lot Activation"
-msgstr "Activción de lotes"
-
-#. module: mdc
-#: code:addons/mdc/models/morders.py:123
-#, python-format
-msgid "MO Format is not right. The right format is NNNNN/AA (AA=current year) %s != %s"
-msgstr "Formato de OF no correcto. El formato correcto es NNNNN/AA (AA=año actual) %s != %s"
-
-#. module: mdc
-#: code:addons/mdc/models/morders.py:121
-#, python-format
-msgid "MO Format is not right. The right format is NNNNN/AA (NNNNN=number)"
-msgstr "Formato de OF no correcto. El formato correcto es NNNNN/AA (NNNNN=número)"
+msgstr "Activación de lotes"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.mdc_rpt_cumulative_search
@@ -1773,11 +1753,6 @@ msgstr "Formato de OF no correcto. El formato correcto es NNNNN/AA (NNNNN=númer
 #: model:ir.ui.view,arch_db:mdc.mdc_rpt_tracing_search
 msgid "Lot Name"
 msgstr "Nombre del lote"
-
-#. module: mdc
-#: model:ir.ui.view,arch_db:mdc.mdc_lots_form
-msgid "Lot Notes"
-msgstr "Anotaciones"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.mdc_lots_form
@@ -1880,9 +1855,30 @@ msgstr "MELVA"
 #: code:addons/mdc/report/report_xlsx.py:332
 #: code:addons/mdc/report/report_xlsx.py:554
 #: code:addons/mdc/report/report_xlsx.py:753
+#: model:ir.model.fields,field_description:mdc.field_mdc_data_win_lot_id
+#: model:ir.model.fields,field_description:mdc.field_mdc_data_wout_lot_id
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_active_lot_id
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_name
+#: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_lot_name
+#: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_lot_name
+#: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_lot_name
+#: model:ir.model.fields,field_description:mdc.field_mdc_rpt_tracing_lot_name
+#: model:ir.model.fields,field_description:mdc.field_mdc_worksheet_lot_id
 #, python-format
 msgid "MO"
-msgstr "MO"
+msgstr "OF"
+
+#. module: mdc
+#: code:addons/mdc/models/morders.py:125
+#, python-format
+msgid "MO Format is not right. The right format is NNNNN/AA (AA=current year) %s != %s"
+msgstr "Formato de OF no correcto. El formato correcto es NNNNN/AA (AA=año actual) %s != %s"
+
+#. module: mdc
+#: code:addons/mdc/models/morders.py:123
+#, python-format
+msgid "MO Format is not right. The right format is NNNNN/AA (NNNNN=number)"
+msgstr "Formato de OF no correcto. El formato correcto es NNNNN/AA (NNNNN=número)"
 
 #. module: mdc
 #: model:ir.actions.act_window,name:mdc.action_mdc_rpt_manufacturing
@@ -2017,19 +2013,9 @@ msgid "Number of unread messages"
 msgstr "Número de mensajes no leidos"
 
 #. module: mdc
-#: model:ir.model.fields,field_description:mdc.field_mdc_lot_name
-msgid "MO"
-msgstr "OF"
-
-#. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_lot_descrip
 msgid "Observations"
 msgstr "Observaciones"
-
-#. module: mdc
-#: model:ir.ui.view,arch_db:mdc.mdc_lots_form
-msgid "Observations..."
-msgstr "Anote aquí sus Observaciones..."
 
 #. module: mdc
 #: code:addons/mdc/models/chkpointdata.py:345
@@ -2079,7 +2065,7 @@ msgid "Outgoing"
 msgstr "Saliente"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:184
+#: code:addons/mdc/models/morders.py:186
 #: code:addons/mdc/models/structure.py:17
 #, python-format
 msgid "Output"
@@ -2686,8 +2672,8 @@ msgstr "Hora de inicio"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_chkpoint_start_lot_datetime
-msgid "Start Lot Active date time"
-msgstr "Inicio activación del lote"
+msgid "Start MO Active date time"
+msgstr "Inicio activación de OF"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_activity_state
@@ -2858,7 +2844,7 @@ msgid "The selected lot name already exists"
 msgstr "El nombre de lote seleccionado ya existe"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:428
+#: code:addons/mdc/models/morders.py:430
 #, python-format
 msgid "The start date has to be filled"
 msgstr "Debe rellenar la Fecha de Inicio"
@@ -3033,7 +3019,7 @@ msgid "Unknown card #%s"
 msgstr "Tarjeta desconocida #%s"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:527
+#: code:addons/mdc/models/morders.py:529
 #, python-format
 msgid "Unknown card code #%s"
 msgstr "Código de tarjeta desconocido #%s"
@@ -3286,7 +3272,7 @@ msgstr "YELOWFIN COLAS "
 
 #. module: mdc
 #: code:addons/mdc/models/mdc_config_settings.py:31
-#: code:addons/mdc/models/morders.py:480
+#: code:addons/mdc/models/morders.py:482
 #, python-format
 msgid "You are not allowed to change this values"
 msgstr "No tiene permiso para cambiar este valor"
@@ -3317,13 +3303,13 @@ msgid "You can register and track weighing scales."
 msgstr "Puede registrar y testear básculas."
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:456
+#: code:addons/mdc/models/morders.py:458
 #, python-format
 msgid "You can´t change employee form a datasheet."
 msgstr "No puede cambiar el empleado desde un fichaje."
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:459
+#: code:addons/mdc/models/morders.py:461
 #, python-format
 msgid "You can´t change start_datetime form a datasheet."
 msgstr "No puede cambiar la fecha-hora de inicio desde un fichaje."
@@ -3363,6 +3349,11 @@ msgstr "Debe seleccionar un operario para esta tarjeta"
 #, python-format
 msgid "You must select an employee for this card or select another category"
 msgstr "Debe seleccionar un operario para esta tarjeta o elegir otro tipo"
+
+#. module: mdc
+#: model:ir.ui.view,arch_db:mdc.mdc_lots_form
+msgid "_Observations..."
+msgstr "Anote aquí sus Observaciones ..."
 
 #. module: mdc
 #: model:ir.model,name:mdc.model_mdc_config_settings

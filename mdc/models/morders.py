@@ -202,7 +202,7 @@ class LotActive(models.Model):
 
     lot_id = fields.Many2one(
         'mdc.lot',
-        string='Lot',
+        string='MO',
         required=True)
     chkpoint_id = fields.Many2one(
         'mdc.chkpoint',
@@ -355,7 +355,7 @@ class Worksheet(models.Model):
         'End Datetime')
     lot_id = fields.Many2one(
         'mdc.lot',
-        string='Lot',
+        string='MO',
         readonly=True)
     workstation_id = fields.Many2one(
         'mdc.workstation',

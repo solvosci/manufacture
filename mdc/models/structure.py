@@ -85,9 +85,9 @@ class ChkPoint(models.Model):
         string='Quality')
     current_lot_active_id = fields.Many2one(
         'mdc.lot',
-        string='Current Lot Active Id')
+        string='Current MO Active Id')
     start_lot_datetime = fields.Datetime(
-        string = 'Start Lot Active date time',
+        string = 'Start MO Active date time',
         readonly=True)
 
     @api.multi
@@ -221,7 +221,7 @@ class Card(models.Model):
         string='Workstation')
     lot_id = fields.Many2one(
         'mdc.lot',
-        string='Associated lot',
+        string='Associated MO',
         domain=['&', ('start_date', '<=', fields.Date.today()), '|', ('end_date', '=', False), ('end_date', '>=', fields.Date.today())])
     status = fields.Selection(
         selection='_get_card_status_selection',

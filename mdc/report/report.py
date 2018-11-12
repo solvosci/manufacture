@@ -12,7 +12,7 @@ class RptTracing(models.Model):
     _auto = False
 
     create_date = fields.Date('Date', readonly=True)
-    lot_name = fields.Char('Lot', readonly=True)
+    lot_name = fields.Char('MO', readonly=True)
     employee_code = fields.Char('Employee Code', readonly=True)
     employee_name = fields.Char('Employee Name', readonly=True)
     contract_name = fields.Char('Contract Name', readonly=True)
@@ -104,7 +104,7 @@ class RptManufacturing(models.Model):
     _auto = False
 
     create_date = fields.Date('Date', readonly=True)
-    lot_name = fields.Char('Lot', readonly=True)
+    lot_name = fields.Char('MO', readonly=True)
     employee_code = fields.Char('Employee Code', readonly=True)
     employee_name = fields.Char('Employee Name', readonly=True)
     contract_name = fields.Char('Contract Name', readonly=True)
@@ -231,7 +231,7 @@ class RptIndicators(models.Model):
     _auto = False
 
     create_date = fields.Date('Date', readonly=True)
-    lot_name = fields.Char('Lot', readonly=True)
+    lot_name = fields.Char('MO', readonly=True)
     employee_code = fields.Char('Employee Code', readonly=True)
     employee_name = fields.Char('Employee Name', readonly=True)
     contract_name = fields.Char('Contract Name', readonly=True)
@@ -351,7 +351,7 @@ class RptCumulative(models.Model):
     _auto = False
 
     create_date = fields.Date('Date', readonly=True)
-    lot_name = fields.Char('Lot', readonly=True)
+    lot_name = fields.Char('MO', readonly=True)
     employee_code = fields.Char('Employee Code', readonly=True)
     employee_name = fields.Char('Employee Name', readonly=True)
     contract_name = fields.Char('Contract Name', readonly=True)

@@ -36,7 +36,7 @@ class DataWIn(models.Model):
         required=True)
     lot_id = fields.Many2one(
         'mdc.lot',
-        string='Lot',
+        string='MO',
         required=True)
     create_datetime = fields.Datetime(
         'Datetime',
@@ -238,7 +238,7 @@ class DataWOut(models.Model):
         required=True)
     lot_id = fields.Many2one(
         'mdc.lot',
-        string='Lot',
+        string='MO',
         required=True)
     create_datetime = fields.Datetime(
         'Datetime',

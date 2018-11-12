@@ -227,7 +227,7 @@
         <field name="name">mdc.workstations.tree</field>
         <field name="model">mdc.workstation</field>
         <field name="arch" type="xml">
-            <tree editable="top" string="Workstations">
+            <tree editable="top" string="Workstations" default_order="name">
                 <field name="shift_id"/>
                 <field name="line_id"/>
                 <field name="name"/>
@@ -336,7 +336,7 @@
                             <field name="employee_id" options="{'no_create': 1, 'no_create_edit': 1}"
                                 attrs="{'readonly': [('card_categ_id', '!=', %(mdc.mdc_card_categ_O)d)], 'required': [('card_categ_id', '=', %(mdc.mdc_card_categ_O)d)]}"/>
                             <field name="lot_id" options="{'no_create': 1, 'no_create_edit': 1}"
-                                attrs="{'readonly': [('card_categ_id', '!=', %(mdc.mdc_card_categ_PC)d)], 'required': [('card_categ_id', '=', %(mdc.mdc_card_categ_PC)d)]}"/>
+                                attrs="{'readonly': [('card_categ_id', '!=', %(mdc.mdc_card_categ_PC)d)]}"/>
                         </group>
                         <group>
                             <field name="workstation_id" options="{'no_create': 1, 'no_create_edit': 1}"
