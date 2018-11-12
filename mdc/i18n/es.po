@@ -1754,14 +1754,14 @@ msgstr "Activción de lotes"
 #. module: mdc
 #: code:addons/mdc/models/morders.py:123
 #, python-format
-msgid "Lot Format is not right. The right format is NNNNN/AA (AA=current year) %s != %s"
-msgstr "Formato de lote no correcto. El formato correcto es NNNNN/AA (AA=año actual) %s != %s"
+msgid "MO Format is not right. The right format is NNNNN/AA (AA=current year) %s != %s"
+msgstr "Formato de OF no correcto. El formato correcto es NNNNN/AA (AA=año actual) %s != %s"
 
 #. module: mdc
 #: code:addons/mdc/models/morders.py:121
 #, python-format
-msgid "Lot Format is not right. The right format is NNNNN/AA (NNNNN=number)"
-msgstr "Formato de lote no correcto. El formato correcto es NNNNN/AA (NNNNN=número)"
+msgid "MO Format is not right. The right format is NNNNN/AA (NNNNN=number)"
+msgstr "Formato de OF no correcto. El formato correcto es NNNNN/AA (NNNNN=número)"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.mdc_rpt_cumulative_search
@@ -2015,7 +2015,7 @@ msgstr "Número de mensajes no leidos"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_lot_name
-msgid "OF"
+msgid "MO"
 msgstr "OF"
 
 #. module: mdc

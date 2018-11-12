@@ -32,7 +32,7 @@ class Lot(models.Model):
         return self.env.ref('product.product_uom_kgm')
 
     name = fields.Char(
-        'OF',
+        'MO',
         required=True)
     product_id = fields.Many2one(
         'product.product',
@@ -49,7 +49,8 @@ class Lot(models.Model):
         'res.partner',
         string='Customer')
     lot_code= fields.Char(
-        'Lot')
+        'Lot',
+        required=True)
     descrip = fields.Text(
         'Observations')
     start_date = fields.Date(
@@ -97,7 +98,8 @@ class Lot(models.Model):
                     caduca = ''
                 else:
                     caduca = entry.end_date
-                res.append((entry.id, '[%s (%s , %s)]: %s - (%s)' % (entry.name, entry.start_date, caduca, entry.product_id.name, cliente)))
+                prod_name= self.env['product.product'].browse(entry.product_id.id).name_get()[0][1]
+                res.append((entry.id, '[%s (%s , %s)]: %s - (%s)' % (entry.name, entry.start_date, caduca, prod_name, cliente)))
         else:
             for entry in self:
                 res.append((entry.id, '%s' % (entry.name)))
@@ -118,9 +120,9 @@ class Lot(models.Model):
         if lotName.find('/') == -1:
             lotPart1 = lotName
         if not lotPart1.isnumeric() or len(lotPart1) > 5:
-            raise UserError(_('Lot Format is not right. The right format is NNNNN/AA (NNNNN=number)'))
+            raise UserError(_('MO Format is not right. The right format is NNNNN/AA (NNNNN=number)'))
         if lotPart2 != currYear2:
-            raise UserError(_('Lot Format is not right. The right format is NNNNN/AA (AA=current year) %s != %s')
+            raise UserError(_('MO Format is not right. The right format is NNNNN/AA (AA=current year) %s != %s')
                               % (lotPart2, currYear2))
 
         return lotPart1.zfill(5)+'/'+lotPart2
