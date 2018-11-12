@@ -125,7 +125,7 @@ class CheckPoint(http.Controller):
         try:
             ws_session_data = ws_rfid_server.get_session_data(request.env, simul=('rfidsimul' in kwargs))
             chkpoints = request.env['mdc.chkpoint'].sudo(self._get_cp_user(request)).browse(chkpoint_id)
-            qualities = request.env['mdc.quality'].sudo(self._get_cp_user(request)).search([])
+            qualities = request.env['mdc.quality'].sudo(self._get_cp_user(request)).search([], order='code')
             return request.render(
                 'mdc.chkpoint_wout',
                 {'title': chkpoints[0].name, 'chkpoints': chkpoints, 'qualities': qualities,

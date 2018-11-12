@@ -88,6 +88,10 @@ input.success {
     background: #50FF50
 }
 
+#quality_select {
+    width: 100px;
+}
+
 #reload_button {
     width: 80px;
     height: 80px;
@@ -100,6 +104,21 @@ input.success {
 
 #reload_button {
     background-image: url(/mdc/static/src/img/reload-72.png);
+    background-repeat: no-repeat;
+}
+
+#quality_up_button, #quality_down_button {
+    width: 53px;
+    height: 53px;
+}
+
+#quality_up_button {
+    background-image: url(/mdc/static/src/img/up-48.png);
+    background-repeat: no-repeat;
+}
+
+#quality_down_button {
+    background-image: url(/mdc/static/src/img/down-48.png);
     background-repeat: no-repeat;
 }
 

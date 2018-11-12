@@ -298,6 +298,17 @@ read_card_manage = function (card_code) {
 
 }
 
+quality_edit = function(delta) {
+    var sel_count = $('#quality_select > optgroup > option').length
+    var current_index = $('#quality_select').prop('selectedIndex');
+    var next_index = current_index + delta;
+    if ( next_index < 0)  next_index = 0;
+    if ( next_index >= sel_count )  next_index = sel_count - 1;
+    if ( next_index != current_index ) {
+        $('#quality_select').prop('selectedIndex', next_index).change();
+    }
+}
+
 var woutState = null;
 
 $(document).ready(function() {
@@ -308,6 +319,12 @@ $(document).ready(function() {
     // TODO additional initial stuff
 
     // Button events
+    $('#quality_up_button').click(function () {
+        quality_edit(1);
+    });
+    $('#quality_down_button').click(function () {
+        quality_edit(-1);
+    });
     $('#one_input_button,#crumbs_button,#shared_button').click(function () {
         switch_enabled(this, true);
     });

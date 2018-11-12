@@ -227,7 +227,7 @@
                             </div>
                         </div>
                         <div class="divTableCell centered">
-                            <span style="font-size: 1.5em">Q</span>
+                            <button type="button" id="quality_up_button"></button>
                             <select id="quality_select">
                                 <!-- option value="" selected="selected">Select a quality...</option -->
                                 <optgroup>
@@ -238,6 +238,7 @@
                                     </t>
                                 </optgroup>
                             </select>
+                            <button type="button" id="quality_down_button"></button>
                             <p/>
                             <button type="button" id="shared_button" class="disabled"></button>
                             <br/>
