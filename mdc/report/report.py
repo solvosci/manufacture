@@ -37,7 +37,7 @@ class RptTracing(models.Model):
                     coalesce(cli.name,'') as client_name,
                     emp.employee_code, emp.name as employee_name, contr.name as contract_name, shift.shift_code, 
                     woutdata.gross_weight, woutdata.product_weight, woutdata.sp1_weight, 
-                    woutdata.quality_weight/woutdata.product_weight as quality, 
+                    case when woutdata.product_weight = 0 then 0 else woutdata.quality_weight/woutdata.product_weight end as quality,
                     lotemp.total_hours, 
                     lot.std_yield_product, lot.std_speed, lot.std_yield_sp1 
                     FROM (
@@ -143,18 +143,18 @@ class RptManufacturing(models.Model):
                     emp.employee_code, emp.name as employee_name, contr.name as contract_name, shift.shift_code, 
                     woutdata.gross_weight, woutdata.product_weight, woutdata.sp1_weight, 
                     woutdata.shared_gross_weight, woutdata.shared_product_weight, woutdata.shared_sp1_weight,
-                    woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) as quality,
+                    case when (woutdata.product_weight + woutdata.shared_product_weight) = 0 then 0 else woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) end as quality,
                     wst.name as workstation_name, 
                     woutdata.product_boxes, woutdata.sp1_boxes, 
                     lotemp.total_hours, 
                     lot.std_yield_product, lot.std_speed, lot.std_yield_sp1,
                     lot.weight*(1-coalesce(lot.std_loss,0)/100) as weight_std_lot,
                     case when coalesce(lot.total_gross_weight,0) = 0 then 1 else lot.weight*(1-coalesce(lot.std_loss,0)/100)/lot.total_gross_weight end as coef_weight_lot,
-                    case when coalesce(lot.std_yield_product,0) = 0 then 0 else (woutdata.product_weight / woutdata.gross_weight) / lot.std_yield_product/ 1.15 end as ind_backs,
-                    case when coalesce(lot.std_speed,0) = 0 then 0 else (lotemp.total_hours * 60 / woutdata.gross_weight) / lot.std_speed / 1.15 end as ind_mo,
-                    case when coalesce(woutdata.sp1_weight,0) =0 then 0 else lot.std_yield_sp1 / (woutdata.sp1_weight / woutdata.gross_weight) / 1.15 end as ind_crumbs,
-                    woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) as ind_quality,
-                    case when coalesce(lot.std_yield_product,0)*coalesce(lot.std_speed,0) = 0 then 0 else
+                    case when coalesce(lot.std_yield_product,0)*woutdata.gross_weight = 0 then 0 else (woutdata.product_weight / woutdata.gross_weight) / lot.std_yield_product/ 1.15 end as ind_backs,
+                    case when coalesce(lot.std_speed,0)*woutdata.gross_weight = 0 then 0 else (lotemp.total_hours * 60 / woutdata.gross_weight) / lot.std_speed / 1.15 end as ind_mo,
+                    case when coalesce(woutdata.sp1_weight,0)*woutdata.gross_weight =0 then 0 else lot.std_yield_sp1 / (woutdata.sp1_weight / woutdata.gross_weight) / 1.15 end as ind_crumbs,
+                    case when (woutdata.product_weight + woutdata.shared_product_weight)=0 then 0 else woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) end as ind_quality,
+                    case when coalesce(lot.std_yield_product,0)*coalesce(lot.std_speed,0)*woutdata.gross_weight*woutdata.product_weight = 0 then 0 else
                     (0.6 *  ((woutdata.product_weight / woutdata.gross_weight) / lot.std_yield_product/ 1.15)) 
                     + (0.3 * ((lotemp.total_hours * 60 / woutdata.gross_weight) / lot.std_speed / 1.15)) 
                     + (0.1 * (woutdata.quality_weight / woutdata.product_weight)) end as ind_cleaning 
@@ -267,15 +267,15 @@ class RptIndicators(models.Model):
                     emp.employee_code, emp.name as employee_name, contr.name as contract_name, shift.shift_code, 
                     woutdata.gross_weight, woutdata.product_weight, woutdata.sp1_weight, 
                     woutdata.shared_gross_weight, woutdata.shared_product_weight, woutdata.shared_sp1_weight,
-                    woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) as quality,
+                    case when (woutdata.product_weight + woutdata.shared_product_weight)=0 then 0 else woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) end as quality,
                     woutdata.product_boxes, woutdata.sp1_boxes, 
                     lotemp.total_hours, 
                     lot.std_yield_product, lot.std_speed, lot.std_yield_sp1, 
-                    case when coalesce(lot.std_yield_product,0) = 0 then 0 else (woutdata.product_weight / woutdata.gross_weight) / lot.std_yield_product/ 1.15 end as ind_backs,
-                    case when coalesce(lot.std_speed,0) = 0 then 0 else (lotemp.total_hours * 60 / woutdata.gross_weight) / lot.std_speed / 1.15 end as ind_mo,
-                    case when coalesce(woutdata.sp1_weight,0) =0 then 0 else lot.std_yield_sp1 / (woutdata.sp1_weight / woutdata.gross_weight) / 1.15 end as ind_crumbs,
-                    woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) as ind_quality,
-                    case when coalesce(lot.std_yield_product,0)*coalesce(lot.std_speed,0) = 0 then 0 else
+                    case when coalesce(lot.std_yield_product,0)*woutdata.gross_weight = 0 then 0 else (woutdata.product_weight / woutdata.gross_weight) / lot.std_yield_product/ 1.15 end as ind_backs,
+                    case when coalesce(lot.std_speed,0)*woutdata.gross_weight = 0 then 0 else (lotemp.total_hours * 60 / woutdata.gross_weight) / lot.std_speed / 1.15 end as ind_mo,
+                    case when coalesce(woutdata.sp1_weight,0)*woutdata.gross_weight =0 then 0 else lot.std_yield_sp1 / (woutdata.sp1_weight / woutdata.gross_weight) / 1.15 end as ind_crumbs,
+                    case when (woutdata.product_weight + woutdata.shared_product_weight)=0 then 0 else woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) end as ind_quality,
+                    case when coalesce(lot.std_yield_product,0)*coalesce(lot.std_speed,0)*woutdata.product_weight*woutdata.gross_weight = 0 then 0 else
                     (0.6 *  ((woutdata.product_weight / woutdata.gross_weight) / lot.std_yield_product/ 1.15)) 
                     + (0.3 * ((lotemp.total_hours * 60 / woutdata.gross_weight) / lot.std_speed / 1.15)) 
                     + (0.1 * (woutdata.quality_weight / woutdata.product_weight)) end as ind_cleaning 
@@ -387,16 +387,16 @@ class RptCumulative(models.Model):
                     emp.employee_code, emp.name as employee_name, contr.name as contract_name, 
                     woutdata.gross_weight, woutdata.product_weight, woutdata.sp1_weight, 
                     woutdata.shared_gross_weight, woutdata.shared_product_weight, woutdata.shared_sp1_weight,
-                    woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) as quality,
+                    case when (woutdata.product_weight + woutdata.shared_product_weight)=0 then 0 else woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) end as quality,
                     woutdata.product_boxes, woutdata.sp1_boxes,
-                    case when woutdata.gross_weight = 0 then 0 else (woutdata.product_weight + woutdata.sp1_weight) / woutdata.shared_gross_weight end as total_yield,
+                    case when woutdata.gross_weight = 0 then 0 else (woutdata.product_weight + woutdata.sp1_weight) / woutdata.gross_weight end as total_yield,
                     lotemp.total_hours, 
                     lot.std_yield_product, lot.std_speed, lot.std_yield_sp1, 
-                    case when coalesce(lot.std_yield_product,0) = 0 then 0 else (woutdata.product_weight / woutdata.gross_weight) / lot.std_yield_product/ 1.15 end as ind_backs,
-                    case when coalesce(lot.std_speed,0) = 0 then 0 else (lotemp.total_hours * 60 / woutdata.gross_weight) / lot.std_speed / 1.15 end as ind_mo,
-                    case when coalesce(woutdata.sp1_weight,0) =0 then 0 else lot.std_yield_sp1 / (woutdata.sp1_weight / woutdata.gross_weight) / 1.15 end as ind_crumbs,
-                    woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) as ind_quality,
-                    case when coalesce(lot.std_yield_product,0)*coalesce(lot.std_speed,0) = 0 then 0 else
+                    case when coalesce(lot.std_yield_product,0)*woutdata.gross_weight = 0 then 0 else (woutdata.product_weight / woutdata.gross_weight) / lot.std_yield_product/ 1.15 end as ind_backs,
+                    case when coalesce(lot.std_speed,0)*woutdata.gross_weight = 0 then 0 else (lotemp.total_hours * 60 / woutdata.gross_weight) / lot.std_speed / 1.15 end as ind_mo,
+                    case when coalesce(woutdata.sp1_weight,0)*woutdata.gross_weight =0 then 0 else lot.std_yield_sp1 / (woutdata.sp1_weight / woutdata.gross_weight) / 1.15 end as ind_crumbs,
+                    case when (woutdata.product_weight + woutdata.shared_product_weight)=0 then 0 else woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) end as ind_quality,
+                    case when coalesce(lot.std_yield_product,0)*coalesce(lot.std_speed,0)*woutdata.product_weight*woutdata.gross_weight = 0 then 0 else
                     (0.6 *  ((woutdata.product_weight / woutdata.gross_weight) / lot.std_yield_product/ 1.15)) 
                     + (0.3 * ((lotemp.total_hours * 60 / woutdata.gross_weight) / lot.std_speed / 1.15)) 
                     + (0.1 * (woutdata.quality_weight / woutdata.product_weight)) end as ind_cleaning 

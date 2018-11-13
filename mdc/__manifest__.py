@@ -25,7 +25,6 @@
         'data/ir_config_parameter.xml',
         'data/ir_cron.xml',
         'data/structure_data.xml',
-        'demo/demo.xml',
         'views/data_views.xml',
         'views/hr_views.xml',
         'views/operation_views.xml',
