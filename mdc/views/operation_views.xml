@@ -228,10 +228,10 @@
         <field name="model">mdc.workstation</field>
         <field name="arch" type="xml">
             <tree editable="top" string="Workstations" default_order="name">
-                <field name="shift_id"/>
-                <field name="line_id"/>
-                <field name="name"/>
-                <field name="seat"/>
+                <field name="shift_id" readonly="True"/>
+                <field name="line_id" readonly="True"/>
+                <field name="name" readonly="True"/>
+                <field name="seat" readonly="True"/>
                 <field name="current_employee_id" domain="[('workstation_id', '=', False),('operator', '=', True)]"/>
             </tree>
         </field>

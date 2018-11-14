@@ -73,7 +73,8 @@ class ReportRptTracingXlsx(models.AbstractModel):
 
         # Set columns widths
         sheet.set_column('A:W', 13)
-        sheet.set_column('C:D', 32) # Employee name and STD name columns
+        sheet.set_column('C:D', 40) # Employee name and STD name columns
+        sheet.set_column('E:E', 16) # Client name
 
         # write logo
         logo_file_name = False
@@ -99,7 +100,7 @@ class ReportRptTracingXlsx(models.AbstractModel):
         header_row = 5
         header_row_str = str(header_row + 1)
         # write column header ------------------------------------------
-        sheet.write('A' + header_row_str, _("Lot"), f_header)
+        sheet.write('A' + header_row_str, _("MO"), f_header)
         sheet.write('B' + header_row_str, _("Employee Code"), f_header)
         sheet.write('C' + header_row_str, _("Employee Name"), f_header)
         sheet.write('D' + header_row_str, _("STD"), f_header)
@@ -115,7 +116,7 @@ class ReportRptTracingXlsx(models.AbstractModel):
         sheet.write('N' + header_row_str, _("% Crumbs"), f_header)
         sheet.write('O' + header_row_str, _("% Total Yield"), f_header)
         sheet.write('P' + header_row_str, _("STD Crumbs"), f_header)
-        sheet.write('Q' + header_row_str, _("MO"), f_header)
+        sheet.write('Q' + header_row_str, _("MO."), f_header)
         sheet.write('R' + header_row_str, _("STD MO"), f_header)
         sheet.write('S' + header_row_str, _("IND Backs"), f_header_ind)
         sheet.write('T' + header_row_str, _("IND MO"), f_header_ind)
@@ -222,11 +223,16 @@ class ReportRptTracingXlsx(models.AbstractModel):
             wtotal_hours += obj.total_hours
             wnumreg += 1
 
+            if wproduct_weight == 0:
+                wquality=0
+            else:
+                wquality = wquality / wproduct_weight
+
             #columns with grouped data
             sheet.write(row, 6, wgross_weight, f_data)
             sheet.write(row, 7, wproduct_weight, f_data)
             sheet.write(row, 8, wsp1_weight, f_data)
-            sheet.write(row, 9, wquality/wproduct_weight if wproduct_weight == 0 else 0 , f_data)
+            sheet.write(row, 9, wquality, f_data)
             sheet.write(row, 10, wtotal_hours, f_data)
 
             wlot_name = obj.lot_name
@@ -276,7 +282,7 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
 
         # Set columns widths
         sheet.set_column('A:AD', 13)
-        sheet.set_column('C:C', 32) # Employee name
+        sheet.set_column('C:C', 40) # Employee name
 
         # write logo
         logo_file_name = False
@@ -306,7 +312,7 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
         sheet.write('B' + header_row_str, _("Employee Code"), f_header)
         sheet.write('C' + header_row_str, _("Employee Name"), f_header)
         sheet.write('D' + header_row_str, _("Contract"), f_header)
-        sheet.write('E' + header_row_str, _("Lot"), f_header)
+        sheet.write('E' + header_row_str, _("MO"), f_header)
         sheet.write('F' + header_row_str, _("Gross"), f_header)
         sheet.write('G' + header_row_str, _("Backs"), f_header)
         sheet.write('H' + header_row_str, _("Crumbs"), f_header)
@@ -320,7 +326,7 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
         sheet.write('P' + header_row_str, _("% Crumbs"), f_header)
         sheet.write('Q' + header_row_str, _("% Total Yield"), f_header)
         sheet.write('R' + header_row_str, _("STD Crumbs"), f_header)
-        sheet.write('S' + header_row_str, _("MO"), f_header)
+        sheet.write('S' + header_row_str, _("MO."), f_header)
         sheet.write('T' + header_row_str, _("STD MO"), f_header)
         sheet.write('U' + header_row_str, _("IND Backs"), f_header_ind)
         sheet.write('V' + header_row_str, _("IND MO"), f_header_ind)
@@ -439,6 +445,11 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
             wtotal_hours += obj.total_hours
             wnumreg += 1
 
+            if (wproduct_weight + wshared_product_weight/2) == 0:
+                wquality=0
+            else:
+                wquality = wquality/(wproduct_weight + wshared_product_weight/2)
+
             #columns with grouped data
             sheet.write(row, 5, wgross_weight, f_data)
             sheet.write(row, 6, wproduct_weight, f_data)
@@ -446,7 +457,7 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
             sheet.write(row, 8, wshared_gross_weight, f_data)
             sheet.write(row, 9, wshared_product_weight, f_data)
             sheet.write(row, 10, wshared_sp1_weight, f_data)
-            sheet.write(row, 11, wquality/(wproduct_weight + wshared_product_weight/2) if (wproduct_weight + wshared_product_weight/2) == 0 else 0 , f_data)
+            sheet.write(row, 11, wquality, f_data)
             sheet.write(row, 12, wtotal_hours, f_data)
             sheet.write(row, 25, wproduct_boxes, f_data)
             sheet.write(row, 26, wsp1_boxes, f_data)
@@ -511,7 +522,7 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
         # Set columns widths
         sheet.set_column('A:T', 13)
         sheet.set_column('E:O', 0, None, {'hidden': 1})
-        sheet.set_column('B:B', 32) # Employee name
+        sheet.set_column('B:B', 40) # Employee name
 
         # write logo
         logo_file_name = False
@@ -541,7 +552,7 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
         sheet.write('A' + header_row_str, _("Employee Code"), f_header)
         sheet.write('B' + header_row_str, _("Employee Name"), f_header)
         sheet.write('C' + header_row_str, _("Shift"), f_header)
-        sheet.write('D' + header_row_str, _("Lot"), f_header)
+        sheet.write('D' + header_row_str, _("MO"), f_header)
         sheet.write('E' + header_row_str, _("Gross"), f_header)
         sheet.write('F' + header_row_str, _("Backs"), f_header)
         sheet.write('G' + header_row_str, _("Crumbs"), f_header)
@@ -551,7 +562,7 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
         sheet.write('K' + header_row_str, _("STD Back"), f_header)
         sheet.write('L' + header_row_str, _("% Crumbs"), f_header)
         sheet.write('M' + header_row_str, _("STD Crumbs"), f_header)
-        sheet.write('N' + header_row_str, _("MO"), f_header)
+        sheet.write('N' + header_row_str, _("MO."), f_header)
         sheet.write('O' + header_row_str, _("STD MO"), f_header)
         sheet.write('P' + header_row_str, _("IND Backs"), f_header_ind)
         sheet.write('Q' + header_row_str, _("IND MO"), f_header_ind)
@@ -653,11 +664,16 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
             wtotal_hours += obj.total_hours
             wnumreg += 1
 
+            if (wproduct_weight + wshared_product_weight/2) == 0:
+                wquality=0
+            else:
+                wquality = wquality/(wproduct_weight + wshared_product_weight/2)
+
             #columns with grouped data
             sheet.write(row, 4, wgross_weight, f_data)
             sheet.write(row, 5, wproduct_weight, f_data)
             sheet.write(row, 6, wsp1_weight, f_data)
-            sheet.write(row, 7, wquality/(wproduct_weight + wshared_product_weight/2) if (wproduct_weight + wshared_product_weight/2) == 0 else 0, f_data)
+            sheet.write(row, 7, wquality, f_data)
             sheet.write(row, 8, wtotal_hours, f_data)
 
             wlot_name = obj.lot_name
@@ -709,7 +725,7 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
         # Set columns widths
         sheet.set_column('A:X', 13)
         sheet.set_column('O:S', 0, None, {'hidden': 1})
-        sheet.set_column('B:B', 32) # Employee name
+        sheet.set_column('B:B', 40) # Employee name
 
         # write logo
         logo_file_name = False
@@ -750,7 +766,7 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
         sheet.write('M' + header_row_str, _("Waste"), f_header)
         sheet.write('N' + header_row_str, _("% Waste"), f_header)
         sheet.write('O' + header_row_str, _("Time"), f_header)
-        sheet.write('P' + header_row_str, _("MO"), f_header)
+        sheet.write('P' + header_row_str, _("MO."), f_header)
         sheet.write('Q' + header_row_str, _("STD Back"), f_header)
         sheet.write('R' + header_row_str, _("STD Crumbs"), f_header)
         sheet.write('S' + header_row_str, _("STD MO"), f_header)
@@ -847,6 +863,11 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
             wtotal_hours += obj.total_hours
             wnumreg += 1
 
+            if (wproduct_weight + wshared_product_weight/2) == 0:
+                wquality=0
+            else:
+                wquality = wquality/(wproduct_weight + wshared_product_weight/2)
+
             #columns with grouped data
             sheet.write(row, 2, wgross_weight, f_data)
             sheet.write(row, 3, wproduct_weight, f_data)
@@ -854,7 +875,7 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
             sheet.write(row, 5, wshared_gross_weight, f_data)
             sheet.write(row, 6, wshared_product_weight, f_data)
             sheet.write(row, 7, wshared_sp1_weight, f_data)
-            sheet.write(row, 8, wquality/(wproduct_weight + wshared_product_weight/2) if (wproduct_weight + wshared_product_weight/2) == 0 else 0, f_data)
+            sheet.write(row, 8, wquality, f_data)
             sheet.write(row, 14, wtotal_hours, f_data)
 
             wlot_name = obj.lot_name

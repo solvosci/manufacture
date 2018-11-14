@@ -76,6 +76,7 @@
         <field name="model">mdc.data_win</field>
         <field name="arch" type="xml">
             <search string="Data_win">
+                <field name="card_id"/>
                 <field name="line_id"/>
                 <field name="lot_id"/>
                 <!-- FIXME this filter gives a "ValueError: No known conversion for %H" error -->

@@ -77,6 +77,21 @@
         </field>
     </record>
 
+    <!-- Search view: default search for card -->
+    <record id="mdc_card_search" model="ir.ui.view">
+        <field name="name">mdc.card.search</field>
+        <field name="model">mdc.card</field>
+        <field name="arch" type="xml">
+            <search string="Card">
+                <field name="name"/>
+                <field name="card_categ_id"/>
+                <field name="employee_id"/>
+                <field name="workstation_id"/>
+            </search>
+        </field>
+    </record>
+
+
     <!-- Tree view: default view for card -->
     <record id="mdc_card_tree" model="ir.ui.view">
         <field name="name">mdc.card.tree</field>
