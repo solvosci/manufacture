@@ -87,15 +87,16 @@ class ChkPoint(models.Model):
         'mdc.lot',
         string='Current MO Active Id')
     start_lot_datetime = fields.Datetime(
-        string = 'Start MO Active date time',
-        readonly=True)
+        string = 'Start MO Active date time'
+        )
 
     @api.multi
     def write(self, values):
         self.ensure_one()
         # Modifying a current_lot_active and update historic lot_active if it is necessary
         if 'current_lot_active_id' in values:
-            values['start_lot_datetime'] = fields.Datetime.now()
+            if not 'start_lot_datetime' in values or not values['start_lot_datetime']:
+                values['start_lot_datetime'] = fields.Datetime.now()
             self.env['mdc.lot_active'].update_historical(
                 chkpoint_id=self.id,
                 current_lot_active=self.current_lot_active_id,
