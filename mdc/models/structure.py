@@ -252,8 +252,11 @@ class Card(models.Model):
             values.pop('lot_id', None)
             values.pop('employee_id', None)
         if self.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_PC').id:
+            # TODO for joker cards, if lot becomes required uncomment the code below
+            """
             if 'lot_id' in values and not values.get('lot_id'):
                 raise UserError(_('You must select a lot for this card'))
+            """
             values.pop('employee_id', None)
             values.pop('workstation_id', None)
         # TODO product and subproduct cards should clear assignment fields
