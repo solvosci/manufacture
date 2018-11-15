@@ -232,6 +232,7 @@
                 <field name="line_id" readonly="True"/>
                 <field name="name" readonly="True"/>
                 <field name="seat" readonly="True"/>
+                <!-- field name="last_wout_lot_id" readonly="True" string="Last lot"/ -->
                 <field name="current_employee_id" domain="[('workstation_id', '=', False),('operator', '=', True)]"/>
             </tree>
         </field>

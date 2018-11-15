@@ -398,9 +398,18 @@ class DataWOut(models.Model):
             # * Shared opening: others
 
         values['gross_weight'] = gross_weight
+        sp1_wout_categ = self.env.ref('mdc.mdc_wout_categ_SP1')
         # TODO Lot should be filled from view for testing purposes. Actually, it should always be computed
         if current_lot_id:
             values['lot_id'] = current_lot_id.id
+        elif values['wout_categ_id'] == sp1_wout_categ.id:
+            # If scrumbs output mode is selected, lot is calculated at this time as the last used by this workstation
+            if workstation_card.workstation_id.last_wout_lot_id:
+                values['lot_id'] = workstation_card.workstation_id.last_wout_lot_id.id
+            else:
+                raise UserError(
+                    _("Workstation %s has never been register any output, so it's not yet allowed to make a %s output") %
+                    (workstation_card.workstation_id.name, sp1_wout_categ.name))
 
         data_wout = super(DataWOut, self).create(values)
 

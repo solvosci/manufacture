@@ -161,6 +161,23 @@ class Workstation(models.Model):
         index=True,
         ondelete='cascade',
         domain=[('workstation_id', '=', False)])
+    last_wout_lot_id = fields.Many2one(
+        'mdc.lot',
+        string='Last output lot processed',
+        compute='_compute_last_wout_lot'
+    )
+
+    def _compute_last_wout_lot(self):
+        """
+        Computes the last output used lot by a certain workstation
+        :return:
+        """
+        Wout = self.env['mdc.data_wout'].sudo()
+        for workstation in self:
+            workstation_last_wout = Wout.search([('workstation_id', '=', workstation.id)],
+                                                order='create_datetime desc', limit=1)
+            if workstation_last_wout:
+                workstation.last_wout_lot_id = workstation_last_wout.lot_id
 
     def massive_deallocate(self):
         workstation_sel = self.browse(self._context['active_ids'])
