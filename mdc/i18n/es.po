@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-15 13:03+0000\n"
-"PO-Revision-Date: 2018-11-15 13:03+0000\n"
+"POT-Creation-Date: 2018-11-15 15:24+0000\n"
+"PO-Revision-Date: 2018-11-15 15:24+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -133,7 +133,7 @@ msgid "<span id=\"t_chkpoint_wout_jc_description\">Joker card</span>\n"
 "            <span id=\"t_chkpoint_wout_input_workstation_expected_err\">Card #{0} not valid. Workstation card is expected</span>\n"
 "            <span id=\"t_chkpoint_wout_input_repeated_err\">Card #{0} was already read!</span>\n"
 "            <span id=\"t_chkpoint_wout_input_no_input_err\">Card #{0} not valid, there is no input associated!</span>\n"
-"            <span id=\"t_chkpoint_wout_jc_no_lot_err\">Joker card #{0} not valid, there is no lot associated!</span>\n"
+"            <span id=\"t_chkpoint_wout_jc_no_lot_err\">Joker card #{0} not valid, there is no lot associated. First slide a product card</span>\n"
 "            <span id=\"t_chkpoint_wout_input_lot_err\">Card read #{0} belongs to a different lot ({1}) than the current one</span>\n"
 "            <span id=\"t_chkpoint_wout_input_one_input_already_selected_err\">Product card #{0} not valid. One input mode is selected!</span>\n"
 "            <span id=\"t_chkpoint_wout_input_jc_added\">Added product/joker card Card #{0}</span>\n"
@@ -147,7 +147,7 @@ msgstr "<span id=\"t_chkpoint_wout_jc_description\">Tarjeta Comodín</span>\n"
 "            <span id=\"t_chkpoint_wout_input_workstation_expected_err\">Tarjeta #{0} no válida. Se espera tarjeta de puesto</span>\n"
 "            <span id=\"t_chkpoint_wout_input_repeated_err\">Tarjeta #{0} ya fue leída!</span>\n"
 "            <span id=\"t_chkpoint_wout_input_no_input_err\">Tarjeta #{0} no válida, no existe entrada asociada!</span>\n"
-"            <span id=\"t_chkpoint_wout_jc_no_lot_err\">Tarjeta comodín #{0} no válida, no existe lote asociado!</span>\n"
+"            <span id=\"t_chkpoint_wout_jc_no_lot_err\">Tarjeta comodín #{0} no válida, no existe lote asociado. Primero pase una tarjeta de producto</span>\n"
 "            <span id=\"t_chkpoint_wout_input_lot_err\">Tarjeta leída #{0} corresponde a un lote diferente ({1}) al actual</span>\n"
 "            <span id=\"t_chkpoint_wout_input_one_input_already_selected_err\">Tarjeta de producto #{0} no válida. Seleccionado modo de entrada 1!</span>\n"
 "            <span id=\"t_chkpoint_wout_input_jc_added\">Tarjeta de producto/comodín añadida. Tarjeta #{0}</span>\n"
@@ -473,7 +473,7 @@ msgid "Card #%s comes from a different lot (current: %s)"
 msgstr "La Tarjeta #%s procede de diferente lote (actual: %s)"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:339
+#: code:addons/mdc/models/structure.py:343
 #, python-format
 msgid "Card #%s is not a joker card!"
 msgstr "La Tarjeta #%s no es una tarjeta comodín!"
@@ -486,8 +486,8 @@ msgstr "La Tarjeta #%s no es de empleado"
 
 #. module: mdc
 #: code:addons/mdc/models/chkpointdata.py:112
-#: code:addons/mdc/models/structure.py:296
-#: code:addons/mdc/models/structure.py:337
+#: code:addons/mdc/models/structure.py:300
+#: code:addons/mdc/models/structure.py:341
 #, python-format
 msgid "Card #%s not found"
 msgstr "Tarjeta #%s no encontrada"
@@ -510,7 +510,7 @@ msgid "Card Assignment"
 msgstr "Asignación de tarjetas"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:391
+#: code:addons/mdc/models/structure.py:395
 #: sql_constraint:mdc.card_categ:0
 #, python-format
 msgid "Card Categ Code has been already assigned to a Card Categ!"
@@ -539,7 +539,7 @@ msgid "Card category"
 msgstr "Tipo de tarjeta"
 
 #. module: mdc
-#: code:addons/mdc/controllers/check_point.py:224
+#: code:addons/mdc/controllers/check_point.py:222
 #: model:ir.actions.act_window,name:mdc.action_mdc_card_lotassign
 #: model:ir.ui.menu,name:mdc.mdc_cardlotassign_menu
 #: model:ir.ui.view,arch_db:mdc.chkpoint_list
@@ -550,13 +550,13 @@ msgid "Card lot assignment"
 msgstr "Tarjetas Comodín-Lote"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:323
+#: code:addons/mdc/models/structure.py:327
 #, python-format
 msgid "Card not valid (#%s)"
 msgstr "Tarjeta no válida (#%s)"
 
 #. module: mdc
-#: code:addons/mdc/controllers/check_point.py:186
+#: code:addons/mdc/controllers/check_point.py:184
 #: model:ir.ui.view,arch_db:mdc.chkpoint_list
 #, python-format
 msgid "Card registration"
@@ -1032,7 +1032,7 @@ msgid "Device Code"
 msgstr "Código de dispositivo"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:473
+#: code:addons/mdc/models/structure.py:477
 #: sql_constraint:mdc.rfid_reader:0
 #, python-format
 msgid "Device_Code has been already assigned to a Device!"
@@ -1946,7 +1946,7 @@ msgid "Minimum Stock Rules"
 msgstr "Reglas de stock mínimo"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:242
+#: code:addons/mdc/models/structure.py:243
 #, python-format
 msgid "Modifying card category is not allowed. Please contact Administrator"
 msgstr "No está permitido modificar el Tipo de tarjeta. Por favor, contacte con el administrador"
@@ -1966,7 +1966,7 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:479
+#: code:addons/mdc/models/structure.py:483
 #, python-format
 msgid "New RFID device"
 msgstr "Nuevo dispositivo RFID"
@@ -2609,7 +2609,7 @@ msgid "Shift: %s"
 msgstr "Turno: %s"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:359
+#: code:addons/mdc/models/structure.py:363
 #: sql_constraint:mdc.shift:0
 #, python-format
 msgid "Shift_Code has been already assigned to a Shift!"
@@ -2830,7 +2830,7 @@ msgid "The average delay in days between the confirmation of the customer order 
 msgstr "El retraso medio en días entre la confirmación del pedido de cliente y la entrega de los productos finales. Es el tiempo que promete a sus clientes."
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:138
+#: code:addons/mdc/models/structure.py:139
 #: sql_constraint:mdc.workstation:0
 #, python-format
 msgid "The employee has been already assigned to a workstation!"
@@ -2871,14 +2871,14 @@ msgid "There is already open data with the selected card (%s)"
 msgstr "Ya hay datos registrados en curso con la tarjeta (%s)"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:140
+#: code:addons/mdc/models/structure.py:141
 #: sql_constraint:mdc.workstation:0
 #, python-format
 msgid "There's already a workstation with the same line, shift and seat values"
 msgstr "Ya existe un puesto con los mismos calores de: línea, turno y asiento"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:205
+#: code:addons/mdc/models/structure.py:206
 #: sql_constraint:mdc.card:0
 #, python-format
 msgid "There's another card with the same code"
@@ -3271,7 +3271,7 @@ msgid "Workstations"
 msgstr "Puestos"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:412
+#: code:addons/mdc/models/structure.py:416
 #: sql_constraint:mdc.wout_categ:0
 #, python-format
 msgid "Wout Categ Code has been already assigned to a Wout Categ!"
@@ -3338,31 +3338,25 @@ msgid "You must provide a workstation card"
 msgstr "Debe proporcionar una tarjeta de puesto"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:255
-#, python-format
-msgid "You must select a lot for this card"
-msgstr "Debe seleccionar un lote para esta tarjeta"
-
-#. module: mdc
-#: code:addons/mdc/models/structure.py:250
+#: code:addons/mdc/models/structure.py:251
 #, python-format
 msgid "You must select a workstation for this card"
 msgstr "Debe seleccionar un puesto para esta tarjeta"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:271
+#: code:addons/mdc/models/structure.py:275
 #, python-format
 msgid "You must select a workstation for this card or select another category"
 msgstr "Debe seleccionar un puesto para esta tarjeta o elegir otro tipo"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:245
+#: code:addons/mdc/models/structure.py:246
 #, python-format
 msgid "You must select an employee for this card"
 msgstr "Debe seleccionar un operario para esta tarjeta"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:266
+#: code:addons/mdc/models/structure.py:270
 #, python-format
 msgid "You must select an employee for this card or select another category"
 msgstr "Debe seleccionar un operario para esta tarjeta o elegir otro tipo"

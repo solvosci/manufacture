@@ -31,6 +31,7 @@
                 <title><t t-esc="title"></t></title>
                 <link rel="stylesheet" type="text/css" href="/mdc/static/src/css/cp.css"/>
                 <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
+                <script language="JavaScript" src="/mdc/static/src/js/jquery-3.3.1.min.js"></script>
                 <script language="JavaScript" src="/mdc/static/src/js/cp_common.js"></script>
             </head>
             <body>
@@ -143,7 +144,7 @@
             <span id="t_chkpoint_wout_input_workstation_expected_err">Card #{0} not valid. Workstation card is expected</span>
             <span id="t_chkpoint_wout_input_repeated_err">Card #{0} was already read!</span>
             <span id="t_chkpoint_wout_input_no_input_err">Card #{0} not valid, there is no input associated!</span>
-            <span id="t_chkpoint_wout_jc_no_lot_err">Joker card #{0} not valid, there is no lot associated!</span>
+            <span id="t_chkpoint_wout_jc_no_lot_err">Joker card #{0} not valid, there is no lot associated. First slide a product card</span>
             <span id="t_chkpoint_wout_input_lot_err">Card read #{0} belongs to a different lot ({1}) than the current one</span>
             <span id="t_chkpoint_wout_input_one_input_already_selected_err">Product card #{0} not valid. One input mode is selected!</span>
             <span id="t_chkpoint_wout_input_jc_added">Added product/joker card Card #{0}</span>

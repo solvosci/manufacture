@@ -80,15 +80,15 @@ var WoutState = /*(*/function () {
                         .format(card_data.card_code)
                 );
             }
-            if ( !bProductCard && !('win_lot_id' in card_data) ) {
-                // Joker card with no lot associated
+            var lotId = currentLotId();
+            if ( !bProductCard && !('win_lot_id' in card_data) && !lotId ) {
+                // Joker card with no lot associated and lot is not yet determined
                 throw new Error(
                     $('#t_chkpoint_wout_jc_no_lot_err').html()
                         .format(card_data.card_code)
                 );
             }
-            var lotId = currentLotId();
-            if ( lotId && (lotId != card_data.win_lot_id) ) {
+            if ( lotId && card_data.win_lot_id && (lotId != card_data.win_lot_id) ) {
                 // Product/Joker card associated to a different lot
                 throw new Error(
                     $('#t_chkpoint_wout_input_lot_err').html()

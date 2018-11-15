@@ -154,8 +154,6 @@ class CheckPoint(http.Controller):
         cp_user = self._get_cp_user_and_lang_context(request)
         data_in = dict(request.jsonrequest)
         data_in['chkpoint_id'] = chkpoint_id
-        # TODO category comes from cp. Remove
-        # data_in['wout_categ_id'] = request.env.ref('mdc.mdc_wout_categ_P').id
         data_out = {
             'ckhpoint_id': chkpoint_id
         }
