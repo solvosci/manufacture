@@ -200,7 +200,8 @@ var WoutState = /*(*/function () {
 
     var displayUpdate = function (data) {
         $('#last_weight').val(data.weight + ' ' + data.w_uom);
-        $('#card_in_1,#card_in_2,#card_workstation,#last_weight,#last_quality').addClass('success');
+        $('#card_in_1,#card_in_2,#card_workstation,#last_weight,#last_quality')
+            .removeClass('failed').addClass('success');
         info($('#t_chkpoint_wout_save_ok').html(), 'ok')
         window.setTimeout(function () {
                 $('#card_in_1,#card_in_2,#card_workstation,#last_weight,#last_quality').removeClass('success');

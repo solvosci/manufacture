@@ -99,9 +99,13 @@ class DataWIn(models.Model):
         if not chkpoint.tare_id:
             raise UserError(_("Tare not defined"))
         try:
-            weight_value, weight_uom_id = chkpoint.scale_id.get_weight()[0:2]
+            weight_value, weight_uom_id, weight_stability = chkpoint.scale_id.get_weight()[0:3]
         except socket.timeout:
             raise UserError(_("Timed out on weighing scale"))
+
+        if weight_stability == 'unstable':
+            raise UserError(_('Unstable %.2f %s weight was read. Please slide the card one more time') %
+                            (weight_value, weight_uom_id.name))
 
         card = self.env['mdc.card'].search([('name', '=', values['card_code'])])
         if not card:
@@ -440,9 +444,13 @@ class DataWOut(models.Model):
         if not chkpoint.tare_id:
             raise UserError(_("Tare not defined"))
         try:
-            weight_value, weight_uom_id = chkpoint.scale_id.get_weight()[0:2]
+            weight_value, weight_uom_id, weight_stability = chkpoint.scale_id.get_weight()[0:3]
         except socket.timeout:
             raise UserError(_("Timed out on weighing scale"))
+
+        if weight_stability == 'unstable':
+            raise UserError(_('Unstable %.2f %s weight was read. Please start passing cards again') %
+                            (weight_value, weight_uom_id.name))
 
         cards_id_list = [] if len(values['cards_in']) == 0 else [card['card_id'] for card in values['cards_in']]
         cards_id_list.append(values['card_workstation']['card_id'])

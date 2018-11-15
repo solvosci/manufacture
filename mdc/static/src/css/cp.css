@@ -88,6 +88,11 @@ input.success {
     background: #50FF50
 }
 
+input.failed {
+    color: #FFFFFF;
+    background: #FF0000;
+}
+
 #quality_select {
     width: 100px;
 }

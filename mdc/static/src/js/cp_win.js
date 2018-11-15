@@ -82,12 +82,16 @@ data_win_save = function (data) {
         console.log(data.result);
         if ( data.result.err ) {
             show_info('ERROR: ' + data.result.err, 'err');
+            $('#last_weight').val('')
+                .removeClass('success').addClass('failed');
+            window.setTimeout(function () { $('#last_card_read,#last_weight').removeClass('failed'); }, 3000);
         }
         else {
             show_info($('#t_chkpoint_win_save_ok').html(), 'ok');
             $('#lot').html(data.result.lotactive)
             // $('#last_card_read').val(data.result.card_code).addClass('success');
-            $('#last_weight').val(data.result.weight + ' ' + data.result.w_uom).addClass('success');
+            $('#last_weight').val(data.result.weight + ' ' + data.result.w_uom)
+                .removeClass('failed').addClass('success');
             window.setTimeout(function () { $('#last_card_read,#last_weight').removeClass('success'); }, 3000);
         }
     }).fail(function () {
