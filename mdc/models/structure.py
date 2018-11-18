@@ -93,10 +93,49 @@ class ChkPoint(models.Model):
     @api.multi
     def write(self, values):
         self.ensure_one()
-        # Modifying a current_lot_active and update historic lot_active if it is necessary
+        now = fields.Datetime.now()
+
+        # save new lot on a temp variable
+        new_lot_active_id = ''
         if 'current_lot_active_id' in values:
-            if not 'start_lot_datetime' in values or not values['start_lot_datetime']:
-                values['start_lot_datetime'] = fields.Datetime.now()
+            new_lot_active_id = values['current_lot_active_id']
+        else:
+            new_lot_active_id = self.current_lot_active_id
+
+        # save new and old start-date on a temp variables
+        new_start_lot_datetime = ''
+        old_start_lot_datetime = ''
+        if 'start_lot_datetime' in values:
+            # default date = current_date
+            if not values['start_lot_datetime']:
+                values['start_lot_datetime'] = now
+            # when change lot and don´t change date we put default date = current_date
+            if 'current_lot_active_id' in values \
+                and values['current_lot_active_id'] != self.current_lot_active_id \
+                and values['start_lot_datetime'] == self.start_lot_datetime:
+                values['start_lot_datetime'] = now
+            new_start_lot_datetime = values['start_lot_datetime']
+            old_start_lot_datetime = self.start_lot_datetime
+
+        if new_start_lot_datetime:
+            if new_start_lot_datetime > now:
+                raise UserError(_('You can´t give a future start date'))
+
+        #when change lot whe have to do new history records
+        # Modifying a current_lot_active and update historic lot_active if it is necessary
+        if 'current_lot_active_id' in values and values['current_lot_active_id'] != self.current_lot_active_id:
+            print("Change lote: new : " + str(values['current_lot_active_id']) + " old: "+ str(self.current_lot_active_id))
+            if not new_start_lot_datetime:
+                new_start_lot_datetime = now
+            values['start_lot_datetime'] = new_start_lot_datetime
+            # when change lot maybe do in the current shift
+            shift_data = self.env['mdc.shift'].get_current_shift(now)
+            if new_start_lot_datetime < shift_data['start_datetime']:
+                raise UserError(_('You can´t give start date less than start current shift time (%s < %s)') % (new_start_lot_datetime, shift_data['start_datetime']))
+            if new_start_lot_datetime > shift_data['end_datetime']:
+                raise UserError(_('You can´t give start date higher than end current shift time (%s > %s)') % (new_start_lot_datetime, shift_data['end_datetime']))
+
+            old_start_lot_datetime = values['start_lot_datetime']
             self.env['mdc.lot_active'].update_historical(
                 chkpoint_id=self.id,
                 current_lot_active=self.current_lot_active_id,
@@ -105,9 +144,8 @@ class ChkPoint(models.Model):
             # Only when lot_active has changed and chkpoint type is WOUT,
             #  we must close the related worksheets and open new ones
             if self.chkpoint_categ == 'WOUT':
-                # TODO why the current shift? Why not simply the current open worksheets
                 # TODO if worksheet is open the employee may be present, or may not?
-                shift = self.env['mdc.shift'].get_current_shift()
+                shift = shift_data['shift']
                 wsheet = self.env['mdc.worksheet'].search(
                     [('end_datetime', '=', False),
                      ('workstation_id.line_id', '=', self.line_id.id),
@@ -119,7 +157,18 @@ class ChkPoint(models.Model):
                             'start_datetime': values['start_lot_datetime'],
                             'employee_id': employee.id,
                             'lot_id': values['current_lot_active_id']})
+
+        # if change start data we have do refactoring history of the lot
+        print("new_start_lot_datetime : " + new_start_lot_datetime + " old_start_lot_datetime: "+ old_start_lot_datetime)
+        if new_start_lot_datetime and old_start_lot_datetime \
+                and new_start_lot_datetime != old_start_lot_datetime:
+            self.env['mdc.lot_active'].update_start_date(
+                chkpoint_id=self.id,
+                new_start_lot_datetime=new_start_lot_datetime,
+                old_start_lot_datetime=old_start_lot_datetime)
+
         return super(ChkPoint, self).write(values)
+
 
     @api.model
     def get_current_lot(self, chkpoint_categ, line_id):
@@ -394,13 +443,24 @@ class Shift(models.Model):
         required = True)
 
     @api.multi
-    def get_current_shift(self):
+    def get_current_shift(self, dt):
         # get current shift: now between start_time and end_time
         shift = False
-        actual_time = fields.Datetime.from_string(fields.Datetime.now()) # datetime.datetime.strptime(now, '%Y-%m-%d %H:%M:%S')
+        if not dt:
+            dt = fields.Datetime.now()
+        actual_time = fields.Datetime.from_string(dt)  # datetime.datetime.strptime(now, '%Y-%m-%d %H:%M:%S')
         time = actual_time.hour + actual_time.minute/60
-        shift = self.search([('start_time', '<=', time ),('end_time', '>=', time)])
-        return shift
+        shift = self.search([('start_time', '<=', time ), ('end_time', '>', time)])
+        if shift:
+            start_datetime = fields.datetime(actual_time.year, actual_time.month, actual_time.day, int(shift.start_time), 0, 0)
+            end_datetime = fields.datetime(actual_time.year, actual_time.month, actual_time.day, int(shift.end_time), 0, 0)
+        else:
+            raise UserError(_('We don´t find shift to this time %s') % time)
+        return {
+            'shift': shift,
+            'start_datetime': start_datetime.strftime('%Y-%m-%d %H:%M:%S'),
+            'end_datetime': end_datetime.strftime('%Y-%m-%d %H:%M:%S')
+        }
 
 
 class CardCateg(models.Model):
