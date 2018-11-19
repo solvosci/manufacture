@@ -159,7 +159,7 @@
             <div class="divTable">
                 <div class="divTableBody">
                     <div class="divTableRow">
-                        <div class="divTableCell" style="width: 75%">
+                        <div class="divTableCell" style="width: 70%">
                             <div class="divTable">
                                 <div class="divTableBody">
                                     <div class="divTableRow" id="rfid_simul_data" style="display: none;">
@@ -240,7 +240,7 @@
                                 </optgroup>
                             </select>
                             <button type="button" id="quality_down_button"></button>
-                            <p/>
+                            <br/>
                             <button type="button" id="shared_button" class="disabled"></button>
                             <br/>
                             <button type="button" id="crumbs_button" class="disabled"></button>
