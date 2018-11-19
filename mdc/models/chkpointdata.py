@@ -417,9 +417,10 @@ class DataWOut(models.Model):
         if len(ids_win) > 0:
             data_win = self.env['mdc.data_win'].browse(ids_win)
             if data_win:
-                data_win.write({
-                    'wout_id': data_wout.id
-                })
+                for win in data_win:
+                    win.write({
+                        'wout_id': data_wout.id
+                    })
 
         # If comes from a previous shared output, link themselves
         if wout_shared_data:
