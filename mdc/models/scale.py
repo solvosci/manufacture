@@ -89,13 +89,21 @@ class Scale(models.Model):
             s.settimeout(self.timeout_secs)
             s.connect((self.tcp_address_ip, self.tcp_address_port))
             if self.scale_protocol == '$':
+                """
                 self.last_weight_value, self.last_weight_stability, self.last_weight_datetime \
+                    = self._get_weight_s_protocol(s)
+                """
+                t_last_weight_value, t_last_weight_stability, t_last_weight_datetime \
                     = self._get_weight_s_protocol(s)
             else:
                 raise Exception(_('Unsupported weighing protocol (%s)') % self.protocol)
-            self.last_weight_uom_id = self.weight_uom_id
+            # self.last_weight_uom_id = self.weight_uom_id
+            """
             return self.last_weight_value, self.last_weight_uom_id, \
                 self.last_weight_stability, self.last_weight_datetime
+            """
+            return t_last_weight_value, self.weight_uom_id, \
+                   t_last_weight_stability, t_last_weight_datetime
 
     def _get_weight_s_protocol(self, sock):
         sock.send(b'$')
