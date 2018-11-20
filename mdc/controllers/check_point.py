@@ -36,7 +36,10 @@ class CheckPoint(http.Controller):
         return cp_user
 
     def _get_client_ip(self, request):
-        return request.httprequest.environ['REMOTE_ADDR']
+        remote_ip = request.httprequest.environ.get('HTTP_X_REAL_IP')
+        if not remote_ip:
+            remote_ip = request.httprequest.environ.get('REMOTE_ADDR')
+        return remote_ip
 
     def _get_company(self, request):
         return request.env['res.company'].sudo().search([])[0]
@@ -83,10 +86,11 @@ class CheckPoint(http.Controller):
             cp_user = self._get_cp_user_and_lang_context(request)
             ws_session_data = ws_rfid_server.get_session_data(request.env, simul=('rfidsimul' in kwargs))
             chkpoints = request.env['mdc.chkpoint'].sudo(cp_user).browse(chkpoint_id)
+            client_ip = self._get_client_ip(request)
             return request.render(
                 'mdc.chkpoint_win',
                 {'title': chkpoints[0].name, 'chkpoints': chkpoints, 'ws_session_data': ws_session_data,
-                 'client_ip': self._get_client_ip(request)}
+                 'client_ip': client_ip}
             )
         except Exception as e:
             return self.get_error_page({
