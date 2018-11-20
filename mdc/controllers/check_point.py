@@ -27,6 +27,7 @@ from .. import ws_rfid_server
 
 class CheckPoint(http.Controller):
 
+    # TODO request parameter should not required
     def _get_cp_user_and_lang_context(self, request):
         cp_user = request.env.ref('mdc.mdc_user_cp')
         # https://stackoverflow.com/questions/42411147/update-context-in-odoo-controller-request-env-context' \
@@ -35,14 +36,11 @@ class CheckPoint(http.Controller):
         request.env.context = context
         return cp_user
 
-    def _get_client_ip(self, request):
+    def _get_client_ip(self):
         remote_ip = request.httprequest.environ.get('HTTP_X_REAL_IP')
         if not remote_ip:
             remote_ip = request.httprequest.environ.get('REMOTE_ADDR')
         return remote_ip
-
-    def _get_company(self, request):
-        return request.env['res.company'].sudo().search([])[0]
 
     # Example route
     # TODO remove
@@ -65,6 +63,7 @@ class CheckPoint(http.Controller):
 
     def get_error_page(self, data):
         data['title'] = 'ERROR - MDC CP'
+        data['client_ip'] = self._get_client_ip()
         return request.render('mdc.chkpoint_err', data)
 
     @http.route('/mdc/cp/list', type='http', auth='none')
@@ -86,7 +85,7 @@ class CheckPoint(http.Controller):
             cp_user = self._get_cp_user_and_lang_context(request)
             ws_session_data = ws_rfid_server.get_session_data(request.env, simul=('rfidsimul' in kwargs))
             chkpoints = request.env['mdc.chkpoint'].sudo(cp_user).browse(chkpoint_id)
-            client_ip = self._get_client_ip(request)
+            client_ip = self._get_client_ip()
             return request.render(
                 'mdc.chkpoint_win',
                 {'title': chkpoints[0].name, 'chkpoints': chkpoints, 'ws_session_data': ws_session_data,
@@ -143,6 +142,7 @@ class CheckPoint(http.Controller):
             cp_user = self._get_cp_user_and_lang_context(request)
             ws_session_data = ws_rfid_server.get_session_data(request.env, simul=('rfidsimul' in kwargs))
             chkpoints = request.env['mdc.chkpoint'].sudo(cp_user).browse(chkpoint_id)
+            client_ip = self._get_client_ip()
             qualities = request.env['mdc.quality'].sudo(cp_user).search([], order='code')
             return request.render(
                 'mdc.chkpoint_wout',
@@ -150,7 +150,8 @@ class CheckPoint(http.Controller):
                  'ws_session_data': ws_session_data,
                  'card_categ_P_id': request.env.ref('mdc.mdc_card_categ_P').id,
                  'card_categ_L_id': request.env.ref('mdc.mdc_card_categ_L').id,
-                 'card_categ_PC_id': request.env.ref('mdc.mdc_card_categ_PC').id
+                 'card_categ_PC_id': request.env.ref('mdc.mdc_card_categ_PC').id,
+                 'client_ip': client_ip
                  }
             )
         except Exception as e:
@@ -187,11 +188,12 @@ class CheckPoint(http.Controller):
             employees = request.env['hr.employee'].sudo(cp_user).search([('operator', '=', True)])
             workstations = request.env['mdc.workstation'].sudo(cp_user).search([])
             ws_session_data = ws_rfid_server.get_session_data(request.env)
+            client_ip = self._get_client_ip()
             return request.render(
                 'mdc.chkpoint_card_registration',
                 {'title': _('Card registration'),
                  'devices': devices, 'card_categs': card_categs, 'employees': employees, 'workstations': workstations,
-                 'ws_session_data': ws_session_data}
+                 'ws_session_data': ws_session_data, 'client_ip': client_ip}
             )
         except Exception as e:
             return self.get_error_page({
@@ -225,10 +227,11 @@ class CheckPoint(http.Controller):
                 .search(['&', ('start_date', '<=', fields.Date.today()),
                          '|', ('end_date', '=', False), ('end_date', '>=', fields.Date.today())])
             ws_session_data = ws_rfid_server.get_session_data(request.env)
+            client_ip = self._get_client_ip()
             return request.render(
                 'mdc.chkpoint_card_lot_assignment',
                 {'title': _('Card lot assignment'), 'devices': devices, 'lots': lots,
-                 'ws_session_data': ws_session_data}
+                 'ws_session_data': ws_session_data, 'client_ip': client_ip}
             )
         except Exception as e:
             return self.get_error_page({

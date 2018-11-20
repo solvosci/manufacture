@@ -335,6 +335,9 @@ class DataWOut(models.Model):
                 if card.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_P').id:
                     data_win = self.env['mdc.data_win'].search([('card_id', '=', card.id), ('wout_id', '=', False)])
                     if data_win:
+                        if len(data_win) > 1:
+                            raise UserError(_('Card #%s is associated with inputs %s. Please cancel one of them')
+                                            % (card.name, data_win.mapped('id')))
                         if current_lot_id and current_lot_id.id != data_win.lot_id.id:
                             raise UserError(_("Card #%s comes from a different lot (current: %s)") %
                                             (card.name, current_lot_id.name))
