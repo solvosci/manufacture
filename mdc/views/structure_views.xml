@@ -243,6 +243,7 @@
                         <group>
                             <field name="scale_id"/>
                             <field name="rfid_reader_id"/>
+                            <field name="allowed_ip"/>
                         </group>
                     </group>
                     <group name="gr_chkpoint_data" string="Check point data">

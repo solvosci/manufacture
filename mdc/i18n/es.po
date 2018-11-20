@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-20 05:05+0000\n"
-"PO-Revision-Date: 2018-11-20 05:05+0000\n"
+"POT-Creation-Date: 2018-11-20 06:03+0000\n"
+"PO-Revision-Date: 2018-11-20 06:03+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -241,6 +241,11 @@ msgstr "Alias CP name"
 #: model:ir.ui.view,arch_db:mdc.mdc_data_wins_search
 msgid "All"
 msgstr "Todos"
+
+#. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_chkpoint_allowed_ip
+msgid "Allowed IP"
+msgstr "IP permitida"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.mdc_data_wins_form
@@ -481,7 +486,7 @@ msgid "Card #%s is associated with inputs %s. Please cancel one of them"
 msgstr "La tarjeta %s está asociada con las entradas %s. Por favor, cancele una de ellas"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:409
+#: code:addons/mdc/models/structure.py:414
 #, python-format
 msgid "Card #%s is not a joker card!"
 msgstr "La Tarjeta #%s no es una tarjeta comodín!"
@@ -494,8 +499,8 @@ msgstr "La Tarjeta #%s no es de empleado"
 
 #. module: mdc
 #: code:addons/mdc/models/chkpointdata.py:112
-#: code:addons/mdc/models/structure.py:366
-#: code:addons/mdc/models/structure.py:407
+#: code:addons/mdc/models/structure.py:371
+#: code:addons/mdc/models/structure.py:412
 #, python-format
 msgid "Card #%s not found"
 msgstr "Tarjeta #%s no encontrada"
@@ -518,7 +523,7 @@ msgid "Card Assignment"
 msgstr "Asignación de tarjetas"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:472
+#: code:addons/mdc/models/structure.py:477
 #: sql_constraint:mdc.card_categ:0
 #, python-format
 msgid "Card Categ Code has been already assigned to a Card Categ!"
@@ -547,7 +552,7 @@ msgid "Card category"
 msgstr "Tipo de tarjeta"
 
 #. module: mdc
-#: code:addons/mdc/controllers/check_point.py:233
+#: code:addons/mdc/controllers/check_point.py:239
 #: model:ir.actions.act_window,name:mdc.action_mdc_card_lotassign
 #: model:ir.ui.menu,name:mdc.mdc_cardlotassign_menu
 #: model:ir.ui.view,arch_db:mdc.chkpoint_list
@@ -558,13 +563,13 @@ msgid "Card lot assignment"
 msgstr "Tarjetas Comodín-Lote"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:393
+#: code:addons/mdc/models/structure.py:398
 #, python-format
 msgid "Card not valid (#%s)"
 msgstr "Tarjeta no válida (#%s)"
 
 #. module: mdc
-#: code:addons/mdc/controllers/check_point.py:194
+#: code:addons/mdc/controllers/check_point.py:200
 #: model:ir.ui.view,arch_db:mdc.chkpoint_list
 #, python-format
 msgid "Card registration"
@@ -647,7 +652,7 @@ msgid "Check point parameters"
 msgstr "Parámetros del punto de control"
 
 #. module: mdc
-#: code:addons/mdc/controllers/check_point.py:111
+#: code:addons/mdc/controllers/check_point.py:117
 #: code:addons/mdc/models/chkpointdata.py:94
 #: code:addons/mdc/models/chkpointdata.py:454
 #, python-format
@@ -1040,7 +1045,7 @@ msgid "Device Code"
 msgstr "Código de dispositivo"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:554
+#: code:addons/mdc/models/structure.py:559
 #: sql_constraint:mdc.rfid_reader:0
 #, python-format
 msgid "Device_Code has been already assigned to a Device!"
@@ -1959,7 +1964,7 @@ msgid "Minimum Stock Rules"
 msgstr "Reglas de stock mínimo"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:309
+#: code:addons/mdc/models/structure.py:314
 #, python-format
 msgid "Modifying card category is not allowed. Please contact Administrator"
 msgstr "No está permitido modificar el Tipo de tarjeta. Por favor, contacte con el administrador"
@@ -1979,7 +1984,7 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:560
+#: code:addons/mdc/models/structure.py:565
 #, python-format
 msgid "New RFID device"
 msgstr "Nuevo dispositivo RFID"
@@ -2622,7 +2627,7 @@ msgid "Shift: %s"
 msgstr "Turno: %s"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:429
+#: code:addons/mdc/models/structure.py:434
 #: sql_constraint:mdc.shift:0
 #, python-format
 msgid "Shift_Code has been already assigned to a Shift!"
@@ -2849,7 +2854,13 @@ msgid "The average delay in days between the confirmation of the customer order 
 msgstr "El retraso medio en días entre la confirmación del pedido de cliente y la entrega de los productos finales. Es el tiempo que promete a sus clientes."
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:188
+#: code:addons/mdc/controllers/check_point.py:47
+#, python-format
+msgid "The checkpoint %s is not allowed for this address (%s)"
+msgstr "El punto de control %s no está permitido para esta dirección (%s)"
+
+#. module: mdc
+#: code:addons/mdc/models/structure.py:193
 #: sql_constraint:mdc.workstation:0
 #, python-format
 msgid "The employee has been already assigned to a workstation!"
@@ -2859,6 +2870,13 @@ msgstr "El operario ya ha sido asignado a un puesto!"
 #: model:ir.model.fields,help:mdc.field_mdc_std_lst_price
 msgid "The sale price is managed from the product template. Click on the 'Variant Prices' button to set the extra attribute prices."
 msgstr "El precio de venta se gestiona desde la plantilla del producto. Haga clic en el botón 'Precios variantes' para establecer los precios adicionales de los atributos."
+
+#. module: mdc
+#: code:addons/mdc/models/structure.py:60
+#: sql_constraint:mdc.chkpoint:0
+#, python-format
+msgid "The selected allowed IP is already assigned!"
+msgstr "La IP permitida seleccionada ya está asignada!"
 
 #. module: mdc
 #: code:addons/mdc/models/morders.py:25
@@ -2890,14 +2908,14 @@ msgid "There is already open data with the selected card (%s)"
 msgstr "Ya hay datos registrados en curso con la tarjeta (%s)"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:190
+#: code:addons/mdc/models/structure.py:195
 #: sql_constraint:mdc.workstation:0
 #, python-format
 msgid "There's already a workstation with the same line, shift and seat values"
 msgstr "Ya existe un puesto con los mismos calores de: línea, turno y asiento"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:272
+#: code:addons/mdc/models/structure.py:277
 #: sql_constraint:mdc.card:0
 #, python-format
 msgid "There's another card with the same code"
@@ -3152,7 +3170,7 @@ msgid "Waste"
 msgstr "Merma"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:458
+#: code:addons/mdc/models/structure.py:463
 #, python-format
 msgid "We don´t find shift to this time %s"
 msgstr "We don´t find shift to this time %s"
@@ -3302,7 +3320,7 @@ msgid "Workstations"
 msgstr "Puestos"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:493
+#: code:addons/mdc/models/structure.py:498
 #: sql_constraint:mdc.wout_categ:0
 #, python-format
 msgid "Wout Categ Code has been already assigned to a Wout Categ!"
@@ -3382,19 +3400,19 @@ msgstr "You can´t give a future end date"
 
 #. module: mdc
 #: code:addons/mdc/models/morders.py:244
-#: code:addons/mdc/models/structure.py:122
+#: code:addons/mdc/models/structure.py:127
 #, python-format
 msgid "You can´t give a future start date"
 msgstr "You can´t give a future start date"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:136
+#: code:addons/mdc/models/structure.py:141
 #, python-format
 msgid "You can´t give start date higher than end current shift time (%s > %s)"
 msgstr "You can´t give start date higher than end current shift time (%s > %s)"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:134
+#: code:addons/mdc/models/structure.py:139
 #, python-format
 msgid "You can´t give start date less than start current shift time (%s < %s)"
 msgstr "You can´t give start date less than start current shift time (%s < %s)"
@@ -3406,25 +3424,25 @@ msgid "You must provide a workstation card"
 msgstr "Debe proporcionar una tarjeta de puesto"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:317
+#: code:addons/mdc/models/structure.py:322
 #, python-format
 msgid "You must select a workstation for this card"
 msgstr "Debe seleccionar un puesto para esta tarjeta"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:341
+#: code:addons/mdc/models/structure.py:346
 #, python-format
 msgid "You must select a workstation for this card or select another category"
 msgstr "Debe seleccionar un puesto para esta tarjeta o elegir otro tipo"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:312
+#: code:addons/mdc/models/structure.py:317
 #, python-format
 msgid "You must select an employee for this card"
 msgstr "Debe seleccionar un operario para esta tarjeta"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:336
+#: code:addons/mdc/models/structure.py:341
 #, python-format
 msgid "You must select an employee for this card or select another category"
 msgstr "Debe seleccionar un operario para esta tarjeta o elegir otro tipo"

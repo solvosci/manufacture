@@ -56,6 +56,8 @@ class ChkPoint(models.Model):
     _sql_constraints = [
         ('line_chkpoint_categ_unique', 'UNIQUE(chkpoint_categ,line_id)',
          _('Combination: Line & Checkpoint category, are unique, and already Exists!')),
+        ('allowed_ip_unique', 'UNIQUE(allowed_ip)',
+         _('The selected allowed IP is already assigned!')),
     ]
 
     name = fields.Char(
@@ -89,6 +91,9 @@ class ChkPoint(models.Model):
     start_lot_datetime = fields.Datetime(
         string = 'Start MO Active date time'
         )
+    allowed_ip = fields.Char(
+        'Allowed IP'
+    )
 
     @api.multi
     def write(self, values):

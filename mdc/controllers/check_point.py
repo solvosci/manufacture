@@ -42,6 +42,10 @@ class CheckPoint(http.Controller):
             remote_ip = request.httprequest.environ.get('REMOTE_ADDR')
         return remote_ip
 
+    def _check_client(self, checkpoint, client_ip, simul=False):
+        if not simul and checkpoint.allowed_ip and (checkpoint.allowed_ip != client_ip):
+            raise UserError(_('The checkpoint %s is not allowed for this address (%s)') % (checkpoint.name, client_ip))
+
     # Example route
     # TODO remove
     @http.route('/mdc/scales', type='http', auth='none')
@@ -86,6 +90,8 @@ class CheckPoint(http.Controller):
             ws_session_data = ws_rfid_server.get_session_data(request.env, simul=('rfidsimul' in kwargs))
             chkpoints = request.env['mdc.chkpoint'].sudo(cp_user).browse(chkpoint_id)
             client_ip = self._get_client_ip()
+            self._check_client(checkpoint=chkpoints, client_ip=client_ip, simul=ws_session_data['simul'])
+            #self._check_client(checkpoint=chkpoints, client_ip=client_ip, simul=False)
             return request.render(
                 'mdc.chkpoint_win',
                 {'title': chkpoints[0].name, 'chkpoints': chkpoints, 'ws_session_data': ws_session_data,
