@@ -35,6 +35,9 @@ class CheckPoint(http.Controller):
         request.env.context = context
         return cp_user
 
+    def _get_client_ip(self, request):
+        return request.httprequest.environ['REMOTE_ADDR']
+
     def _get_company(self, request):
         return request.env['res.company'].sudo().search([])[0]
 
@@ -82,7 +85,8 @@ class CheckPoint(http.Controller):
             chkpoints = request.env['mdc.chkpoint'].sudo(cp_user).browse(chkpoint_id)
             return request.render(
                 'mdc.chkpoint_win',
-                {'title': chkpoints[0].name, 'chkpoints': chkpoints, 'ws_session_data': ws_session_data}
+                {'title': chkpoints[0].name, 'chkpoints': chkpoints, 'ws_session_data': ws_session_data,
+                 'client_ip': self._get_client_ip(request)}
             )
         except Exception as e:
             return self.get_error_page({

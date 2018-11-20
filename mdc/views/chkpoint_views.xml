@@ -13,10 +13,10 @@
                     | <a href="/mdc/cp/cardlot">Card lot assignment</a>
                 </div>
                 <hr/>
-                List of available checkpoints:
+                List of available checkpoints for RFID simulation:
                 <ul>
                     <li t-foreach="chkpoints" t-as="chkpoint">
-                        <a t-attf-href="/mdc/cp/{{chkpoint.chkpoint_categ.lower()}}/{{chkpoint.id}}">
+                        <a t-attf-href="/mdc/cp/{{chkpoint.chkpoint_categ.lower()}}/{{chkpoint.id}}?rfidsimul">
                             <t t-esc="chkpoint.name"></t>
                         </a>
                     </li>
@@ -48,7 +48,7 @@
 
                 <div class="UpperTitle">
                     <img src="/web/binary/company_logo" />
-                    <t t-esc="title"></t>
+                    <t t-esc="title"></t> (<t t-esc="client_ip"></t>)
                     <button type="button" id="reload_button"></button>
                 </div>
                 <hr/>
