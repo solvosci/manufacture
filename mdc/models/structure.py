@@ -129,7 +129,7 @@ class ChkPoint(models.Model):
         #when change lot whe have to do new history records
         # Modifying a current_lot_active and update historic lot_active if it is necessary
         if 'current_lot_active_id' in values and values['current_lot_active_id'] != self.current_lot_active_id:
-            print("Change lote: new : " + str(values['current_lot_active_id']) + " old: "+ str(self.current_lot_active_id))
+            print("Change lote: new : " + str(values['current_lot_active_id']) + " old: "+ str(self.current_lot_active_id.id))
             if not new_start_lot_datetime:
                 new_start_lot_datetime = now
             values['start_lot_datetime'] = new_start_lot_datetime
@@ -169,6 +169,7 @@ class ChkPoint(models.Model):
                 and new_start_lot_datetime != old_start_lot_datetime:
             self.env['mdc.lot_active'].update_start_date(
                 chkpoint_id=self.id,
+                new_lot_active_id=new_lot_active_id,
                 new_start_lot_datetime=new_start_lot_datetime,
                 old_start_lot_datetime=old_start_lot_datetime)
 

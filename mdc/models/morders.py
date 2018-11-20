@@ -292,20 +292,32 @@ class LotActive(models.Model):
                 })
             else:
                 print("-> search change start_datetime: don´t find")
-            #if a checkpoint WOUT we have to refactoring the worksheet in this interval
+
+            # calculate de interval of change
+            start_change_interval = values['start_datetime']
+            end_change_interval = self.start_datetime
+            lot_active_interval = self.lot_id.id
+            if 'lot_id' in values and not values['lot_id']:
+                lot_active_interval = values['lot_id'].id
+            if self.start_datetime < values['start_datetime']:
+                start_change_interval = self.start_datetime
+                end_change_interval = values['start_datetime']
+                if id_lot_search:
+                    lot_active_interval = id_lot_search.lot_id.id
+                else:
+                    lot_active_interval = 0
+
+            # if a checkpoint WIN we have to validate that can´t have reg in data_win
+            if self.chkpoint_id.chkpoint_categ == 'WIN':
+                numReg = self.env['mdc.data_win'].count_nreg(
+                    line_id=self.chkpoint_id.line_id,
+                    start_change_interval=start_change_interval,
+                    end_change_interval=end_change_interval)
+                if numReg > 0:
+                    raise UserError(_('You can´t change start date because there are %s reg. in the interval of change')% str(numReg))
+
+            # if a checkpoint WOUT we have to refactoring the worksheet in this interval
             if self.chkpoint_id.chkpoint_categ == 'WOUT':
-                start_change_interval = values['start_datetime']
-                end_change_interval = self.start_datetime
-                lot_active_interval = self.lot_id.id
-                if 'lot_id' in values and not values['lot_id']:
-                    lot_active_interval = values['lot_id'].id
-                if self.start_datetime < values['start_datetime']:
-                    start_change_interval = self.start_datetime
-                    end_change_interval = values['start_datetime']
-                    if id_lot_search:
-                        lot_active_interval = id_lot_search.lot_id.id
-                    else:
-                        lot_active_interval = 0
                 self.env['mdc.worksheet'].refactoring(
                     line_id=self.chkpoint_id.line_id,
                     shift_id=shift_new['shift'],
@@ -340,20 +352,32 @@ class LotActive(models.Model):
                 shift_old = self.env['mdc.shift'].get_current_shift(self.end_datetime)
                 if shift_new['start_datetime'] != shift_old['start_datetime']:
                     raise UserError(_('You can´t change end data to another date or shift'))
-                #if a checkpoint WOUT we have to refactoring the worksheet in this interval
+
+                # calculate de interval of change
+                start_change_interval = values['end_datetime']
+                end_change_interval = self.end_datetime
+                if id_lot_search:
+                    lot_active_interval = id_lot_search.lot_id.id
+                else:
+                    lot_active_interval = 0
+                if self.end_datetime < values['end_datetime']:
+                    start_change_interval = self.end_datetime
+                    end_change_interval = values['end_datetime']
+                    lot_active_interval = self.lot_id.id
+                    if 'lot_id' in values and not values['lot_id']:
+                        lot_active_interval = values['lot_id'].id
+
+                # if a checkpoint WIN we have to validate that can´t have reg in data_win
+                if self.chkpoint_id.chkpoint_categ == 'WIN':
+                    numReg = self.env['mdc.data_win'].count_nreg(
+                        line_id=self.chkpoint_id.line_id,
+                        start_change_interval=start_change_interval,
+                        end_change_interval=end_change_interval)
+                    if numReg > 0:
+                        raise UserError(_('You can´t change end date because there are %s reg. in the interval of change') % str(numReg))
+
+                # if a checkpoint WOUT we have to refactoring the worksheet in this interval
                 if self.chkpoint_id.chkpoint_categ == 'WOUT':
-                    start_change_interval = values['end_datetime']
-                    end_change_interval = self.end_datetime
-                    if id_lot_search:
-                        lot_active_interval = id_lot_search.lot_id.id
-                    else:
-                        lot_active_interval = 0
-                    if self.end_datetime < values['end_datetime']:
-                        start_change_interval = self.end_datetime
-                        end_change_interval = values['end_datetime']
-                        lot_active_interval = self.lot_id.id
-                        if 'lot_id' in values and not values['lot_id']:
-                            lot_active_interval = values['lot_id'].id
                     self.env['mdc.worksheet'].refactoring(
                         line_id=self.chkpoint_id.line_id,
                         shift_id=shift_new['shift'],
@@ -367,17 +391,29 @@ class LotActive(models.Model):
 
 
     def update_historical(self, chkpoint_id, current_lot_active, new_lot_active_id, start_lot_datetime):
+        # first validate if there are data_win after start_lot_datetime change
+        chkpoint_data = self.env['mdc.chkpoint'].browse(chkpoint_id)
+        if chkpoint_data.chkpoint_categ == "WIN":
+            numReg = self.env['mdc.data_win'].count_nreg(
+                line_id=chkpoint_data.line_id,
+                start_change_interval=start_lot_datetime,
+                end_change_interval=fields.Datetime.now())
+            if numReg > 0:
+                raise UserError(_('You can´t put this date because there are %s reg. in after this') % str(numReg))
+
         # Modifying a current_lot_active
         if (current_lot_active) and (current_lot_active.id != new_lot_active_id):
             # In this case, Close historic lot_active
             id_lot_active = self.search(
                 [('lot_id', '=', current_lot_active.id), ('chkpoint_id', '=', chkpoint_id), ('end_datetime', '=', False)])
             if id_lot_active:
+                print("update_historical: lot_id: "+str(current_lot_active.id)+", chkpoint_id: "+str(chkpoint_id)+", update end_datetime from False to "+start_lot_datetime)
                 id_lot_active.write({
                     'end_datetime': start_lot_datetime,
                     'active': False,
                 })
         if (new_lot_active_id) and (current_lot_active.id != new_lot_active_id):
+            print("update_historical: create reg lot_id: " + str(new_lot_active_id) + ", chkpoint_id: " + str(chkpoint_id) + ", start_datetime: " + start_lot_datetime)
             # In this case, Open new historic lot_active
             self.create({
                 'lot_id': new_lot_active_id,
@@ -387,17 +423,25 @@ class LotActive(models.Model):
 
         return
 
-    def update_start_date(self, chkpoint_id, new_start_lot_datetime, old_start_lot_datetime):
+    def update_start_date(self, chkpoint_id, new_lot_active_id, new_start_lot_datetime, old_start_lot_datetime):
+        print("update_start_date: chkpoint_id: " + str(chkpoint_id) + ", new_lot_active_id: " + str(new_lot_active_id.id) + ", new_start_lot_datetime: " + new_start_lot_datetime+ ", old_start_lot_datetime: " + old_start_lot_datetime)
         # update (if exists) historic lot with start_datetime the old start_date time
         id_lot_search = self.search(
             [('chkpoint_id', '=', chkpoint_id), ('start_datetime', '=', old_start_lot_datetime)])
         if id_lot_search:
-            print( "find update_start_date: " + str(id_lot_search.id) + " new_start_lot_datetime: " + new_start_lot_datetime)
+            print("find update_start_date: " + str(id_lot_search.id) + " new_start_lot_datetime: " + new_start_lot_datetime)
             id_lot_search.write({
                 'start_datetime': new_start_lot_datetime
             })
-        #else:
-        #    raise UserError(_('We can´t find '))
+        else:
+            if not new_lot_active_id.id:
+                id_lot_search = self.search(
+                    [('chkpoint_id', '=', chkpoint_id), ('end_datetime', '=', old_start_lot_datetime), ('active', '=', False)])
+                if id_lot_search:
+                    print("find update_end_date: " + str(id_lot_search.id) + " new_end_lot_datetime: " + new_start_lot_datetime)
+                    id_lot_search.write({
+                        'end_datetime': new_start_lot_datetime
+                    })
 
         return
 
@@ -663,7 +707,7 @@ class Worksheet(models.Model):
                                     if lot_active_interval == ws2.lot_id.id:
                                         updateStartDate = True
                             if updateStartDate:
-                                print("- write worksheet: ws.employee_id: " + str(ws.employee_id.id) + " start_datetime: from "+ws2.start_datetime +" to " + start_change_interval + ".")
+                                print("- write worksheet: ws.employee_id: " + str(ws.employee_id.id) + " update start_datetime: from "+ws2.start_datetime +" to " + start_change_interval + ".")
                                 ws2.write({'start_datetime': start_change_interval})
                             else:
                                 print("- create worksheet: ws.employee_id: " + str(ws.employee_id.id) +", ws.lot_id : " + str(lot_active_interval)
@@ -678,9 +722,28 @@ class Worksheet(models.Model):
                 else:
                     if ws.lot_id.id != lot_active_interval:
                         if ws.end_datetime and ws.end_datetime <= end_change_interval:
-                            print("* write worksheet: ws.employee_id: " + str(ws.employee_id.id) + ", start_datetime "+ws.start_datetime+", end_datetime "+ws.end_datetime
-                                  + ", update lot_id: from "+str(ws.lot_id.id)+" to " + str(lot_active_interval) + ".")
-                            ws.write({'lot_id': lot_active_interval})
+                            # if the next element has the same lot_id update the start_date of the next
+                            ws2 = self.search([('employee_id', '=', ws.employee_id.id), ('start_datetime', '=', ws.end_datetime),
+                                               ('workstation_id', '=', ws.workstation_id.id), ('shift_id', '=', ws.shift_id.id)])
+                            updateStartDate = False
+                            if ws2:
+                                if not ws2.lot_id:
+                                    if lot_active_interval == 0:
+                                        updateStartDate = True
+                                else:
+                                    if lot_active_interval == ws2.lot_id.id:
+                                        updateStartDate = True
+                            if updateStartDate:
+                                print("* write worksheet: ws.employee_id: " + str(ws.employee_id.id) + " update end_datetime: from " + ws.end_datetime + " to " + ws.start_datetime + ".")
+                                ws.write({'end_datetime': ws.start_datetime})
+                                print("* write worksheet: ws.employee_id: " + str(ws.employee_id.id) + " update start_datetime: from " + ws2.start_datetime + " to " + ws.start_datetime + ".")
+                                ws2.write({'start_datetime': ws.start_datetime})
+                                print("* delete worksheet: ws.employee_id: " + str(ws.employee_id.id) + " start_datetime: " + ws.start_datetime + ", end_datetime: " + ws.end_datetime + ".")
+                                ws.unlink()
+                            else:
+                                print("* write worksheet: ws.employee_id: " + str(ws.employee_id.id) + ", start_datetime "+ws.start_datetime+", end_datetime "+ws.end_datetime
+                                      + ", update lot_id: from "+str(ws.lot_id.id)+" to " + str(lot_active_interval) + ".")
+                                ws.write({'lot_id': lot_active_interval})
                         else:
                             rs_old_start_datetime = ws.start_datetime  # set in a temp variable de rs.start_datetime before update then
                             print("* write worksheet: ws.employee_id: " + str(ws.employee_id.id) + ", update start_datetime: from "+ws.start_datetime+" to " + end_change_interval + ".")
@@ -713,7 +776,6 @@ class Worksheet(models.Model):
                                     'lot_id': lot_active_interval,
                                     'workstation_id': ws.workstation_id.id,
                                     'shift_id': ws.shift_id.id})
-
         return
 
     @api.model
