@@ -17,6 +17,14 @@
             <field name="key">mdc.rfid_ws_server_url</field>
             <field name="value">ws://192.168.1.204</field>
         </record>
+        <record id="mdc_rfid_server_min_secs_between_worksheets" model="ir.config_parameter">
+            <field name="key">mdc.rfid_server_min_secs_between_worksheets</field>
+            <field name="value">1</field>
+        </record>
+        <record id="mdc_rfid_server_last_worksheet_timestamp" model="ir.config_parameter">
+            <field name="key">mdc.rfid_server_last_worksheet_timestamp</field>
+            <field name="value">0</field>
+        </record>
         <record id="mdc_lot_default_life_days" model="ir.config_parameter">
             <field name="key">mdc.lot_default_life_days</field>
             <field name="value">6</field>

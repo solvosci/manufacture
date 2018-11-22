@@ -1,5 +1,7 @@
 
 import logging
+
+from addons.l10n_in_hr_payroll.report.report_payroll_advice import payroll_advice_report
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
@@ -60,6 +62,18 @@ class Employee(models.Model):
         readonly=True,
         compute='_compute_worksheet_data',
         store=True)
+    last_physical_worksheet_start_datetime = fields.Datetime(
+        'Last physical worksheet start datetime',
+        readonly=True,
+        compute='_compute_last_physical_worksheet_start_datetime',
+        store=True
+    )
+    last_physical_worksheet_end_datetime = fields.Datetime(
+        'Last physical worksheet end datetime',
+        readonly=True,
+        compute='_compute_last_physical_worksheet_end_datetime',
+        store=True
+    )
 
     def _compute_worksheets_count(self):
         """
@@ -127,6 +141,21 @@ class Employee(models.Model):
             employee.worksheet_status_start_datetime = last_start_datetime
             employee.worksheet_status_data = worksheet_data_status
 
+    @api.multi
+    @api.depends('worksheet_ids.end_datetime')
+    def _compute_last_physical_worksheet_start_datetime(self):
+        for employee in self:
+            physical_open_worksheets = employee.worksheet_ids.filtered(lambda r: r.physical_open)
+            if physical_open_worksheets:
+                employee.last_physical_worksheet_start_datetime = physical_open_worksheets[-1].start_datetime
+
+    @api.multi
+    @api.depends('worksheet_ids.end_datetime')
+    def _compute_last_physical_worksheet_end_datetime(self):
+        for employee in self:
+            physical_closed_worksheets = employee.worksheet_ids.filtered(lambda r: r.physical_close)
+            if physical_closed_worksheets:
+                employee.last_physical_worksheet_end_datetime = physical_closed_worksheets[-1].end_datetime
 
     @api.model
     def create(self, values):
@@ -165,22 +194,24 @@ class Employee(models.Model):
         return self.env.user.has_group('mdc.group_mdc_office_worker')
 
     @api.multi
-    def worksheet_open(self, start_datetime):
+    def worksheet_open(self, start_datetime, physical_open=False):
         self.ensure_one()
         self._check_worksheet_permissions()
         if self.present:
             raise UserError(_('Cannot create open worksheet: employee %s is already present') % self.employee_code)
         self.env['mdc.worksheet'].sudo().create({
             'start_datetime': start_datetime,
-            'employee_id': self.id})
+            'employee_id': self.id,
+            'physical_open': physical_open})
 
     @api.multi
-    def worksheet_close(self, end_datetime):
+    def worksheet_close(self, end_datetime, physical_close=False):
         self.ensure_one()
         self._check_worksheet_permissions()
         if not self.present:
             raise UserError(_('Cannot create close worksheet: employee %s is not present') % self.employee_code)
-        self.worksheet_ids.filtered(lambda r: r.end_datetime is False).sudo().write({'end_datetime': end_datetime})
+        self.worksheet_ids.filtered(lambda r: r.end_datetime is False).sudo().write({
+            'end_datetime': end_datetime, 'physical_close': physical_close})
         # TODO check filtered performance when growing data. If decreases, use the code above
         """
         Worksheet = self.env['mdc.worksheet'].search(

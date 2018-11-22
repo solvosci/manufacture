@@ -4,6 +4,7 @@ import logging
 import datetime
 from odoo import api, models, fields, _, registry
 from odoo.exceptions import UserError
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DF
 
 from .. import ws_rfid_server
 import websocket
@@ -555,6 +556,12 @@ class Worksheet(models.Model):
         default = _default_date)
     end_datetime = fields.Datetime(
         'End Datetime')
+    physical_open = fields.Boolean(
+        'Physical open',
+        default=False)
+    physical_close = fields.Boolean(
+        'Physical close',
+        default=False)
     lot_id = fields.Many2one(
         'mdc.lot',
         string='MO',
@@ -924,15 +931,64 @@ class Worksheet(models.Model):
         Check new worksheet permissions from RFID server database
         :return:
         """
+
+        def _process_worksheet(Card, data, min_secs_worksheet):
+            """
+            Register an individual worksheet
+            :param Card:
+            :param data:
+            :return:
+            """
+            card = Card.search([('name', '=', data['usrid'])])
+            if card:
+                if card.employee_id:
+                    worksheet_datetime = datetime.datetime.utcfromtimestamp(data['devdt']).strftime(DF)
+                    # -------------------------------------------------------------------------
+                    # Repeated physical worksheets
+                    last_physical_worksheet_start_datetime = \
+                        card.employee_id.last_physical_worksheet_start_datetime or ''
+                    last_physical_worksheet_end_datetime = \
+                        card.employee_id.last_physical_worksheet_end_datetime or ''
+                    last_physical_worksheet_datetime = max(last_physical_worksheet_start_datetime,
+                                                           last_physical_worksheet_end_datetime)
+                    if last_physical_worksheet_datetime:
+                        td = datetime.datetime.strptime(worksheet_datetime, DF) - \
+                             datetime.datetime.strptime(last_physical_worksheet_datetime, DF)
+                        if td.total_seconds() < min_secs_worksheet:
+                            _logger.warning('[mdc.worksheet] Skipped worksheet for user %s@%s'
+                                            ' because last physical worksheet (%s) was only %f seconds ago < %d'
+                                            % (data['usrid'], worksheet_datetime, last_physical_worksheet_datetime,
+                                               td.total_seconds(), min_secs_worksheet))
+                            return
+                    # -------------------------------------------------------------------------
+                    if card.employee_id.present:
+                        card.employee_id.worksheet_close(worksheet_datetime, physical_close=True)
+                        _logger.info(
+                            '[mdc.worksheet] Made close worksheet action for employee with code %s' %
+                            card.employee_id.employee_code)
+                    else:
+                        card.employee_id.worksheet_open(worksheet_datetime, physical_open=True)
+                        _logger.info(
+                            '[mdc.worksheet] Made open worksheet action for employee with code %s' %
+                            card.employee_id.employee_code)
+                else:
+                    _logger.warning('[mdc.worksheet] Card #%s is not associated with any employee!!' % data['usrid'])
+            else:
+                _logger.warning('[mdc.worksheet] Employee #%s not found!!' % data['usrid'])
+
         _logger.info('[mdc.worksheet] Starting worksheet revision')
         try:
-            # TODO retrieve config data (last processed worksheet timestamp, minimum delay for worksheets)
-            devdt = 1538840634       # Test data
+            # TODO retrieve minimum delay for worksheets
+            IrConfigParameter = self.env['ir.config_parameter']
+            devdt = int(IrConfigParameter.get_param('mdc.rfid_server_last_worksheet_timestamp'))
+            # devdt = 1538840634       # Test data
+
             # TODO if month has already changed since last update, we should also query the previous month table
-            # today = datetime.datetime.today()
-            today = datetime.datetime.today() - datetime.timedelta(days=30)  # Only for testing purposes
+            today = datetime.datetime.today()
+            # today = datetime.datetime.today() - datetime.timedelta(days=30)  # Only for testing purposes
             table = 't_lg%s' % today.strftime('%Y%m')
             _logger.info('[mdc.worksheet] Looking for events on table %s...' % table)
+
             DbSource = self.env.ref('mdc.base_external_dbsource_rfid_server')
             # TODO WARNING how to close connections??
             # with DbSource.conn_open():
@@ -941,17 +997,27 @@ class Worksheet(models.Model):
                 query="SELECT devdt, devuid, usrid from {0}"
                       " where usrid <> %(notuser)s and evt=8704"
                       " and devdt >= %(devdt)s order by devdt".format(table),
-                execute_params={'table': table, 'notuser': '', 'devdt': devdt})
+                execute_params={'notuser': '', 'devdt': devdt})
             _logger.info('[mdc.worksheet] Found %d worksheets' % len(res))
-            for row in res:
-                _logger.info('[mdc.worksheet] devdt=%d, devuid=%d, usrid=%s' %
-                             (row['devdt'], row['devuid'], row['usrid']))
-                # TODO make worksheets, if required
-            # TODO update last processed worksheet timestamp
+            if len(res) > 0:
+                Card = self.env['mdc.card']
+                last_timestamp = None
+                min_secs_worksheet = int(IrConfigParameter.get_param('mdc.rfid_server_min_secs_between_worksheets'))
+                for row in res:
+                    _logger.info('[mdc.worksheet] Read devdt=%d, devuid=%d, usrid=%s' %
+                                 (row['devdt'], row['devuid'], row['usrid']))
+                    # TODO if a particular worksheet fails, the other are processed anyway. The fail worksheet is lost
+                    try:
+                        _process_worksheet(Card, row, min_secs_worksheet)
+                    except Exception as e:
+                        _logger.info('[mdc.worksheet] Processing worksheet for user %s@%d: %s'
+                                     % (row['usrid'], row['devdt'], e))
+                    last_timestamp = row['devdt']
+                # Last processed worksheet timestamp update
+                IrConfigParameter.set_param('mdc.rfid_server_last_worksheet_timestamp', str(last_timestamp))
+                _logger.info('[mdc.worksheet] New last timestamp: %d' % last_timestamp)
 
         except Exception as e:
             _logger.info('[mdc.worksheet] Worksheet revision: %s', e)
-
-
 
         _logger.info('[mdc.worksheet] Finished worksheet revision')

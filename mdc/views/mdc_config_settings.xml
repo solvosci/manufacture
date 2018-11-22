@@ -31,6 +31,14 @@
                             <label for="rfid_ws_server_url"/>
                             <field name="rfid_ws_server_url" required="True"/>
                         </div>
+                        <div>
+                            <label for="rfid_server_min_secs_between_worksheets"/>
+                            <field name="rfid_server_min_secs_between_worksheets" required="True"/>
+                        </div>
+                        <div>
+                            <label for="rfid_server_last_worksheet_timestamp"/>
+                            <field name="rfid_server_last_worksheet_timestamp" readonly="True"/>
+                        </div>
                     </div>
                 </group>
                 <group string="Lots Parameters">

@@ -12,6 +12,9 @@
                 <field name="end_datetime"/>
                 <field name="lot_id"/>
                 <filter name="today" string="Today" domain="[('start_datetime', '&gt;=', current_date)]"/>
+                <separator/>
+                <filter name="physical_open" string="Physical open" domain="[('physical_open', '=', True)]"/>
+                <filter name="physical_close" string="Physical close" domain="[('physical_close', '=', True)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Employee" name="groupby_employee" domain="[]" context="{'group_by':'employee_id'}"/>
                     <filter string="Lot" name="groupby_lot" domain="[]" context="{'group_by':'lot_id'}"/>
@@ -28,7 +31,9 @@
             <tree delete="false" string="Worksheets">
                 <field name="employee_id"/>
                 <field name="start_datetime"/>
+                <field name="physical_open" string="P.O."/>
                 <field name="end_datetime"/>
+                <field name="physical_close" string="P.C."/>
                 <field name="lot_id"/>
                 <field name="workstation_id"/>
                 <field name="shift_id"/>
