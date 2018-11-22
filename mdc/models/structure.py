@@ -285,8 +285,7 @@ class Card(models.Model):
         string='Workstation')
     lot_id = fields.Many2one(
         'mdc.lot',
-        string='Associated MO',
-        domain=['&', ('start_date', '<=', fields.Date.today()), '|', ('end_date', '=', False), ('end_date', '>=', fields.Date.today())])
+        string='Associated MO')
     status = fields.Selection(
         selection='_get_card_status_selection',
         string='Status')
