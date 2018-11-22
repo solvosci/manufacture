@@ -129,7 +129,8 @@
             <tree editable="top" create="false" delete="false" string="Card lot assignment">
                 <field name="name" readonly="True"/>
                 <field name="lot_id" context="{'name_extended': True}"
-                       required="False" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                       required="False" options="{'no_create': 1, 'no_create_edit': 1}"
+                       domain="['&amp;', ('start_date', '&lt;=', context_today()), '|', ('end_date', '=', False), ('end_date', '&gt;=', context_today())]"/>
                 <field name="write_date" readonly="True" string="Last assignment date"/>
             </tree>
         </field>

@@ -337,7 +337,8 @@
                             <field name="employee_id" options="{'no_create': 1, 'no_create_edit': 1}"
                                 attrs="{'readonly': [('card_categ_id', '!=', %(mdc.mdc_card_categ_O)d)], 'required': [('card_categ_id', '=', %(mdc.mdc_card_categ_O)d)]}"/>
                             <field name="lot_id" options="{'no_create': 1, 'no_create_edit': 1}"
-                                attrs="{'readonly': [('card_categ_id', '!=', %(mdc.mdc_card_categ_PC)d)]}"/>
+                                attrs="{'readonly': [('card_categ_id', '!=', %(mdc.mdc_card_categ_PC)d)]}"
+                                domain="['&amp;', ('start_date', '&lt;=', context_today()), '|', ('end_date', '=', False), ('end_date', '&gt;=', context_today())]"/>
                         </group>
                         <group>
                             <field name="workstation_id" options="{'no_create': 1, 'no_create_edit': 1}"
