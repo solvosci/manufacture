@@ -16,7 +16,7 @@
     'license': 'LGPL-3',
     'version': '0.1',
 
-    'depends': ['base', 'product', 'hr', 'hr_contract', 'stock', 'report_xlsx'],
+    'depends': ['base', 'product', 'hr', 'hr_contract', 'stock', 'report_xlsx', 'base_external_dbsource_mysql'],
 
     'data': [
         'security/groups.xml',
@@ -25,6 +25,7 @@
         'data/ir_config_parameter.xml',
         'data/ir_cron.xml',
         'data/structure_data.xml',
+        'data/base_external_dbsource.xml',
         'views/data_views.xml',
         'views/hr_views.xml',
         'views/operation_views.xml',
