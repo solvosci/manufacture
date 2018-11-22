@@ -83,7 +83,7 @@
                     </group>
                     <group name="gr_lot_main_data" string="Lot parameters">
                         <group>
-                            <field name="product_id" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                            <field name="product_id" domain="[('std_count','>',0)]" options="{'no_create': 1, 'no_create_edit': 1}"/>
                             <field name="lot_code"/>
                             <field name="partner_id" domain="[('customer','=',True), ('parent_id','=',False)]" context="{'search_default_customer':1, 'show_address': 1}" options="{&quot;always_reload&quot;: True}"/>
                         </group>
@@ -104,6 +104,7 @@
                     </group>
                      <group name="gr_lot_active_std_data" string="Standard data">
                         <group>
+                            <field name="std_id" invisible="1"/>
                             <field name="std_loss"/>
                             <field name="std_speed"/>
                         </group>
@@ -293,6 +294,11 @@
         <field name="arch" type="xml">
             <form string="Standards" copy="False">
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
                     <group>
                         <field name="product_id" options="{'no_create': 1, 'no_create_edit': 1}"/>
                     </group>

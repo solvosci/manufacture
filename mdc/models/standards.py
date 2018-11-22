@@ -41,6 +41,9 @@ class Std(models.Model):
     std_yield_sp3 = fields.Float(
         'Std Yield Subproduct 3',
         digits=(10,3))
+    active = fields.Boolean(
+        'Active',
+        default=True)
 
     @api.multi
     def copy(self):

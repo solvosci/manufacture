@@ -7,6 +7,21 @@ _logger = logging.getLogger(__name__)
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
+    std_count = fields.Integer(
+        'Standard count',
+        readonly=True,
+        compute='_compute_std_count',
+        store=True)
+    std_ids = fields.One2many(
+        'mdc.std',
+        'product_id')
+
+    @api.multi
+    @api.depends('std_ids.product_id', 'std_ids.active')
+    def _compute_std_count(self):
+        for pr in self:
+            pr.std_count = len(pr.std_ids.filtered(lambda r: r.active is True))
+
     @api.multi
     def name_get(self):
         # TDE: this could be cleaned a bit I think

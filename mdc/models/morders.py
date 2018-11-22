@@ -60,6 +60,10 @@ class Lot(models.Model):
     end_date = fields.Date(
         'End_Date',
         required=True)
+    std_id = fields.Many2one(
+        'mdc.std',
+        string='Id Standard',
+        ondelete='restrict')
     std_loss = fields.Float(
         'Std Loss')
     std_yield_product = fields.Float(
@@ -162,6 +166,7 @@ class Lot(models.Model):
     def _retrieve_std_data(self):
         for lot in self:
             std = self.env['mdc.std'].search([('product_id', '=', lot.product_id.id)])
+            lot.std_id = std.id
             lot.std_loss = std.std_loss
             lot.std_yield_product = std.std_yield_product
             lot.std_speed = std.std_speed
