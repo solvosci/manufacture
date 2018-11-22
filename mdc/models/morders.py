@@ -266,7 +266,8 @@ class LotActive(models.Model):
         self.ensure_one()
 
         if 'start_datetime' in values:
-            print("write lot_active:  values['start_datetime'] " + values['start_datetime'] + " self.start_datetime: " + self.start_datetime)
+            _logger.info("[mdc.lot_active - write]: values['start_datetime'] %s, self.start_datetime: %s"
+                         % (values['start_datetime'], self.start_datetime))
 
         # update (if exists) historic lot with end_datetime the old start_date time
         if 'start_datetime' in values and values['start_datetime'] and self.start_datetime \
@@ -277,7 +278,8 @@ class LotActive(models.Model):
             if shift_new['start_datetime'] != shift_old['start_datetime']:
                 raise UserError(_('You can´t change start data to another date or shift'))
             # update (if exists) historic lot with end_datetime the old start_date time
-            print("-> search change start_datetime: chkpoint_id: "+str(self.chkpoint_id.id)+", end_datetime: " + self.start_datetime)
+                _logger.info("[mdc.lot_active - write]: -> search change start_datetime: chkpoint_id: %s, end_datetime: %s"
+                            % (self.chkpoint_id.id, self.start_datetime))
             id_lot_search = self.search(
                 [('chkpoint_id', '=', self.chkpoint_id.id), ('end_datetime', '=', self.start_datetime)])
             if not id_lot_search:
@@ -285,13 +287,14 @@ class LotActive(models.Model):
                 id_lot_search = self.search(
                     [('chkpoint_id', '=', self.chkpoint_id.id), ('end_datetime', '=', self.start_datetime), ('active', '=', False)])
             if id_lot_search:
-                print("find id_lot_search change start_datetime: update end_datetime: from " + self.start_datetime + " to "+values['start_datetime'])
+                _logger.info("[mdc.lot_active - write]: id_lot: %s, update end_datetime: from %s to %s"
+                            % (id_lot_search.id, id_lot_search.end_datetime, values['start_datetime']))
                 id_lot_search.write({
                     'end_datetime': values['start_datetime'],
                     'total_hours': -1
                 })
             else:
-                print("-> search change start_datetime: don´t find")
+                _logger.info("[mdc.lot_active - write]: -> search change start_datetime: don´t find")
 
             # calculate de interval of change
             start_change_interval = values['start_datetime']
@@ -318,7 +321,10 @@ class LotActive(models.Model):
 
             # if a checkpoint WOUT we have to refactoring the worksheet in this interval
             if self.chkpoint_id.chkpoint_categ == 'WOUT':
-                self.env['mdc.worksheet'].refactoring(
+                Worksheet = self.env['mdc.worksheet']
+                if not Worksheet.check_permissions():
+                    raise UserError(_("You don't have permissions to this operation"))
+                Worksheet.sudo().refactoring(
                     line_id=self.chkpoint_id.line_id,
                     shift_id=shift_new['shift'],
                     lot_active_interval=lot_active_interval,
@@ -326,7 +332,8 @@ class LotActive(models.Model):
                     end_change_interval=end_change_interval)
 
         if 'end_datetime' in values:
-            print("write lot_active:  values['end_datetime'] " + str(values['end_datetime']) + " self.end_datetime: " + str(self.end_datetime))
+            _logger.info("[mdc.lot_active - write]: values['end_datetime'] %s, self.end_datetime: %s"
+                         % (values['end_datetime'], self.end_datetime))
 
         # update (if exists) historic lot with start_datetime the old end_date time
         if 'end_datetime' in values and values['end_datetime'] and self.end_datetime \
@@ -336,7 +343,8 @@ class LotActive(models.Model):
             if 'total_hours' in values and values['total_hours'] == -1:
                 fromModifStartDate = True
             if not fromModifStartDate:
-                print("-> search change end_datetime: chkpoint_id: " + str( self.chkpoint_id.id) + ", start_datetime: " + self.end_datetime)
+                _logger.info("[mdc.lot_active - write]: -> search change end_datetime: chkpoint_id: %s, start_datetime: %s"
+                             % (self.chkpoint_id.id, self.end_datetime))
                 id_lot_search = self.search(
                     [('chkpoint_id', '=', self.chkpoint_id.id), ('start_datetime', '=', self.end_datetime)])
                 if not id_lot_search:
@@ -346,7 +354,7 @@ class LotActive(models.Model):
                 if id_lot_search:
                     raise UserError(_( 'You can´t change this end datetime. You must change the start date of the active lot with start date this end date'))
                 else:
-                    print("-> search change end_datetime: don´t find")
+                    _logger.info("[mdc.lot_active - write]: -> search change end_datetime: don´t find")
                 # validate that new and old end_datetime must be in the same shift
                 shift_new = self.env['mdc.shift'].get_current_shift(values['end_datetime'])
                 shift_old = self.env['mdc.shift'].get_current_shift(self.end_datetime)
@@ -378,7 +386,10 @@ class LotActive(models.Model):
 
                 # if a checkpoint WOUT we have to refactoring the worksheet in this interval
                 if self.chkpoint_id.chkpoint_categ == 'WOUT':
-                    self.env['mdc.worksheet'].refactoring(
+                    Worksheet = self.env['mdc.worksheet']
+                    if not Worksheet.check_permissions():
+                        raise UserError(_("You don't have permissions to this operation"))
+                    Worksheet.sudo().refactoring(
                         line_id=self.chkpoint_id.line_id,
                         shift_id=shift_new['shift'],
                         lot_active_interval=lot_active_interval,
@@ -390,7 +401,7 @@ class LotActive(models.Model):
         return super(LotActive, self).write(values)
 
 
-    def update_historical(self, chkpoint_id, current_lot_active, new_lot_active_id, start_lot_datetime):
+    def update_historical(self, chkpoint_id, line_id, shift_id, current_lot_active, new_lot_active_id, start_lot_datetime):
         # first validate if there are data_win after start_lot_datetime change
         chkpoint_data = self.env['mdc.chkpoint'].browse(chkpoint_id)
         if chkpoint_data.chkpoint_categ == "WIN":
@@ -407,13 +418,15 @@ class LotActive(models.Model):
             id_lot_active = self.search(
                 [('lot_id', '=', current_lot_active.id), ('chkpoint_id', '=', chkpoint_id), ('end_datetime', '=', False)])
             if id_lot_active:
-                print("update_historical: lot_id: "+str(current_lot_active.id)+", chkpoint_id: "+str(chkpoint_id)+", update end_datetime from False to "+start_lot_datetime)
+                _logger.info("[mdc.lot_active - update_historical]: lot_id: %s, chkpoint_id: %s, update end_datetime from False to %s."
+                            % (current_lot_active.id, chkpoint_id, start_lot_datetime))
                 id_lot_active.write({
                     'end_datetime': start_lot_datetime,
                     'active': False,
                 })
         if (new_lot_active_id) and (current_lot_active.id != new_lot_active_id):
-            print("update_historical: create reg lot_id: " + str(new_lot_active_id) + ", chkpoint_id: " + str(chkpoint_id) + ", start_datetime: " + start_lot_datetime)
+            _logger.info("[mdc.lot_active - update_historical]: create reg lot_id: %s, chkpoint_id: %s, start_datetime: %s"
+                         % (new_lot_active_id, chkpoint_id, start_lot_datetime))
             # In this case, Open new historic lot_active
             self.create({
                 'lot_id': new_lot_active_id,
@@ -421,15 +434,28 @@ class LotActive(models.Model):
                 'start_datetime': start_lot_datetime
             })
 
+        # Only when lot_active has changed and chkpoint type is WOUT,
+        #  we must close the related worksheets and open new ones
+        if chkpoint_data.chkpoint_categ == 'WOUT':
+            Worksheet = self.env['mdc.worksheet']
+            if not Worksheet.check_permissions():
+                raise UserError(_("You don't have permissions to this operation"))
+            Worksheet.sudo().new_lot_active(
+                line_id=line_id,
+                shift_id=shift_id,
+                new_lot_active_id=new_lot_active_id,
+                start_lot_datetime=start_lot_datetime)
         return
 
     def update_start_date(self, chkpoint_id, new_lot_active_id, new_start_lot_datetime, old_start_lot_datetime):
-        print("update_start_date: chkpoint_id: " + str(chkpoint_id) + ", new_lot_active_id: " + str(new_lot_active_id.id) + ", new_start_lot_datetime: " + new_start_lot_datetime+ ", old_start_lot_datetime: " + old_start_lot_datetime)
+        _logger.info("[mdc.lot_active - update_start_date]: chkpoint_id: %s, new_lot_active_id: %s, new_start_lot_datetime: %s, old_start_lot_datetime: %s"
+                    % (chkpoint_id, new_lot_active_id.id, new_start_lot_datetime, old_start_lot_datetime))
         # update (if exists) historic lot with start_datetime the old start_date time
         id_lot_search = self.search(
             [('chkpoint_id', '=', chkpoint_id), ('start_datetime', '=', old_start_lot_datetime)])
         if id_lot_search:
-            print("find update_start_date: " + str(id_lot_search.id) + " new_start_lot_datetime: " + new_start_lot_datetime)
+            _logger.info("[mdc.lot_active - update_start_date]: find: id_lot: %s, change start_datetime from %s to %s."
+                        % (id_lot_search.id, id_lot_search.start_datetime, new_start_lot_datetime))
             id_lot_search.write({
                 'start_datetime': new_start_lot_datetime
             })
@@ -438,7 +464,8 @@ class LotActive(models.Model):
                 id_lot_search = self.search(
                     [('chkpoint_id', '=', chkpoint_id), ('end_datetime', '=', old_start_lot_datetime), ('active', '=', False)])
                 if id_lot_search:
-                    print("find update_end_date: " + str(id_lot_search.id) + " new_end_lot_datetime: " + new_start_lot_datetime)
+                    _logger.info("[mdc.lot_active - update_start_date]: find update_end_date: %s new_end_lot_datetime: %s"
+                                % (id_lot_search.id, new_start_lot_datetime))
                     id_lot_search.write({
                         'end_datetime': new_start_lot_datetime
                     })
@@ -671,9 +698,27 @@ class Worksheet(models.Model):
             'workstation_id': new_workstation_id})
         return
 
+    def check_permissions(self):
+        return self.env.user.has_group('mdc.group_mdc_office_worker')
+
+    def new_lot_active(self, line_id, shift_id, new_lot_active_id, start_lot_datetime):
+        _logger.info("[mdc.worksheet - new_lot_active]: line_id: %s, shift_id: %s, current_lot_active_id: %s, start_lot_datetime: %s"
+                     % (line_id, shift_id, new_lot_active_id, start_lot_datetime))
+        ws = self.search(
+            [('end_datetime', '=', False),
+             ('workstation_id.line_id', '=', line_id),
+             ('workstation_id.shift_id', '=', shift_id)])
+        if ws:
+            self.massive_close(ws, start_lot_datetime)
+            for employee in ws.mapped('employee_id'):
+                self.create({
+                    'start_datetime': start_lot_datetime,
+                    'employee_id': employee.id,
+                    'lot_id': new_lot_active_id})
+
     def refactoring(self, line_id, shift_id, lot_active_interval, start_change_interval, end_change_interval):
-        print("refactoring: line_id: "+str(line_id)+", shift_id: "+str(shift_id)+", lot_active_interval: "+str(lot_active_interval)
-              + ", start_change_interval: "+start_change_interval+", end_change_interval: "+end_change_interval+".")
+        _logger.info("[mdc.worksheet - refactoring]: line_id: %s, shift_id: %s, lot_active_interval: %s, start_change_interval: %s, end_change_interval: %s"
+                     % (line_id.id, shift_id.id, lot_active_interval, start_change_interval, end_change_interval))
         wsheet = self.search(
              ['|', '&', '&', '&', ('workstation_id.line_id', '=', line_id.id), ('shift_id', '=', shift_id.id),
                  ('end_datetime', '>=', start_change_interval), ('end_datetime', '<=', end_change_interval),
@@ -684,8 +729,8 @@ class Worksheet(models.Model):
         if wsheet:
             for ws in wsheet:
                 numReg+=1
-                print(str(numReg)+" find worksheet: ws.employee_id: " + str(ws.employee_id.id) +", ws.lot_id : " + str(ws.lot_id.id)
-                      + ", ws.start_datetime: " + ws.start_datetime +", ws.end_datetime: " + str(ws.end_datetime) +".")
+                _logger.info("[mdc.worksheet - refactoring]: %s find worksheet: ws.employee_id: %s, ws.lot_id : %s, ws.start_datetime: %s, ws.end_datetime:%s."
+                             % (numReg, ws.employee_id.id, ws.lot_id.id, ws.start_datetime, ws.end_datetime))
                 if ws.start_datetime < start_change_interval:
                     if ws.lot_id.id != lot_active_interval:
                         updateEndDate = True
@@ -693,7 +738,8 @@ class Worksheet(models.Model):
                             updateEndDate = False
                         if updateEndDate:
                             rs_old_end_datetime = ws.end_datetime  # set in a temp variable de rs.end_datetime before update then
-                            print("- write worksheet: ws.employee_id: " + str(ws.employee_id.id) + " update end_datetime: from "+ws.end_datetime+" to " +start_change_interval +".")
+                            _logger.info("[mdc.worksheet - refactoring]: - write worksheet: (id: %s) ws.employee_id: %s update end_datetime: from %s to %s."
+                                         % (ws.id, ws.employee_id.id, ws.end_datetime, start_change_interval))
                             ws.write({'end_datetime': start_change_interval})
                             # if the next element has the same lot_id update the start_date of the next
                             ws2 = self.search([('employee_id', '=', ws.employee_id.id), ('start_datetime', '=', rs_old_end_datetime),
@@ -707,11 +753,12 @@ class Worksheet(models.Model):
                                     if lot_active_interval == ws2.lot_id.id:
                                         updateStartDate = True
                             if updateStartDate:
-                                print("- write worksheet: ws.employee_id: " + str(ws.employee_id.id) + " update start_datetime: from "+ws2.start_datetime +" to " + start_change_interval + ".")
+                                _logger.info("[mdc.worksheet - refactoring]: - write worksheet: (id: %s) ws.employee_id: %s update start_datetime: from %s to %s."
+                                             % (ws2.id, ws.employee_id.id, ws2.start_datetime, start_change_interval))
                                 ws2.write({'start_datetime': start_change_interval})
                             else:
-                                print("- create worksheet: ws.employee_id: " + str(ws.employee_id.id) +", ws.lot_id : " + str(lot_active_interval)
-                                        + ", ws.start_datetime: " + start_change_interval +", ws.end_datetime: " + str(ws.end_datetime) +".")
+                                _logger.info("[mdc.worksheet - refactoring]: - create worksheet: ws.employee_id: %s, ws.lot_id : %s, ws.start_datetime: %s, ws.end_datetime: %s."
+                                             % (ws.employee_id.id, lot_active_interval, start_change_interval, ws.end_datetime))
                                 self.create({
                                     'employee_id': ws.employee_id.id,
                                     'start_datetime': start_change_interval,
@@ -734,19 +781,23 @@ class Worksheet(models.Model):
                                     if lot_active_interval == ws2.lot_id.id:
                                         updateStartDate = True
                             if updateStartDate:
-                                print("* write worksheet: ws.employee_id: " + str(ws.employee_id.id) + " update end_datetime: from " + ws.end_datetime + " to " + ws.start_datetime + ".")
+                                _logger.info("[mdc.worksheet - refactoring]: * write worksheet: (id: %s) ws.employee_id: %s update end_datetime: from %s to %s."
+                                             % (ws.id, ws.employee_id.id, ws.end_datetime, ws.start_datetime))
                                 ws.write({'end_datetime': ws.start_datetime})
-                                print("* write worksheet: ws.employee_id: " + str(ws.employee_id.id) + " update start_datetime: from " + ws2.start_datetime + " to " + ws.start_datetime + ".")
+                                _logger.info("[mdc.worksheet - refactoring]: * write worksheet: (id: %s) ws.employee_id: %s update start_datetime: from %s to %s."
+                                             % (ws2.id, ws.employee_id.id, ws2.start_datetime, ws.start_datetime))
                                 ws2.write({'start_datetime': ws.start_datetime})
-                                print("* delete worksheet: ws.employee_id: " + str(ws.employee_id.id) + " start_datetime: " + ws.start_datetime + ", end_datetime: " + ws.end_datetime + ".")
+                                _logger.info("[mdc.worksheet - refactoring]: * delete worksheet: (id: %s) ws.employee_id: %s start_datetime: %s, end_datetime: %s."
+                                             % (ws.id, ws.employee_id.id, ws.start_datetime, ws.end_datetime))
                                 ws.unlink()
                             else:
-                                print("* write worksheet: ws.employee_id: " + str(ws.employee_id.id) + ", start_datetime "+ws.start_datetime+", end_datetime "+ws.end_datetime
-                                      + ", update lot_id: from "+str(ws.lot_id.id)+" to " + str(lot_active_interval) + ".")
+                                _logger.info("[mdc.worksheet - refactoring]: * write worksheet: (id: %s) ws.employee_id: %s, start_datetime %s, end_datetime %s, update lot_id: from %s to %s."
+                                             % (ws.id, ws.employee_id.id, ws.start_datetime, ws.end_datetime, ws.lot_id.id, lot_active_interval))
                                 ws.write({'lot_id': lot_active_interval})
                         else:
                             rs_old_start_datetime = ws.start_datetime  # set in a temp variable de rs.start_datetime before update then
-                            print("* write worksheet: ws.employee_id: " + str(ws.employee_id.id) + ", update start_datetime: from "+ws.start_datetime+" to " + end_change_interval + ".")
+                            _logger.info("[mdc.worksheet - refactoring]: * write worksheet: (id: %s) ws.employee_id: %s, update start_datetime: from %s to %s."
+                                         % (ws.id, ws.employee_id.id, ws.start_datetime, end_change_interval))
                             ws.write({'start_datetime': end_change_interval})
                             # if the previous element has end_date = rs_old_start_datetime
                             ws2 = self.search(
@@ -754,11 +805,12 @@ class Worksheet(models.Model):
                                  ('workstation_id', '=', ws.workstation_id.id), ('shift_id', '=', ws.shift_id.id)])
                             if ws2:
                                 # if exists previous element we have to update with end_date = rs_old_start_datetime
-                                print("* write worksheet: ws.employee_id: " + str( ws.employee_id.id) + " update end_datetime: from " + ws2.end_datetime + " to " + end_change_interval + ".")
+                                _logger.info("[mdc.worksheet - refactoring]: * write worksheet:(id: %s)  ws.employee_id: %s update end_datetime: from %s to %s"
+                                             % (ws2.id, ws.employee_id.id, ws2.end_datetime, end_change_interval))
                                 ws2.write({'end_datetime': end_change_interval})
                             else:
-                                print("* create worksheet: ws.employee_id: " + str(ws.employee_id.id) + ", ws.lot_id : " + str(lot_active_interval)
-                                      + ", ws.start_datetime: " + rs_old_start_datetime + ", ws.end_datetime: " + end_change_interval + ".")
+                                _logger.info("[mdc.worksheet - refactoring]: * create worksheet: ws.employee_id: %s, ws.lot_id : %s, ws.start_datetime: %s, ws.end_datetime: %s."
+                                             % (ws.employee_id.id, lot_active_interval, rs_old_start_datetime, end_change_interval))
                                 self.create({
                                     'employee_id': ws.employee_id.id,
                                     'start_datetime': rs_old_start_datetime,
@@ -767,8 +819,8 @@ class Worksheet(models.Model):
                                     'workstation_id': ws.workstation_id.id,
                                     'shift_id': ws.shift_id.id})
                             if ws.end_datetime and end_change_interval > ws.end_datetime:
-                                print("* create worksheet: ws.employee_id: " +str(ws.employee_id.id) + ", ws.lot_id : " + str(lot_active_interval)
-                                      + ", ws.start_datetime: " + ws.end_datetime + ", ws.end_datetime: " + end_change_interval + ".")
+                                _logger.info("[mdc.worksheet - refactoring]: * create worksheet: ws.employee_id: %s, ws.lot_id : %s, ws.start_datetime: %s, ws.end_datetime: %s"
+                                             % (ws.employee_id.id, lot_active_interval, ws.end_datetime, end_change_interval))
                                 self.create({
                                     'employee_id': ws.employee_id.id,
                                     'start_datetime': ws.end_datetime,

@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+import logging
 from odoo import api, models, fields, _
 from odoo.exceptions import UserError, ValidationError
+
+_logger = logging.getLogger(__name__)
 
 class BaseStructure(models.AbstractModel):
     """
@@ -129,7 +132,8 @@ class ChkPoint(models.Model):
         #when change lot whe have to do new history records
         # Modifying a current_lot_active and update historic lot_active if it is necessary
         if 'current_lot_active_id' in values and values['current_lot_active_id'] != self.current_lot_active_id:
-            print("Change lote: new : " + str(values['current_lot_active_id']) + " old: "+ str(self.current_lot_active_id.id))
+            _logger.info("Change lot: new : %s old: %s"
+                         % (values['current_lot_active_id'], self.current_lot_active_id.id))
             if not new_start_lot_datetime:
                 new_start_lot_datetime = now
             values['start_lot_datetime'] = new_start_lot_datetime
@@ -143,30 +147,17 @@ class ChkPoint(models.Model):
             old_start_lot_datetime = values['start_lot_datetime']
             self.env['mdc.lot_active'].update_historical(
                 chkpoint_id=self.id,
+                line_id=self.line_id.id,
+                shift_id=shift_data['shift'].id,
                 current_lot_active=self.current_lot_active_id,
                 new_lot_active_id=values['current_lot_active_id'],
                 start_lot_datetime=values['start_lot_datetime'])
-            # Only when lot_active has changed and chkpoint type is WOUT,
-            #  we must close the related worksheets and open new ones
-            if self.chkpoint_categ == 'WOUT':
-                # TODO if worksheet is open the employee may be present, or may not?
-                shift = shift_data['shift']
-                wsheet = self.env['mdc.worksheet'].search(
-                    [('end_datetime', '=', False),
-                     ('workstation_id.line_id', '=', self.line_id.id),
-                     ('workstation_id.shift_id', '=', shift.id)])
-                if wsheet:
-                    self.env['mdc.worksheet'].massive_close(wsheet, values['start_lot_datetime'])
-                    for employee in wsheet.mapped('employee_id'):
-                        self.env['mdc.worksheet'].create({
-                            'start_datetime': values['start_lot_datetime'],
-                            'employee_id': employee.id,
-                            'lot_id': values['current_lot_active_id']})
 
         # if change start data we have do refactoring history of the lot
-        print("new_start_lot_datetime : " + new_start_lot_datetime + " old_start_lot_datetime: "+ old_start_lot_datetime)
         if new_start_lot_datetime and old_start_lot_datetime \
                 and new_start_lot_datetime != old_start_lot_datetime:
+            _logger.info("change start_lot_datetime : new: %s old: %s"
+                         % (new_start_lot_datetime, old_start_lot_datetime))
             self.env['mdc.lot_active'].update_start_date(
                 chkpoint_id=self.id,
                 new_lot_active_id=new_lot_active_id,

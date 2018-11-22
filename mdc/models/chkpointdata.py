@@ -220,11 +220,11 @@ class DataWIn(models.Model):
                 _logger.error('[mdc.data_win] _cancel_expired_inputs:  %s' % e)
 
     def count_nreg(self, line_id, start_change_interval, end_change_interval):
-        print("data_win count_nreg: line_id: "+str(line_id.id)+", start_change_interval: "+start_change_interval+", end_change_interval: "+end_change_interval+".")
         numReg = self.search_count(
              ['&', '&', ('line_id', '=', line_id.id),
               ('create_datetime', '>=', start_change_interval), ('create_datetime', '<', end_change_interval)])
-        print("-> "+str(numReg)+" reg.")
+        _logger.info("data_win count_nreg (%s): line_id: %s, start_change_interval: %s, end_change_interval: %s."
+                     % (numReg, line_id.id, start_change_interval, end_change_interval))
         return numReg
 
 
