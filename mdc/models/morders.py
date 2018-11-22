@@ -918,3 +918,40 @@ class Worksheet(models.Model):
         # Only when websocket is closed will end listener. Then, cron job should restart as soon as possible
         _logger.info('[mdc.worksheet] Ended listener')
 
+    @api.model
+    def _update_blind_worksheets(self):
+        """
+        Check new worksheet permissions from RFID server database
+        :return:
+        """
+        _logger.info('[mdc.worksheet] Starting worksheet revision')
+        try:
+            # TODO retrieve config data (last processed worksheet timestamp, minimum delay for worksheets)
+            devdt = 1538840634       # Test data
+            # TODO if month has already changed since last update, we should also query the previous month table
+            # today = datetime.datetime.today()
+            today = datetime.datetime.today() - datetime.timedelta(days=30)  # Only for testing purposes
+            table = 't_lg%s' % today.strftime('%Y%m')
+            _logger.info('[mdc.worksheet] Looking for events on table %s...' % table)
+            DbSource = self.env.ref('mdc.base_external_dbsource_rfid_server')
+            # TODO WARNING how to close connections??
+            # with DbSource.conn_open():
+            _logger.info('[mdc.worksheet] Connected to database!')
+            res = DbSource.execute(
+                query="SELECT devdt, devuid, usrid from {0}"
+                      " where usrid <> %(notuser)s and evt=8704"
+                      " and devdt >= %(devdt)s order by devdt".format(table),
+                execute_params={'table': table, 'notuser': '', 'devdt': devdt})
+            _logger.info('[mdc.worksheet] Found %d worksheets' % len(res))
+            for row in res:
+                _logger.info('[mdc.worksheet] devdt=%d, devuid=%d, usrid=%s' %
+                             (row['devdt'], row['devuid'], row['usrid']))
+                # TODO make worksheets, if required
+            # TODO update last processed worksheet timestamp
+
+        except Exception as e:
+            _logger.info('[mdc.worksheet] Worksheet revision: %s', e)
+
+
+
+        _logger.info('[mdc.worksheet] Finished worksheet revision')
