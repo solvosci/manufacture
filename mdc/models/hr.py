@@ -42,11 +42,6 @@ class Employee(models.Model):
         readonly=True,
         compute='_compute_present',
         store=True)
-    worksheet_start_datetime = fields.Datetime(
-        'Worksheet Start Datetime',
-        readonly=True,
-        compute='_compute_worksheet_data',
-        store=True)
     worksheet_end_datetime = fields.Datetime(
         'Worksheet End Datetime',
         readonly=True,
@@ -109,26 +104,15 @@ class Employee(models.Model):
     def _compute_worksheet_data(self):
         # TODO check filtered performance when growing data
         for employee in self:
-            # compute the last start datetime (the start date time real of worksheet, not change of status)
-            last_start_datetime_real = None
             # compute the last end datetime (to use to validate on create and write a worksheet)
             last_end_datetime = None
             # compute the last start datetime (to built worksheet status = last start date opened + lot + workstation)
             last_start_datetime = None
             worksheet_data_status = None
             # to do this we need de last worksheet of te employee
-            #TODO: find another way to do this -> find another way withour limit
             we = self.env['mdc.worksheet'].search([('employee_id', '=', employee.id)]
-                                                  , order='start_datetime desc', limit=100)
+                                                  , order='start_datetime desc', limit=2)
             for ws in we:
-                if last_start_datetime_real is None:
-                    last_start_datetime_real = ws.start_datetime
-                else:
-                    # while end_datetime = last start date time is not the real start date time
-                    if str(ws.end_datetime) == str(last_start_datetime_real):
-                        last_start_datetime_real = ws.start_datetime
-                    else:
-                        break
                 if last_end_datetime is None and ws.end_datetime is not False:
                     last_end_datetime = ws.end_datetime
                 if worksheet_data_status is None and ws.end_datetime is False:
@@ -136,7 +120,6 @@ class Employee(models.Model):
                     worksheet_data_status = '%s - %s ' % (ws.lot_id.name or '', ws.workstation_id.name or '')
 
             # set the calculated values
-            employee.worksheet_start_datetime = last_start_datetime_real
             employee.worksheet_end_datetime = last_end_datetime
             employee.worksheet_status_start_datetime = last_start_datetime
             employee.worksheet_status_data = worksheet_data_status
@@ -159,7 +142,7 @@ class Employee(models.Model):
 
     @api.model
     def create(self, values):
-        _logger.info("[SLV] Employee_create")
+        _logger.info("[hr.employee] Employee_create")
 
         if values.get('operator') and not values.get('employee_code'):
             values['employee_code'] = self._default_employee_code()
