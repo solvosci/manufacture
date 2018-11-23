@@ -562,6 +562,12 @@ class Worksheet(models.Model):
     physical_close = fields.Boolean(
         'Physical close',
         default=False)
+    physical_start_datetime = fields.Datetime(
+        'Real Start Datetime',
+        required=True,
+        default=_default_date)
+    physical_end_datetime = fields.Datetime(
+        'Real End Datetime')
     lot_id = fields.Many2one(
         'mdc.lot',
         string='MO',
