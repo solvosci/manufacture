@@ -389,7 +389,7 @@ class RptCumulative(models.Model):
                     woutdata.shared_gross_weight, woutdata.shared_product_weight, woutdata.shared_sp1_weight,
                     case when (woutdata.product_weight + woutdata.shared_product_weight)=0 then 0 else woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) end as quality,
                     woutdata.product_boxes, woutdata.sp1_boxes,
-                    case when woutdata.gross_weight = 0 then 0 else (woutdata.product_weight + woutdata.sp1_weight) / woutdata.gross_weight end as total_yield,
+                    case when woutdata.gross_weight = 0 then 0 else 100*(woutdata.product_weight + woutdata.sp1_weight) / woutdata.gross_weight end as total_yield,
                     lotemp.total_hours, 
                     lot.std_yield_product, lot.std_speed, lot.std_yield_sp1, 
                     case when coalesce(lot.std_yield_product,0)*woutdata.gross_weight = 0 then 0 else (woutdata.product_weight / woutdata.gross_weight) / lot.std_yield_product/ 1.15 end as ind_backs,
@@ -440,24 +440,24 @@ class RptCumulative(models.Model):
                            
         """ % self._table)
 
-        # --------------- Calculate Grouped Values with Weighted average or complicated dropued formulas
-        @api.model
-        def read_group(self, domain, fields, groupby, offset=0, limit=None,
-                       orderby=False, lazy=True):
-            res = super(RptIndicators, self).read_group(domain, fields, groupby,
-                                                        offset=offset, limit=limit, orderby=orderby, lazy=lazy)
-            if 'quality' in fields or 'total_yield' in fields:
-                for line in res:
-                    if '__domain' in line:
-                        quality_weight = 0
-                        total_yield_weight = 0
-                        total_weight = 0
-                        lines = self.search(line['__domain'])
-                        for line_item in lines:
-                            quality_weight += line_item.quality * line_item.product_weight
-                            total_yield_weight += line_item.total_yield * line_item.product_weight
-                            total_weight += line_item.product_weight + line_item.shared_product_weight / 2
-                        if total_weight > 0:
-                            line['quality'] = quality_weight / total_weight
-                            line['total_yield'] = total_yield_weight / total_weight
-            return res
+    # --------------- Calculate Grouped Values with Weighted average or complicated dropued formulas
+    @api.model
+    def read_group(self, domain, fields, groupby, offset=0, limit=None,
+                   orderby=False, lazy=True):
+        res = super(RptCumulative, self).read_group(domain, fields, groupby,
+                                                    offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+        if 'quality' in fields or 'total_yield' in fields:
+            for line in res:
+                if '__domain' in line:
+                    quality_weight = 0
+                    total_yield_weight = 0
+                    total_weight = 0
+                    lines = self.search(line['__domain'])
+                    for line_item in lines:
+                        quality_weight += line_item.quality * line_item.product_weight
+                        total_yield_weight += line_item.total_yield * line_item.product_weight
+                        total_weight += line_item.product_weight + line_item.shared_product_weight / 2
+                    if total_weight > 0:
+                        line['quality'] = quality_weight / total_weight
+                        line['total_yield'] = total_yield_weight / total_weight
+        return res

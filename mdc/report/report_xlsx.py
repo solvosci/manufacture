@@ -859,7 +859,7 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
             wshared_gross_weight += obj.shared_gross_weight
             wshared_product_weight += obj.shared_product_weight
             wshared_sp1_weight += obj.shared_sp1_weight
-            wquality += obj.quality
+            wquality += obj.quality * obj.product_weight
             wtotal_hours += obj.total_hours
             wnumreg += 1
 
