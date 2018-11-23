@@ -21,6 +21,7 @@
                     <field name="employee_code"/>
                     <field name="employee_name"/>
                     <field name="shift_code"/>
+                    <filter name="today" string="Today" domain="[('create_date', '&gt;=', current_date)]"/>
                     <filter name="week" string="This Week"
                         domain="[
                             '&amp;',
@@ -80,6 +81,7 @@
                     <field name="contract_name"/>
                     <field name="lot_name"/>
                     <field name="shift_code"/>
+                    <filter name="today" string="Today" domain="[('create_date', '&gt;=', current_date)]"/>
                     <filter name="week" string="This Week"
                         domain="[
                             '&amp;',
@@ -141,6 +143,7 @@
                     <field name="employee_name"/>
                     <field name="shift_code"/>
                     <field name="lot_name"/>
+                    <filter name="today" string="Today" domain="[('create_date', '&gt;=', current_date)]"/>
                     <filter name="week" string="This Week"
                         domain="[
                             '&amp;',
@@ -198,6 +201,7 @@
                     <field name="employee_code"/>
                     <field name="employee_name"/>
                     <field name="lot_name"/>
+                    <filter name="today" string="Today" domain="[('create_date', '&gt;=', current_date)]"/>
                     <filter name="week" string="This Week"
                         domain="[
                             '&amp;',

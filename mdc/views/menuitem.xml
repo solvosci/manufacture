@@ -141,7 +141,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="mdc_workstations_search"/>
-        <field name="limit">25</field>
+        <field name="limit">99</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
             Click to create new workstations.
@@ -172,7 +172,7 @@
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="mdc_worksheets_search"/>
         <field name="context">{"search_default_today":1}</field>
-        <field name="limit">25</field>
+        <field name="limit">99</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
             Click to create new worksheets.
@@ -246,6 +246,7 @@
         <field name="name">Massive Worksheet open</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.employee</field>
+        <field name="limit">99</field>
         <field name="domain">[('operator', '=', True), ('present', '=', False)]</field>
         <field name="search_view_id" ref="mdc.view_hr_employee_filter"/>
         <field name="view_id" ref="mdc.hr_employee_tree_massworksheetopen"/>
@@ -263,6 +264,7 @@
         <field name="name">Massive Worksheet close</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.employee</field>
+        <field name="limit">99</field>
         <field name="domain">[('operator', '=', True), ('present', '=', True)]</field>
         <field name="search_view_id" ref="mdc.view_hr_employee_filter"/>
         <field name="view_id" ref="mdc.hr_employee_tree_massworksheetclose"/>
@@ -282,10 +284,11 @@
         <field name="res_model">mdc.card</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="sequence" eval="20"/>
         <!-- FIXME unable to filter by joker card (ref and '%' not working) -->
         <field name="domain">[('card_categ_id.code', '=', 'PC')]</field>
         <field name="search_view_id" ref="mdc_card_lot_assign_search"/>
-        <field name="limit">25</field>
+        <field name="limit">99</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
             Not possible.

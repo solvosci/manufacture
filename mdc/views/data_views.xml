@@ -28,7 +28,7 @@
         <field name="name">mdc.worksheets.tree</field>
         <field name="model">mdc.worksheet</field>
         <field name="arch" type="xml">
-            <tree delete="false" string="Worksheets">
+            <tree delete="false" string="Worksheets" default_order="start_datetime desc">
                 <field name="employee_id"/>
                 <field name="start_datetime"/>
                 <field name="physical_open" string="P.O."/>
@@ -106,7 +106,7 @@
         <field name="name">mdc.data_wins.tree</field>
         <field name="model">mdc.data_win</field>
         <field name="arch" type="xml">
-            <tree string="Data_wins" decoration-danger="active==False">
+            <tree string="Data_wins" decoration-danger="active==False" default_order="create_datetime desc">
                 <field name="id" string="#id"/>
                 <field name="line_id"/>
                 <field name="lot_id"/>
@@ -215,7 +215,7 @@
         <field name="model">mdc.data_wout</field>
         <field name="arch" type="xml">
             <tree string="Data_wouts" decoration-danger="shared and not wout_shared_id"
-                  decoration-info="shared and wout_shared_id">
+                  decoration-info="shared and wout_shared_id" default_order="create_datetime desc">
                 <field name="id" string="#id"/>
                 <field name="line_id"/>
                 <field name="lot_id"/>
