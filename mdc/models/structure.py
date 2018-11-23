@@ -139,10 +139,11 @@ class ChkPoint(models.Model):
             values['start_lot_datetime'] = new_start_lot_datetime
             # when change lot maybe do in the current shift
             shift_data = self.env['mdc.shift'].get_current_shift(now)
-            if new_start_lot_datetime < shift_data['start_datetime']:
-                raise UserError(_('You can´t give start date less than start current shift time (%s < %s)') % (new_start_lot_datetime, shift_data['start_datetime']))
-            if new_start_lot_datetime > shift_data['end_datetime']:
-                raise UserError(_('You can´t give start date higher than end current shift time (%s > %s)') % (new_start_lot_datetime, shift_data['end_datetime']))
+            if self.chkpoint_categ == 'WOUT':
+                if new_start_lot_datetime < shift_data['start_datetime']:
+                    raise UserError(_('You can´t give start date less than start current shift time (%s < %s)') % (new_start_lot_datetime, shift_data['start_datetime']))
+                if new_start_lot_datetime > shift_data['end_datetime']:
+                    raise UserError(_('You can´t give start date higher than end current shift time (%s > %s)') % (new_start_lot_datetime, shift_data['end_datetime']))
 
             old_start_lot_datetime = values['start_lot_datetime']
             self.env['mdc.lot_active'].update_historical(
