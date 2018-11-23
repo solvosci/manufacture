@@ -995,7 +995,7 @@ class Worksheet(models.Model):
             _logger.info('[mdc.worksheet] Connected to database!')
             res = DbSource.execute(
                 query="SELECT devdt, devuid, usrid from {0}"
-                      " where usrid <> %(notuser)s and evt=8704"
+                      " where usrid <> %(notuser)s and evt>=4097 and evt<=4111"
                       " and devdt >= %(devdt)s order by devdt".format(table),
                 execute_params={'notuser': '', 'devdt': devdt})
             _logger.info('[mdc.worksheet] Found %d worksheets' % len(res))
