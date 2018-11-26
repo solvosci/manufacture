@@ -104,11 +104,11 @@ class ChkPoint(models.Model):
         now = fields.Datetime.now()
 
         # save new lot on a temp variable
-        new_lot_active_id = ''
+        new_lot_active_id = 0
         if 'current_lot_active_id' in values:
             new_lot_active_id = values['current_lot_active_id']
         else:
-            new_lot_active_id = self.current_lot_active_id
+            new_lot_active_id = self.current_lot_active_id.id
 
         # save new and old start-date on a temp variables
         new_start_lot_datetime = ''
@@ -119,7 +119,7 @@ class ChkPoint(models.Model):
                 values['start_lot_datetime'] = now
             # when change lot and don´t change date we put default date = current_date
             if 'current_lot_active_id' in values \
-                and values['current_lot_active_id'] != self.current_lot_active_id \
+                and values['current_lot_active_id'] != self.current_lot_active_id.id \
                 and values['start_lot_datetime'] == self.start_lot_datetime:
                 values['start_lot_datetime'] = now
             new_start_lot_datetime = values['start_lot_datetime']
@@ -131,7 +131,7 @@ class ChkPoint(models.Model):
 
         #when change lot whe have to do new history records
         # Modifying a current_lot_active and update historic lot_active if it is necessary
-        if 'current_lot_active_id' in values and values['current_lot_active_id'] != self.current_lot_active_id:
+        if 'current_lot_active_id' in values and values['current_lot_active_id'] != self.current_lot_active_id.id:
             _logger.info("Change lot: new : %s old: %s"
                          % (values['current_lot_active_id'], self.current_lot_active_id.id))
             if not new_start_lot_datetime:
@@ -148,8 +148,8 @@ class ChkPoint(models.Model):
             old_start_lot_datetime = values['start_lot_datetime']
             self.env['mdc.lot_active'].update_historical(
                 chkpoint_id=self.id,
-                line_id=self.line_id.id,
-                shift_id=shift_data['shift'].id,
+                line_id=self.line_id,
+                shift_id=shift_data['shift'],
                 current_lot_active=self.current_lot_active_id,
                 new_lot_active_id=values['current_lot_active_id'],
                 start_lot_datetime=values['start_lot_datetime'])
