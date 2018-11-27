@@ -9,6 +9,7 @@
         <field name='interval_number'>1</field>
         <field name='interval_type'>minutes</field>
         <field name="numbercall">-1</field>
+        <field name="priority">3</field>
         <field name="doall" eval="False" />
     </record>
 
@@ -33,6 +34,7 @@
         <field name='interval_number'>5</field>
         <field name='interval_type'>minutes</field>
         <field name="numbercall">-1</field>
+        <field name="priority">8</field>
         <field name="doall" eval="False" />
     </record>
 </odoo>

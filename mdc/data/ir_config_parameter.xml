@@ -19,7 +19,7 @@
         </record>
         <record id="mdc_rfid_server_min_secs_between_worksheets" model="ir.config_parameter">
             <field name="key">mdc.rfid_server_min_secs_between_worksheets</field>
-            <field name="value">1</field>
+            <field name="value">10</field>
         </record>
         <record id="mdc_rfid_server_last_worksheet_timestamp" model="ir.config_parameter">
             <field name="key">mdc.rfid_server_last_worksheet_timestamp</field>
