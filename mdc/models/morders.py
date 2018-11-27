@@ -537,9 +537,7 @@ class Worksheet(models.Model):
         'Physical close',
         default=False)
     physical_start_datetime = fields.Datetime(
-        'Real Start Datetime',
-        required=True,
-        default=_default_date)
+        'Real Start Datetime')
     physical_end_datetime = fields.Datetime(
         'Real End Datetime')
     lot_id = fields.Many2one(
@@ -811,9 +809,18 @@ class Worksheet(models.Model):
                                 _logger.info("[mdc.worksheet - refactoring]: * write worksheet: (id: %s) ws.employee_id: %s update end_datetime: from %s to %s."
                                              % (ws.id, ws.employee_id.id, ws.end_datetime, ws.start_datetime))
                                 ws.write({'end_datetime': ws.start_datetime})
-                                _logger.info("[mdc.worksheet - refactoring]: * write worksheet: (id: %s) ws.employee_id: %s update start_datetime: from %s to %s."
-                                             % (ws2.id, ws.employee_id.id, ws2.start_datetime, ws.start_datetime))
-                                ws2.write({'start_datetime': ws.start_datetime})
+                                if ws.physical_open:
+                                    _logger.info(
+                                        "[mdc.worksheet - refactoring]: * write worksheet: (id: %s) ws.employee_id: %s update start_datetime: from %s to %s. Update physical_start_datetime to %s"
+                                        % (ws2.id, ws.employee_id.id, ws2.start_datetime, ws.start_datetime, ws.physical_start_datetime))
+                                    ws2.write({'start_datetime': ws.start_datetime,
+                                               'physical_start_datetime': ws.physical_start_datetime,
+                                               'physical_open': ws.physical_open})
+                                else:
+                                    _logger.info(
+                                        "[mdc.worksheet - refactoring]: * write worksheet: (id: %s) ws.employee_id: %s update start_datetime: from %s to %s."
+                                        % (ws2.id, ws.employee_id.id, ws2.start_datetime, ws.start_datetime))
+                                    ws2.write({'start_datetime': ws.start_datetime})
                                 _logger.info("[mdc.worksheet - refactoring]: * delete worksheet: (id: %s) ws.employee_id: %s start_datetime: %s, end_datetime: %s."
                                              % (ws.id, ws.employee_id.id, ws.start_datetime, ws.end_datetime))
                                 ws.unlink()
@@ -947,7 +954,7 @@ class Worksheet(models.Model):
         :return:
         """
 
-        def _process_worksheet(Card, data, min_secs_worksheet):
+        def _process_worksheet(Card, data, now, min_secs_worksheet):
             """
             Register an individual worksheet
             :param Card:
@@ -977,12 +984,12 @@ class Worksheet(models.Model):
                             return
                     # -------------------------------------------------------------------------
                     if card.employee_id.present:
-                        card.employee_id.worksheet_close(worksheet_datetime, physical_close=True)
+                        card.employee_id.worksheet_close(now, worksheet_datetime, physical_close=True)
                         _logger.info(
                             '[mdc.worksheet] Made close worksheet action for employee with code %s' %
                             card.employee_id.employee_code)
                     else:
-                        card.employee_id.worksheet_open(worksheet_datetime, physical_open=True)
+                        card.employee_id.worksheet_open(now, worksheet_datetime, physical_open=True)
                         _logger.info(
                             '[mdc.worksheet] Made open worksheet action for employee with code %s' %
                             card.employee_id.employee_code)
@@ -1017,13 +1024,14 @@ class Worksheet(models.Model):
             if len(res) > 0:
                 Card = self.env['mdc.card']
                 last_timestamp = None
+                now = fields.Datetime.now()
                 min_secs_worksheet = int(IrConfigParameter.get_param('mdc.rfid_server_min_secs_between_worksheets'))
                 for row in res:
                     _logger.info('[mdc.worksheet] Read devdt=%d, devuid=%d, usrid=%s' %
                                  (row['devdt'], row['devuid'], row['usrid']))
                     # TODO if a particular worksheet fails, the other are processed anyway. The fail worksheet is lost
                     try:
-                        _process_worksheet(Card, row, min_secs_worksheet)
+                        _process_worksheet(Card, row, now, min_secs_worksheet)
                     except Exception as e:
                         _logger.info('[mdc.worksheet] Processing worksheet for user %s@%d: %s'
                                      % (row['usrid'], row['devdt'], e))

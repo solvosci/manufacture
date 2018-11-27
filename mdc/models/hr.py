@@ -130,7 +130,7 @@ class Employee(models.Model):
         for employee in self:
             physical_open_worksheets = employee.worksheet_ids.filtered(lambda r: r.physical_open)
             if physical_open_worksheets:
-                employee.last_physical_worksheet_start_datetime = physical_open_worksheets[-1].start_datetime
+                employee.last_physical_worksheet_start_datetime = physical_open_worksheets[-1].physical_start_datetime
 
     @api.multi
     @api.depends('worksheet_ids.end_datetime')
@@ -138,7 +138,7 @@ class Employee(models.Model):
         for employee in self:
             physical_closed_worksheets = employee.worksheet_ids.filtered(lambda r: r.physical_close)
             if physical_closed_worksheets:
-                employee.last_physical_worksheet_end_datetime = physical_closed_worksheets[-1].end_datetime
+                employee.last_physical_worksheet_end_datetime = physical_closed_worksheets[-1].physical_end_datetime
 
     @api.model
     def create(self, values):
@@ -177,7 +177,7 @@ class Employee(models.Model):
         return self.env.user.has_group('mdc.group_mdc_office_worker')
 
     @api.multi
-    def worksheet_open(self, start_datetime, physical_open=False):
+    def worksheet_open(self, start_datetime, physical_start_datetime=False, physical_open=False):
         self.ensure_one()
         self._check_worksheet_permissions()
         if self.present:
@@ -185,16 +185,19 @@ class Employee(models.Model):
         self.env['mdc.worksheet'].sudo().create({
             'start_datetime': start_datetime,
             'employee_id': self.id,
+            'physical_start_datetime': physical_start_datetime,
             'physical_open': physical_open})
 
     @api.multi
-    def worksheet_close(self, end_datetime, physical_close=False):
+    def worksheet_close(self, end_datetime, physical_end_datetime=False, physical_close=False):
         self.ensure_one()
         self._check_worksheet_permissions()
         if not self.present:
             raise UserError(_('Cannot create close worksheet: employee %s is not present') % self.employee_code)
         self.worksheet_ids.filtered(lambda r: r.end_datetime is False).sudo().write({
-            'end_datetime': end_datetime, 'physical_close': physical_close})
+            'end_datetime': end_datetime,
+            'physical_end_datetime': physical_end_datetime,
+            'physical_close': physical_close})
         # TODO check filtered performance when growing data. If decreases, use the code above
         """
         Worksheet = self.env['mdc.worksheet'].search(

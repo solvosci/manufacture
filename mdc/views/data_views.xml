@@ -28,7 +28,7 @@
         <field name="name">mdc.worksheets.tree</field>
         <field name="model">mdc.worksheet</field>
         <field name="arch" type="xml">
-            <tree delete="false" string="Worksheets" default_order="start_datetime desc">
+            <tree delete="false" string="Worksheets" default_order="start_datetime desc, end_datetime desc">
                 <field name="employee_id"/>
                 <field name="start_datetime"/>
                 <field name="physical_open" string="P.O."/>
@@ -68,6 +68,16 @@
                         </group>
                         <group>
                             <field name="total_hours" readonly="True"/>
+                        </group>
+                    </group>
+                    <group name="gr_worksheet_by_card" string="Worksheet by Card">
+                        <group>
+                            <field name="physical_open" readonly="True"/>
+                            <field name="physical_start_datetime" readonly="True"/>
+                        </group>
+                        <group>
+                            <field name="physical_close" readonly="True"/>
+                            <field name="physical_end_datetime" readonly="True"/>
                         </group>
                     </group>
                 </sheet>
