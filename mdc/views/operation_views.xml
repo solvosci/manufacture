@@ -223,7 +223,7 @@
         </field>
     </record>
 
-    <!-- Tree view: default view for workstations -->
+        <!-- Tree view: default view for workstations -->
     <record id="mdc_workstations_tree" model="ir.ui.view">
         <field name="name">mdc.workstations.tree</field>
         <field name="model">mdc.workstation</field>
