@@ -265,6 +265,7 @@ class Card(models.Model):
     _name = 'mdc.card'
     _inherit = ['mdc.base.structure']
     _description = 'Card'
+    _order = 'name'
 
     _sql_constraints = [
         ('card_name_unique', 'UNIQUE(name)', _("There's another card with the same code")),
