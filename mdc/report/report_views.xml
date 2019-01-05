@@ -112,6 +112,7 @@
                     <field name="lot_name" readonly="True"/>
                     <field name="product_id" readonly="True"/>
                     <field name="shift_code" readonly="True"/>
+                    <field name="gross_weight_reference" readonly="True"/>
                     <field name="gross_weight" readonly="True"/>
                     <field name="product_weight" readonly="True"/>
                     <field name="sp1_weight" readonly="True"/>

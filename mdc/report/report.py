@@ -112,9 +112,11 @@ class RptManufacturing(models.Model):
     product_id = fields.Many2one('product.product', 'Product', readonly=True)
     client_name = fields.Char('Client', readonly=True)
     shift_code = fields.Char('Shift Code', readonly=True)
+    gross_weight_reference = fields.Float('Gross Reference', readonly=True, group_operator='sum')
     gross_weight = fields.Float('Gross', readonly=True, group_operator='sum')
     product_weight = fields.Float('Backs', readonly=True, group_operator='sum')
     sp1_weight = fields.Float('Crumbs', readonly=True, group_operator='sum')
+    shared_gross_weight_reference  = fields.Float('Shared Gross Reference', readonly=True, group_operator='sum')
     shared_gross_weight = fields.Float('Shared Gross', readonly=True, group_operator='sum')
     shared_product_weight = fields.Float('Shared Backs', readonly=True, group_operator='sum')
     shared_sp1_weight = fields.Float('Shared Crumbs', readonly=True, group_operator='sum')
@@ -126,6 +128,7 @@ class RptManufacturing(models.Model):
     std_yield_product = fields.Float('Std Yield Product')
     std_speed = fields.Float('Std Speed')
     std_yield_sp1 = fields.Float('Std Yield Subproduct 1')
+    std_loss = fields.Float('Std Loss')
     weight_std_lot = fields.Float('Std Weight Lot')
     coef_weight_lot = fields.Float('Coef Weight Lot')
     ind_backs = fields.Float('IND Backs', readonly=True, group_operator='avg')
@@ -138,66 +141,85 @@ class RptManufacturing(models.Model):
         tools.drop_view_if_exists(self._cr, self._table)
         self._cr.execute("""
             CREATE view %s as 
-                SELECT woutdata.id, woutdata.create_date, lot.name as lot_name, lot.product_id,
-                    coalesce(cli.name,'') as client_name,
-                    emp.employee_code, emp.name as employee_name, contr.name as contract_name, shift.shift_code, 
-                    woutdata.gross_weight, woutdata.product_weight, woutdata.sp1_weight, 
-                    woutdata.shared_gross_weight, woutdata.shared_product_weight, woutdata.shared_sp1_weight,
-                    case when (woutdata.product_weight + woutdata.shared_product_weight) = 0 then 0 else woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) end as quality,
-                    wst.name as workstation_name, 
-                    woutdata.product_boxes, woutdata.sp1_boxes, 
-                    lotemp.total_hours, 
-                    lot.std_yield_product, lot.std_speed, lot.std_yield_sp1,
-                    lot.weight*(1-coalesce(lot.std_loss,0)/100) as weight_std_lot,
-                    case when coalesce(lot.total_gross_weight,0) = 0 then 1 else lot.weight*(1-coalesce(lot.std_loss,0)/100)/lot.total_gross_weight end as coef_weight_lot,
-                    case when coalesce(lot.std_yield_product,0)*woutdata.gross_weight = 0 then 0 else (woutdata.product_weight / woutdata.gross_weight) / lot.std_yield_product/ 1.15 end as ind_backs,
-                    case when coalesce(lot.std_speed,0)*woutdata.gross_weight = 0 then 0 else (lotemp.total_hours * 60 / woutdata.gross_weight) / lot.std_speed / 1.15 end as ind_mo,
-                    case when coalesce(woutdata.sp1_weight,0)*woutdata.gross_weight =0 then 0 else lot.std_yield_sp1 / (woutdata.sp1_weight / woutdata.gross_weight) / 1.15 end as ind_crumbs,
-                    case when (woutdata.product_weight + woutdata.shared_product_weight)=0 then 0 else woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) end as ind_quality,
-                    case when coalesce(lot.std_yield_product,0)*coalesce(lot.std_speed,0)*woutdata.gross_weight*woutdata.product_weight = 0 then 0 else
-                    (0.6 *  ((woutdata.product_weight / woutdata.gross_weight) / lot.std_yield_product/ 1.15)) 
-                    + (0.3 * ((lotemp.total_hours * 60 / woutdata.gross_weight) / lot.std_speed / 1.15)) 
-                    + (0.1 * (woutdata.quality_weight / woutdata.product_weight)) end as ind_cleaning 
-                    FROM (
-                        SELECT
-                            MIN(wout.id) as id,
-                            date(wout.create_datetime) as create_date,
-                            wout.lot_id, wout.employee_id, wout.shift_id, wout.workstation_id,
-                            sum(case when wout.shared='false' then wout.gross_weight else 0 end) as gross_weight,
-                            sum(case when wout.shared='false' and woutcat.code='P' then wout.weight-wout.tare else 0 end) as product_weight,
-                            sum(case when wout.shared='false' and woutcat.code='SP1' then wout.weight-wout.tare else 0 end) as sp1_weight,
-                            sum(case when wout.shared='true' then wout.gross_weight + shwout.gross_weight else 0 end) as shared_gross_weight,
-                            sum(case when wout.shared='true' and woutcat.code='P' then wout.weight-wout.tare + shwout.weight-shwout.tare else 0 end) as shared_product_weight,
-                            sum(case when wout.shared='true' and woutcat.code='SP1' then wout.weight-wout.tare + shwout.weight-shwout.tare else 0 end) as shared_sp1_weight,
-                            sum(case when woutcat.code='P' then qlty.code * (wout.weight-wout.tare) else 0 end) as quality_weight,
-                            sum(case when woutcat.code='P' then 1 else 0 end) as product_boxes,
-                            sum(case when woutcat.code='SP1' then 1 else 0 end) as sp1_boxes
-                        FROM mdc_data_wout wout
-                            LEFT JOIN mdc_wout_categ woutcat ON woutcat.id=wout.wout_categ_id 
-                            LEFT JOIN mdc_quality qlty ON qlty.id=wout.quality_id
-                            LEFT JOIN mdc_data_wout shwout ON shwout.wout_shared_id=wout.id
-                        WHERE 1=1
-                        GROUP BY 
-                            date(wout.create_datetime),
-                            wout.lot_id, wout.employee_id, wout.shift_id, wout.workstation_id
-                    ) woutdata
-                    LEFT JOIN (SELECT 
-                            date(ws.start_datetime) as start_date,
-                            ws.lot_id, ws.employee_id, ws.shift_id, 
-                            sum(ws.total_hours) as total_hours 
-                        FROM mdc_worksheet ws
-                        WHERE 1=1
-                        GROUP BY date(ws.start_datetime),
-                            ws.lot_id, ws.employee_id, ws.shift_id
-                    ) lotemp ON lotemp.start_date=woutdata.create_date 
-                            and lotemp.lot_id=woutdata.lot_id and lotemp.employee_id=woutdata.employee_id 
-                            and lotemp.shift_id=woutdata.shift_id 
-                    LEFT JOIN mdc_lot lot ON lot.id=woutdata.lot_id
-                    LEFT JOIN res_partner cli on cli.id = lot.partner_id
-                    LEFT JOIN hr_employee emp ON emp.id=woutdata.employee_id
-                    LEFT JOIN hr_contract_type contr ON contr.id=emp.contract_type_id
-                    LEFT JOIN mdc_shift shift ON shift.id=woutdata.shift_id
-                    LEFT JOIN mdc_workstation wst ON wst.id=woutdata.workstation_id          
+                SELECT mdcdata.id, mdcdata.create_date, mdcdata.lot_name, mdcdata.product_id,
+                    mdcdata.client_name,
+                    mdcdata.employee_code, mdcdata.employee_name, mdcdata.contract_name, mdcdata.shift_code, 
+                    mdcdata.gross_weight_reference,
+                    mdcdata.gross_weight, mdcdata.product_weight, mdcdata.sp1_weight, 
+                    mdcdata.shared_gross_weight_reference,
+                    mdcdata.shared_gross_weight, mdcdata.shared_product_weight, mdcdata.shared_sp1_weight,
+                    mdcdata.quality,
+                    mdcdata.workstation_name, 
+                    mdcdata.product_boxes, mdcdata.sp1_boxes, 
+                    mdcdata.total_hours, 
+                    mdcdata.std_yield_product, mdcdata.std_speed, mdcdata.std_yield_sp1, mdcdata.std_loss, 
+                    mdcdata.weight_std_lot,
+                    mdcdata.coef_weight_lot,
+                    case when coalesce(mdcdata.std_yield_product,0)* mdcdata.gross_weight = 0 then 0 else (mdcdata.product_weight / mdcdata.gross_weight_reference) / mdcdata.std_yield_product/ 1.15 end as ind_backs,
+                    case when coalesce(mdcdata.std_speed,0)* mdcdata.gross_weight = 0 then 0 else (mdcdata.total_hours * 60 / mdcdata.gross_weight_reference) / mdcdata.std_speed / 1.15 end as ind_mo,
+                    case when coalesce(mdcdata.sp1_weight,0)* mdcdata.gross_weight = 0 then 0 else mdcdata.std_yield_sp1 / (mdcdata.sp1_weight / mdcdata.gross_weight_reference) / 1.15 end as ind_crumbs,
+                    case when (mdcdata.product_weight + mdcdata.shared_product_weight) = 0 then 0 else mdcdata.quality_weight/(mdcdata.product_weight + mdcdata.shared_product_weight/2) end as ind_quality,
+                    case when coalesce(mdcdata.std_yield_product,0)* coalesce(mdcdata.std_speed,0)* mdcdata.gross_weight * mdcdata.product_weight = 0 then 0 else
+                    (0.6 *  ((mdcdata.product_weight / mdcdata.gross_weight_reference) / mdcdata.std_yield_product/ 1.15)) 
+                    + (0.3 * ((mdcdata.total_hours * 60 / mdcdata.gross_weight_reference) / mdcdata.std_speed / 1.15)) 
+                    + (0.1 * (mdcdata.quality_weight / mdcdata.product_weight)) end as ind_cleaning 
+                    FROM (                
+                        SELECT woutdata.id, woutdata.create_date, lot.name as lot_name, lot.product_id,
+                            coalesce(cli.name,'') as client_name,
+                            emp.employee_code, emp.name as employee_name, contr.name as contract_name, shift.shift_code, 
+                            case when (1-coalesce(lot.std_loss,0)/100) = 0 then 999999 else woutdata.gross_weight /(1-coalesce(lot.std_loss,0)/100) end as gross_weight_reference,
+                            woutdata.gross_weight, woutdata.product_weight, woutdata.sp1_weight, 
+                            case when (1-coalesce(lot.std_loss,0)/100) = 0 then 999999 else woutdata.shared_gross_weight /(1-coalesce(lot.std_loss,0)/100) end as shared_gross_weight_reference,
+                            woutdata.shared_gross_weight, woutdata.shared_product_weight, woutdata.shared_sp1_weight,
+                            case when (woutdata.product_weight + woutdata.shared_product_weight) = 0 then 0 else woutdata.quality_weight/(woutdata.product_weight + woutdata.shared_product_weight/2) end as quality,
+                            woutdata.quality_weight,
+                            wst.name as workstation_name, 
+                            woutdata.product_boxes, woutdata.sp1_boxes, 
+                            lotemp.total_hours, 
+                            lot.std_yield_product, lot.std_speed, lot.std_yield_sp1, lot.std_loss,
+                            lot.weight*(1-coalesce(lot.std_loss,0)/100) as weight_std_lot,
+                            case when coalesce(lot.total_gross_weight,0) = 0 then 1 else lot.weight*(1-coalesce(lot.std_loss,0)/100)/lot.total_gross_weight end as coef_weight_lot
+                            FROM (
+                                SELECT
+                                    MIN(wout.id) as id,
+                                    date(wout.create_datetime) as create_date,
+                                    wout.lot_id, wout.employee_id, wout.shift_id, wout.workstation_id,
+                                    sum(case when wout.shared='false' then wout.gross_weight else 0 end) as gross_weight,
+                                    sum(case when wout.shared='false' and woutcat.code='P' then wout.weight-wout.tare else 0 end) as product_weight,
+                                    sum(case when wout.shared='false' and woutcat.code='SP1' then wout.weight-wout.tare else 0 end) as sp1_weight,
+                                    sum(case when wout.shared='true' then wout.gross_weight + shwout.gross_weight else 0 end) as shared_gross_weight,
+                                    sum(case when wout.shared='true' and woutcat.code='P' then wout.weight-wout.tare + shwout.weight-shwout.tare else 0 end) as shared_product_weight,
+                                    sum(case when wout.shared='true' and woutcat.code='SP1' then wout.weight-wout.tare + shwout.weight-shwout.tare else 0 end) as shared_sp1_weight,
+                                    sum(case when woutcat.code='P' then qlty.code * (wout.weight-wout.tare) else 0 end) as quality_weight,
+                                    sum(case when woutcat.code='P' then 1 else 0 end) as product_boxes,
+                                    sum(case when woutcat.code='SP1' then 1 else 0 end) as sp1_boxes
+                                FROM mdc_data_wout wout
+                                    LEFT JOIN mdc_wout_categ woutcat ON woutcat.id=wout.wout_categ_id 
+                                    LEFT JOIN mdc_quality qlty ON qlty.id=wout.quality_id
+                                    LEFT JOIN mdc_data_wout shwout ON shwout.wout_shared_id=wout.id
+                                WHERE 1=1
+                                GROUP BY 
+                                    date(wout.create_datetime),
+                                    wout.lot_id, wout.employee_id, wout.shift_id, wout.workstation_id
+                            ) woutdata
+                            LEFT JOIN (SELECT 
+                                    date(ws.start_datetime) as start_date,
+                                    ws.lot_id, ws.employee_id, ws.shift_id, 
+                                    sum(ws.total_hours) as total_hours 
+                                FROM mdc_worksheet ws
+                                WHERE 1=1
+                                GROUP BY date(ws.start_datetime),
+                                    ws.lot_id, ws.employee_id, ws.shift_id
+                            ) lotemp ON lotemp.start_date=woutdata.create_date 
+                                    and lotemp.lot_id=woutdata.lot_id and lotemp.employee_id=woutdata.employee_id 
+                                    and lotemp.shift_id=woutdata.shift_id 
+                            LEFT JOIN mdc_lot lot ON lot.id=woutdata.lot_id
+                            LEFT JOIN res_partner cli on cli.id = lot.partner_id
+                            LEFT JOIN hr_employee emp ON emp.id=woutdata.employee_id
+                            LEFT JOIN hr_contract_type contr ON contr.id=emp.contract_type_id
+                            LEFT JOIN mdc_shift shift ON shift.id=woutdata.shift_id
+                            LEFT JOIN mdc_workstation wst ON wst.id=woutdata.workstation_id 
+                        ) mdcdata          
             
         """ % self._table)
 
