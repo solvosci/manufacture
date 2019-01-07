@@ -217,11 +217,11 @@ class ReportRptTracingXlsx(models.AbstractModel):
                 sheet.write_formula(row, 14, '=IF(G' + str(row + 1) + '= 0, 0, (H' + str(row + 1) + '+I' + str(row + 1) + ')/G' + str(row + 1) + ')', f_percent) # - % Total Yield
                 sheet.write_formula(row, 15, '=IF(G' + str(row + 1) + '= 0, 0, (K' + str(row + 1) + ' * 60)/G' + str(row + 1) + ')', f_data) # - MO
                 # Ind columns
-                sheet.write_formula(row, 18, '=IF(M' + str(row + 1) + '= 0, 0, (L' + str(row + 1) + '/M' + str(row + 1) + '/1,15) * 100)', f_data) # - IND Backs
-                sheet.write_formula(row, 19, '=IF(R' + str(row + 1) + '= 0, 0, (Q' + str(row + 1) + '/R' + str(row + 1) + '/1,15) * 100)', f_data) # - IND MO
-                sheet.write_formula(row, 20, '=IF(N' + str(row + 1) + '= 0, 0, (P' + str(row + 1) + '/N' + str(row + 1) + '/1,15) * 100)', f_data) # - IND Crumbs
+                sheet.write_formula(row, 18, '=IF(M' + str(row + 1) + '= 0, 0, (L' + str(row + 1) + '/M' + str(row + 1) + '/1.15) * 100)', f_data) # - IND Backs
+                sheet.write_formula(row, 19, '=IF(R' + str(row + 1) + '= 0, 0, (Q' + str(row + 1) + '/R' + str(row + 1) + '/1.15) * 100)', f_data) # - IND MO
+                sheet.write_formula(row, 20, '=IF(N' + str(row + 1) + '= 0, 0, (P' + str(row + 1) + '/N' + str(row + 1) + '/1.15) * 100)', f_data) # - IND Crumbs
                 sheet.write_formula(row, 21, '=J' + str(row + 1), f_data) # - IND Quality
-                sheet.write_formula(row, 22, '0,6 * S' + str(row + 1) + ' + 0,3 * T' + str(row + 1) + ' + 0,1 * V' + str(row + 1), f_data) # - IND Cleaning
+                sheet.write_formula(row, 22, '0.6 * S' + str(row + 1) + ' + 0.3 * T' + str(row + 1) + ' + 0.1 * V' + str(row + 1), f_data) # - IND Cleaning
 
                 wgross_weight = 0
                 wproduct_weight = 0
@@ -439,15 +439,15 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
                 sheet.write_formula(row, 19, '=IF(F' + str(row + 1) + '= 0, 0, (J' + str(row + 1) + '+K' + str(row + 1) + ')/F' + str(row + 1) + ')' ,f_percent)  # - % Total Yield
                 sheet.write_formula(row, 21, '=IF(F' + str(row + 1) + '= 0, 0, (P' + str(row + 1) + ' * 60)/F' + str(row + 1) + ')', f_data2d)  # - MO
                 # Ind columns
-                sheet.write_formula(row, 23, '=IF(R' + str(row + 1) + '= 0, 0, (Q' + str(row + 1) + '/R' + str(row + 1) + '/1,15) * 100)', f_data2d) # - IND Backs
-                sheet.write_formula(row, 24, '=IF(W' + str(row + 1) + '= 0, 0, (V' + str(row + 1) + '/W' + str(row + 1) + '/1,15) * 100)', f_data2d) # - IND MO
-                sheet.write_formula(row, 25, '=IF(S' + str(row + 1) + '= 0, 0, (U' + str(row + 1) + '/S' + str(row + 1) + '/1,15) * 100)', f_data2d) # - IND Crumbs
+                sheet.write_formula(row, 23, '=IF(R' + str(row + 1) + '= 0, 0, (Q' + str(row + 1) + '/R' + str(row + 1) + '/1.15) * 100)', f_data2d) # - IND Backs
+                sheet.write_formula(row, 24, '=IF(W' + str(row + 1) + '= 0, 0, (V' + str(row + 1) + '/W' + str(row + 1) + '/1.15) * 100)', f_data2d) # - IND MO
+                sheet.write_formula(row, 25, '=IF(S' + str(row + 1) + '= 0, 0, (U' + str(row + 1) + '/S' + str(row + 1) + '/1.15) * 100)', f_data2d) # - IND Crumbs
                 sheet.write_formula(row, 26, '=O' + str(row + 1), f_data2d) # - IND Quality
-                sheet.write_formula(row, 27, '0,6 * X' + str(row + 1) + ' + 0,3 * Y' + str(row + 1) + ' + 0,1 * AA' + str(row + 1), f_data2d) # - IND Cleaning
+                sheet.write_formula(row, 27, '0.6 * X' + str(row + 1) + ' + 0.3 * Y' + str(row + 1) + ' + 0.1 * AA' + str(row + 1), f_data2d) # - IND Cleaning
                 # Ind Old Columns
                 #sheet.write_formula(row, 30, 'V' + str(row + 1) + '*' + str(obj.coef_weight_lot), f_data2d)  # - MO
-                #sheet.write_formula(row, 31, '=IF(W' + str(row + 1) + '= 0, 0, (AE' + str(row + 1) + '/W' + str(row + 1) + '/1,15) * 100)', f_data2d)  # - IND MO
-                #sheet.write_formula(row, 32, '0,6 * X' + str(row + 1) + ' + 0,3 * AF' + str(row + 1) + ' + 0,1 * AA' + str(row + 1), f_data2d)  # - IND Cleaning
+                #sheet.write_formula(row, 31, '=IF(W' + str(row + 1) + '= 0, 0, (AE' + str(row + 1) + '/W' + str(row + 1) + '/1.15) * 100)', f_data2d)  # - IND MO
+                #sheet.write_formula(row, 32, '0.6 * X' + str(row + 1) + ' + 0.3 * AF' + str(row + 1) + ' + 0.1 * AA' + str(row + 1), f_data2d)  # - IND Cleaning
 
                 wgross_weight_reference = 0
                 wgross_weight = 0
@@ -523,11 +523,11 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
             sheet.write_formula(row + 1, 19, '=IF(F' + str(row + 2) + '= 0, 0, (J' + str(row + 2) + '+K' + str(row + 2) + ')/F' + str(row + 2) + ')', f_footer_perc)  # - % Total Yield
             sheet.write_formula(row + 1, 21, '=IF(F' + str(row + 2) + '= 0, 0, (P' + str(row + 2) + ' * 60)/F' + str(row + 2) + ')', f_footer)  # - MO
                 # Ind columns
-            sheet.write_formula(row + 1, 23, '=IF(R' + str(row + 2) + '= 0, 0, (Q' + str(row + 2) + '/R' + str(row + 2) + '/1,15) * 100)', f_footer)  # - IND Backs
-            sheet.write_formula(row + 1, 24, '=IF(W' + str(row + 2) + '= 0, 0, (V' + str(row + 2) + '/W' + str(row + 2) + '/1,15) * 100)', f_footer)  # - IND MO
-            sheet.write_formula(row + 1, 25, '=IF(S' + str(row + 2) + '= 0, 0, (U' + str(row + 2) + '/S' + str(row + 2) + '/1,15) * 100)', f_footer)  # - IND Crumbs
+            sheet.write_formula(row + 1, 23, '=IF(R' + str(row + 2) + '= 0, 0, (Q' + str(row + 2) + '/R' + str(row + 2) + '/1.15) * 100)', f_footer)  # - IND Backs
+            sheet.write_formula(row + 1, 24, '=IF(W' + str(row + 2) + '= 0, 0, (V' + str(row + 2) + '/W' + str(row + 2) + '/1.15) * 100)', f_footer)  # - IND MO
+            sheet.write_formula(row + 1, 25, '=IF(S' + str(row + 2) + '= 0, 0, (U' + str(row + 2) + '/S' + str(row + 2) + '/1.15) * 100)', f_footer)  # - IND Crumbs
             sheet.write_formula(row + 1, 26, '=O' + str(row + 2), f_footer)  # - IND Quality
-            sheet.write_formula(row + 1, 27, '0,6 * X' + str(row + 2) + ' + 0,3 * Y' + str(row + 2) + ' + 0,1 * AA' + str(row + 2), f_footer)  # - IND Cleaning
+            sheet.write_formula(row + 1, 27, '0.6 * X' + str(row + 2) + ' + 0.3 * Y' + str(row + 2) + ' + 0.1 * AA' + str(row + 2), f_footer)  # - IND Cleaning
 
             sheet.write_formula(row + 1, 28, '=SUM(AC' + str(header_row + 1) + ':AC' + str(row + 1) + ')', f_footer)
             sheet.write_formula(row + 1, 29, '=SUM(AD' + str(header_row + 1) + ':AD' + str(row + 1) + ')', f_footer)
@@ -693,11 +693,11 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
                 sheet.write_formula(row, 12, '=G' + str(row + 1) + '/E' + str(row + 1), f_percent)  # - % Crumbs
                 sheet.write_formula(row, 14, '=(I' + str(row + 1) + ' * 60)/E' + str(row + 1), f_data)  # - MO
                 # Ind columns
-                sheet.write_formula(row, 15, '=IF(K' + str(row + 1) + '= 0, 0, (J' + str(row + 1) + '/K' + str(row + 1) + '/1,15) * 100)', f_data)  # - IND Backs
-                sheet.write_formula(row, 16, '=IF(N' + str(row + 1) + '= 0, 0, (O' + str(row + 1) + '/N' + str(row + 1) + '/1,15) * 100)', f_data)  # - IND MO
-                sheet.write_formula(row, 17, '=IF(L' + str(row + 1) + '= 0, 0, (M' + str(row + 1) + '/L' + str(row + 1) + '/1,15) * 100)', f_data)  # - IND Crumbs
+                sheet.write_formula(row, 15, '=IF(K' + str(row + 1) + '= 0, 0, (J' + str(row + 1) + '/K' + str(row + 1) + '/1.15) * 100)', f_data)  # - IND Backs
+                sheet.write_formula(row, 16, '=IF(N' + str(row + 1) + '= 0, 0, (O' + str(row + 1) + '/N' + str(row + 1) + '/1.15) * 100)', f_data)  # - IND MO
+                sheet.write_formula(row, 17, '=IF(L' + str(row + 1) + '= 0, 0, (M' + str(row + 1) + '/L' + str(row + 1) + '/1.15) * 100)', f_data)  # - IND Crumbs
                 sheet.write_formula(row, 18, '=H' + str(row + 1), f_data)  # - IND Quality
-                sheet.write_formula(row, 19, '0,6 * P' + str(row + 1) + ' + 0,3 * Q' + str(row + 1) + ' + 0,1 * S' + str(row + 1), f_data)  # - IND Cleaning
+                sheet.write_formula(row, 19, '0.6 * P' + str(row + 1) + ' + 0.3 * Q' + str(row + 1) + ' + 0.1 * S' + str(row + 1), f_data)  # - IND Cleaning
 
                 wgross_weight = 0
                 wproduct_weight = 0
@@ -892,11 +892,11 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
                 sheet.write_formula(row, 13, '=IF(C' + str(row + 1) + '= 0, 0, (M' + str(row + 1) + ')/C' + str(row + 1) + ')', f_percent)  # - % Waste
                 sheet.write_formula(row, 15, '=IF(C' + str(row + 1) + '= 0, 0, (I' + str(row + 1) + ' * 60)/C' + str(row + 1) + ')', f_data)  # - MO
                 # Ind columns
-                sheet.write_formula(row, 19, '=IF(Q' + str(row + 1) + '= 0, 0, (J' + str(row + 1) + '/Q' + str(row + 1) + '/1,15) * 100)', f_data)  # - IND Backs
-                sheet.write_formula(row, 20, '=IF(S' + str(row + 1) + '= 0, 0, (P' + str(row + 1) + '/S' + str(row + 1) + '/1,15) * 100)', f_data)  # - IND MO
-                sheet.write_formula(row, 21, '=IF(K' + str(row + 1) + '= 0, 0, (R' + str(row + 1) + '/K' + str(row + 1) + '/1,15) * 100)', f_data)  # - IND Crumbs
+                sheet.write_formula(row, 19, '=IF(Q' + str(row + 1) + '= 0, 0, (J' + str(row + 1) + '/Q' + str(row + 1) + '/1.15) * 100)', f_data)  # - IND Backs
+                sheet.write_formula(row, 20, '=IF(S' + str(row + 1) + '= 0, 0, (P' + str(row + 1) + '/S' + str(row + 1) + '/1.15) * 100)', f_data)  # - IND MO
+                sheet.write_formula(row, 21, '=IF(K' + str(row + 1) + '= 0, 0, (R' + str(row + 1) + '/K' + str(row + 1) + '/1.15) * 100)', f_data)  # - IND Crumbs
                 sheet.write_formula(row, 22, '=I' + str(row + 1), f_data)  # - IND Quality
-                sheet.write_formula(row, 23, '0,6 * T' + str(row + 1) + ' + 0,3 * V' + str(row + 1) + ' + 0,1 * W' + str(row + 1), f_data)  # - IND Cleaning
+                sheet.write_formula(row, 23, '0.6 * T' + str(row + 1) + ' + 0.3 * V' + str(row + 1) + ' + 0.1 * W' + str(row + 1), f_data)  # - IND Cleaning
 
                 wgross_weight = 0
                 wproduct_weight = 0
