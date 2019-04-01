@@ -1568,6 +1568,12 @@ msgid "It's not allowed to delete employee code for an operator. If you want to 
 msgstr "No está permitido borrar el código de empleado de un operario. Si desea establecer códigos automáticos, primero des-asigne el check de operario y luego grabe"
 
 #. module: mdc
+#: code:addons/mdc/models/chkpointdata.py:414
+#, python-format
+msgid "It's not allowed to open a shared output without registering any product input"
+msgstr "No está permitido abrir una salida compartida sin registrar ninguna entrada"
+
+#. module: mdc
 #: model:product.template,name:mdc.mdc_product_template_P3
 msgid "LISTADO SK"
 msgstr "LISTADO SK"

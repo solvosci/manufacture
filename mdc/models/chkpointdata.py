@@ -402,11 +402,18 @@ class DataWOut(models.Model):
             # Shared management
             # * Shared closing: there is a unlinked WOUT shared too with the same lot, line and seat
             wout_shared_data = self.search([('shared', '=', True), ('wout_shared_id', '=', False),
-                                           ('lot_id', '=', values['lot_id']), ('line_id', '=', values['line_id'])])
+                                            ('lot_id', '=', values['lot_id']), ('line_id', '=', values['line_id']),
+                                            ('workstation_id.seat', '=', workstation_card.workstation_id.seat)])
             if wout_shared_data:
                 # TODO discard shared wout if it's the same worksheet (seat)?
+                #      Temporally we prefer mantaining the shared self-closing option
                 values['wout_shared_id'] = wout_shared_data.id
-            # * Shared opening: others
+            else:
+                # * Shared opening: others
+                if len(card_ids) < 2:
+                    raise UserError(_("It's not allowed to open a shared output without registering any product input"))
+
+
 
         values['gross_weight'] = gross_weight
         sp1_wout_categ = self.env.ref('mdc.mdc_wout_categ_SP1')
