@@ -137,6 +137,8 @@ class ChkPoint(models.Model):
             if not new_start_lot_datetime:
                 new_start_lot_datetime = now
             values['start_lot_datetime'] = new_start_lot_datetime
+            """ 
+            --> 2019-04-02 -  ahora no se tiene en cuenta el turno para nada
             # when change lot maybe do in the current shift
             shift_data = self.env['mdc.shift'].get_current_shift(now)
             if self.chkpoint_categ == 'WOUT':
@@ -144,12 +146,12 @@ class ChkPoint(models.Model):
                     raise UserError(_('You can´t give start date less than start current shift time (%s < %s)') % (new_start_lot_datetime, shift_data['start_datetime']))
                 if new_start_lot_datetime > shift_data['end_datetime']:
                     raise UserError(_('You can´t give start date higher than end current shift time (%s > %s)') % (new_start_lot_datetime, shift_data['end_datetime']))
-
+            """
             old_start_lot_datetime = values['start_lot_datetime']
             self.env['mdc.lot_active'].update_historical(
                 chkpoint_id=self.id,
                 line_id=self.line_id,
-                shift_id=shift_data['shift'],
+                shift_id=None,  # shift_id=shift_data['shift'],  --> 2019-04-02 - ahora no se tiene en cuenta el turno para nada
                 current_lot_active=self.current_lot_active_id,
                 new_lot_active_id=values['current_lot_active_id'],
                 start_lot_datetime=values['start_lot_datetime'])
@@ -235,7 +237,7 @@ class Workstation(models.Model):
                 })
 
     @api.model
-    def get_wosrkstation_data_by_employee(self, employee_id):
+    def get_workstation_data_by_employee(self, employee_id):
         ws = self.search([('current_employee_id', '=', employee_id)])
         if ws:
             return (ws.id, ws.shift_id.id, ws.line_id.id)
@@ -450,6 +452,8 @@ class Shift(models.Model):
         time = actual_time.hour + actual_time.minute/60
         shift = self.search([('start_time', '<=', time ), ('end_time', '>', time)])
         if shift:
+            if (len(shift) > 1):
+                raise UserError(_('We find more than one shift to this time %s') % time)
             start_datetime = fields.datetime(actual_time.year, actual_time.month, actual_time.day, int(shift.start_time), 0, 0)
             end_datetime = fields.datetime(actual_time.year, actual_time.month, actual_time.day, int(shift.end_time), 0, 0)
         else:
