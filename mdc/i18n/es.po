@@ -2020,6 +2020,12 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: mdc
+#: code:addons/mdc/models/morders.py:275
+#, python-format
+msgid "Neither the lot nor the checkpoint can be modified"
+msgstr "No se puede modificar ni el lote ni el punto de control"
+
+#. module: mdc
 #: code:addons/mdc/models/structure.py:558
 #, python-format
 msgid "New RFID device"

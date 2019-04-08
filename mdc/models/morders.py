@@ -3,7 +3,7 @@
 import logging
 import datetime
 from odoo import api, models, fields, _, registry
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, AccessError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DF
 
 from .. import ws_rfid_server
@@ -270,6 +270,9 @@ class LotActive(models.Model):
     @api.multi
     def write(self, values):
         self.ensure_one()
+
+        if ('lot_id' in values) or ('chkpoint_id' in values):
+            raise AccessError(_("Neither the lot nor the checkpoint can be modified"))
 
         if 'start_datetime' in values:
             _logger.info("[mdc.lot_active - write]: values['start_datetime'] %s, self.start_datetime: %s"
