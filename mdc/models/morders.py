@@ -654,7 +654,66 @@ class Worksheet(models.Model):
         # with line, get lot from chkpoint (WOUT chkpoint)
         if 'lot_id' not in values:
             if line_id:
-                values['lot_id'] = self.env['mdc.chkpoint'].get_current_lot('WOUT', line_id)
+                ws_start_datetime = values['start_datetime']
+                ws_end_datetime = False
+                if 'end_datetime' in values:
+                    ws_end_datetime = values['end_datetime']
+                checkpoint = self.env['mdc.chkpoint'].search([('chkpoint_categ', '=', 'WOUT'), ('line_id', '=', line_id)])
+                if checkpoint.start_lot_datetime > values['start_datetime']:
+                    ws_last_end_datetime = values['start_datetime']
+                    lot = self.env['mdc.lot_active'].search([('chkpoint_id', '=', checkpoint.id),
+                                                             ('start_datetime', '<', checkpoint.start_lot_datetime),
+                                                             ('end_datetime', '>=', values['start_datetime']),
+                                                             ('active', '=', False)],
+                                                        order='start_datetime asc')
+                    if lot:
+                        for lt in lot:
+                            #create the last historic lots
+                            if lt.start_datetime > ws_last_end_datetime:
+                                # create worksheet without lot
+                                values['start_datetime'] = ws_last_end_datetime
+                                if ws_end_datetime and ws_end_datetime <= lt.start_datetime:
+                                    values['end_datetime'] = ws_end_datetime
+                                else:
+                                    values['end_datetime'] = lt.start_datetime
+                                values['lot_id'] = None
+                                values['total_hours'] = self._compute_total_hours(values)
+                                wsheet = super(Worksheet, self).create(values)
+                                if ws_end_datetime and ws_end_datetime <= lt.start_datetime:
+                                    return wsheet
+                                ws_last_end_datetime = lt.start_datetime
+                            # create worksheet without the historic lot
+                            values['start_datetime'] = ws_last_end_datetime
+                            if ws_end_datetime and ws_end_datetime <= lt.end_datetime:
+                                values['end_datetime'] = ws_end_datetime
+                            else:
+                                values['end_datetime'] = lt.end_datetime
+                            values['lot_id'] = lt.lot_id.id
+                            values['total_hours'] = self._compute_total_hours(values)
+                            wsheet = super(Worksheet, self).create(values)
+                            if ws_end_datetime and ws_end_datetime <= lt.end_datetime:
+                                return wsheet
+                            ws_last_end_datetime = lt.end_datetime
+
+                    if ws_last_end_datetime < checkpoint.start_lot_datetime:
+                        # create worksheet without lot
+                        values['start_datetime'] = ws_last_end_datetime
+                        if ws_end_datetime and ws_end_datetime <= checkpoint.start_lot_datetime:
+                            values['end_datetime'] = ws_end_datetime
+                        else:
+                            values['end_datetime'] = checkpoint.start_lot_datetime
+                        values['lot_id'] = None
+                        values['total_hours'] = self._compute_total_hours(values)
+                        wsheet = super(Worksheet, self).create(values)
+                        if ws_end_datetime and ws_end_datetime <= checkpoint.start_lot_datetime:
+                            return wsheet
+                    # put start_datetime whith then start_lot_datetime
+                    values['start_datetime'] = checkpoint.start_lot_datetime
+                    values['end_datetime'] = ws_end_datetime
+                if ws_end_datetime is False or checkpoint.start_lot_datetime < ws_end_datetime:
+                    values['lot_id'] = checkpoint.current_lot_active_id.id
+                else:
+                    values['lot_id'] = None
         values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).create(values)
 
