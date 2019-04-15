@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+import logging
 from odoo import http, fields, _
 from odoo.exceptions import UserError
 from odoo.http import request
@@ -6,23 +8,7 @@ from odoo.http import request
 from .. import ws_rfid_server
 
 
-# class SlvMdc(http.Controller):
-#     @http.route('/mdc/mdc/', auth='public')
-#     def index(self, **kw):
-#         return "Hello, world"
-
-#     @http.route('/mdc/mdc/objects/', auth='public')
-#     def list(self, **kw):
-#         return http.request.render('mdc.listing', {
-#             'root': '/mdc/mdc',
-#             'objects': http.request.env['mdc.mdc'].search([]),
-#         })
-
-#     @http.route('/mdc/mdc/objects/<model("mdc.mdc"):obj>/', auth='public')
-#     def object(self, obj, **kw):
-#         return http.request.render('mdc.object', {
-#             'object': obj
-#         })
+_logger = logging.getLogger(__name__)
 
 
 class CheckPoint(http.Controller):
@@ -145,6 +131,7 @@ class CheckPoint(http.Controller):
     @http.route("/mdc/cp/wout/<int:chkpoint_id>", type='http', auth='none')
     def cp_wout(self, chkpoint_id, **kwargs):
         try:
+            _logger.info("[cp_wout] Page requested for chkpoint_id=%d" % chkpoint_id)
             cp_user = self._get_cp_user_and_lang_context(request)
             ws_session_data = ws_rfid_server.get_session_data(request.env, simul=('rfidsimul' in kwargs))
             chkpoints = request.env['mdc.chkpoint'].sudo(cp_user).browse(chkpoint_id)
@@ -183,8 +170,17 @@ class CheckPoint(http.Controller):
             data_out['w_uom'] = datawout.w_uom_id.name
         except Exception as e:
             data_out['err'] = e
+            _logger.error("[cp_wout_save] %s" % e)
         finally:
             return data_out
+
+    @http.route("/mdc/cp/log", type='json', auth='none')
+    def cp_log(self):
+        cp_user = self._get_cp_user_and_lang_context(request)
+        data_in = dict(request.jsonrequest)
+        _logger.info('[cp_log] Log saving request with parameters=%s' % data_in)
+        data_out = {}
+        return data_out
 
     @http.route('/mdc/cp/cardreg', type='http', auth='none')
     def cp_cardreg(self):

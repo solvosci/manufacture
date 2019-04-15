@@ -2,6 +2,23 @@ page_reload = function () {
     window.location.reload(true);
 }
 
+save_log = function (logdata) {
+
+    $.ajax({
+        url: '/mdc/cp/log',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(logdata)
+    }).done(function (data) {
+        // Does nothing
+        console.log(data);
+    }).fail(function () {
+        // Does nothing
+        console.log(data);
+    });
+
+}
+
 show_info = function (message, level) {
 
     $('#info_div')
