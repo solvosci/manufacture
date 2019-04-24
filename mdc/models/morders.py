@@ -84,12 +84,17 @@ class Lot(models.Model):
         digits=(10,3))
     total_gross_weight = fields.Float(
         'Real Total Gross Weight',
+        # compute='_compute_total_gross_weight',
         readonly=True,
+        # store=True,
         default=0)
     alias_cp = fields.Char(
         'Alias CP name',
         compute='_compute_alias_cp',
     )
+    wout_ids = fields.One2many(
+        'mdc.data_wout',
+        'lot_id')
 
     def name_get(self, context=None):
         if context is None:
@@ -137,6 +142,7 @@ class Lot(models.Model):
         return lotPart1.zfill(5)+'/'+lotPart2
 
     # compute total_gross_
+    """
     def compute_total_gross_weight(self, context):
         tot_gross_weight = 0
         woutlot = self.env['mdc.data_wout'].search([('lot_id', '=', context['lot_id'])])
@@ -145,6 +151,32 @@ class Lot(models.Model):
         lot = self.browse(context['lot_id'])
         if lot:
             lot.total_gross_weight = tot_gross_weight
+    """
+
+    """
+    # @api.depends('wout_ids')
+    def _compute_total_gross_weight(self):
+        for lot in self:
+            lot.total_gross_weight = sum(lot.wout_ids.mapped('gross_weight'))
+    """
+
+    @api.model
+    def _update_total_gross_weight(self):
+        try:
+            current_timestamp = int(fields.datetime.now().timestamp())
+            _logger.debug('[_update_total_gross_weight] Next update timestamp: %s' % current_timestamp)
+            IrConfigParameter = self.env['ir.config_parameter']
+            last_timestamp = int(IrConfigParameter.get_param('mdc.lot_last_total_gross_weight_update_timestamp'))
+            _logger.debug('[_update_total_gross_weight] Former update timestamp: %s' % last_timestamp)
+            last_datetime = fields.Datetime.to_string(datetime.datetime.fromtimestamp(last_timestamp))
+            lot_ids = self.env['mdc.data_wout'].search([('create_datetime', '>=', last_datetime)]).mapped('lot_id')
+            for lot in lot_ids:
+                lot.total_gross_weight = sum(lot.wout_ids.mapped('gross_weight'))
+            IrConfigParameter.set_param('mdc.lot_last_total_gross_weight_update_timestamp', current_timestamp)
+            _logger.info('[_update_total_gross_weight] Process finished for %d lots. New timestamp: %s' %
+                         (len(lot_ids), current_timestamp))
+        except Exception as e:
+            _logger.error('[_update_total_gross_weight] %s' % e)
 
     @api.multi
     @api.depends('name', 'lot_code')

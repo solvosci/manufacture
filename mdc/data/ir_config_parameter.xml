@@ -29,5 +29,9 @@
             <field name="key">mdc.lot_default_life_days</field>
             <field name="value">6</field>
         </record>
+        <record id="mdc_lot_last_total_gross_weight_update_timestamp" model="ir.config_parameter">
+            <field name="key">mdc.lot_last_total_gross_weight_update_timestamp</field>
+            <field name="value">0</field>
+        </record>
     </data>
 </odoo>
