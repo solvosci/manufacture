@@ -108,6 +108,7 @@ class RptManufacturing(models.Model):
     employee_code = fields.Char('Employee Code', readonly=True)
     employee_name = fields.Char('Employee Name', readonly=True)
     contract_name = fields.Char('Contract Name', readonly=True)
+    employee_date_start = fields.Date('Employee Incorporation date', readonly=True)
     workstation_name = fields.Char('Workstation Name', readonly=True)
     product_id = fields.Many2one('product.product', 'Product', readonly=True)
     client_name = fields.Char('Client', readonly=True)
@@ -143,7 +144,7 @@ class RptManufacturing(models.Model):
             CREATE view %s as 
                 SELECT mdcdata.id, mdcdata.create_date, mdcdata.lot_name, mdcdata.product_id,
                     mdcdata.client_name,
-                    mdcdata.employee_code, mdcdata.employee_name, mdcdata.contract_name, mdcdata.shift_code, 
+                    mdcdata.employee_code, mdcdata.employee_name, mdcdata.contract_name, mdcdata.employee_date_start, mdcdata.shift_code, 
                     mdcdata.gross_weight_reference,
                     mdcdata.gross_weight, mdcdata.product_weight, mdcdata.sp1_weight, 
                     mdcdata.shared_gross_weight_reference,
@@ -166,7 +167,7 @@ class RptManufacturing(models.Model):
                     FROM (                
                         SELECT woutdata.id, woutdata.create_date, lot.name as lot_name, lot.product_id,
                             coalesce(cli.name,'') as client_name,
-                            emp.employee_code, emp.name as employee_name, contr.name as contract_name, shift.shift_code, 
+                            emp.employee_code, emp.name as employee_name, contr.name as contract_name, emp.medic_exam as employee_date_start, shift.shift_code, 
                             case when (1-coalesce(lot.std_loss,0)/100) = 0 then 999999 else woutdata.gross_weight /(1-coalesce(lot.std_loss,0)/100) end as gross_weight_reference,
                             woutdata.gross_weight, woutdata.product_weight, woutdata.sp1_weight, 
                             case when (1-coalesce(lot.std_loss,0)/100) = 0 then 999999 else woutdata.shared_gross_weight /(1-coalesce(lot.std_loss,0)/100) end as shared_gross_weight_reference,
