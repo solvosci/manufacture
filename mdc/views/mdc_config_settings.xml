@@ -47,6 +47,10 @@
                             <label for="lot_default_life_days"/>
                             <field name="lot_default_life_days" required="True"/>
                         </div>
+                        <div>
+                            <label for="lot_last_total_gross_weight_update_timestamp"/>
+                            <field name="lot_last_total_gross_weight_update_timestamp" readonly="True"/>
+                        </div>
                     </div>
                 </group>
             </form>

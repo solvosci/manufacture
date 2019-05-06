@@ -1807,6 +1807,11 @@ msgid "Lot Name"
 msgstr "Nombre del lote"
 
 #. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_config_settings_lot_last_total_gross_weight_update_timestamp
+msgid "Lot last total gross weight update timestamp"
+msgstr "Marca de tiempo de la última actualización de peso bruto de los lotes"
+
+#. module: mdc
 #: model:ir.ui.view,arch_db:mdc.mdc_lots_form
 msgid "Lot parameters"
 msgstr "Parámetros del lote"
@@ -1888,6 +1893,13 @@ msgstr "MDC: Calcula las horas totales de los lotes sin fecha final"
 #: model:ir.cron,name:mdc.ir_cron_data_win_close
 msgid "MDC: Old unlinked inputs cancellation"
 msgstr "MDC: Cancelación de entradas antiguas no vinculadas"
+
+#. module: mdc
+#: model:ir.actions.server,name:mdc.ir_cron_lot_total_hours_ir_actions_server
+#: model:ir.cron,cron_name:mdc.ir_cron_lot_total_hours
+#: model:ir.cron,name:mdc.ir_cron_lot_total_hours
+msgid "MDC: Update lot total gross weight"
+msgstr "MDC: Actualización del total bruto por lote"
 
 #. module: mdc
 #: model:ir.actions.server,name:mdc.ir_cron_worksheet_update_blind_worksheets_ir_actions_server
@@ -2018,6 +2030,12 @@ msgstr "No está permitido modificar el Tipo de tarjeta. Por favor, contacte con
 #: model:ir.model.fields,field_description:mdc.field_mdc_wout_categ_name
 msgid "Name"
 msgstr "Nombre"
+
+#. module: mdc
+#: code:addons/mdc/models/morders.py:275
+#, python-format
+msgid "Neither the lot nor the checkpoint can be modified"
+msgstr "No se puede modificar ni el lote ni el punto de control"
 
 #. module: mdc
 #: code:addons/mdc/models/structure.py:558

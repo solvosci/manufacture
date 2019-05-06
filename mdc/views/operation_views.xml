@@ -163,19 +163,21 @@
         <field name="name">mdc.lots_actives.form</field>
         <field name="model">mdc.lot_active</field>
         <field name="arch" type="xml">
-            <form string="Active Lot">
+            <form string="Active Lot" create="false">
                 <sheet>
                     <group>
                         <div class="oe_title">
                             <label for="lot_id"/>
                             <h1>
-                                <field name="lot_id"/>
+                                <field name="lot_id"
+                                       attrs="{'readonly': True}"/>
                             </h1>
                         </div>
                     </group>
                     <group name="gr_lot_main_data" string="Lot Activation">
                         <group>
-                            <field name="chkpoint_id"/>
+                            <field name="chkpoint_id"
+                                   attrs="{'readonly': True}"/>
                         </group>
                         <group> </group>
                         <group>

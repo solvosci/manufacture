@@ -12,6 +12,7 @@ class MdcConfigSettings(models.TransientModel):
     rfid_server_min_secs_between_worksheets = fields.Char('RFID Server minimum seconds between worksheets')
     rfid_server_last_worksheet_timestamp = fields.Char('RFID Server last worksheet timestamp')
     lot_default_life_days = fields.Char('Lots default life in days')
+    lot_last_total_gross_weight_update_timestamp = fields.Char('Lot last total gross weight update timestamp')
 
     @api.model
     def get_values(self):
@@ -24,7 +25,8 @@ class MdcConfigSettings(models.TransientModel):
             rfid_ws_server_url=IrConfigParameter.get_param('mdc.rfid_ws_server_url'),
             rfid_server_min_secs_between_worksheets=IrConfigParameter.get_param('mdc.rfid_server_min_secs_between_worksheets'),
             rfid_server_last_worksheet_timestamp=IrConfigParameter.get_param('mdc.rfid_server_last_worksheet_timestamp'),
-            lot_default_life_days=IrConfigParameter.get_param('mdc.lot_default_life_days')
+            lot_default_life_days=IrConfigParameter.get_param('mdc.lot_default_life_days'),
+            lot_last_total_gross_weight_update_timestamp=IrConfigParameter.get_param('mdc.lot_last_total_gross_weight_update_timestamp'),
         )
         return res
 

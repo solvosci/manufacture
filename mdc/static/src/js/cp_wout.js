@@ -291,7 +291,7 @@ read_card_manage = function (card_code) {
         }
         catch (e) {
             show_info(e.message, 'err');
-            // TODO additional stuff over display
+            save_log({ 'error':  e.message, 'chkpoint_id': $('#chkpoint_id').val() })
         }
     }).fail(function () {
         show_info('ERROR retrieving card data (unknown)', 'err');
@@ -328,6 +328,7 @@ $(document).ready(function() {
     });
     $('#one_input_button,#crumbs_button,#shared_button').click(function () {
         switch_enabled(this, true);
+        save_log({ 'click_id':  this.id, 'chkpoint_id': $('#chkpoint_id').val() })
     });
     // - Crumbs and shared mode are incompatible
     $('#shared_button').click(function () {

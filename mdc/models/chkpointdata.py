@@ -446,7 +446,7 @@ class DataWOut(models.Model):
                 'wout_shared_id': data_wout.id})
 
         # Finaly calculate total gross weight in lot
-        self.env['mdc.lot'].compute_total_gross_weight({'lot_id': values['lot_id']})
+        # self.env['mdc.lot'].compute_total_gross_weight({'lot_id': values['lot_id']})
 
         return data_wout
 
