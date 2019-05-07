@@ -250,6 +250,11 @@ msgid "Alias CP name"
 msgstr "Alias en punto de control"
 
 #. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_lot_finished
+msgid "Lot finished"
+msgstr "Lote Finalizado"
+
+#. module: mdc
 #: model:ir.ui.view,arch_db:mdc.mdc_data_wins_search
 msgid "All"
 msgstr "Todos"

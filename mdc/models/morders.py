@@ -95,6 +95,9 @@ class Lot(models.Model):
     wout_ids = fields.One2many(
         'mdc.data_wout',
         'lot_id')
+    finished = fields.Boolean(
+        'Lot finished',
+        default=False)
 
     def name_get(self, context=None):
         if context is None:
