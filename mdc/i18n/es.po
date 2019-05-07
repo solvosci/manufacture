@@ -3444,8 +3444,8 @@ msgstr "Puesto"
 #. module: mdc
 #: code:addons/mdc/models/chkpointdata.py:422
 #, python-format
-msgid "Workstation %s has never been register any output, so it's not yet allowed to make a %s output"
-msgstr "El puesto %s nunca ha registrado una salida, por tanto no puede hacer una salida de %s"
+msgid "Workstation %s has not any output nor there is current lot in checkpoint, so it's not yet allowed to make a %s output"
+msgstr "El puesto %s no ha registrado una salida ni existe lote en vigor para el punto de control, por tanto no se puede hacer una salida de %s"
 
 #. module: mdc
 #: model:ir.ui.menu,name:mdc.mdc_workstation_assign_menu

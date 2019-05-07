@@ -425,9 +425,10 @@ class DataWOut(models.Model):
             if workstation_card.workstation_id.last_wout_lot_id:
                 values['lot_id'] = workstation_card.workstation_id.last_wout_lot_id.id
             else:
-                raise UserError(
-                    _("Workstation %s has never been register any output, so it's not yet allowed to make a %s output") %
-                    (workstation_card.workstation_id.name, sp1_wout_categ.name))
+                if not values['lot_id']:  # values['lot_id'] bring chkpoint.current_lot_active_id
+                    raise UserError(
+                        _("Workstation %s has not any output nor there is current lot in checkpoint, so it's not yet allowed to make a %s output") %
+                        (workstation_card.workstation_id.name, sp1_wout_categ.name))
 
         data_wout = super(DataWOut, self).create(values)
 

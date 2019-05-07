@@ -223,10 +223,16 @@ class Workstation(models.Model):
         """
         Wout = self.env['mdc.data_wout'].sudo()
         for workstation in self:
-            workstation_last_wout = Wout.search([('workstation_id', '=', workstation.id)],
+            prod_wout_categ = self.env.ref('mdc.mdc_wout_categ_P')
+            workstation_last_wout = Wout.search([('workstation_id', '=', workstation.id),
+                                                 ('wout_categ_id', '=', prod_wout_categ.id),
+                                                 ('shift_id', '=', workstation.shift_id.id),
+                                                 ('create_datetime', '>=', fields.Date.today())],
                                                 order='create_datetime desc', limit=1)
             if workstation_last_wout:
                 workstation.last_wout_lot_id = workstation_last_wout.lot_id
+            else:
+                workstation.last_wout_lot_id = None
 
     def massive_deallocate(self):
         workstation_sel = self.browse(self._context['active_ids'])
