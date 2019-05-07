@@ -54,6 +54,8 @@ def formats():
                              'num_format': '0.00%'}
     dic_formats["data"] = {'align': 'center',
                              'num_format': '0'}
+    dic_formats["dataL"] = {'align': 'left',
+                           'num_format': '0'}
     dic_formats["data2d"] = {'align': 'center',
                              'num_format': '0.00'}
     dic_formats["data3d"] = {'align': 'center',
@@ -85,6 +87,7 @@ class ReportRptTracingXlsx(models.AbstractModel):
         f_filter = workbook.add_format(f_cells["filter"])
         f_percent = workbook.add_format(f_cells ["percent"])
         f_data = workbook.add_format(f_cells ["data"])
+        f_dataL = workbook.add_format(f_cells["dataL"])
 
         # Set columns widths
         sheet.set_column('A:W', 13)
@@ -293,6 +296,7 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
         f_filter = workbook.add_format(f_cells["filter"])
         f_percent = workbook.add_format(f_cells ["percent"])
         f_data = workbook.add_format(f_cells ["data"])
+        f_dataL = workbook.add_format(f_cells["dataL"])
         f_data2d = workbook.add_format(f_cells["data2d"])
         f_data3d = workbook.add_format(f_cells["data3d"])
         f_footer = workbook.add_format(f_cells["footer"])
@@ -326,37 +330,41 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
         header_row=5
         header_row_str = str(header_row+1)
         # write column header ----------------------------------------
-        sheet.write('A' + header_row_str , _("Workstation"), f_header)
+        sheet.write('A' + header_row_str , _("Workstation"), f_header) # - 0
         sheet.write('B' + header_row_str, _("Employee Code"), f_header)
         sheet.write('C' + header_row_str, _("Employee Name"), f_header)
         sheet.write('D' + header_row_str, _("Contract"), f_header)
         sheet.write('E' + header_row_str, _("Employee Incorporation date"), f_header)
-        sheet.write('F' + header_row_str, _("MO"), f_header)
-        sheet.write('G' + header_row_str, _("Gross Reference"), f_header)
-        sheet.write('H' + header_row_str, _("Std Loss"), f_header)
-        sheet.write('I' + header_row_str, _("% real loss"), f_header)
-        sheet.write('J' + header_row_str, _("Gross"), f_header)
-        sheet.write('K' + header_row_str, _("Backs"), f_header)
-        sheet.write('L' + header_row_str, _("Crumbs"), f_header)
-        sheet.write('M' + header_row_str, _("Shift Change Gross"), f_header)
-        sheet.write('N' + header_row_str, _("Shift Change Backs"), f_header)
-        sheet.write('O' + header_row_str, _("Shift Change Crumbs"), f_header)
-        sheet.write('P' + header_row_str, _("Quality"), f_header)
-        sheet.write('Q' + header_row_str, _("Time"), f_header)
-        sheet.write('R' + header_row_str, _("% Backs"), f_header)
-        sheet.write('S' + header_row_str, _("STD Back"), f_header)
-        sheet.write('T' + header_row_str, _("% Crumbs"), f_header)
-        sheet.write('U' + header_row_str, _("% Total Yield"), f_header)
-        sheet.write('V' + header_row_str, _("STD Crumbs"), f_header)
-        sheet.write('W' + header_row_str, _("MO."), f_header)
-        sheet.write('X' + header_row_str, _("STD MO"), f_header)
-        sheet.write('Y' + header_row_str, _("IND Backs"), f_header_ind)
-        sheet.write('Z' + header_row_str, _("IND MO"), f_header_ind)
-        sheet.write('AA' + header_row_str, _("IND Crumbs"), f_header_ind)
-        sheet.write('AB' + header_row_str, _("IND Quality"), f_header_ind)
-        sheet.write('AC' + header_row_str, _("IND Cleaning"), f_header_ind)
-        sheet.write('AD' + header_row_str, _("Box Backs"), f_header)
-        sheet.write('AE' + header_row_str, _("Box Crumbs"), f_header)
+        sheet.write('F' + header_row_str, _("Manufacturing date"), f_header) # - 5
+        sheet.write('G' + header_row_str, _("Employee seniority"), f_header)
+        sheet.write('H' + header_row_str, _("MO"), f_header)
+        sheet.write('I' + header_row_str, _("Product"), f_header)
+        sheet.write('J' + header_row_str, _("Cleaning"), f_header)
+        sheet.write('K' + header_row_str, _("Gross Reference"), f_header) # - 10
+        sheet.write('L' + header_row_str, _("Std Loss"), f_header)
+        sheet.write('M' + header_row_str, _("% real loss"), f_header)
+        sheet.write('N' + header_row_str, _("Gross"), f_header)
+        sheet.write('O' + header_row_str, _("Backs"), f_header)
+        sheet.write('P' + header_row_str, _("Crumbs"), f_header)
+        sheet.write('Q' + header_row_str, _("Shift Change Gross"), f_header)
+        sheet.write('R' + header_row_str, _("Shift Change Backs"), f_header)
+        sheet.write('S' + header_row_str, _("Shift Change Crumbs"), f_header)
+        sheet.write('T' + header_row_str, _("Quality"), f_header)
+        sheet.write('U' + header_row_str, _("Time"), f_header)
+        sheet.write('V' + header_row_str, _("% Backs"), f_header)
+        sheet.write('W' + header_row_str, _("STD Back"), f_header)
+        sheet.write('X' + header_row_str, _("% Crumbs"), f_header)
+        sheet.write('Y' + header_row_str, _("% Total Yield"), f_header)
+        sheet.write('Z' + header_row_str, _("STD Crumbs"), f_header)
+        sheet.write('AA' + header_row_str, _("MO."), f_header)
+        sheet.write('AB' + header_row_str, _("STD MO"), f_header)
+        sheet.write('AC' + header_row_str, _("IND Backs"), f_header_ind)
+        sheet.write('AD' + header_row_str, _("IND MO"), f_header_ind)
+        sheet.write('AE' + header_row_str, _("IND Crumbs"), f_header_ind)
+        sheet.write('AF' + header_row_str, _("IND Quality"), f_header_ind)
+        sheet.write('AG' + header_row_str, _("IND Cleaning"), f_header_ind)
+        sheet.write('AH' + header_row_str, _("Box Backs"), f_header)
+        sheet.write('AI' + header_row_str, _("Box Crumbs"), f_header)
         # -------------------------------------------------------
 
         # TODO alternate dict list with almost grouped data (still problems with product and date)
@@ -424,25 +432,34 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
                 sheet.write(row, 1, obj.employee_code, f_data)
                 sheet.write(row, 2, obj.employee_name, f_data)
                 sheet.write(row, 3, obj.contract_name, f_data)
-                sheet.write(row, 4, obj.employee_date_start, f_data)
-                sheet.write(row, 5, obj.lot_name, f_data)
+                wemployee_date_start=''
+                if obj.employee_date_start:
+                    wemployee_date_start=obj.employee_date_start
+                sheet.write(row, 4, wemployee_date_start, f_data)
+                sheet.write(row, 5, obj.create_date, f_data)
+                sheet.write(row, 7, obj.lot_name, f_data)
+                sheet.write(row, 8, obj.product_id.name, f_dataL)
+                variable_attributes = obj.product_id.attribute_line_ids.mapped('attribute_id')
+                variant = obj.product_id.attribute_value_ids._variant_name(variable_attributes)
+                sheet.write(row, 9, variant, f_dataL)
                 # std columns
-                sheet.write(row, 7, obj.std_loss, f_data2d)
-                sheet.write(row, 8, (100-obj.std_loss)/100, f_percent)
-                sheet.write(row, 18, obj.std_yield_product, f_data2d)
-                sheet.write(row, 21, obj.std_yield_sp1, f_data2d)
-                sheet.write(row, 23, obj.std_speed, f_data2d)
+                sheet.write(row, 11, obj.std_loss, f_data2d)
+                sheet.write(row, 12, (100-obj.std_loss)/100, f_percent)
+                sheet.write(row, 22, obj.std_yield_product, f_data2d)
+                sheet.write(row, 25, obj.std_yield_sp1, f_data2d)
+                sheet.write(row, 27, obj.std_speed, f_data2d)
                 # formulation columns
-                sheet.write_formula(row, 17, '=IF(G' + str(row + 1) + '= 0, 0, K' + str(row + 1) + '/G' + str(row + 1) + ')', f_percent)  # - % Backs
-                sheet.write_formula(row, 19, '=IF(G' + str(row + 1) + '= 0, 0, L' + str(row + 1) + '/G' + str(row + 1) + ')', f_percent)  # - % Crumbs
-                sheet.write_formula(row, 20, '=IF(G' + str(row + 1) + '= 0, 0, (K' + str(row + 1) + '+L' + str(row + 1) + ')/G' + str(row + 1) + ')' ,f_percent)  # - % Total Yield
-                sheet.write_formula(row, 22, '=IF(G' + str(row + 1) + '= 0, 0, (Q' + str(row + 1) + ' * 60)/G' + str(row + 1) + ')', f_data2d)  # - MO
+                sheet.write_formula(row, 6, '=IF(E' + str(row + 1) + '= "", "", F' + str(row + 1) + '-E' + str(row + 1) + ')', f_data) # - Employee seniority
+                sheet.write_formula(row, 21, '=IF(K' + str(row + 1) + '= 0, 0, O' + str(row + 1) + '/K' + str(row + 1) + ')', f_percent)  # - % Backs
+                sheet.write_formula(row, 23, '=IF(K' + str(row + 1) + '= 0, 0, P' + str(row + 1) + '/K' + str(row + 1) + ')', f_percent)  # - % Crumbs
+                sheet.write_formula(row, 24, '=IF(K' + str(row + 1) + '= 0, 0, (O' + str(row + 1) + '+P' + str(row + 1) + ')/K' + str(row + 1) + ')' ,f_percent)  # - % Total Yield
+                sheet.write_formula(row, 26, '=IF(K' + str(row + 1) + '= 0, 0, (U' + str(row + 1) + ' * 60)/K' + str(row + 1) + ')', f_data2d)  # - MO
                 # Ind columns
-                sheet.write_formula(row, 24, '=IF(S' + str(row + 1) + '= 0, 0, (R' + str(row + 1) + '/S' + str(row + 1) + '/1.15) * 100)', f_data2d) # - IND Backs
-                sheet.write_formula(row, 25, '=IF(X' + str(row + 1) + '= 0, 0, (W' + str(row + 1) + '/X' + str(row + 1) + '/1.15) * 100)', f_data2d) # - IND MO
-                sheet.write_formula(row, 26, '=IF(T' + str(row + 1) + '= 0, 0, (V' + str(row + 1) + '/T' + str(row + 1) + '/1.15) * 100)', f_data2d) # - IND Crumbs
-                sheet.write_formula(row, 27, '=P' + str(row + 1), f_data2d) # - IND Quality
-                sheet.write_formula(row, 28, '0.6 * Y' + str(row + 1) + ' + 0.3 * Z' + str(row + 1) + ' + 0.1 * AB' + str(row + 1), f_data2d) # - IND Cleaning
+                sheet.write_formula(row, 28, '=IF(W' + str(row + 1) + '= 0, 0, (V' + str(row + 1) + '/W' + str(row + 1) + '/1.15) * 100)', f_data2d) # - IND Backs
+                sheet.write_formula(row, 29, '=IF(AA' + str(row + 1) + '= 0, 0, (AB' + str(row + 1) + '/AA' + str(row + 1) + '/1.15))', f_data2d) # - IND MO
+                sheet.write_formula(row, 20, '=IF(X' + str(row + 1) + '= 0, 0, (Z' + str(row + 1) + '/X' + str(row + 1) + '/1.15) * 100)', f_data2d) # - IND Crumbs
+                sheet.write_formula(row, 31, '=T' + str(row + 1), f_data2d) # - IND Quality
+                sheet.write_formula(row, 32, '0.6 * AC' + str(row + 1) + ' + 0.3 * AD' + str(row + 1) + ' + 0.1 * AF' + str(row + 1), f_data2d) # - IND Cleaning
 
                 wgross_weight_reference = 0
                 wgross_weight = 0
@@ -479,53 +496,53 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
                 wquality = wquality/(wproduct_weight + wshared_product_weight/2)
 
             #columns with grouped data
-            sheet.write(row, 6, wgross_weight_reference, f_data2d)
-            sheet.write(row, 9, wgross_weight, f_data2d)
-            sheet.write(row, 10, wproduct_weight, f_data2d)
-            sheet.write(row, 11, wsp1_weight, f_data2d)
-            sheet.write(row, 12, wshared_gross_weight_reference, f_data2d)
-            sheet.write(row, 13, wshared_product_weight, f_data2d)
-            sheet.write(row, 14, wshared_sp1_weight, f_data2d)
-            sheet.write(row, 15, wquality, f_data2d)
-            sheet.write(row, 16, wtotal_hours, f_data2d)
-            sheet.write(row, 29, wproduct_boxes, f_data)
-            sheet.write(row, 30, wsp1_boxes, f_data)
+            sheet.write(row, 10, wgross_weight_reference, f_data2d)
+            sheet.write(row, 13, wgross_weight, f_data2d)
+            sheet.write(row, 14, wproduct_weight, f_data2d)
+            sheet.write(row, 15, wsp1_weight, f_data2d)
+            sheet.write(row, 16, wshared_gross_weight_reference, f_data2d)
+            sheet.write(row, 17, wshared_product_weight, f_data2d)
+            sheet.write(row, 18, wshared_sp1_weight, f_data2d)
+            sheet.write(row, 19, wquality, f_data2d)
+            sheet.write(row, 20, wtotal_hours, f_data2d)
+            sheet.write(row, 33, wproduct_boxes, f_data)
+            sheet.write(row, 34, wsp1_boxes, f_data)
 
             wlot_name = obj.lot_name
             wemployee_code = obj.employee_code
             wworkstation_name = obj.workstation_name
 
             # Final Footer Row ------------------------------------------
-            for numcol in range (0, 31):
+            for numcol in range (0, 34):
                 sheet.write(row + 1, numcol, '' ,f_footer)
-            sheet.write_formula(row + 1, 6, '=SUM(G' + str(header_row + 1) + ':G' + str(row + 1) + ')', f_footer)
-            sheet.write_formula(row + 1, 7, '=H' + str(row + 1), f_footer)
-            sheet.write_formula(row + 1, 8, '=I' + str(row + 1), f_footer_perc)
-            sheet.write_formula(row + 1, 9, '=SUM(J' + str(header_row + 1) + ':J' + str(row + 1) + ')', f_footer)
             sheet.write_formula(row + 1, 10, '=SUM(K' + str(header_row + 1) + ':K' + str(row + 1) + ')', f_footer)
-            sheet.write_formula(row + 1, 11, '=SUM(L' + str(header_row + 1) + ':L' + str(row + 1) + ')', f_footer)
-            sheet.write_formula(row + 1, 12, '=SUM(M' + str(header_row + 1) + ':M' + str(row + 1) + ')', f_footer)
+            sheet.write_formula(row + 1, 11, '=L' + str(row + 1), f_footer)
+            sheet.write_formula(row + 1, 12, '=M' + str(row + 1), f_footer_perc)
             sheet.write_formula(row + 1, 13, '=SUM(N' + str(header_row + 1) + ':N' + str(row + 1) + ')', f_footer)
             sheet.write_formula(row + 1, 14, '=SUM(O' + str(header_row + 1) + ':O' + str(row + 1) + ')', f_footer)
+            sheet.write_formula(row + 1, 15, '=SUM(P' + str(header_row + 1) + ':P' + str(row + 1) + ')', f_footer)
             sheet.write_formula(row + 1, 16, '=SUM(Q' + str(header_row + 1) + ':Q' + str(row + 1) + ')', f_footer)
-            sheet.write_formula(row + 1, 18, '=S' + str(row + 1), f_footer)
-            sheet.write_formula(row + 1, 21, '=V' + str(row + 1), f_footer)
-            sheet.write_formula(row + 1, 23, '=X' + str(row + 1), f_footer)
+            sheet.write_formula(row + 1, 17, '=SUM(R' + str(header_row + 1) + ':R' + str(row + 1) + ')', f_footer)
+            sheet.write_formula(row + 1, 18, '=SUM(S' + str(header_row + 1) + ':S' + str(row + 1) + ')', f_footer)
+            sheet.write_formula(row + 1, 20, '=SUM(U' + str(header_row + 1) + ':U' + str(row + 1) + ')', f_footer)
+            sheet.write_formula(row + 1, 12, '=X' + str(row + 1), f_footer)
+            sheet.write_formula(row + 1, 25, '=AA' + str(row + 1), f_footer)
+            sheet.write_formula(row + 1, 27, '=AB' + str(row + 1), f_footer)
                 # formulation columns
-            sheet.write_formula(row + 1, 15, '=IF(G' + str(row + 2) + '= 0, 0 , SUMPRODUCT(P' + str(header_row + 1) + ':P' + str(row + 1) + ', G' + str(header_row + 1) + ':G' + str(row + 1) + ') / G' + str(row + 2) + ')', f_footer)
-            sheet.write_formula(row + 1, 17, '=IF(G' + str(row + 2) + '= 0, 0, K' + str(row + 2) + '/G' + str(row + 2) + ')', f_footer_perc)  # - % Backs
-            sheet.write_formula(row + 1, 19, '=IF(G' + str(row + 2) + '= 0, 0, L' + str(row + 2) + '/G' + str(row + 2) + ')', f_footer_perc)  # - % Crumbs
-            sheet.write_formula(row + 1, 20, '=IF(G' + str(row + 2) + '= 0, 0, (K' + str(row + 2) + '+L' + str(row + 2) + ')/G' + str(row + 2) + ')', f_footer_perc)  # - % Total Yield
-            sheet.write_formula(row + 1, 22, '=IF(G' + str(row + 2) + '= 0, 0, (Q' + str(row + 2) + ' * 60)/G' + str(row + 2) + ')', f_footer)  # - MO
+            sheet.write_formula(row + 1, 19, '=IF(K' + str(row + 2) + '= 0, 0 , SUMPRODUCT(T' + str(header_row + 1) + ':T' + str(row + 1) + ', K' + str(header_row + 1) + ':K' + str(row + 1) + ') / K' + str(row + 2) + ')', f_footer)
+            sheet.write_formula(row + 1, 21, '=IF(K' + str(row + 2) + '= 0, 0, O' + str(row + 2) + '/K' + str(row + 2) + ')', f_footer_perc)  # - % Backs
+            sheet.write_formula(row + 1, 23, '=IF(K' + str(row + 2) + '= 0, 0, P' + str(row + 2) + '/K' + str(row + 2) + ')', f_footer_perc)  # - % Crumbs
+            sheet.write_formula(row + 1, 24, '=IF(K' + str(row + 2) + '= 0, 0, (O' + str(row + 2) + '+P' + str(row + 2) + ')/K' + str(row + 2) + ')', f_footer_perc)  # - % Total Yield
+            sheet.write_formula(row + 1, 26, '=IF(K' + str(row + 2) + '= 0, 0, (U' + str(row + 2) + ' * 60)/K' + str(row + 2) + ')', f_footer)  # - MO
                 # Ind columns
-            sheet.write_formula(row + 1, 24, '=IF(S' + str(row + 2) + '= 0, 0, (R' + str(row + 2) + '/S' + str(row + 2) + '/1.15) * 100)', f_footer)  # - IND Backs
-            sheet.write_formula(row + 1, 25, '=IF(X' + str(row + 2) + '= 0, 0, (W' + str(row + 2) + '/X' + str(row + 2) + '/1.15) * 100)', f_footer)  # - IND MO
-            sheet.write_formula(row + 1, 26, '=IF(T' + str(row + 2) + '= 0, 0, (V' + str(row + 2) + '/T' + str(row + 2) + '/1.15) * 100)', f_footer)  # - IND Crumbs
-            sheet.write_formula(row + 1, 27, '=P' + str(row + 2), f_footer)  # - IND Quality
-            sheet.write_formula(row + 1, 28, '0.6 * Y' + str(row + 2) + ' + 0.3 * Z' + str(row + 2) + ' + 0.1 * AB' + str(row + 2), f_footer)  # - IND Cleaning
+            sheet.write_formula(row + 1, 28, '=IF(W' + str(row + 2) + '= 0, 0, (V' + str(row + 2) + '/W' + str(row + 2) + '/1.15) * 100)', f_footer)  # - IND Backs
+            sheet.write_formula(row + 1, 29, '=IF(AA' + str(row + 2) + '= 0, 0, (AB' + str(row + 2) + '/AA' + str(row + 2) + '/1.15))', f_footer)  # - IND MO
+            sheet.write_formula(row + 1, 30, '=IF(X' + str(row + 2) + '= 0, 0, (Z' + str(row + 2) + '/X' + str(row + 2) + '/1.15) * 100)', f_footer)  # - IND Crumbs
+            sheet.write_formula(row + 1, 31, '=T' + str(row + 2), f_footer)  # - IND Quality
+            sheet.write_formula(row + 1, 32, '0.6 * AC' + str(row + 2) + ' + 0.3 * AD' + str(row + 2) + ' + 0.1 * AF' + str(row + 2), f_footer)  # - IND Cleaning
 
-            sheet.write_formula(row + 1, 29, '=SUM(AD' + str(header_row + 1) + ':AD' + str(row + 1) + ')', f_footer)
-            sheet.write_formula(row + 1, 30, '=SUM(AE' + str(header_row + 1) + ':AE' + str(row + 1) + ')', f_footer)
+            sheet.write_formula(row + 1, 33, '=SUM(AH' + str(header_row + 1) + ':AH' + str(row + 1) + ')', f_footer)
+            sheet.write_formula(row + 1, 34, '=SUM(AI' + str(header_row + 1) + ':AI' + str(row + 1) + ')', f_footer)
 
             # Write Filter -----------------------------------------------
             datefilter = _("Date From: %s to %s") % (wstart_date, wend_date)
