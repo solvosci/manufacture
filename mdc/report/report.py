@@ -130,7 +130,7 @@ class RptManufacturing(models.Model):
     std_speed = fields.Float('Std Speed')
     std_yield_sp1 = fields.Float('Std Yield Subproduct 1')
     std_loss = fields.Float('Std Loss')
-    weight_std_lot = fields.Float('Std Weight Lot')
+    lot_finished = fields.Boolean('Lot Finished')
     coef_weight_lot = fields.Float('Coef Weight Lot')
     ind_backs = fields.Float('IND Backs', readonly=True, group_operator='avg')
     ind_mo = fields.Float('IND MO', readonly=True, group_operator='avg')
@@ -154,7 +154,7 @@ class RptManufacturing(models.Model):
                     mdcdata.product_boxes, mdcdata.sp1_boxes, 
                     mdcdata.total_hours, 
                     mdcdata.std_yield_product, mdcdata.std_speed, mdcdata.std_yield_sp1, mdcdata.std_loss, 
-                    mdcdata.weight_std_lot,
+                    mdcdata.lot_finished,
                     mdcdata.coef_weight_lot,
                     case when coalesce(mdcdata.std_yield_product,0)* mdcdata.gross_weight = 0 then 0 else (mdcdata.product_weight / mdcdata.gross_weight_reference) / mdcdata.std_yield_product/ 1.15 end as ind_backs,
                     case when coalesce(mdcdata.std_speed,0)* mdcdata.gross_weight = 0 then 0 else (mdcdata.total_hours * 60 / mdcdata.gross_weight_reference) / mdcdata.std_speed / 1.15 end as ind_mo,
@@ -168,7 +168,7 @@ class RptManufacturing(models.Model):
                         SELECT woutdata.id, woutdata.create_date, lot.name as lot_name, lot.product_id,
                             coalesce(cli.name,'') as client_name,
                             emp.employee_code, emp.name as employee_name, contr.name as contract_name, emp.medic_exam as employee_date_start, shift.shift_code, 
-                            case when (1-coalesce(lot.std_loss,0)/100) = 0 then 999999 else woutdata.gross_weight /(1-coalesce(lot.std_loss,0)/100) end as gross_weight_reference,
+                            case when (lot.finished and (lot.weight > 0)) then woutdata.gross_weight/lot.total_gross_weight/lot.weight when (1-coalesce(lot.std_loss,0)/100) = 0 then 999999 else woutdata.gross_weight /(1-coalesce(lot.std_loss,0)/100) end as gross_weight_reference,
                             woutdata.gross_weight, woutdata.product_weight, woutdata.sp1_weight, 
                             case when (1-coalesce(lot.std_loss,0)/100) = 0 then 999999 else woutdata.shared_gross_weight /(1-coalesce(lot.std_loss,0)/100) end as shared_gross_weight_reference,
                             woutdata.shared_gross_weight, woutdata.shared_product_weight, woutdata.shared_sp1_weight,
@@ -177,9 +177,8 @@ class RptManufacturing(models.Model):
                             wst.name as workstation_name, 
                             woutdata.product_boxes, woutdata.sp1_boxes, 
                             lotemp.total_hours, 
-                            lot.std_yield_product, lot.std_speed, lot.std_yield_sp1, lot.std_loss,
-                            lot.weight*(1-coalesce(lot.std_loss,0)/100) as weight_std_lot,
-                            case when coalesce(lot.total_gross_weight,0) = 0 then 1 else lot.weight*(1-coalesce(lot.std_loss,0)/100)/lot.total_gross_weight end as coef_weight_lot
+                            lot.std_yield_product, lot.std_speed, lot.std_yield_sp1, lot.std_loss, lot.finished as lot_finished,
+                            case when (lot.finished and (lot.weight > 0)) then lot.total_gross_weight/lot.weight else 0 end as coef_weight_lot
                             FROM (
                                 SELECT
                                     MIN(wout.id) as id,
