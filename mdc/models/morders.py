@@ -274,8 +274,8 @@ class LotActive(models.Model):
         if end_datetime is False:
             end_datetime = fields.Datetime.now()
         if start_datetime is not False and end_datetime is not False and start_datetime < end_datetime:
-            difference = datetime.datetime.strptime(end_datetime, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(start_datetime, '%Y-%m-%d %H:%M:%S')
-            total_hours = difference.days*24 + difference.seconds/3600
+            difference = fields.Datetime.from_string(end_datetime) - fields.Datetime.from_string(start_datetime)
+            total_hours = difference.total_seconds() / 3600
         return total_hours
 
     @api.constrains('start_datetime')
@@ -533,9 +533,10 @@ class LotActive(models.Model):
                     # we execute write method without calculate total hours (we send zero)
                     # because in write method we calculate the real total_hours
                     lot.write({'total_hours': 0})
-                    _logger.info('[mdc.lot_active] update_total_hours %s' % (lot.lot_id.name))
+                    _logger.debug('[mdc.lot_active] update_total_hours %s' % (lot.lot_id.name))
             except UserError as e:
                 _logger.error('[mdc.lot_active] _online_update_total_hours:  %s' % e)
+            _logger.info('[_online_update_total_hours] Process finished for %d opened lots' % len(opened_lotActive))
         """
         Calculate total hours of worksheet without end date
         :return:
@@ -547,10 +548,10 @@ class LotActive(models.Model):
                     # we execute write method without calculate total hours (we send zero)
                     # because in write method we calculate the real total_hours
                     ws.write({'total_hours': 0})
-                    _logger.info('[mdc.worksheet] update_total_hours %s - %s' % (ws.employee_id.name, ws.workstation_id.name))
+                    _logger.debug('[mdc.worksheet] update_total_hours %s - %s' % (ws.employee_id.name, ws.workstation_id.name))
             except UserError as e:
                 _logger.error('[mdc.worksheet] _online_update_total_hours:  %s' % e)
-
+            _logger.info('[_online_update_total_hours] Process finished for %d opened worksheets' % len(opened_worksheet))
 
 class Worksheet(models.Model):
     """
@@ -637,10 +638,10 @@ class Worksheet(models.Model):
         if end_datetime is False:
             end_datetime = fields.Datetime.now()
         if start_datetime is not False and end_datetime is not False and start_datetime < end_datetime:
-            end_date = datetime.datetime.strptime(end_datetime, '%Y-%m-%d %H:%M:%S')
-            start_date = datetime.datetime.strptime(start_datetime, '%Y-%m-%d %H:%M:%S')
+            end_date = fields.Datetime.from_string(end_datetime)
+            start_date = fields.Datetime.from_string(start_datetime)
             timedelta = end_date - start_date
-            total_hours = timedelta.seconds / 3600
+            total_hours = timedelta.total_seconds() / 3600
 
         return total_hours
 
@@ -649,13 +650,9 @@ class Worksheet(models.Model):
 
         for worksheet in self:
             # compute total_hours
-            total_hours = 0
-            if worksheet.start_datetime is not False and worksheet.end_datetime is not False:
-                end_datetime = datetime.datetime.strptime(worksheet.end_datetime, '%Y-%m-%d %H:%M:%S')
-                start_datetime = datetime.datetime.strptime(worksheet.start_datetime, '%Y-%m-%d %H:%M:%S')
-                timedelta = end_datetime - start_datetime
-                total_hours = timedelta.seconds / 3600
-            worksheet.total_hours = total_hours
+            values = {'start_datetime': worksheet.start_datetime,
+                      'end_datetime': worksheet.end_datetime }
+            worksheet.total_hours = worksheet._compute_total_hours(values)
 
     @api.model
     def create(self, values):
