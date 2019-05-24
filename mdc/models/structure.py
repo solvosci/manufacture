@@ -91,89 +91,24 @@ class ChkPoint(models.Model):
     current_lot_active_id = fields.Many2one(
         'mdc.lot',
         string='Current MO Active Id')
-    start_lot_datetime = fields.Datetime(
-        string = 'Start MO Active date time'
-        )
     allowed_ip = fields.Char(
         'Allowed IP'
     )
 
-    @api.multi
-    def write(self, values):
-        self.ensure_one()
-        now = fields.Datetime.now()
+    def compute_chkpoint_lot_active(self):
+        """
+        Computes the active lot in the checkpoint
+        :return:
+        """
+        for checkpoint in self:
+            chkpoint_lot_active = self.env['mdc.lot_chkpoint'].search([('chkpoint_id', '=', checkpoint.id),
+                                                 ('current_lot_active_id', '!=', False)],
+                                                order='start_lot_datetime desc', limit=1)
+            if chkpoint_lot_active:
+                checkpoint.current_lot_active_id = chkpoint_lot_active.current_lot_active_id
+            else:
+                checkpoint.current_lot_active_id = None
 
-        # save new lot on a temp variable
-        new_lot_active_id = 0
-        if 'current_lot_active_id' in values:
-            new_lot_active_id = values['current_lot_active_id']
-        else:
-            new_lot_active_id = self.current_lot_active_id.id
-
-        # save new and old start-date on a temp variables
-        new_start_lot_datetime = ''
-        old_start_lot_datetime = ''
-        if 'start_lot_datetime' in values:
-            # default date = current_date
-            if not values['start_lot_datetime']:
-                values['start_lot_datetime'] = now
-            # when change lot and don´t change date we put default date = current_date
-            if 'current_lot_active_id' in values \
-                and values['current_lot_active_id'] != self.current_lot_active_id.id \
-                and values['start_lot_datetime'] == self.start_lot_datetime:
-                values['start_lot_datetime'] = now
-            new_start_lot_datetime = values['start_lot_datetime']
-            old_start_lot_datetime = self.start_lot_datetime
-
-        if new_start_lot_datetime:
-            if new_start_lot_datetime > now:
-                raise UserError(_('You can´t give a future start date'))
-
-        #when change lot whe have to do new history records
-        # Modifying a current_lot_active and update historic lot_active if it is necessary
-        if 'current_lot_active_id' in values and values['current_lot_active_id'] != self.current_lot_active_id.id:
-            _logger.info("Change lot: new : %s old: %s"
-                         % (values['current_lot_active_id'], self.current_lot_active_id.id))
-            if not new_start_lot_datetime:
-                new_start_lot_datetime = now
-            values['start_lot_datetime'] = new_start_lot_datetime
-            """ 
-            --> 2019-04-02 -  ahora no se tiene en cuenta el turno para nada
-            # when change lot maybe do in the current shift
-            shift_data = self.env['mdc.shift'].get_current_shift(now)
-            if self.chkpoint_categ == 'WOUT':
-                if new_start_lot_datetime < shift_data['start_datetime']:
-                    raise UserError(_('You can´t give start date less than start current shift time (%s < %s)') % (new_start_lot_datetime, shift_data['start_datetime']))
-                if new_start_lot_datetime > shift_data['end_datetime']:
-                    raise UserError(_('You can´t give start date higher than end current shift time (%s > %s)') % (new_start_lot_datetime, shift_data['end_datetime']))
-            """
-            old_start_lot_datetime = values['start_lot_datetime']
-            self.env['mdc.lot_active'].update_historical(
-                chkpoint_id=self.id,
-                line_id=self.line_id,
-                shift_id=None,  # shift_id=shift_data['shift'],  --> 2019-04-02 - ahora no se tiene en cuenta el turno para nada
-                current_lot_active=self.current_lot_active_id,
-                new_lot_active_id=values['current_lot_active_id'],
-                start_lot_datetime=values['start_lot_datetime'])
-
-        # if change start data we have do refactoring history of the lot
-        if new_start_lot_datetime and old_start_lot_datetime \
-                and new_start_lot_datetime != old_start_lot_datetime:
-            _logger.info("change start_lot_datetime : new: %s old: %s"
-                         % (new_start_lot_datetime, old_start_lot_datetime))
-            self.env['mdc.lot_active'].update_start_date(
-                chkpoint_id=self.id,
-                new_lot_active_id=new_lot_active_id,
-                new_start_lot_datetime=new_start_lot_datetime,
-                old_start_lot_datetime=old_start_lot_datetime)
-
-        return super(ChkPoint, self).write(values)
-
-
-    @api.model
-    def get_current_lot(self, chkpoint_categ, line_id):
-        lot = self.search([('chkpoint_categ', '=', chkpoint_categ),('line_id', '=', line_id)])
-        return lot.current_lot_active_id.id
 
 class Workstation(models.Model):
     """

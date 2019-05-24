@@ -53,13 +53,13 @@
         res_model="mdc.wout_categ"/>
 
      <!-- Action: Check Points Lots Actives -->
-    <record model="ir.actions.act_window" id="action_mdc_chkpoint_lots_actives">
+    <record model="ir.actions.act_window" id="action_mdc_lot_chkpoint">
         <field name="name">Check Points Lots Actives</field>
-        <field name="res_model">mdc.chkpoint</field>
+        <field name="res_model">mdc.lot_chkpoint</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="mdc_chkpoints_lots_actives_tree"/>
-        <field name="search_view_id" ref="mdc_chkpoints_lots_actives_search"/>
+        <field name="view_id" ref="mdc_lot_chkpoint_tree"/>
+        <field name="search_view_id" ref="mdc_lot_chkpoint_search"/>
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
@@ -346,7 +346,7 @@
     <!-- Operations menu -->
     <menuitem id="mdc_lot_active_menu"
         name="Active Lots"
-        action="action_mdc_chkpoint_lots_actives"
+        action="action_mdc_lot_chkpoint"
         parent="mdc_menu_operations"
         sequence="10"/>
 

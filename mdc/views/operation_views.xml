@@ -2,28 +2,68 @@
   <data>
 
     <!-- Search view: default search for Check Point active lots -->
-    <record id="mdc_chkpoints_lots_actives_search" model="ir.ui.view">
-        <field name="name">mdc.chkpoints_lots_actives.search</field>
-        <field name="model">mdc.chkpoint</field>
+    <record id="mdc_lot_chkpoint_search" model="ir.ui.view">
+        <field name="name">mdc.lot_chkpoint.search</field>
+        <field name="model">mdc.lot_chkpoint</field>
         <field name="arch" type="xml">
             <search string="Check Point Active Lot">
-                <field name="name"/>
+                <field name="chkpoint_id"/>
+                <field name="shift_id"/>
                 <field name="current_lot_active_id"/>
             </search>
         </field>
     </record>
 
     <!-- Tree view: default view for Check Points active lots -->
-    <record id="mdc_chkpoints_lots_actives_tree" model="ir.ui.view">
-        <field name="name">mdc.chkpoints_lots_actives.tree</field>
-        <field name="model">mdc.chkpoint</field>
+    <record id="mdc_lot_chkpoint_tree" model="ir.ui.view">
+        <field name="name">mdc.lot_chkpoint.tree</field>
+        <field name="model">mdc.lot_chkpoint</field>
         <field name="priority" eval="20"/>
         <field name="arch" type="xml">
-            <tree editable="top" create="false" delete="false" string="Check Point Lots Actives">
-                <field name="name" readonly="True"/>
-                <field name="current_lot_active_id" context="{'name_extended': True}" domain="['&amp;',('start_date','&lt;=',current_date),'|',('end_date','>=',current_date),('end_date','=',False)]" options="{'no_create': 1, 'no_create_edit': 1}"/>
+            <!-- tree editable="top" create="false" delete="false" string="Check Point Lots Actives"-->
+            <tree string="Check Point Lots Actives" default_order="shift_id, chkpoint_id">
+                <field name="chkpoint_id" readonly="True"/>
+                <field name="shift_id" readonly="True"/>
+                <field name="current_lot_active_id" context="{'name_extended': True}"
+                       domain="['|', '&amp;', '&amp;',('start_date','&lt;=',current_date), ('finished','=',False), ('end_date','>=',current_date),
+                                     '&amp;', '&amp;',('start_date','&lt;=',current_date), ('finished','=',False), ('end_date','=',False)]"
+                       options="{'no_create': 1, 'no_create_edit': 1}"  />
+
                 <field name="start_lot_datetime" readonly="False"/>
             </tree>
+        </field>
+    </record>
+
+  <!-- Form view: default form for check points active lots -->
+    <record id="mdc_lot_chkpoint_form" model="ir.ui.view">
+        <field name="name">mdc.lot_chkpoint.form</field>
+        <field name="model">mdc.lot_chkpoint</field>
+        <field name="arch" type="xml">
+            <form create="false" delete="false" string="Active Lot per Check Point and Shift">
+                <sheet>
+                    <group>
+                        <div class="oe_title">
+                            <label for="chkpoint_id"/>
+                            <h1>
+                                <field name="chkpoint_id"
+                                   attrs="{'readonly': [('id', '!=', False)]}"/>
+                            </h1>
+                            <label for="shift_id"/>
+                            <h1>
+                                <field name="shift_id"
+                                   attrs="{'readonly': [('id', '!=', False)]}"/>
+                            </h1>
+                        </div>
+                    </group>
+                    <group>
+                        <field name="current_lot_active_id" context="{'name_extended': True}"
+                                domain="['|', '&amp;', '&amp;',('start_date','&lt;=',current_date), ('finished','=',False), ('end_date','>=',current_date),
+                                              '&amp;', '&amp;',('start_date','&lt;=',current_date), ('finished','=',False), ('end_date','=',False)]"
+                                options="{'no_create': 1, 'no_create_edit': 1}"  />
+                        <field name="start_lot_datetime"/>
+                    </group>
+                </sheet>
+            </form>
         </field>
     </record>
 
@@ -130,6 +170,7 @@
             <search string="Active Lot">
                 <field name="lot_id"/>
                 <field name="chkpoint_id"/>
+                <field name="shift_id"/>
                 <filter name="week" string="This Week"
                         domain="[
                             '&amp;',
@@ -152,6 +193,7 @@
             <tree create="false" delete="false" string="Lots">
                 <field name="lot_id"/>
                 <field name="chkpoint_id"/>
+                <field name="shift_id"/>
                 <field name="start_datetime"/>
                 <field name="end_datetime"/>
                 <field name="total_hours"/>
@@ -180,7 +222,10 @@
                             <field name="chkpoint_id"
                                    attrs="{'readonly': True}"/>
                         </group>
-                        <group> </group>
+                        <group>
+                            <field name="shift_id"
+                                   attrs="{'readonly': True}"/>
+                        </group>
                         <group>
                             <field name="start_datetime"/>
                             <field name="end_datetime"/>
