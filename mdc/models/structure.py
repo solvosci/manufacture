@@ -100,18 +100,17 @@ class ChkPoint(models.Model):
         'mdc.lot_chkpoint',
         'chkpoint_id')
 
-    @api.depends('lot_ids.current_lot_active_id')
+    @api.depends('lot_ids.current_lot_active_id', 'lot_ids.start_lot_datetime')
     def _compute_chkpoint_lot_active(self):
         """
         Computes the active lot in the checkpoint
         :return:
         """
         for checkpoint in self:
-            chkpoint_lot_active = self.env['mdc.lot_chkpoint'].search([('chkpoint_id', '=', checkpoint.id),
-                                                 ('current_lot_active_id', '!=', False)],
-                                                order='start_lot_datetime desc', limit=1)
+
+            chkpoint_lot_active = checkpoint.lot_ids.filtered('current_lot_active_id').sorted('start_lot_datetime')
             if chkpoint_lot_active:
-                checkpoint.current_lot_active_id = chkpoint_lot_active.current_lot_active_id
+                checkpoint.current_lot_active_id = chkpoint_lot_active[-1].current_lot_active_id
             else:
                 checkpoint.current_lot_active_id = None
 
