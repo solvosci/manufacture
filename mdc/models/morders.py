@@ -1173,7 +1173,8 @@ class LotChkPoint(models.Model):
         required=True)
     shift_id = fields.Many2one(
         'mdc.shift',
-        string='Shift')
+        string='Shift',
+        required=True)
     current_lot_active_id = fields.Many2one(
         'mdc.lot',
         string='Current MO Active Id')
@@ -1191,7 +1192,7 @@ class LotChkPoint(models.Model):
     def _onchange_start_lot_datetime(self):
         now = fields.Datetime.now()
         for reg in self:
-            if reg.start_lot_datetime > now:
+            if reg.start_lot_datetime and reg.start_lot_datetime > now:
                 raise UserError(_('You can´t establish a future datetime'))
 
     @api.model
@@ -1271,10 +1272,5 @@ class LotChkPoint(models.Model):
                 new_start_lot_datetime=new_start_lot_datetime,
                 old_start_lot_datetime=old_start_lot_datetime)
 
-        dat = super(LotChkPoint, self).write(values)
-
-        chkpoint_data = self.env['mdc.chkpoint'].browse(self.chkpoint_id.id)
-        chkpoint_data.compute_chkpoint_lot_active()
-
-        return dat
+        return super(LotChkPoint, self).write(values)
 

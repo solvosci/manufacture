@@ -90,12 +90,18 @@ class ChkPoint(models.Model):
         string='Quality')
     current_lot_active_id = fields.Many2one(
         'mdc.lot',
-        string='Current MO Active Id')
+        string='Current MO Active Id',
+        compute='_compute_chkpoint_lot_active',
+        store=True)
     allowed_ip = fields.Char(
         'Allowed IP'
     )
+    lot_ids = fields.One2many(
+        'mdc.lot_chkpoint',
+        'chkpoint_id')
 
-    def compute_chkpoint_lot_active(self):
+    @api.depends('lot_ids.current_lot_active_id')
+    def _compute_chkpoint_lot_active(self):
         """
         Computes the active lot in the checkpoint
         :return:

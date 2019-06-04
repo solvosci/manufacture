@@ -63,9 +63,9 @@
         <field name="limit">25</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
-            Not possible.
+            Click to register new Check Points Lots Actives.
           </p><p>
-            Unable to register new checkpoints in this view.
+            You can register Lots Actives to existing Check Points.
           </p>
         </field>
     </record>

@@ -39,7 +39,7 @@
         <field name="name">mdc.lot_chkpoint.form</field>
         <field name="model">mdc.lot_chkpoint</field>
         <field name="arch" type="xml">
-            <form create="false" delete="false" string="Active Lot per Check Point and Shift">
+            <form create="false" string="Active Lot per Check Point and Shift">
                 <sheet>
                     <group>
                         <div class="oe_title">
