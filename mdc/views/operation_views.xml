@@ -46,12 +46,16 @@
                             <label for="chkpoint_id"/>
                             <h1>
                                 <field name="chkpoint_id"
-                                   attrs="{'readonly': [('id', '!=', False)]}"/>
+                                   attrs="{'readonly': [('id', '!=', False)]}"
+                                   options="{'no_create': 1, 'no_create_edit': 1}"
+                                />
                             </h1>
                             <label for="shift_id"/>
                             <h1>
                                 <field name="shift_id"
-                                   attrs="{'readonly': [('id', '!=', False)]}"/>
+                                   attrs="{'readonly': [('id', '!=', False)]}"
+                                   options="{'no_create': 1, 'no_create_edit': 1}"
+                                />
                             </h1>
                         </div>
                     </group>
