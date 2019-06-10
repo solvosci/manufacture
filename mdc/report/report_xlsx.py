@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from addons.product.models.product_attribute import ProductAttributevalue
-from odoo import models, _
+from odoo import fields, models, _
 import base64
 import tempfile
 import datetime
@@ -241,9 +241,10 @@ class ReportRptTracingXlsx(models.AbstractModel):
                 sheet.write(row, 3, obj.contract_name, f_data)
                 wemployee_date_start = ''
                 if obj.employee_date_start:
-                    wemployee_date_start = obj.employee_date_start
+                    wemployee_date_start = fields.Datetime.from_string(obj.employee_date_start).strftime("%d-%m-%Y")
                 sheet.write(row, 4, wemployee_date_start, f_data)
-                sheet.write(row, 5, obj.create_date, f_data)
+                formatted_date = fields.Datetime.from_string(obj.create_date).strftime("%d-%m-%Y")
+                sheet.write(row, 5, formatted_date, f_data)
                 sheet.write(row, 7, obj.lot_name, f_data)
                 sheet.write(row, 8, obj.product_id.name, f_dataL)
                 variable_attributes = obj.product_id.attribute_line_ids.mapped('attribute_id')
@@ -576,9 +577,10 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
                 sheet.write(row, 3, obj.contract_name, f_data)
                 wemployee_date_start=''
                 if obj.employee_date_start:
-                    wemployee_date_start=obj.employee_date_start
+                    wemployee_date_start=fields.Datetime.from_string(obj.employee_date_start).strftime("%d-%m-%Y")
                 sheet.write(row, 4, wemployee_date_start, f_data)
-                sheet.write(row, 5, obj.create_date, f_data)
+                formatted_date = fields.Datetime.from_string(obj.create_date).strftime("%d-%m-%Y")
+                sheet.write(row, 5, formatted_date, f_data)
                 sheet.write(row, 7, obj.lot_name, f_data)
                 sheet.write(row, 8, obj.product_id.name, f_dataL)
                 variable_attributes = obj.product_id.attribute_line_ids.mapped('attribute_id')
@@ -833,7 +835,8 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
                 sheet.write(row, 1, obj.employee_name, f_data)
                 sheet.write(row, 2, obj.shift_code, f_data)
                 sheet.write(row, 3, obj.lot_name, f_data)
-                sheet.write(row, 4, obj.create_date, f_data)
+                formatted_date = fields.Datetime.from_string(obj.create_date).strftime("%d-%m-%Y")
+                sheet.write(row, 4, formatted_date, f_data)
 
                 # std columns
                 sheet.write(row, 11, obj.std_yield_product, f_data2d)
