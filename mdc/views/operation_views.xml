@@ -83,7 +83,8 @@
                 <field name="partner_id"/>
                 <field name="descrip"/>
                 <filter string="In force" name="inforce"
-                        domain="['&amp;',('start_date','&lt;=',current_date),'|',('end_date','>=',current_date),('end_date','=',False)]" />
+                        domain="['|', '&amp;', '&amp;',('start_date','&lt;=',current_date), ('finished','=',False), ('end_date','>=',current_date),
+                                      '&amp;', '&amp;',('start_date','&lt;=',current_date), ('finished','=',False), ('end_date','=',False)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Product" name="groupby_product" domain="[]" context="{'group_by':'product_id'}"/>
                     <filter string="Partner" name="groupby_partner" domain="[]" context="{'group_by':'partner_id'}"/>
