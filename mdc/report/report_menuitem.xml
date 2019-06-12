@@ -5,7 +5,7 @@
     <record model="ir.actions.act_window" id="action_mdc_rpt_tracing">
         <field name="name">Tracing Report</field>
         <field name="res_model">mdc.rpt_tracing</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">tree,graph,pivot</field>
         <field name="search_view_id" ref="mdc_rpt_tracing_search"/>
         <field name="context">{"search_default_today":1}</field>
         <field name="limit">500</field>
@@ -25,6 +25,19 @@
         <field name="act_window_id" ref="action_mdc_rpt_tracing"/>
     </record>
 
+    <record id="action_mdc_rpt_tracing_graph" model="ir.actions.act_window.view">
+        <field name="view_mode">graph</field>
+        <field name="sequence" eval="4"/>
+        <field name="view_id" ref="mdc_rpt_tracing_graph"/>
+        <field name="act_window_id" ref="action_mdc_rpt_tracing"/>
+    </record>
+
+    <record id="action_mdc_rpt_tracing_pivot" model="ir.actions.act_window.view">
+        <field name="view_mode">pivot</field>
+        <field name="sequence" eval="4"/>
+        <field name="view_id" ref="mdc_rpt_tracing_pivot"/>
+        <field name="act_window_id" ref="action_mdc_rpt_tracing"/>
+    </record>
 
     <!-- Action: Manufacturing Report -->
     <record model="ir.actions.act_window" id="action_mdc_rpt_manufacturing">

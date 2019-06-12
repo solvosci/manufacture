@@ -57,6 +57,30 @@
                 </tree>
             </field>
         </record>
+
+        <!-- Graph view: default view for Tracing Report -->
+        <record id="mdc_rpt_tracing_graph" model="ir.ui.view">
+            <field name="name">mdc.rpt_tracing.graph</field>
+            <field name="model">mdc.rpt_tracing</field>
+            <field name="arch" type="xml">
+                <graph string="Employee evolution">
+                    <field name="employee_name" type="row"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- Pivot view: default view for Tracing Report -->
+        <record id="mdc_rpt_tracing_pivot" model="ir.ui.view">
+            <field name="name">mdc.rpt_tracing.pivot</field>
+            <field name="model">mdc.rpt_tracing</field>
+            <field name="arch" type="xml">
+                <pivot string="Employee evolution">
+                    <field name="employee_name" type="row"/>
+                    <field name="lot_name" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
     </data>
 
     <data>
