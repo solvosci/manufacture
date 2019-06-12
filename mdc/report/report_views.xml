@@ -65,6 +65,7 @@
             <field name="arch" type="xml">
                 <graph string="Employee evolution">
                     <field name="employee_name" type="row"/>
+                    <field name="product_weight" type="measure"/>
                 </graph>
             </field>
         </record>
@@ -77,6 +78,8 @@
                 <pivot string="Employee evolution">
                     <field name="employee_name" type="row"/>
                     <field name="lot_name" type="col"/>
+                    <field name="product_weight" type="measure"/>
+                    <field name="total_hours" type="measure"/>
                 </pivot>
             </field>
         </record>
