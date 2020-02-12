@@ -1006,27 +1006,27 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
         header_row = 5
         header_row_str = str(header_row + 1)
         # write column header ----------------------------------------
-        sheet.write('A' + header_row_str, _("Employee Code"), f_header)
+        sheet.write('A' + header_row_str, _("Employee Code"), f_header) # - 0
         sheet.write('B' + header_row_str, _("Employee Name"), f_header)
         sheet.write('C' + header_row_str, _("Gross"), f_header)
         sheet.write('D' + header_row_str, _("Backs"), f_header)
         sheet.write('E' + header_row_str, _("Crumbs"), f_header)
-        sheet.write('F' + header_row_str, _("Shift Change Gross"), f_header)
+        sheet.write('F' + header_row_str, _("Shift Change Gross"), f_header) # - 5
         sheet.write('G' + header_row_str, _("Shift Change Backs"), f_header)
         sheet.write('H' + header_row_str, _("Shift Change Crumbs"), f_header)
         sheet.write('I' + header_row_str, _("Quality"), f_header)
         sheet.write('J' + header_row_str, _("% Backs"), f_header)
-        sheet.write('K' + header_row_str, _("% Crumbs"), f_header)
+        sheet.write('K' + header_row_str, _("% Crumbs"), f_header) # - 10
         sheet.write('L' + header_row_str, _("% Total Yield"), f_header)
         sheet.write('M' + header_row_str, _("Waste"), f_header)
         sheet.write('N' + header_row_str, _("% Waste"), f_header)
         sheet.write('O' + header_row_str, _("Time"), f_header)
-        sheet.write('P' + header_row_str, _("MO."), f_header)
+        sheet.write('P' + header_row_str, _("MO."), f_header) # - 15
         sheet.write('Q' + header_row_str, _("STD Back"), f_header)
         sheet.write('R' + header_row_str, _("STD Crumbs"), f_header)
         sheet.write('S' + header_row_str, _("STD MO"), f_header)
         sheet.write('T' + header_row_str, _("IND Backs"), f_header_ind)
-        sheet.write('U' + header_row_str, _("IND MO"), f_header_ind)
+        sheet.write('U' + header_row_str, _("IND MO"), f_header_ind) # - 20
         sheet.write('V' + header_row_str, _("IND Crumbs"), f_header_ind)
         sheet.write('W' + header_row_str, _("IND Quality"), f_header_ind)
         sheet.write('X' + header_row_str, _("IND Cleaning"), f_header_ind)
@@ -1089,10 +1089,10 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
                 sheet.write_formula(row, 11, '=IF(C' + str(row + 1) + '= 0, 0, (D' + str(row + 1) + '+E' + str(row + 1) + ')/C' + str(row + 1) + ')', f_percent) # - % Total Yield
                 sheet.write_formula(row, 12, '=(C' + str(row + 1) + '-D' + str(row + 1) + '-E' + str(row + 1),  f_data)  # - Waste
                 sheet.write_formula(row, 13, '=IF(C' + str(row + 1) + '= 0, 0, (M' + str(row + 1) + ')/C' + str(row + 1) + ')', f_percent)  # - % Waste
-                sheet.write_formula(row, 15, '=IF(C' + str(row + 1) + '= 0, 0, (I' + str(row + 1) + ' * 60)/C' + str(row + 1) + ')', f_data)  # - MO
+                sheet.write_formula(row, 15, '=IF(C' + str(row + 1) + '= 0, 0, (O' + str(row + 1) + ' * 60)/C' + str(row + 1) + ')', f_data)  # - MO
                 # Ind columns
                 sheet.write_formula(row, 19, '=IF(Q' + str(row + 1) + '= 0, 0, (J' + str(row + 1) + '/Q' + str(row + 1) + '/1.15) * 100)', f_data)  # - IND Backs
-                sheet.write_formula(row, 20, '=IF(S' + str(row + 1) + '= 0, 0, (P' + str(row + 1) + '/S' + str(row + 1) + '/1.15) * 100)', f_data)  # - IND MO
+                sheet.write_formula(row, 20, '=IF(P' + str(row + 1) + '= 0, 0, (S' + str(row + 1) + '/P' + str(row + 1) + '/1.15) * 100)', f_percent)  # - IND MO
                 sheet.write_formula(row, 21, '=IF(K' + str(row + 1) + '= 0, 0, (R' + str(row + 1) + '/K' + str(row + 1) + '/1.15) * 100)', f_data)  # - IND Crumbs
                 sheet.write_formula(row, 22, '=I' + str(row + 1), f_data)  # - IND Quality
                 sheet.write_formula(row, 23, '0.6 * T' + str(row + 1) + ' + 0.3 * V' + str(row + 1) + ' + 0.1 * W' + str(row + 1), f_data)  # - IND Cleaning
