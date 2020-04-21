@@ -181,6 +181,11 @@ class DataWIn(models.Model):
                         _logger.info(
                             '[mdc.data_win] get_average_data WOUT %s - datetime_in: %s - datetime_out: %s - diff.: %s'
                             % (w_numwout, wi.create_datetime, wo.create_datetime, dif_hours))
+        else:
+            _logger.error(
+                '[mdc.data_win] get_average_data not '
+                'found for line_id=%s and lot_id=%s' %
+                (context['line_id'], context['lot_id']))
 
         # calculate de average of the weight
         if w_numwin > 0:
@@ -198,7 +203,7 @@ class DataWIn(models.Model):
                      'numwin:%s - tare: %s - weight: %s - uom: %s'
                      % (context['lot_id'], context['line_id'], w_timewout, w_numwout, w_create_datetime, w_numwin,
                         w_tare, w_weight, w_uom_id))
-        return {
+        return w_tare and {
             'create_datetime': w_create_datetime or fields.Datetime.now(),
             'tare': w_tare,
             'weight': w_weight,
@@ -384,6 +389,13 @@ class DataWOut(models.Model):
                     """
                     joker_win_data = self.env['mdc.data_win'].get_average_data({
                         'lot_id': values['lot_id'], 'line_id': values['line_id']})
+                    if not joker_win_data:
+                        joker_card_lot = \
+                            self.env['mdc.lot'].browse(values['lot_id'])
+                        raise UserError(_(
+                            "Invalid joker card #%s. Before using it, "
+                            "please make at least an input for this line "
+                            "with lot %s") % (card.name, joker_card_lot.name))
                     joker_win_data['lot_id'] = values['lot_id']
                     joker_win_data['line_id'] = values['line_id']
                     joker_win_data['card_id'] = card.id
