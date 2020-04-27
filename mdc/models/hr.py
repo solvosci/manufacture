@@ -177,7 +177,8 @@ class Employee(models.Model):
         return self.env.user.has_group('mdc.group_mdc_office_worker')
 
     @api.multi
-    def worksheet_open(self, start_datetime, physical_start_datetime=False, physical_open=False):
+    def worksheet_open(self, start_datetime, physical_start_datetime=False,
+                       physical_open=False, manual_open=False):
         self.ensure_one()
         self._check_worksheet_permissions()
         if self.present:
@@ -186,10 +187,13 @@ class Employee(models.Model):
             'start_datetime': start_datetime,
             'employee_id': self.id,
             'physical_start_datetime': physical_start_datetime,
-            'physical_open': physical_open})
+            'physical_open': physical_open,
+            'manual_open': manual_open,
+        })
 
     @api.multi
-    def worksheet_close(self, end_datetime, physical_end_datetime=False, physical_close=False):
+    def worksheet_close(self, end_datetime, physical_end_datetime=False,
+                        physical_close=False, manual_close=False):
         self.ensure_one()
         self._check_worksheet_permissions()
         if not self.present:
@@ -197,7 +201,10 @@ class Employee(models.Model):
         self.worksheet_ids.filtered(lambda r: r.end_datetime is False).sudo().write({
             'end_datetime': end_datetime,
             'physical_end_datetime': physical_end_datetime,
-            'physical_close': physical_close})
+            'physical_close': physical_close,
+            'manual_close': manual_close,
+        })
+
         # TODO check filtered performance when growing data. If decreases, use the code above
         """
         Worksheet = self.env['mdc.worksheet'].search(
@@ -261,7 +268,7 @@ class EmployeeMassWorksheetOpen(models.TransientModel):
     def action_save(self):
         self.ensure_one()
         for employee in self.employee_ids:
-            employee.worksheet_open(self.start_datetime)
+            employee.worksheet_open(self.start_datetime, manual_open=True)
 
     def action_cancel(self):
         return True
@@ -291,7 +298,7 @@ class EmployeeMassWorksheetClose(models.TransientModel):
     def action_save(self):
         self.ensure_one()
         for employee in self.employee_ids:
-            employee.worksheet_close(self.end_datetime)
+            employee.worksheet_close(self.end_datetime, manual_close=True)
 
     def action_cancel(self):
         return True

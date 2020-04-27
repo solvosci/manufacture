@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-21 10:38+0000\n"
-"PO-Revision-Date: 2020-04-21 10:38+0000\n"
+"POT-Creation-Date: 2020-04-27 16:33+0000\n"
+"PO-Revision-Date: 2020-04-27 16:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -459,13 +459,13 @@ msgid "Cannot cancel input '%s - %s - %s' because it's been already linked with 
 msgstr "No puede cancelar la entrada '%s - %s - %s' porque ha sido vinculada a una salida"
 
 #. module: mdc
-#: code:addons/mdc/models/hr.py:196
+#: code:addons/mdc/models/hr.py:200
 #, python-format
 msgid "Cannot create close worksheet: employee %s is not present"
 msgstr "No es posible cerrar fichaje: el empleado %s no está presente"
 
 #. module: mdc
-#: code:addons/mdc/models/hr.py:184
+#: code:addons/mdc/models/hr.py:185
 #, python-format
 msgid "Cannot create open worksheet: employee %s is already present"
 msgstr "No es podible abrir fichaje: el empleado %s ya está presente"
@@ -505,7 +505,7 @@ msgid "Card #%s is not a joker card!"
 msgstr "La Tarjeta #%s no es una tarjeta comodín!"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1009
+#: code:addons/mdc/models/morders.py:1013
 #, python-format
 msgid "Card #%s is not an employee one"
 msgstr "La Tarjeta #%s no es de empleado"
@@ -755,7 +755,7 @@ msgid "Color Index"
 msgstr "Índice de color"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1167
+#: code:addons/mdc/models/morders.py:1171
 #: sql_constraint:mdc.lot_chkpoint:0
 #, python-format
 msgid "Combination: Checkpoint & Shift, are unique, and already Exists!"
@@ -1244,7 +1244,7 @@ msgstr "Hora final"
 #. module: mdc
 #: code:addons/mdc/models/morders.py:194
 #: code:addons/mdc/models/morders.py:302
-#: code:addons/mdc/models/morders.py:609
+#: code:addons/mdc/models/morders.py:613
 #, python-format
 msgid "End date must be older than start date"
 msgstr "Fecha Fin debe ser posterior a Fecha Inicio"
@@ -1611,15 +1611,15 @@ msgid "Is operator"
 msgstr "Es operario"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:664
-#: code:addons/mdc/models/morders.py:778
+#: code:addons/mdc/models/morders.py:668
+#: code:addons/mdc/models/morders.py:782
 #, python-format
 msgid "It can´t be end datetime less than start date to employee %s"
 msgstr "No es posible fecha-hora final menor que fecha-hora inicial para el empleado %s"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:657
-#: code:addons/mdc/models/morders.py:773
+#: code:addons/mdc/models/morders.py:661
+#: code:addons/mdc/models/morders.py:777
 #, python-format
 msgid "It can´t be start datetime less than last end datetime to employee %s"
 msgstr "No es posible fecha-hora inicial menor que última fecha-hora final para el empleado %s"
@@ -1926,6 +1926,16 @@ msgid "Lots default life in days"
 msgstr "Días de vida por defecto de los lotes"
 
 #. module: mdc
+#: model:ir.ui.view,arch_db:mdc.mdc_worksheets_tree
+msgid "M.C."
+msgstr "C.M."
+
+#. module: mdc
+#: model:ir.ui.view,arch_db:mdc.mdc_worksheets_tree
+msgid "M.O."
+msgstr "I.M."
+
+#. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:466
 #, python-format
 msgid "MANUFACTURING REPORT"
@@ -2032,6 +2042,26 @@ msgstr "Formato de OF no correcto. El formato correcto es NNNNN/AA (NNNNN=númer
 #, python-format
 msgid "MO."
 msgstr "MO."
+
+#. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_worksheet_manual_close
+msgid "Manual Close"
+msgstr "Cierre manual"
+
+#. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_worksheet_manual_open
+msgid "Manual Open"
+msgstr "Inicio manual"
+
+#. module: mdc
+#: model:ir.ui.view,arch_db:mdc.mdc_worksheets_search
+msgid "Manual close"
+msgstr "Cierre manual"
+
+#. module: mdc
+#: model:ir.ui.view,arch_db:mdc.mdc_worksheets_search
+msgid "Manual open"
+msgstr "Inicio manual"
 
 #. module: mdc
 #: model:ir.actions.act_window,name:mdc.action_mdc_rpt_manufacturing
@@ -3113,7 +3143,7 @@ msgid "The selected lot name already exists"
 msgstr "El nombre de lote seleccionado ya existe"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:660
+#: code:addons/mdc/models/morders.py:664
 #, python-format
 msgid "The start date has to be filled"
 msgstr "Debe rellenar la Fecha de Inicio"
@@ -3287,7 +3317,7 @@ msgid "Unknown card #%s"
 msgstr "Tarjeta desconocida #%s"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1011
+#: code:addons/mdc/models/morders.py:1015
 #, python-format
 msgid "Unknown card code #%s"
 msgstr "Código de tarjeta desconocido #%s"
@@ -3578,7 +3608,7 @@ msgstr "YELOWFIN COLAS "
 
 #. module: mdc
 #: code:addons/mdc/models/mdc_config_settings.py:38
-#: code:addons/mdc/models/morders.py:793
+#: code:addons/mdc/models/morders.py:797
 #, python-format
 msgid "You are not allowed to change this values"
 msgstr "No tiene permiso para cambiar este valor"
@@ -3614,7 +3644,7 @@ msgid "You can register and track weighing scales."
 msgstr "Puede registrar y testear básculas."
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:753
+#: code:addons/mdc/models/morders.py:757
 #, python-format
 msgid "You can´t change employee form a datasheet."
 msgstr "No puede cambiar el empleado desde un fichaje."
@@ -3638,7 +3668,7 @@ msgid "You can´t change this end datetime. You must change the start date of th
 msgstr "No se puede cambiar esta fecha fin. Se debe cambiar la fecha de inicio del lote activo con la fecha de inicio con esta fecha de fin"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1196
+#: code:addons/mdc/models/morders.py:1200
 #, python-format
 msgid "You can´t establish a future datetime"
 msgstr "No se puede proporcionar una fecha futura"
@@ -3651,19 +3681,19 @@ msgstr "No se puede proporcionar una fecha de fin future"
 
 #. module: mdc
 #: code:addons/mdc/models/morders.py:288
-#: code:addons/mdc/models/morders.py:1244
+#: code:addons/mdc/models/morders.py:1248
 #, python-format
 msgid "You can´t give a future start date"
 msgstr "No se puede proporcionar una fecha futura de inicio"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1201
+#: code:addons/mdc/models/morders.py:1205
 #, python-format
 msgid "You can´t give a lot in create mode"
 msgstr "No se puede poner el lote en el alta del registro"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1205
+#: code:addons/mdc/models/morders.py:1209
 #, python-format
 msgid "You can´t give a start lot datetime in create mode"
 msgstr "No se puede poner la fecha de inicio en el alta del registro"
@@ -3713,7 +3743,7 @@ msgid "You must select an employee for this card or select another category"
 msgstr "Debe seleccionar un operario para esta tarjeta o elegir otro tipo"
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1212
+#: code:addons/mdc/models/morders.py:1216
 #, python-format
 msgid "You must to have no lot assigned to delete this record"
 msgstr "No se puede tener un lote asignado para borrar el registro"
