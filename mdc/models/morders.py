@@ -563,6 +563,10 @@ class Worksheet(models.Model):
         default = _default_date)
     end_datetime = fields.Datetime(
         'End Datetime')
+    manual_open = fields.Boolean(
+        default=False)
+    manual_close = fields.Boolean(
+        default=False)
     physical_open = fields.Boolean(
         'Physical open',
         default=False)
