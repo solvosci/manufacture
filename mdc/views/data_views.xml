@@ -72,6 +72,8 @@
                             <field name="workstation_id"/>
                         </group>
                         <group>
+                            <field name="manual_open"/>
+                            <field name="manual_close"/>
                             <field name="total_hours" readonly="True"/>
                         </group>
                     </group>
@@ -79,12 +81,10 @@
                         <group>
                             <field name="physical_open" readonly="True"/>
                             <field name="physical_start_datetime" readonly="True"/>
-                            <field name="manual_open" readonly="True"/>
                         </group>
                         <group>
                             <field name="physical_close" readonly="True"/>
                             <field name="physical_end_datetime" readonly="True"/>
-                            <field name="manual_close" readonly="True"/>
                         </group>
                     </group>
                 </sheet>

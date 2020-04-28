@@ -784,6 +784,27 @@ class Worksheet(models.Model):
         values['total_hours'] = self._compute_total_hours(values)
         return super(Worksheet, self).write(values)
 
+    @api.constrains('manual_open', 'manual_close', 'physical_open',
+                    'physical_close', 'end_datetime')
+    def _check_flags(self):
+        for worksheet in self:
+            if worksheet.manual_open and worksheet.physical_open:
+                raise UserError(_(
+                    'Cannot set manual open to a worksheet '
+                    'with physical open for employee %s') %
+                                worksheet.employee_id.employee_code)
+            if worksheet.manual_close:
+                if worksheet.physical_close:
+                    raise UserError(_(
+                        'Cannot set manual close to a worksheet '
+                        'with physical close for employee %s') %
+                                    worksheet.employee_id.employee_code)
+                if not worksheet.end_datetime:
+                    raise UserError(_(
+                        'Cannot set manual close to a worksheet '
+                        'without End datetime for employee %s') %
+                                    worksheet.employee_id.employee_code)
+
     @api.multi
     def massive_close(self, wsheets, end_time):
         for item in wsheets:
@@ -933,7 +954,10 @@ class Worksheet(models.Model):
                                     _logger.info(
                                         "[mdc.worksheet - refactoring]: * write worksheet: (id: %s) ws.employee_id: %s update start_datetime: from %s to %s."
                                         % (ws2.id, ws.employee_id.id, ws2.start_datetime, ws.start_datetime))
-                                    ws2.write({'start_datetime': ws.start_datetime})
+                                    ws2.write({
+                                        'start_datetime': ws.start_datetime,
+                                        'manual_open': ws.manual_open,
+                                    })
                                 _logger.info("[mdc.worksheet - refactoring]: * delete worksheet: (id: %s) ws.employee_id: %s start_datetime: %s, end_datetime: %s."
                                              % (ws.id, ws.employee_id.id, ws.start_datetime, ws.end_datetime))
                                 ws.unlink()
