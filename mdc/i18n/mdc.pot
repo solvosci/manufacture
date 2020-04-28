@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-27 16:31+0000\n"
-"PO-Revision-Date: 2020-04-27 16:31+0000\n"
+"POT-Creation-Date: 2020-04-28 09:00+0000\n"
+"PO-Revision-Date: 2020-04-28 09:00+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -445,6 +445,24 @@ msgid "Cannot create open worksheet: employee %s is already present"
 msgstr ""
 
 #. module: mdc
+#: code:addons/mdc/models/morders.py:798
+#, python-format
+msgid "Cannot set manual close to a worksheet with physical close for employee %s"
+msgstr ""
+
+#. module: mdc
+#: code:addons/mdc/models/morders.py:803
+#, python-format
+msgid "Cannot set manual close to a worksheet without End datetime for employee %s"
+msgstr ""
+
+#. module: mdc
+#: code:addons/mdc/models/morders.py:792
+#, python-format
+msgid "Cannot set manual open to a worksheet with physical open for employee %s"
+msgstr ""
+
+#. module: mdc
 #: model:ir.ui.view,arch_db:mdc.mdc_data_wins_form
 #: model:ir.ui.view,arch_db:mdc.mdc_data_wouts_form
 msgid "Capture Data"
@@ -479,7 +497,7 @@ msgid "Card #%s is not a joker card!"
 msgstr ""
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1013
+#: code:addons/mdc/models/morders.py:1037
 #, python-format
 msgid "Card #%s is not an employee one"
 msgstr ""
@@ -729,7 +747,7 @@ msgid "Color Index"
 msgstr ""
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1171
+#: code:addons/mdc/models/morders.py:1195
 #: sql_constraint:mdc.lot_chkpoint:0
 #, python-format
 msgid "Combination: Checkpoint & Shift, are unique, and already Exists!"
@@ -3276,7 +3294,7 @@ msgid "Unknown card #%s"
 msgstr ""
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1015
+#: code:addons/mdc/models/morders.py:1039
 #, python-format
 msgid "Unknown card code #%s"
 msgstr ""
@@ -3567,7 +3585,7 @@ msgstr ""
 
 #. module: mdc
 #: code:addons/mdc/models/mdc_config_settings.py:38
-#: code:addons/mdc/models/morders.py:797
+#: code:addons/mdc/models/morders.py:818
 #, python-format
 msgid "You are not allowed to change this values"
 msgstr ""
@@ -3627,7 +3645,7 @@ msgid "You can´t change this end datetime. You must change the start date of th
 msgstr ""
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1200
+#: code:addons/mdc/models/morders.py:1224
 #, python-format
 msgid "You can´t establish a future datetime"
 msgstr ""
@@ -3640,19 +3658,19 @@ msgstr ""
 
 #. module: mdc
 #: code:addons/mdc/models/morders.py:288
-#: code:addons/mdc/models/morders.py:1248
+#: code:addons/mdc/models/morders.py:1272
 #, python-format
 msgid "You can´t give a future start date"
 msgstr ""
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1205
+#: code:addons/mdc/models/morders.py:1229
 #, python-format
 msgid "You can´t give a lot in create mode"
 msgstr ""
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1209
+#: code:addons/mdc/models/morders.py:1233
 #, python-format
 msgid "You can´t give a start lot datetime in create mode"
 msgstr ""
@@ -3702,7 +3720,7 @@ msgid "You must select an employee for this card or select another category"
 msgstr ""
 
 #. module: mdc
-#: code:addons/mdc/models/morders.py:1216
+#: code:addons/mdc/models/morders.py:1240
 #, python-format
 msgid "You must to have no lot assigned to delete this record"
 msgstr ""
