@@ -15,6 +15,9 @@
                 <separator/>
                 <filter name="physical_open" string="Physical open" domain="[('physical_open', '=', True)]"/>
                 <filter name="physical_close" string="Physical close" domain="[('physical_close', '=', True)]"/>
+                <separator/>
+                <filter name="manual_open" string="Manual open" domain="[('manual_open', '=', True)]"/>
+                <filter name="manual_close" string="Manual close" domain="[('manual_close', '=', True)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Employee" name="groupby_employee" domain="[]" context="{'group_by':'employee_id'}"/>
                     <filter string="Lot" name="groupby_lot" domain="[]" context="{'group_by':'lot_id'}"/>
@@ -32,8 +35,10 @@
                 <field name="employee_id"/>
                 <field name="start_datetime"/>
                 <field name="physical_open" string="P.O."/>
+                <field name="manual_open" string="M.O."/>
                 <field name="end_datetime"/>
                 <field name="physical_close" string="P.C."/>
+                <field name="manual_close" string="M.C."/>
                 <field name="lot_id"/>
                 <field name="workstation_id"/>
                 <field name="shift_id"/>
@@ -67,6 +72,8 @@
                             <field name="workstation_id"/>
                         </group>
                         <group>
+                            <field name="manual_open"/>
+                            <field name="manual_close"/>
                             <field name="total_hours" readonly="True"/>
                         </group>
                     </group>

@@ -14,7 +14,7 @@
 
     'category': 'Manufacturing',
     'license': 'LGPL-3',
-    'version': '0.1',
+    'version': '1.2',
 
     'depends': ['base', 'product', 'hr', 'hr_contract', 'stock', 'report_xlsx', 'base_external_dbsource_mysql'],
 
