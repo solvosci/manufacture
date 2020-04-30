@@ -139,14 +139,17 @@ class RptTracing(models.Model):
                    orderby=False, lazy=True):
         res = super(RptTracing, self).read_group(domain, fields, groupby,
                                                        offset=offset, limit=limit, orderby=orderby, lazy=lazy)
-        if 'quality' in fields:
+        # we don´t calculate ind_ fields because they aren´t in tree view
+        # group_fields = ['quality', 'ind_backs', 'ind_mo', 'ind_crumbs', 'ind_quality','ind_cleaning']
+        group_fields = ['quality']
+        if any([x in fields for x in group_fields]):
             for line in res:
                 if '__domain' in line:
                     quality_weight = 0
                     total_weight = 0
                     lines = self.search(line['__domain'])
                     for line_item in lines:
-                        quality_weight += line_item.quality * line_item.product_weight
+                        quality_weight += line_item.quality * (line_item.product_weight + line_item.shared_product_weight / 2)
                         total_weight += line_item.product_weight + line_item.shared_product_weight / 2
                     if total_weight > 0:
                         line['quality'] = quality_weight / total_weight
@@ -290,14 +293,17 @@ class RptManufacturing(models.Model):
                    orderby=False, lazy=True):
         res = super(RptManufacturing, self).read_group(domain, fields, groupby,
                                                  offset=offset, limit=limit, orderby=orderby, lazy=lazy)
-        if 'quality' in fields:
+        # we don´t calculate ind_ fields because they aren´t in tree view
+        # group_fields = ['quality', 'ind_backs', 'ind_mo', 'ind_crumbs', 'ind_quality','ind_cleaning']
+        group_fields = ['quality']
+        if any([x in fields for x in group_fields]):
             for line in res:
                 if '__domain' in line:
                     quality_weight = 0
                     total_weight = 0
                     lines = self.search(line['__domain'])
                     for line_item in lines:
-                        quality_weight += line_item.quality * line_item.product_weight
+                        quality_weight += line_item.quality * (line_item.product_weight + line_item.shared_product_weight / 2)
                         total_weight += line_item.product_weight + line_item.shared_product_weight / 2
                     if total_weight > 0:
                         line['quality'] = quality_weight / total_weight
@@ -343,11 +349,11 @@ class RptIndicators(models.Model):
     lot_finished = fields.Boolean('Lot Finished')
     lot_descrip = fields.Char('Observations', readonly=True)
     coef_weight_lot = fields.Float('Coef Weight Lot')
-    ind_backs = fields.Float('IND Backs', readonly=True, group_operator='avg')
-    ind_mo = fields.Float('IND MO', readonly=True, group_operator='avg')
-    ind_crumbs = fields.Float('IND Crumbs', readonly=True, group_operator='avg')
-    ind_quality = fields.Float('IND Quality', readonly=True, group_operator='avg')
-    ind_cleaning = fields.Float('IND Cleaning', readonly=True, group_operator='avg')
+    ind_backs = fields.Float('IND Backs', readonly=True)
+    ind_mo = fields.Float('IND MO', readonly=True)
+    ind_crumbs = fields.Float('IND Crumbs', readonly=True)
+    ind_quality = fields.Float('IND Quality', readonly=True)
+    ind_cleaning = fields.Float('IND Cleaning', readonly=True)
 
     def init(self):
         tools.drop_view_if_exists(self._cr, self._table)
@@ -441,17 +447,30 @@ class RptIndicators(models.Model):
                    orderby=False, lazy=True):
         res = super(RptIndicators, self).read_group(domain, fields, groupby,
                                                        offset=offset, limit=limit, orderby=orderby, lazy=lazy)
-        if 'quality' in fields:
+        group_fields = ['ind_backs', 'ind_mo', 'ind_crumbs', 'ind_quality', 'ind_cleaning']
+        if any([x in fields for x in group_fields]):
             for line in res:
                 if '__domain' in line:
-                    quality_weight = 0
+                    ind_backs_weight = 0
+                    ind_mo_weight = 0
+                    ind_crumbs_weight = 0
+                    ind_quality_weight = 0
+                    ind_cleaning_weight = 0
                     total_weight = 0
                     lines = self.search(line['__domain'])
                     for line_item in lines:
-                        quality_weight += line_item.quality * line_item.product_weight
-                        total_weight += line_item.product_weight + line_item.shared_product_weight / 2
+                        ind_backs_weight += line_item.ind_backs * (line_item.gross_weight_reference)
+                        ind_mo_weight += line_item.ind_mo * (line_item.gross_weight_reference)
+                        ind_crumbs_weight += line_item.ind_crumbs * (line_item.gross_weight_reference)
+                        ind_quality_weight += line_item.ind_quality * (line_item.gross_weight_reference)
+                        ind_cleaning_weight += line_item.ind_cleaning * (line_item.gross_weight_reference)
+                        total_weight += line_item.gross_weight_reference
                     if total_weight > 0:
-                        line['quality'] = quality_weight / total_weight
+                        line['ind_backs'] = ind_backs_weight / total_weight
+                        line['ind_mo'] = ind_mo_weight / total_weight
+                        line['ind_crumbs'] = ind_crumbs_weight / total_weight
+                        line['ind_quality'] = ind_quality_weight / total_weight
+                        line['ind_cleaning'] = ind_cleaning_weight / total_weight
         return res
 
 
@@ -560,18 +579,24 @@ class RptCumulative(models.Model):
                    orderby=False, lazy=True):
         res = super(RptCumulative, self).read_group(domain, fields, groupby,
                                                     offset=offset, limit=limit, orderby=orderby, lazy=lazy)
-        if 'quality' in fields or 'total_yield' in fields:
+        # we don´t calculate ind_ fields because they aren´t in tree view
+        # group_fields = ['quality', 'total_yield', 'ind_backs', 'ind_mo', 'ind_crumbs', 'ind_quality','ind_cleaning']
+        group_fields = ['quality', 'total_yield']
+        if any([x in fields for x in group_fields]):
             for line in res:
                 if '__domain' in line:
                     quality_weight = 0
-                    total_yield_weight = 0
                     total_weight = 0
+                    total_yield_weight = 0
+                    total_gross_weight = 0
                     lines = self.search(line['__domain'])
                     for line_item in lines:
-                        quality_weight += line_item.quality * line_item.product_weight
-                        total_yield_weight += line_item.total_yield * line_item.product_weight
+                        quality_weight += line_item.quality * (line_item.product_weight + line_item.shared_product_weight / 2)
                         total_weight += line_item.product_weight + line_item.shared_product_weight / 2
+                        total_yield_weight += line_item.product_weight  + line_item.sp1_weight
+                        total_gross_weight += line_item.gross_weight
                     if total_weight > 0:
                         line['quality'] = quality_weight / total_weight
-                        line['total_yield'] = total_yield_weight / total_weight
+                    if total_gross_weight > 0:
+                        line['total_yield'] = 100 * (total_yield_weight / total_gross_weight)
         return res
