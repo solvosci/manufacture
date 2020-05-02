@@ -192,6 +192,7 @@ class ReportRptTracingXlsx(models.AbstractModel):
         wproduct_boxes = 0
         wsp1_boxes = 0
         wquality = 0
+        wtotquality = 0
         wtotal_hours = 0
         wnumreg = 0
         # Filters ---------
@@ -303,7 +304,7 @@ class ReportRptTracingXlsx(models.AbstractModel):
                 wshared_sp1_weight = 0
                 wproduct_boxes = 0
                 wsp1_boxes = 0
-                wquality = 0
+                wtotquality = 0
                 wtotal_hours = 0
                 wnumreg = 0
 
@@ -318,14 +319,14 @@ class ReportRptTracingXlsx(models.AbstractModel):
             wshared_sp1_weight += obj.shared_sp1_weight
             wproduct_boxes += obj.product_boxes
             wsp1_boxes += obj.sp1_boxes
-            wquality += obj.quality * obj.product_weight
+            wtotquality += obj.quality * (obj.product_weight + obj.shared_product_weight / 2)
             wtotal_hours += obj.total_hours
             wnumreg += 1
 
             if (wproduct_weight + wshared_product_weight / 2) == 0:
                 wquality = 0
             else:
-                wquality = wquality / (wproduct_weight + wshared_product_weight / 2)
+                wquality = wtotquality / (wproduct_weight + wshared_product_weight / 2)
 
             # columns with grouped data
             sheet.write(row, 11, wgross_weight_reference, f_data2d)
@@ -529,6 +530,7 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
         wproduct_boxes =0
         wsp1_boxes =0
         wquality = 0
+        wtotquality = 0
         wtotal_hours = 0
         wnumreg = 0
         # Filters ---------
@@ -626,7 +628,7 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
                 wshared_sp1_weight = 0
                 wproduct_boxes = 0
                 wsp1_boxes = 0
-                wquality = 0
+                wtotquality = 0
                 wtotal_hours = 0
                 wnumreg = 0
 
@@ -641,14 +643,14 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
             wshared_sp1_weight += obj.shared_sp1_weight
             wproduct_boxes += obj.product_boxes
             wsp1_boxes += obj.sp1_boxes
-            wquality += obj.quality * obj.product_weight
+            wtotquality += obj.quality * (obj.product_weight + obj.shared_product_weight / 2)
             wtotal_hours += obj.total_hours
             wnumreg += 1
 
             if (wproduct_weight + wshared_product_weight/2) == 0:
                 wquality=0
             else:
-                wquality = wquality/(wproduct_weight + wshared_product_weight/2)
+                wquality = wtotquality/(wproduct_weight + wshared_product_weight/2)
 
             #columns with grouped data
             sheet.write(row, 11, wgross_weight_reference, f_data2d)
@@ -809,8 +811,10 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
         wemployee_code = ''
         wgross_weight_reference = 0
         wproduct_weight = 0
+        wshared_product_weight = 0
         wsp1_weight = 0
         wquality = 0
+        wtotquality = 0
         wtotal_hours = 0
         wnumreg = 0
 
@@ -867,23 +871,25 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
 
                 wgross_weight_reference = 0
                 wproduct_weight = 0
+                wshared_product_weight = 0
                 wsp1_weight = 0
-                wquality = 0
+                wtotquality = 0
                 wtotal_hours = 0
                 wnumreg = 0
 
             # grouped data vars
             wgross_weight_reference += obj.gross_weight_reference
             wproduct_weight += obj.product_weight
+            wshared_product_weight += obj.shared_product_weight
             wsp1_weight += obj.sp1_weight
-            wquality += obj.quality * obj.product_weight
+            wtotquality += obj.quality * (obj.product_weight + obj.shared_product_weight / 2)
             wtotal_hours += obj.total_hours
             wnumreg += 1
 
-            if (wproduct_weight) == 0:
+            if (wproduct_weight + wshared_product_weight / 2) == 0:
                 wquality = 0
             else:
-                wquality = wquality / (wproduct_weight)
+                wquality = wtotquality / (wproduct_weight + wshared_product_weight / 2)
 
             # columns with grouped data
             sheet.write(row, 5, wgross_weight_reference, f_data2d)
@@ -931,7 +937,25 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
             sheet.write_formula(row + 1, 20,
                                 '0.6 * Q' + str(row + 2) + ' + 0.3 * R' + str(row + 2) + ' + 0.1 * T' + str(row + 2),
                                 f_footer_perc)  # - IND Cleaning
-
+            """
+            sheet.write_formula(row + 1, 16,
+                                '=IF(F' + str(row + 2) + '= 0, 0 , SUMPRODUCT(Q' + str(header_row + 1) + ':Q' + str(
+                                    row + 1) + ', F' + str(header_row + 1) + ':F' + str(row + 1) + ') / F' + str(
+                                    row + 2) + ')', f_footer_perc)  # - IND Backs
+            sheet.write_formula(row + 1, 17,
+                                '=IF(F' + str(row + 2) + '= 0, 0 , SUMPRODUCT(R' + str(header_row + 1) + ':R' + str(
+                                    row + 1) + ', F' + str(header_row + 1) + ':F' + str(row + 1) + ') / F' + str(
+                                    row + 2) + ')', f_footer_perc)  # - IND MO
+            sheet.write_formula(row + 1, 18,
+                                '=IF(F' + str(row + 2) + '= 0, 0 , SUMPRODUCT(S' + str(header_row + 1) + ':S' + str(
+                                    row + 1) + ', F' + str(header_row + 1) + ':F' + str(row + 1) + ') / F' + str(
+                                    row + 2) + ')', f_footer_perc)  # - IND Crumbs
+            sheet.write_formula(row + 1, 19, '=I' + str(row + 2) + '/100', f_footer_perc)  # - IND Quality
+            sheet.write_formula(row + 1, 20,
+                                '=IF(F' + str(row + 2) + '= 0, 0 , SUMPRODUCT(U' + str(header_row + 1) + ':U' + str(
+                                    row + 1) + ', F' + str(header_row + 1) + ':F' + str(row + 1) + ') / F' + str(
+                                    row + 2) + ')', f_footer_perc)  # - IND Cleaning
+            """
 
             # Write Filter -----------------------------------------------
             # sheet.write(2, 2, datetime.datetime.now(), f_filter)
@@ -975,6 +999,7 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
         f_filter = workbook.add_format(f_cells["filter"])
         f_percent = workbook.add_format(f_cells ["percent"])
         f_data = workbook.add_format(f_cells ["data"])
+        f_data2d = workbook.add_format(f_cells["data2d"])
         f_footer = workbook.add_format(f_cells["footer"])
 
         # Set columns widths
@@ -1045,6 +1070,7 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
         wshared_product_weight = 0
         wshared_sp1_weight = 0
         wquality = 0
+        wtotquality = 0
         wtotal_hours = 0
         wnumreg = 0
         # Filters ---------
@@ -1080,22 +1106,22 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
                 sheet.write(row, 1, obj.employee_name, f_data)
 
                 # std columns
-                sheet.write(row, 16, obj.std_yield_product, f_data)
-                sheet.write(row, 17, obj.std_yield_sp1, f_data)
-                sheet.write(row, 18, obj.std_speed, f_data)
+                sheet.write(row, 16, obj.std_yield_product, f_data2d)
+                sheet.write(row, 17, obj.std_yield_sp1, f_data2d)
+                sheet.write(row, 18, obj.std_speed, f_data2d)
                 # formulation columns
                 sheet.write_formula(row, 9, '=IF(C' + str(row + 1) + '= 0, 0, D' + str(row + 1) + '/C' + str(row + 1) + ')', f_percent)  # - % Backs
                 sheet.write_formula(row, 10, '=IF(C' + str(row + 1) + '= 0, 0, E' + str(row + 1) + '/C' + str(row + 1) + ')', f_percent)  # - % Crumbs
                 sheet.write_formula(row, 11, '=IF(C' + str(row + 1) + '= 0, 0, (D' + str(row + 1) + '+E' + str(row + 1) + ')/C' + str(row + 1) + ')', f_percent) # - % Total Yield
-                sheet.write_formula(row, 12, '=(C' + str(row + 1) + '-D' + str(row + 1) + '-E' + str(row + 1),  f_data)  # - Waste
+                sheet.write_formula(row, 12, '=(C' + str(row + 1) + '-D' + str(row + 1) + '-E' + str(row + 1) + ')',  f_data2d)  # - Waste
                 sheet.write_formula(row, 13, '=IF(C' + str(row + 1) + '= 0, 0, (M' + str(row + 1) + ')/C' + str(row + 1) + ')', f_percent)  # - % Waste
-                sheet.write_formula(row, 15, '=IF(C' + str(row + 1) + '= 0, 0, (O' + str(row + 1) + ' * 60)/C' + str(row + 1) + ')', f_data)  # - MO
+                sheet.write_formula(row, 15, '=IF(C' + str(row + 1) + '= 0, 0, (O' + str(row + 1) + ' * 60)/C' + str(row + 1) + ')', f_data2d)  # - MO
                 # Ind columns
-                sheet.write_formula(row, 19, '=IF(Q' + str(row + 1) + '= 0, 0, (J' + str(row + 1) + '/Q' + str(row + 1) + '/1.15) * 100)', f_data)  # - IND Backs
+                sheet.write_formula(row, 19, '=IF(Q' + str(row + 1) + '= 0, 0, (J' + str(row + 1) + '/Q' + str(row + 1) + '/1.15) * 100)', f_percent)  # - IND Backs
                 sheet.write_formula(row, 20, '=IF(P' + str(row + 1) + '= 0, 0, (S' + str(row + 1) + '/P' + str(row + 1) + '/1.15) * 100)', f_percent)  # - IND MO
-                sheet.write_formula(row, 21, '=IF(K' + str(row + 1) + '= 0, 0, (R' + str(row + 1) + '/K' + str(row + 1) + '/1.15) * 100)', f_data)  # - IND Crumbs
-                sheet.write_formula(row, 22, '=I' + str(row + 1), f_data)  # - IND Quality
-                sheet.write_formula(row, 23, '0.6 * T' + str(row + 1) + ' + 0.3 * V' + str(row + 1) + ' + 0.1 * W' + str(row + 1), f_data)  # - IND Cleaning
+                sheet.write_formula(row, 21, '=IF(K' + str(row + 1) + '= 0, 0, (R' + str(row + 1) + '/K' + str(row + 1) + '/1.15) * 100)', f_percent)  # - IND Crumbs
+                sheet.write_formula(row, 22, '=I' + str(row + 1)+'/100', f_percent)  # - IND Quality
+                sheet.write_formula(row, 23, '0.6 * T' + str(row + 1) + ' + 0.3 * U' + str(row + 1) + ' + 0.1 * W' + str(row + 1), f_percent)  # - IND Cleaning
 
                 wgross_weight = 0
                 wproduct_weight = 0
@@ -1103,7 +1129,7 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
                 wshared_gross_weight = 0
                 wshared_product_weight = 0
                 wshared_sp1_weight = 0
-                wquality = 0
+                wtotquality = 0
                 wtotal_hours = 0
                 wnumreg = 0
 
@@ -1114,24 +1140,24 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
             wshared_gross_weight += obj.shared_gross_weight
             wshared_product_weight += obj.shared_product_weight
             wshared_sp1_weight += obj.shared_sp1_weight
-            wquality += obj.quality * obj.product_weight
+            wtotquality += obj.quality * (obj.product_weight + obj.shared_product_weight /2)
             wtotal_hours += obj.total_hours
             wnumreg += 1
 
             if (wproduct_weight + wshared_product_weight/2) == 0:
                 wquality=0
             else:
-                wquality = wquality/(wproduct_weight + wshared_product_weight/2)
+                wquality = wtotquality/(wproduct_weight + wshared_product_weight/2)
 
             #columns with grouped data
-            sheet.write(row, 2, wgross_weight, f_data)
-            sheet.write(row, 3, wproduct_weight, f_data)
-            sheet.write(row, 4, wsp1_weight, f_data)
-            sheet.write(row, 5, wshared_gross_weight, f_data)
-            sheet.write(row, 6, wshared_product_weight, f_data)
-            sheet.write(row, 7, wshared_sp1_weight, f_data)
-            sheet.write(row, 8, wquality, f_data)
-            sheet.write(row, 14, wtotal_hours, f_data)
+            sheet.write(row, 2, wgross_weight, f_data2d)
+            sheet.write(row, 3, wproduct_weight, f_data2d)
+            sheet.write(row, 4, wsp1_weight, f_data2d)
+            sheet.write(row, 5, wshared_gross_weight, f_data2d)
+            sheet.write(row, 6, wshared_product_weight, f_data2d)
+            sheet.write(row, 7, wshared_sp1_weight, f_data2d)
+            sheet.write(row, 8, wquality, f_data2d)
+            sheet.write(row, 14, wtotal_hours, f_data2d)
 
             wlot_name = obj.lot_name
             wemployee_code = obj.employee_code
