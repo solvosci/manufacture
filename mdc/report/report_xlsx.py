@@ -1118,8 +1118,8 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
                 sheet.write_formula(row, 15, '=IF(C' + str(row + 1) + '= 0, 0, (O' + str(row + 1) + ' * 60)/C' + str(row + 1) + ')', f_data2d)  # - MO
                 # Ind columns
                 sheet.write_formula(row, 19, '=IF(Q' + str(row + 1) + '= 0, 0, (J' + str(row + 1) + '/Q' + str(row + 1) + '/1.15) * 100)', f_percent)  # - IND Backs
-                sheet.write_formula(row, 20, '=IF(P' + str(row + 1) + '= 0, 0, (S' + str(row + 1) + '/P' + str(row + 1) + '/1.15) * 100)', f_percent)  # - IND MO
-                sheet.write_formula(row, 21, '=IF(K' + str(row + 1) + '= 0, 0, (R' + str(row + 1) + '/K' + str(row + 1) + '/1.15) * 100)', f_percent)  # - IND Crumbs
+                sheet.write_formula(row, 20, '=IF(P' + str(row + 1) + '= 0, 0, (S' + str(row + 1) + '/P' + str(row + 1) + '/1.15))', f_percent)  # - IND MO
+                sheet.write_formula(row, 21, '=IF(R' + str(row + 1) + '= 0, 0, (K' + str(row + 1) + '/R' + str(row + 1) + '/1.15) * 100)', f_percent)  # - IND Crumbs
                 sheet.write_formula(row, 22, '=I' + str(row + 1)+'/100', f_percent)  # - IND Quality
                 sheet.write_formula(row, 23, '0.6 * T' + str(row + 1) + ' + 0.3 * U' + str(row + 1) + ' + 0.1 * W' + str(row + 1), f_percent)  # - IND Cleaning
 
