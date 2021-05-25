@@ -259,10 +259,7 @@ class Card(models.Model):
             values.pop('lot_id', None)
             values.pop('workstation_id', None)
         if self.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_L').id:
-            if 'workstation_id' in values and not values.get('workstation_id'):
-                raise UserError(_('You must select a workstation for this card'))
-            values.pop('lot_id', None)
-            values.pop('employee_id', None)
+            values = self._card_categ_L_preprocess(values)
         if self.card_categ_id.id == self.env.ref('mdc.mdc_card_categ_PC').id:
             # TODO for joker cards, if lot becomes required uncomment the code below
             """
@@ -283,10 +280,7 @@ class Card(models.Model):
             values.pop('workstation_id', None)
             values.pop('lot_id', None)
         if categ == self.env.ref('mdc.mdc_card_categ_L').id:
-            if not values.get('workstation_id'):
-                raise UserError(_('You must select a workstation for this card or select another category'))
-            values.pop('employee_id', None)
-            values.pop('lot_id', None)
+            values = self._card_categ_L_preprocess(values)
         if categ == self.env.ref('mdc.mdc_card_categ_PC').id:
             """
             # TODO from mdc controller interface it's possible to register a joker card without initial lot assignment
@@ -296,6 +290,13 @@ class Card(models.Model):
             values.pop('employee_id', None)
             values.pop('workstation_id', None)
         # TODO product and subproduct cards should clear assignment fields
+        return values
+
+    def _card_categ_L_preprocess(self, values):
+        if 'workstation_id' in values and not values.get('workstation_id'):
+            raise UserError(_('You must select a workstation for this card or select another category'))
+        values.pop('employee_id', None)
+        values.pop('lot_id', None)
         return values
 
     def from_cp_get_card_data(self, card_code):
