@@ -6,14 +6,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-28 08:58+0000\n"
-"PO-Revision-Date: 2020-04-28 08:58+0000\n"
+"POT-Creation-Date: 2021-06-02 08:31+0000\n"
+"PO-Revision-Date: 2021-06-02 08:31+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: mdc
+#: model:ir.model.fields,help:mdc.field_mdc_config_settings_data_win_cancel_mode
+msgid "\n"
+"        Selects how the input cancel cron will be perform the old unlinked inputs expiration:\n"
+"        - 1-day old (default): when an input is 24 hours old or more\n"
+"        - yesterday: when an input belongs to a previous day than today\n"
+"        "
+msgstr "\n"
+"        Permite seleccionar cómo se comportará la tarea planificada que cancela las entradas no enlazadas antiguas:\n"
+"        - Antigüedad de 1 día (por defecto): cuando una entrada tiene 24 horas de antigüedad o más\n"
+"        - Día anterior: cuando una entrada pertenece a un día anterior a hoy\n"
+"        "
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_product_variant_count
@@ -34,32 +47,32 @@ msgstr "Protocolo $"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:159
-#: code:addons/mdc/report/report_xlsx.py:496
-#: code:addons/mdc/report/report_xlsx.py:790
-#: code:addons/mdc/report/report_xlsx.py:1018
+#: code:addons/mdc/report/report_xlsx.py:497
+#: code:addons/mdc/report/report_xlsx.py:792
+#: code:addons/mdc/report/report_xlsx.py:1043
 #, python-format
 msgid "% Backs"
 msgstr "% Lomos"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:161
-#: code:addons/mdc/report/report_xlsx.py:498
-#: code:addons/mdc/report/report_xlsx.py:792
-#: code:addons/mdc/report/report_xlsx.py:1019
+#: code:addons/mdc/report/report_xlsx.py:499
+#: code:addons/mdc/report/report_xlsx.py:794
+#: code:addons/mdc/report/report_xlsx.py:1044
 #, python-format
 msgid "% Crumbs"
 msgstr "% Migas"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:162
-#: code:addons/mdc/report/report_xlsx.py:499
-#: code:addons/mdc/report/report_xlsx.py:1020
+#: code:addons/mdc/report/report_xlsx.py:500
+#: code:addons/mdc/report/report_xlsx.py:1045
 #, python-format
 msgid "% Total Yield"
 msgstr "% Rdto. Total"
 
 #. module: mdc
-#: code:addons/mdc/report/report_xlsx.py:1022
+#: code:addons/mdc/report/report_xlsx.py:1047
 #, python-format
 msgid "% Waste"
 msgstr "% Merma"
@@ -73,6 +86,11 @@ msgstr "+2.5"
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V7
 msgid "-1.8"
 msgstr "-1.8"
+
+#. module: mdc
+#: selection:mdc.config.settings,data_win_cancel_mode:0
+msgid "1-day old"
+msgstr "Antigüedad de 1 día"
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V8
@@ -310,9 +328,9 @@ msgstr "BONITO SARDA"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:152
-#: code:addons/mdc/report/report_xlsx.py:489
-#: code:addons/mdc/report/report_xlsx.py:786
-#: code:addons/mdc/report/report_xlsx.py:1012
+#: code:addons/mdc/report/report_xlsx.py:490
+#: code:addons/mdc/report/report_xlsx.py:788
+#: code:addons/mdc/report/report_xlsx.py:1037
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_product_weight
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_product_weight
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_product_weight
@@ -349,7 +367,7 @@ msgstr "Bloqueado"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:171
-#: code:addons/mdc/report/report_xlsx.py:508
+#: code:addons/mdc/report/report_xlsx.py:509
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_product_boxes
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_product_boxes
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_product_boxes
@@ -360,7 +378,7 @@ msgstr "Cajas Lomos"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:172
-#: code:addons/mdc/report/report_xlsx.py:509
+#: code:addons/mdc/report/report_xlsx.py:510
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_sp1_boxes
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_sp1_boxes
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_sp1_boxes
@@ -390,7 +408,7 @@ msgid "CUARTOS BONITO"
 msgstr "CUARTOS BONITO"
 
 #. module: mdc
-#: code:addons/mdc/report/report_xlsx.py:1001
+#: code:addons/mdc/report/report_xlsx.py:1026
 #, python-format
 msgid "CUMULATIVE REPORT"
 msgstr "INFORME ACUMULADO"
@@ -505,19 +523,19 @@ msgid "Card"
 msgstr "Tarjeta"
 
 #. module: mdc
-#: code:addons/mdc/models/chkpointdata.py:355
+#: code:addons/mdc/models/chkpointdata.py:360
 #, python-format
 msgid "Card #%s comes from a different lot (current: %s)"
 msgstr "La Tarjeta #%s procede de diferente lote (actual: %s)"
 
 #. module: mdc
-#: code:addons/mdc/models/chkpointdata.py:352
+#: code:addons/mdc/models/chkpointdata.py:357
 #, python-format
 msgid "Card #%s is associated with inputs %s. Please cancel one of them"
 msgstr "La tarjeta %s está asociada con las entradas %s. Por favor, cancele una de ellas"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:355
+#: code:addons/mdc/models/structure.py:356
 #, python-format
 msgid "Card #%s is not a joker card!"
 msgstr "La Tarjeta #%s no es una tarjeta comodín!"
@@ -530,20 +548,20 @@ msgstr "La Tarjeta #%s no es de empleado"
 
 #. module: mdc
 #: code:addons/mdc/models/chkpointdata.py:112
-#: code:addons/mdc/models/structure.py:312
-#: code:addons/mdc/models/structure.py:353
+#: code:addons/mdc/models/structure.py:313
+#: code:addons/mdc/models/structure.py:354
 #, python-format
 msgid "Card #%s not found"
 msgstr "Tarjeta #%s no encontrada"
 
 #. module: mdc
-#: code:addons/mdc/models/chkpointdata.py:369
+#: code:addons/mdc/models/chkpointdata.py:374
 #, python-format
 msgid "Card #%s not valid: there's not any employee assigned with"
 msgstr "Tarjeta #%s no válida: no existe ningún operario asignado a ella"
 
 #. module: mdc
-#: code:addons/mdc/models/chkpointdata.py:361
+#: code:addons/mdc/models/chkpointdata.py:366
 #, python-format
 msgid "Card #%s not valid: there's not open input data linked with"
 msgstr "Tarjeta #%s no válida: no hay ningún dato de entrada vinculado con ella"
@@ -554,7 +572,7 @@ msgid "Card Assignment"
 msgstr "Asignación de tarjetas"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:420
+#: code:addons/mdc/models/structure.py:421
 #: sql_constraint:mdc.card_categ:0
 #, python-format
 msgid "Card Categ Code has been already assigned to a Card Categ!"
@@ -594,7 +612,7 @@ msgid "Card lot assignment"
 msgstr "Tarjetas Comodín-Lote"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:339
+#: code:addons/mdc/models/structure.py:340
 #, python-format
 msgid "Card not valid (#%s)"
 msgstr "Tarjeta no válida (#%s)"
@@ -690,7 +708,7 @@ msgstr "Punto de Control"
 #. module: mdc
 #: code:addons/mdc/controllers/check_point.py:103
 #: code:addons/mdc/models/chkpointdata.py:94
-#: code:addons/mdc/models/chkpointdata.py:482
+#: code:addons/mdc/models/chkpointdata.py:487
 #, python-format
 msgid "Checkpoint #%s not found"
 msgstr "Punto de control #%s no encontrado"
@@ -707,7 +725,7 @@ msgstr "Identificador de punto de control"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:146
-#: code:addons/mdc/report/report_xlsx.py:483
+#: code:addons/mdc/report/report_xlsx.py:484
 #, python-format
 msgid "Cleaning"
 msgstr "Limpieza"
@@ -744,7 +762,7 @@ msgstr "Click para registrar básculas."
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:147
-#: code:addons/mdc/report/report_xlsx.py:484
+#: code:addons/mdc/report/report_xlsx.py:485
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_client_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_client_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_client_name
@@ -798,7 +816,7 @@ msgstr "Configuración"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:140
-#: code:addons/mdc/report/report_xlsx.py:477
+#: code:addons/mdc/report/report_xlsx.py:478
 #, python-format
 msgid "Contract"
 msgstr "Contrato"
@@ -819,14 +837,14 @@ msgstr "Tipo de contrato"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:149
-#: code:addons/mdc/report/report_xlsx.py:486
+#: code:addons/mdc/report/report_xlsx.py:487
 #, python-format
 msgid "Cooking yield"
 msgstr "Rdto. Cocción"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:150
-#: code:addons/mdc/report/report_xlsx.py:487
+#: code:addons/mdc/report/report_xlsx.py:488
 #, python-format
 msgid "Cooking yield Std"
 msgstr "STD Rdto. Cocción"
@@ -835,6 +853,12 @@ msgstr "STD Rdto. Cocción"
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_standard_price
 msgid "Cost"
 msgstr "Precio de coste"
+
+#. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_std_cost_currency_id
+#: model:ir.model.fields,field_description:mdc.field_product_product_cost_currency_id
+msgid "Cost Currency"
+msgstr "Cost Currency"
 
 #. module: mdc
 #: model:ir.model.fields,help:mdc.field_mdc_std_standard_price
@@ -903,9 +927,9 @@ msgstr "Creado el"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:153
-#: code:addons/mdc/report/report_xlsx.py:490
-#: code:addons/mdc/report/report_xlsx.py:787
-#: code:addons/mdc/report/report_xlsx.py:1013
+#: code:addons/mdc/report/report_xlsx.py:491
+#: code:addons/mdc/report/report_xlsx.py:789
+#: code:addons/mdc/report/report_xlsx.py:1038
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_sp1_weight
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_sp1_weight
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_sp1_weight
@@ -1023,14 +1047,14 @@ msgstr "Fecha"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:132
-#: code:addons/mdc/report/report_xlsx.py:469
-#: code:addons/mdc/report/report_xlsx.py:1004
+#: code:addons/mdc/report/report_xlsx.py:470
+#: code:addons/mdc/report/report_xlsx.py:1029
 #, python-format
 msgid "Date From:"
 msgstr "Fecha desde:"
 
 #. module: mdc
-#: code:addons/mdc/report/report_xlsx.py:1143
+#: code:addons/mdc/report/report_xlsx.py:1169
 #, python-format
 msgid "Date From: %s to %s"
 msgstr "Fecha desde: %s hasta %s"
@@ -1041,7 +1065,7 @@ msgid "Date of the last message posted on the record."
 msgstr "Fecha del último mensaje publicado en el registro."
 
 #. module: mdc
-#: code:addons/mdc/report/report_xlsx.py:1145
+#: code:addons/mdc/report/report_xlsx.py:1171
 #, python-format
 msgid "Date: #%s"
 msgstr "Fecha: #%s"
@@ -1109,7 +1133,7 @@ msgid "Device Code"
 msgstr "Código de dispositivo"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:502
+#: code:addons/mdc/models/structure.py:503
 #: sql_constraint:mdc.rfid_reader:0
 #, python-format
 msgid "Device_Code has been already assigned to a Device!"
@@ -1168,9 +1192,9 @@ msgstr "Empleado"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:138
-#: code:addons/mdc/report/report_xlsx.py:475
-#: code:addons/mdc/report/report_xlsx.py:780
-#: code:addons/mdc/report/report_xlsx.py:1009
+#: code:addons/mdc/report/report_xlsx.py:476
+#: code:addons/mdc/report/report_xlsx.py:782
+#: code:addons/mdc/report/report_xlsx.py:1034
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_employee_code
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_employee_code
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_employee_code
@@ -1185,7 +1209,7 @@ msgstr "Código de empleado"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:141
-#: code:addons/mdc/report/report_xlsx.py:478
+#: code:addons/mdc/report/report_xlsx.py:479
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_employee_date_start
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_employee_date_start
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_tracing_employee_date_start
@@ -1195,9 +1219,9 @@ msgstr "Fecha incorporación del empleado"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:139
-#: code:addons/mdc/report/report_xlsx.py:476
-#: code:addons/mdc/report/report_xlsx.py:781
-#: code:addons/mdc/report/report_xlsx.py:1010
+#: code:addons/mdc/report/report_xlsx.py:477
+#: code:addons/mdc/report/report_xlsx.py:783
+#: code:addons/mdc/report/report_xlsx.py:1035
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_employee_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_employee_name
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_employee_name
@@ -1236,7 +1260,7 @@ msgstr "Asistente de Apertura masiva de fichajes"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:143
-#: code:addons/mdc/report/report_xlsx.py:480
+#: code:addons/mdc/report/report_xlsx.py:481
 #, python-format
 msgid "Employee seniority"
 msgstr "Antigüedad"
@@ -1330,8 +1354,8 @@ msgstr "Proporciona el orden de secuencia al mostrar una lista de productos"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:151
-#: code:addons/mdc/report/report_xlsx.py:488
-#: code:addons/mdc/report/report_xlsx.py:1011
+#: code:addons/mdc/report/report_xlsx.py:489
+#: code:addons/mdc/report/report_xlsx.py:1036
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_gross_weight
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_gross_weight
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_gross_weight
@@ -1342,8 +1366,8 @@ msgstr "Bruto"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:148
-#: code:addons/mdc/report/report_xlsx.py:485
-#: code:addons/mdc/report/report_xlsx.py:785
+#: code:addons/mdc/report/report_xlsx.py:486
+#: code:addons/mdc/report/report_xlsx.py:787
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_gross_weight_reference
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_gross_weight_reference
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_tracing_gross_weight_reference
@@ -1417,9 +1441,9 @@ msgstr "ID (identificación)"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:166
-#: code:addons/mdc/report/report_xlsx.py:503
-#: code:addons/mdc/report/report_xlsx.py:796
-#: code:addons/mdc/report/report_xlsx.py:1028
+#: code:addons/mdc/report/report_xlsx.py:504
+#: code:addons/mdc/report/report_xlsx.py:798
+#: code:addons/mdc/report/report_xlsx.py:1053
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_ind_backs
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_ind_backs
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_ind_backs
@@ -1430,9 +1454,9 @@ msgstr "IND Lomos"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:170
-#: code:addons/mdc/report/report_xlsx.py:507
-#: code:addons/mdc/report/report_xlsx.py:800
-#: code:addons/mdc/report/report_xlsx.py:1032
+#: code:addons/mdc/report/report_xlsx.py:508
+#: code:addons/mdc/report/report_xlsx.py:802
+#: code:addons/mdc/report/report_xlsx.py:1057
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_ind_cleaning
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_ind_cleaning
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_ind_cleaning
@@ -1443,9 +1467,9 @@ msgstr "IND Limpieza"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:168
-#: code:addons/mdc/report/report_xlsx.py:505
-#: code:addons/mdc/report/report_xlsx.py:798
-#: code:addons/mdc/report/report_xlsx.py:1030
+#: code:addons/mdc/report/report_xlsx.py:506
+#: code:addons/mdc/report/report_xlsx.py:800
+#: code:addons/mdc/report/report_xlsx.py:1055
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_ind_crumbs
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_ind_crumbs
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_ind_crumbs
@@ -1456,9 +1480,9 @@ msgstr "IND Migas"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:167
-#: code:addons/mdc/report/report_xlsx.py:504
-#: code:addons/mdc/report/report_xlsx.py:797
-#: code:addons/mdc/report/report_xlsx.py:1029
+#: code:addons/mdc/report/report_xlsx.py:505
+#: code:addons/mdc/report/report_xlsx.py:799
+#: code:addons/mdc/report/report_xlsx.py:1054
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_ind_mo
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_ind_mo
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_ind_mo
@@ -1469,9 +1493,9 @@ msgstr "IND MO"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:169
-#: code:addons/mdc/report/report_xlsx.py:506
-#: code:addons/mdc/report/report_xlsx.py:799
-#: code:addons/mdc/report/report_xlsx.py:1031
+#: code:addons/mdc/report/report_xlsx.py:507
+#: code:addons/mdc/report/report_xlsx.py:801
+#: code:addons/mdc/report/report_xlsx.py:1056
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_ind_quality
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_ind_quality
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_ind_quality
@@ -1481,7 +1505,7 @@ msgid "IND Quality"
 msgstr "IND Calidad"
 
 #. module: mdc
-#: code:addons/mdc/report/report_xlsx.py:772
+#: code:addons/mdc/report/report_xlsx.py:774
 #, python-format
 msgid "INDICATORS REPORT"
 msgstr "INFORME DE INDICADORES"
@@ -1567,6 +1591,16 @@ msgid "Input"
 msgstr "Entrada"
 
 #. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_config_settings_data_win_cancel_mode
+msgid "Input data cancel mode"
+msgstr "Modo de cancelación para entradas"
+
+#. module: mdc
+#: model:ir.ui.view,arch_db:mdc.mdc_config_settings_view_form
+msgid "Input data parameters"
+msgstr "Parámetros para datos de entrada"
+
+#. module: mdc
 #: model:ir.ui.view,arch_db:mdc.chkpoint_wout
 msgid "Input(s) read"
 msgstr "Entrada(s) leída"
@@ -1603,7 +1637,7 @@ msgid "Invalid Card #%s"
 msgstr "Tarjeta No válida #%s"
 
 #. module: mdc
-#: code:addons/mdc/models/chkpointdata.py:395
+#: code:addons/mdc/models/chkpointdata.py:400
 #, python-format
 msgid "Invalid joker card #%s. Before using it, please make at least an input for this line with lot %s"
 msgstr "Tarjeta comodín %s no válida. Antes de usarla, por favor realice al menos una entrada para esta línea con el lote %s"
@@ -1620,8 +1654,8 @@ msgstr "Es un seguidor"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_is_product_variant
-msgid "Is a product variant"
-msgstr "Is una variante de producto"
+msgid "Is Product Variant"
+msgstr "Es variante de producto"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_hr_employee_operator
@@ -1655,7 +1689,7 @@ msgid "It's not allowed to delete employee code for an operator. If you want to 
 msgstr "No está permitido borrar el código de empleado de un operario. Si desea establecer códigos automáticos, primero des-asigne el check de operario y luego grabe"
 
 #. module: mdc
-#: code:addons/mdc/models/chkpointdata.py:426
+#: code:addons/mdc/models/chkpointdata.py:431
 #, python-format
 msgid "It's not allowed to open a shared output without registering any product input"
 msgstr "No está permitido abrir una salida compartida sin registrar ninguna entrada"
@@ -1954,7 +1988,7 @@ msgid "M.O."
 msgstr "I.M."
 
 #. module: mdc
-#: code:addons/mdc/report/report_xlsx.py:466
+#: code:addons/mdc/report/report_xlsx.py:467
 #, python-format
 msgid "MANUFACTURING REPORT"
 msgstr "INFORME DE FABRICACIÓN"
@@ -2025,8 +2059,8 @@ msgstr "MELVA"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:144
-#: code:addons/mdc/report/report_xlsx.py:481
-#: code:addons/mdc/report/report_xlsx.py:783
+#: code:addons/mdc/report/report_xlsx.py:482
+#: code:addons/mdc/report/report_xlsx.py:785
 #: model:ir.model.fields,field_description:mdc.field_mdc_data_win_lot_id
 #: model:ir.model.fields,field_description:mdc.field_mdc_data_wout_lot_id
 #: model:ir.model.fields,field_description:mdc.field_mdc_lot_active_lot_id
@@ -2054,9 +2088,9 @@ msgstr "Formato de OF no correcto. El formato correcto es NNNNN/AA (NNNNN=númer
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:164
-#: code:addons/mdc/report/report_xlsx.py:501
-#: code:addons/mdc/report/report_xlsx.py:794
-#: code:addons/mdc/report/report_xlsx.py:1024
+#: code:addons/mdc/report/report_xlsx.py:502
+#: code:addons/mdc/report/report_xlsx.py:796
+#: code:addons/mdc/report/report_xlsx.py:1049
 #, python-format
 msgid "MO."
 msgstr "MO."
@@ -2092,8 +2126,8 @@ msgstr "Informe de Fabricación"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:142
-#: code:addons/mdc/report/report_xlsx.py:479
-#: code:addons/mdc/report/report_xlsx.py:784
+#: code:addons/mdc/report/report_xlsx.py:480
+#: code:addons/mdc/report/report_xlsx.py:786
 #, python-format
 msgid "Manufacturing date"
 msgstr "Fecha Fabricación"
@@ -2176,7 +2210,7 @@ msgid "Neither the lot nor the checkpoint not the sift can be modified"
 msgstr "Ni el lote, ni el punto de control, ni el turno pueder ser modificados"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:508
+#: code:addons/mdc/models/structure.py:509
 #, python-format
 msgid "New RFID device"
 msgstr "Nuevo dispositivo RFID"
@@ -2228,7 +2262,7 @@ msgstr "Número de mensajes no leidos"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:173
-#: code:addons/mdc/report/report_xlsx.py:510
+#: code:addons/mdc/report/report_xlsx.py:511
 #: model:ir.model.fields,field_description:mdc.field_mdc_lot_descrip
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_lot_descrip
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_manufacturing_lot_descrip
@@ -2238,7 +2272,7 @@ msgid "Observations"
 msgstr "Observaciones"
 
 #. module: mdc
-#: code:addons/mdc/models/chkpointdata.py:365
+#: code:addons/mdc/models/chkpointdata.py:370
 #, python-format
 msgid "Only one workstation card is allowed"
 msgstr "Sólo está permitida una tarjeta de puesto"
@@ -2375,7 +2409,7 @@ msgstr "Exportar a Excel"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:145
-#: code:addons/mdc/report/report_xlsx.py:482
+#: code:addons/mdc/report/report_xlsx.py:483
 #: model:ir.model,name:mdc.model_product_product
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_cumulative_product_id
 #: model:ir.model.fields,field_description:mdc.field_mdc_rpt_indicators_product_id
@@ -2441,9 +2475,9 @@ msgstr "Unidad de medida de compra"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:157
-#: code:addons/mdc/report/report_xlsx.py:494
-#: code:addons/mdc/report/report_xlsx.py:788
-#: code:addons/mdc/report/report_xlsx.py:1017
+#: code:addons/mdc/report/report_xlsx.py:495
+#: code:addons/mdc/report/report_xlsx.py:790
+#: code:addons/mdc/report/report_xlsx.py:1042
 #: model:ir.actions.act_window,name:mdc.action_mdc_quality
 #: model:ir.model,name:mdc.model_mdc_quality
 #: model:ir.model.fields,field_description:mdc.field_mdc_chkpoint_quality_id
@@ -2628,27 +2662,27 @@ msgstr "SARDA"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:160
-#: code:addons/mdc/report/report_xlsx.py:497
-#: code:addons/mdc/report/report_xlsx.py:791
-#: code:addons/mdc/report/report_xlsx.py:1025
+#: code:addons/mdc/report/report_xlsx.py:498
+#: code:addons/mdc/report/report_xlsx.py:793
+#: code:addons/mdc/report/report_xlsx.py:1050
 #, python-format
 msgid "STD Back"
 msgstr "STD Lomos"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:163
-#: code:addons/mdc/report/report_xlsx.py:500
-#: code:addons/mdc/report/report_xlsx.py:793
-#: code:addons/mdc/report/report_xlsx.py:1026
+#: code:addons/mdc/report/report_xlsx.py:501
+#: code:addons/mdc/report/report_xlsx.py:795
+#: code:addons/mdc/report/report_xlsx.py:1051
 #, python-format
 msgid "STD Crumbs"
 msgstr "STD Migas"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:165
-#: code:addons/mdc/report/report_xlsx.py:502
-#: code:addons/mdc/report/report_xlsx.py:795
-#: code:addons/mdc/report/report_xlsx.py:1027
+#: code:addons/mdc/report/report_xlsx.py:503
+#: code:addons/mdc/report/report_xlsx.py:797
+#: code:addons/mdc/report/report_xlsx.py:1052
 #, python-format
 msgid "STD MO"
 msgstr "STD MO"
@@ -2680,7 +2714,7 @@ msgstr "Báscula"
 
 #. module: mdc
 #: code:addons/mdc/models/chkpointdata.py:98
-#: code:addons/mdc/models/chkpointdata.py:484
+#: code:addons/mdc/models/chkpointdata.py:489
 #, python-format
 msgid "Scale not defined"
 msgstr "Báscula no definida"
@@ -2809,7 +2843,7 @@ msgid "Shared with"
 msgstr "Compartida con"
 
 #. module: mdc
-#: code:addons/mdc/report/report_xlsx.py:782
+#: code:addons/mdc/report/report_xlsx.py:784
 #: model:ir.model,name:mdc.model_mdc_shift
 #: model:ir.model.fields,field_description:mdc.field_mdc_data_wout_shift_id
 #: model:ir.model.fields,field_description:mdc.field_mdc_lot_chkpoint_shift_id
@@ -2824,24 +2858,24 @@ msgstr "Turno"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:155
-#: code:addons/mdc/report/report_xlsx.py:492
-#: code:addons/mdc/report/report_xlsx.py:1015
+#: code:addons/mdc/report/report_xlsx.py:493
+#: code:addons/mdc/report/report_xlsx.py:1040
 #, python-format
 msgid "Shift Change Backs"
 msgstr "Lomos Cambio de Turno"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:156
-#: code:addons/mdc/report/report_xlsx.py:493
-#: code:addons/mdc/report/report_xlsx.py:1016
+#: code:addons/mdc/report/report_xlsx.py:494
+#: code:addons/mdc/report/report_xlsx.py:1041
 #, python-format
 msgid "Shift Change Crumbs"
 msgstr "Migas Cambio de Turno"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:154
-#: code:addons/mdc/report/report_xlsx.py:491
-#: code:addons/mdc/report/report_xlsx.py:1014
+#: code:addons/mdc/report/report_xlsx.py:492
+#: code:addons/mdc/report/report_xlsx.py:1039
 #, python-format
 msgid "Shift Change Gross"
 msgstr "Bruto Cambio de Turno"
@@ -2868,7 +2902,7 @@ msgid "Shift time"
 msgstr "Horario del turno"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:375
+#: code:addons/mdc/models/structure.py:376
 #: sql_constraint:mdc.shift:0
 #, python-format
 msgid "Shift_Code has been already assigned to a Shift!"
@@ -3077,7 +3111,7 @@ msgstr "Unidad de tara"
 
 #. module: mdc
 #: code:addons/mdc/models/chkpointdata.py:100
-#: code:addons/mdc/models/chkpointdata.py:486
+#: code:addons/mdc/models/chkpointdata.py:491
 #, python-format
 msgid "Tare not defined"
 msgstr "Tara no definida"
@@ -3118,25 +3152,25 @@ msgid "The employee has been already assigned to a workstation!"
 msgstr "El operario ya ha sido asignado a un puesto!"
 
 #. module: mdc
-#: code:addons/mdc/models/mdc_config_settings.py:49
+#: code:addons/mdc/models/mdc_config_settings.py:60
 #, python-format
 msgid "The lot default life days must be an integer!!"
 msgstr "Los días por defecto de vida de un lote debe de ser un entero!!"
 
 #. module: mdc
-#: code:addons/mdc/models/mdc_config_settings.py:51
+#: code:addons/mdc/models/mdc_config_settings.py:62
 #, python-format
 msgid "The lot default life days must be at least zero!!!"
 msgstr "Los días por defecto de vida de un lote deben ser al menos cero!!!"
 
 #. module: mdc
-#: code:addons/mdc/models/mdc_config_settings.py:42
+#: code:addons/mdc/models/mdc_config_settings.py:53
 #, python-format
 msgid "The minimum seconds between worksheets must be an integer!!"
 msgstr "El número mínimo de segundos entre marcajes debe ser un entero!!"
 
 #. module: mdc
-#: code:addons/mdc/models/mdc_config_settings.py:44
+#: code:addons/mdc/models/mdc_config_settings.py:55
 #, python-format
 msgid "The minimum seconds between worksheets must be bigger than 0!!!"
 msgstr "El número mínimo de segundos entre marcajes debe ser mayor de cero!!!"
@@ -3240,16 +3274,16 @@ msgstr "Se usará esta ubicación de existencias, en lugar de la predeterminada,
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:158
-#: code:addons/mdc/report/report_xlsx.py:495
-#: code:addons/mdc/report/report_xlsx.py:789
-#: code:addons/mdc/report/report_xlsx.py:1023
+#: code:addons/mdc/report/report_xlsx.py:496
+#: code:addons/mdc/report/report_xlsx.py:791
+#: code:addons/mdc/report/report_xlsx.py:1048
 #, python-format
 msgid "Time"
 msgstr "Tiempo"
 
 #. module: mdc
 #: code:addons/mdc/models/chkpointdata.py:104
-#: code:addons/mdc/models/chkpointdata.py:490
+#: code:addons/mdc/models/chkpointdata.py:495
 #, python-format
 msgid "Timed out on weighing scale"
 msgstr "Superado tiempo de espera en báscula"
@@ -3329,7 +3363,7 @@ msgid "Unknown"
 msgstr "Desconocido"
 
 #. module: mdc
-#: code:addons/mdc/models/chkpointdata.py:407
+#: code:addons/mdc/models/chkpointdata.py:412
 #, python-format
 msgid "Unknown card #%s"
 msgstr "Tarjeta desconocida #%s"
@@ -3368,7 +3402,7 @@ msgid "Unstable %.2f %s weight was read. Please slide the card one more time"
 msgstr "Leída pesada inestable de %.2f %s. Por favor, pase la tarjeta de nuevo"
 
 #. module: mdc
-#: code:addons/mdc/models/chkpointdata.py:493
+#: code:addons/mdc/models/chkpointdata.py:498
 #, python-format
 msgid "Unstable %.2f %s weight was read. Please start passing cards again"
 msgstr "Leída pesada inestable de %.2f %s. Por favor, vuelva a pasar todas las tarjetas de nuevo"
@@ -3410,7 +3444,7 @@ msgid "Volume"
 msgstr "Volumen"
 
 #. module: mdc
-#: code:addons/mdc/models/chkpointdata.py:479
+#: code:addons/mdc/models/chkpointdata.py:484
 #, python-format
 msgid "WOUT categ code #%s not found"
 msgstr "Código de tipo de Salida #%s no encontrado"
@@ -3438,19 +3472,19 @@ msgid "Warehouse"
 msgstr "Almacén"
 
 #. module: mdc
-#: code:addons/mdc/report/report_xlsx.py:1021
+#: code:addons/mdc/report/report_xlsx.py:1046
 #, python-format
 msgid "Waste"
 msgstr "Merma"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:406
+#: code:addons/mdc/models/structure.py:407
 #, python-format
 msgid "We don´t find shift to this time %s"
-msgstr "No se encuentra turno para esta hora: %s"
+msgstr "No se encuentra turno para este tiempo: %s"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:402
+#: code:addons/mdc/models/structure.py:403
 #, python-format
 msgid "We find more than one shift to this time %s"
 msgstr "Encontrado más de un turno para esta hora %s"
@@ -3563,7 +3597,7 @@ msgstr "Fichajes"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:137
-#: code:addons/mdc/report/report_xlsx.py:474
+#: code:addons/mdc/report/report_xlsx.py:475
 #: model:ir.model,name:mdc.model_mdc_workstation
 #: model:ir.model.fields,field_description:mdc.field_hr_employee_workstation_id
 #: model:ir.model.fields,field_description:mdc.field_mdc_card_workstation_id
@@ -3579,7 +3613,7 @@ msgid "Workstation"
 msgstr "Puesto"
 
 #. module: mdc
-#: code:addons/mdc/models/chkpointdata.py:442
+#: code:addons/mdc/models/chkpointdata.py:447
 #, python-format
 msgid "Workstation %s has not any output nor there is current lot in checkpoint, so it's not yet allowed to make a %s output"
 msgstr "El puesto %s no ha registrado una salida ni existe lote en vigor para el punto de control, por tanto no se puede hacer una salida de %s"
@@ -3608,7 +3642,7 @@ msgid "Wout"
 msgstr "Wout"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:441
+#: code:addons/mdc/models/structure.py:442
 #: sql_constraint:mdc.wout_categ:0
 #, python-format
 msgid "Wout Categ Code has been already assigned to a Wout Categ!"
@@ -3625,7 +3659,12 @@ msgid "YELOWFIN COLAS "
 msgstr "YELOWFIN COLAS "
 
 #. module: mdc
-#: code:addons/mdc/models/mdc_config_settings.py:38
+#: selection:mdc.config.settings,data_win_cancel_mode:0
+msgid "Yesterday"
+msgstr "Día anterior"
+
+#. module: mdc
+#: code:addons/mdc/models/mdc_config_settings.py:49
 #: code:addons/mdc/models/morders.py:818
 #, python-format
 msgid "You are not allowed to change this values"
@@ -3731,19 +3770,13 @@ msgid "You don't have permissions to this operation"
 msgstr "No tiene permisos para esta operación"
 
 #. module: mdc
-#: code:addons/mdc/models/chkpointdata.py:410
+#: code:addons/mdc/models/chkpointdata.py:415
 #, python-format
 msgid "You must provide a workstation card"
 msgstr "Debe proporcionar una tarjeta de puesto"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:263
-#, python-format
-msgid "You must select a workstation for this card"
-msgstr "Debe seleccionar un puesto para esta tarjeta"
-
-#. module: mdc
-#: code:addons/mdc/models/structure.py:287
+#: code:addons/mdc/models/structure.py:297
 #, python-format
 msgid "You must select a workstation for this card or select another category"
 msgstr "Debe seleccionar un puesto para esta tarjeta o elegir otro tipo"
@@ -3755,7 +3788,7 @@ msgid "You must select an employee for this card"
 msgstr "Debe seleccionar un operario para esta tarjeta"
 
 #. module: mdc
-#: code:addons/mdc/models/structure.py:282
+#: code:addons/mdc/models/structure.py:279
 #, python-format
 msgid "You must select an employee for this card or select another category"
 msgstr "Debe seleccionar un operario para esta tarjeta o elegir otro tipo"

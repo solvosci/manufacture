@@ -13,6 +13,16 @@ class MdcConfigSettings(models.TransientModel):
     rfid_server_last_worksheet_timestamp = fields.Char('RFID Server last worksheet timestamp')
     lot_default_life_days = fields.Char('Lots default life in days')
     lot_last_total_gross_weight_update_timestamp = fields.Char('Lot last total gross weight update timestamp')
+    data_win_cancel_mode = fields.Selection(
+        selection=[('oneday', '1-day old'), ('yesterday', 'Yesterday')],
+        string="Input data cancel mode",
+        help="""
+        Selects how the input cancel cron will be perform the old unlinked inputs expiration:
+        - 1-day old (default): when an input is 24 hours old or more
+        - yesterday: when an input belongs to a previous day than today
+        """,
+        default='oneday',
+    )
 
     @api.model
     def get_values(self):
@@ -27,6 +37,7 @@ class MdcConfigSettings(models.TransientModel):
             rfid_server_last_worksheet_timestamp=IrConfigParameter.get_param('mdc.rfid_server_last_worksheet_timestamp'),
             lot_default_life_days=IrConfigParameter.get_param('mdc.lot_default_life_days'),
             lot_last_total_gross_weight_update_timestamp=IrConfigParameter.get_param('mdc.lot_last_total_gross_weight_update_timestamp'),
+            data_win_cancel_mode=IrConfigParameter.get_param('mdc.data_win_cancel_mode'),
         )
         return res
 
@@ -57,4 +68,4 @@ class MdcConfigSettings(models.TransientModel):
         IrConfigParameter.set_param('mdc.rfid_ws_server_url', self.rfid_ws_server_url)
         IrConfigParameter.set_param('mdc.rfid_server_min_secs_between_worksheets', self.rfid_server_min_secs_between_worksheets)
         IrConfigParameter.set_param('mdc.lot_default_life_days', self.lot_default_life_days)
-
+        IrConfigParameter.set_param('mdc.data_win_cancel_mode', self.data_win_cancel_mode)

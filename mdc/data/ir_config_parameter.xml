@@ -33,5 +33,9 @@
             <field name="key">mdc.lot_last_total_gross_weight_update_timestamp</field>
             <field name="value">0</field>
         </record>
+        <record id="data_win_cancel_mode" model="ir.config_parameter">
+            <field name="key">mdc.data_win_cancel_mode</field>
+            <field name="value">oneday</field>
+        </record>
     </data>
 </odoo>
