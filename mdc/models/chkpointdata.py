@@ -215,9 +215,14 @@ class DataWIn(models.Model):
         Cancels all the inputs created at least a day ago and not yet linked with an output
         :return:
         """
-        expiration_date = dt.datetime.now() + dt.timedelta(days=-1)
+        data_win_cancel_mode = self.env['ir.config_parameter'].sudo().get_param(
+            'mdc.data_win_cancel_mode'
+        )
+        expiration_date = dt.datetime.now() + dt.timedelta(days=-1) 
+        if data_win_cancel_mode == 'yesterday':
+            expiration_date = expiration_date.replace(hour=23, minute=59, second=59)
         cancellable_inputs = self.search([('wout_id', '=', False),
-                                          ('create_datetime', '<=', expiration_date.strftime(DF))])
+                                          ('create_datetime', '<=', fields.Datetime.to_string(expiration_date))])
         if cancellable_inputs:
             try:
                 cancellable_inputs.cancel_input()

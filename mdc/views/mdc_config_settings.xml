@@ -53,6 +53,14 @@
                         </div>
                     </div>
                 </group>
+                <group name="input_data_params_group" string="Input data parameters">
+                    <div>
+                        <div>
+                            <label for="data_win_cancel_mode"/>
+                            <field name="data_win_cancel_mode" required="True"/>
+                        </div>
+                    </div>
+                </group>
             </form>
         </field>
     </record>
