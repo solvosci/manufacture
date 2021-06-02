@@ -1360,6 +1360,11 @@ msgid "Group By"
 msgstr ""
 
 #. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_config_settings_rpt_hide_shift_change_data
+msgid "Hide shift change data in Reports"
+msgstr ""
+
+#. module: mdc
 #: model:ir.ui.menu,name:mdc.mdc_historical_lot_active_menu
 msgid "Historical Used Lots"
 msgstr ""
@@ -2590,6 +2595,11 @@ msgstr ""
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_nbr_reordering_rules
 msgid "Reordering Rules"
+msgstr ""
+
+#. module: mdc
+#: model:ir.ui.view,arch_db:mdc.mdc_config_settings_view_form
+msgid "Report configuration parameters"
 msgstr ""
 
 #. module: mdc
