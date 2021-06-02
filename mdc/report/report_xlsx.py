@@ -88,6 +88,10 @@ class ReportRptTracingXlsx(models.AbstractModel):
         report_name = "rpt_tracing"
         sheet = workbook.add_worksheet("Tracing Report")
 
+        # retrieve rpt_hide_shift_change_data parameter
+        hide_shift_data = self.env['ir.config_parameter'].sudo().get_param(
+            'mdc.rpt_hide_shift_change_data')
+
         # get Formats Dictionary from standard function formats
         f_cells = formats()
         f_title = workbook.add_format(f_cells["title"])
@@ -109,6 +113,8 @@ class ReportRptTracingXlsx(models.AbstractModel):
         sheet.set_column('C:C', 40)  # Employee name
         sheet.set_column('K:K', 16)  # Client name
         sheet.set_column('AK:AK', 40)  # Observations = lot_descrip
+        if hide_shift_data:
+            sheet.set_column('R:T', 0, None, {'hidden': 1})
 
         # write logo
         logo_file_name = False
@@ -421,6 +427,10 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
         report_name = "rpt_manufacturing"
         sheet = workbook.add_worksheet("Manufacturing Report")
 
+        # retrieve rpt_hide_shift_change_data parameter
+        hide_shift_data = self.env['ir.config_parameter'].sudo().get_param(
+            'mdc.rpt_hide_shift_change_data')
+
         # General sheet style
         sheet.set_landscape()
         sheet.repeat_rows(0,5)
@@ -447,6 +457,8 @@ class ReportRptManufacturingXlsx(models.AbstractModel):
         sheet.set_column('C:C', 40) # Employee name
         sheet.set_column('K:K', 16)  # Client name
         sheet.set_column('AK:AK', 40)  # Observations = lot_descrip
+        if hide_shift_data:
+            sheet.set_column('R:T', 0, None, {'hidden': 1})
 
         # write logo
         logo_file_name = False
@@ -730,6 +742,10 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
         report_name = "rpt_indicators"
         sheet = workbook.add_worksheet("Indicators Report")
 
+        # retrieve rpt_hide_shift_change_data parameter
+        hide_shift_data = self.env['ir.config_parameter'].sudo().get_param(
+            'mdc.rpt_hide_shift_change_data')
+
         # General sheet style
         sheet.set_landscape()
         sheet.repeat_rows(0, 5)
@@ -754,6 +770,8 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
         # Set columns widths
         sheet.set_column('A:U', 13)
         sheet.set_column('B:B', 40)  # Employee name
+        if hide_shift_data:
+            sheet.set_column('C:C', 0, None, {'hidden': 1})
 
         # write logo
         logo_file_name = False
@@ -771,7 +789,7 @@ class ReportRptIndicatorsXlsx(models.AbstractModel):
             'x_offset': 18, 'y_offset': 18, 'x_scale': 0.9, 'y_scale': 0.5})
 
         # write Title
-        sheet.write(1, 2, _("INDICATORS REPORT"), f_title)
+        sheet.write(1, 3, _("INDICATORS REPORT"), f_title)
 
         # write Filter
         # sheet.write(2, 2, _("Date From:"), f_filter)
@@ -986,6 +1004,10 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
         report_name = "rpt_cumulative"
         sheet = workbook.add_worksheet("Cumulative Report")
 
+        #retrieve rpt_hide_shift_change_data parameter
+        hide_shift_data = self.env['ir.config_parameter'].sudo().get_param(
+            'mdc.rpt_hide_shift_change_data')
+
         # General sheet style
         sheet.set_landscape()
         sheet.repeat_rows(0,5)
@@ -1006,6 +1028,8 @@ class ReportRptCumulativeXlsx(models.AbstractModel):
         sheet.set_column('A:X', 13)
         sheet.set_column('O:S', 0, None, {'hidden': 1})
         sheet.set_column('B:B', 40) # Employee name
+        if hide_shift_data:
+            sheet.set_column('F:H', 0, None, {'hidden': 1})
 
         # write logo
         logo_file_name = False

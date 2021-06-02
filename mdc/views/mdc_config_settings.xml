@@ -61,6 +61,14 @@
                         </div>
                     </div>
                 </group>
+                <group name="reports_params_group" string="Report configuration parameters">
+                    <div>
+                        <div name="rpt_hide_shift_change_data_div">
+                            <label for="rpt_hide_shift_change_data"/>
+                            <field name="rpt_hide_shift_change_data" required="True"/>
+                        </div>
+                    </div>
+                </group>
             </form>
         </field>
     </record>

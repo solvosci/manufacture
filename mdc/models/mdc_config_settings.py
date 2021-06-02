@@ -23,6 +23,10 @@ class MdcConfigSettings(models.TransientModel):
         """,
         default='oneday',
     )
+    rpt_hide_shift_change_data = fields.Boolean(
+        'Hide shift change data in Reports',
+        default=False
+    )
 
     @api.model
     def get_values(self):
@@ -38,6 +42,7 @@ class MdcConfigSettings(models.TransientModel):
             lot_default_life_days=IrConfigParameter.get_param('mdc.lot_default_life_days'),
             lot_last_total_gross_weight_update_timestamp=IrConfigParameter.get_param('mdc.lot_last_total_gross_weight_update_timestamp'),
             data_win_cancel_mode=IrConfigParameter.get_param('mdc.data_win_cancel_mode'),
+            rpt_hide_shift_change_data=IrConfigParameter.get_param('mdc.rpt_hide_shift_change_data'),
         )
         return res
 
@@ -69,3 +74,4 @@ class MdcConfigSettings(models.TransientModel):
         IrConfigParameter.set_param('mdc.rfid_server_min_secs_between_worksheets', self.rfid_server_min_secs_between_worksheets)
         IrConfigParameter.set_param('mdc.lot_default_life_days', self.lot_default_life_days)
         IrConfigParameter.set_param('mdc.data_win_cancel_mode', self.data_win_cancel_mode)
+        IrConfigParameter.set_param('mdc.rpt_hide_shift_change_data', self.rpt_hide_shift_change_data)
