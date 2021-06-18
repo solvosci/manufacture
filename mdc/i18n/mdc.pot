@@ -21,6 +21,8 @@ msgid "\n"
 "        Selects how the input cancel cron will be perform the old unlinked inputs expiration:\n"
 "        - 1-day old (default): when an input is 24 hours old or more\n"
 "        - yesterday: when an input belongs to a previous day than today\n"
+"        - fixedtime: input cancel cron runs only once a day at a fixed time\n"
+"                     and cancel all inputs without an output less than this fixed time\n"
 "        "
 msgstr ""
 
@@ -1562,6 +1564,11 @@ msgstr ""
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_config_settings_data_win_cancel_mode
 msgid "Input data cancel mode"
+msgstr ""
+
+#. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_config_settings_data_win_cancel_fixed_time
+msgid "Next date for input cancel cron and cancel inputs without an output less than this time"
 msgstr ""
 
 #. module: mdc
@@ -3626,6 +3633,11 @@ msgstr ""
 #. module: mdc
 #: selection:mdc.config.settings,data_win_cancel_mode:0
 msgid "Yesterday"
+msgstr ""
+
+#. module: mdc
+#: selection:mdc.config.settings,data_win_cancel_mode:0
+msgid "Fixed time"
 msgstr ""
 
 #. module: mdc
