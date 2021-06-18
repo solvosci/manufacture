@@ -59,6 +59,13 @@
                             <label for="data_win_cancel_mode"/>
                             <field name="data_win_cancel_mode" required="True"/>
                         </div>
+                        <div>
+                            <label for="data_win_cancel_fixed_time"
+                                   attrs="{'invisible': [('data_win_cancel_mode', '!=', 'fixedtime')]}"/>
+                            <field name="data_win_cancel_fixed_time"
+                                   attrs="{'invisible': [('data_win_cancel_mode', '!=', 'fixedtime')],
+                                   'required': [('data_win_cancel_mode', '=', 'fixedtime')]}"/>
+                        </div>
                     </div>
                 </group>
                 <group name="reports_params_group" string="Report configuration parameters">

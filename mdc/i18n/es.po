@@ -21,11 +21,15 @@ msgid "\n"
 "        Selects how the input cancel cron will be perform the old unlinked inputs expiration:\n"
 "        - 1-day old (default): when an input is 24 hours old or more\n"
 "        - yesterday: when an input belongs to a previous day than today\n"
+"        - fixedtime: input cancel cron runs only once a day at a fixed time\n"
+"                     and cancel all inputs without an output less than this fixed time\n"
 "        "
 msgstr "\n"
 "        Permite seleccionar cómo se comportará la tarea planificada que cancela las entradas no enlazadas antiguas:\n"
 "        - Antigüedad de 1 día (por defecto): cuando una entrada tiene 24 horas de antigüedad o más\n"
 "        - Día anterior: cuando una entrada pertenece a un día anterior a hoy\n"
+"        - A una hora fija: el proceso de cancelación de entradas se ejecuta a una hora determinada\n"
+"                     y cancela todas las entradas sin salida menores a esa hora determinada\n"
 "        "
 
 #. module: mdc
@@ -1599,6 +1603,11 @@ msgstr "Entrada"
 #: model:ir.model.fields,field_description:mdc.field_mdc_config_settings_data_win_cancel_mode
 msgid "Input data cancel mode"
 msgstr "Modo de cancelación para entradas"
+
+#. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_config_settings_data_win_cancel_fixed_time
+msgid "Next date for input cancel cron and cancel inputs without an output less than this time"
+msgstr "Próxima fecha-hora de ejecución de proceso de cancelación de entradas (cancelando entradas sin salida anteriores a esta fecha-hora)"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.mdc_config_settings_view_form
@@ -3672,6 +3681,11 @@ msgstr "YELOWFIN COLAS "
 #: selection:mdc.config.settings,data_win_cancel_mode:0
 msgid "Yesterday"
 msgstr "Día anterior"
+
+#. module: mdc
+#: selection:mdc.config.settings,data_win_cancel_mode:0
+msgid "Fixed time"
+msgstr "A una hoja fija"
 
 #. module: mdc
 #: code:addons/mdc/models/mdc_config_settings.py:49

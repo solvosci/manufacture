@@ -221,6 +221,13 @@ class DataWIn(models.Model):
         expiration_date = dt.datetime.now() + dt.timedelta(days=-1) 
         if data_win_cancel_mode == 'yesterday':
             expiration_date = expiration_date.replace(hour=23, minute=59, second=59)
+        if data_win_cancel_mode == 'fixedtime':
+            next_datetime_cron = self.env['ir.config_parameter'].sudo().get_param(
+                'mdc.data_win_cancel_fixed_time'
+            )
+            if fields.Datetime.to_string(dt.datetime.now()) < next_datetime_cron:
+                return
+            expiration_date = fields.Datetime.from_string(next_datetime_cron)
         cancellable_inputs = self.search([('wout_id', '=', False),
                                           ('create_datetime', '<=', fields.Datetime.to_string(expiration_date))])
         if cancellable_inputs:
@@ -228,6 +235,13 @@ class DataWIn(models.Model):
                 cancellable_inputs.cancel_input()
             except UserError as e:
                 _logger.error('[mdc.data_win] _cancel_expired_inputs:  %s' % e)
+
+        if data_win_cancel_mode == 'fixedtime':
+            # update next execution date
+            next_datetime_cron = expiration_date + dt.timedelta(days=1)
+            self.env['ir.config_parameter'].sudo().set_param(
+                'mdc.data_win_cancel_fixed_time',
+                next_datetime_cron)
 
     def count_nreg(self, line_id, start_change_interval, end_change_interval):
         numReg = self.search_count(
