@@ -172,7 +172,7 @@ class Lot(models.Model):
             last_timestamp = int(IrConfigParameter.get_param('mdc.lot_last_total_gross_weight_update_timestamp'))
             _logger.debug('[_update_total_gross_weight] Former update timestamp: %s' % last_timestamp)
             last_datetime = fields.Datetime.to_string(datetime.datetime.fromtimestamp(last_timestamp))
-            lot_ids = self.env['mdc.data_wout'].search([('create_datetime', '>=', last_datetime)]).mapped('lot_id')
+            lot_ids = self.env['mdc.data_wout'].search([('write_date', '>=', last_datetime)]).mapped('lot_id')
             for lot in lot_ids:
                 lot.total_gross_weight = sum(lot.wout_ids.mapped('gross_weight'))
             IrConfigParameter.set_param('mdc.lot_last_total_gross_weight_update_timestamp', current_timestamp)
