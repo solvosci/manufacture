@@ -521,3 +521,13 @@ class RfidReader(models.Model):
     active = fields.Boolean(
         'Active',
         default=True)
+    worksheet_enabled = fields.Boolean(
+        'Enabled for worksheet registry',
+        default=False,
+    )
+
+    @api.model
+    def get_worksheet_enabled(self):
+        return self.search(
+            [("worksheet_enabled", "=", True)]
+        ).mapped("device_code")

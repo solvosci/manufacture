@@ -1160,12 +1160,16 @@ class Worksheet(models.Model):
             _logger.info('[mdc.worksheet] Found %s worksheets with devdt >= %s' % (len(res), devdt))
             if len(res) > 0:
                 Card = self.env['mdc.card']
+                reader_codes = self.env["mdc.rfid_reader"].get_worksheet_enabled()
                 last_timestamp = None
                 now = fields.Datetime.now()
                 min_secs_worksheet = int(IrConfigParameter.get_param('mdc.rfid_server_min_secs_between_worksheets'))
                 for row in res:
                     _logger.info('[mdc.worksheet] Read devdt=%d, devuid=%d, usrid=%s' %
                                  (row['devdt'], row['devuid'], row['usrid']))
+                    if str(row["devuid"]) not in reader_codes:
+                        _logger.info("[mdc.worksheet] Worksheet skipped due to unauthorized RFID reader (%d)" % row["devuid"])
+                        continue
                     # TODO if a particular worksheet fails, the other are processed anyway. The fail worksheet is lost
                     try:
                         _process_worksheet(Card, row, now, min_secs_worksheet)
@@ -1173,9 +1177,10 @@ class Worksheet(models.Model):
                         _logger.info('[mdc.worksheet] Processing worksheet for user %s@%d: %s'
                                      % (row['usrid'], row['devdt'], e))
                     last_timestamp = row['devdt']
-                # Last processed worksheet timestamp update
-                IrConfigParameter.set_param('mdc.rfid_server_last_worksheet_timestamp', str(last_timestamp))
-                _logger.info('[mdc.worksheet] New last timestamp: %d' % last_timestamp)
+                # Last processed worksheet timestamp update, if needed
+                if last_timestamp:
+                    IrConfigParameter.set_param('mdc.rfid_server_last_worksheet_timestamp', str(last_timestamp))
+                    _logger.info('[mdc.worksheet] New last timestamp: %d' % last_timestamp)
 
         except Exception as e:
             _logger.info('[mdc.worksheet] Worksheet revision: %s', e)
