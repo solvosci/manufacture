@@ -264,6 +264,20 @@
         </field>
     </record>
 
+    <record id="mdc_rfid_reader_search" model="ir.ui.view">
+        <field name="name">mdc.rfid_reader.search</field>
+        <field name="model">mdc.rfid_reader</field>
+        <field name="arch" type="xml">
+            <search string="RFID Reader">
+                <filter
+                    name="worksheet_enabled"
+                    string="Worksheet enabled"
+                    domain="[('worksheet_enabled', '=', True)]"/>
+                <separator/>
+            </search>
+        </field>
+    </record>
+
     <!-- Tree view: default view for RFID readerss -->
     <record id="mdc_rfid_reader_tree" model="ir.ui.view">
         <field name="name">mdc.rfid_reader.tree</field>
@@ -272,6 +286,7 @@
             <tree string="RFID Reader">
                 <field name="name"/>
                 <field name="device_code"/>
+                <field name="worksheet_enabled"/>
                 <field name="active"/>
             </tree>
         </field>
@@ -303,6 +318,7 @@
                     <group name="gr_rfid_reader_data" string="RFID Reader data">
                         <group>
                             <field name="tcp_address_ip"/>
+                            <field name="worksheet_enabled"/>
                         </group>
                         <group>
                             <field name="tcp_address_port"/>
