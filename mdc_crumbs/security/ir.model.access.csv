@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+acl_mdc_data_crumbs,mdc.data_crumbs default,model_mdc_data_crumbs,,1,0,0,0
+acl_mdc_data_crumbs_manager,mdc.data_crumbs_manager,model_mdc_data_crumbs,mdc.group_mdc_manager,1,1,1,1
+acl_mdc_data_crumbs_cp,mdc.data_crumbs_cp,model_mdc_data_crumbs,mdc.group_mdc_cp,1,1,1,0 
+acl_mdc_rpt_data_crumbs,mdc.rpt_data_crumbs default,model_mdc_rpt_data_crumbs,,1,0,0,0

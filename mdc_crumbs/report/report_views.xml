@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <report
+            id="data_crumbs_report_xlsx"
+            string="Print to XLSX"
+            model="mdc.rpt_data_crumbs"
+            report_type="xlsx"
+            name="mdc.rpt_data_crumbs"
+            file="mdc.rpt_data_crumbs"
+        />
+
+        <!-- Search view: default search for Indicators by Employee Report -->
+        <record id="mdc_rpt_indicators_by_employee_search" model="ir.ui.view">
+            <field name="name">mdc.rpt_data_crumbs.search</field>
+            <field name="model">mdc.rpt_data_crumbs</field>
+            <field name="arch" type="xml">
+                <search string="Indicators by Data Crumb Report">
+                    <field name="gross_weight_datetime"/>
+                    <field name="employee_id"/>
+                    <field name="shift_id"/>
+                    <field name="line_id"/>
+                    <filter name="today" string="Today" domain="[('create_date', '&gt;=', current_date)]"/>
+                    <filter name="week" string="This Week"
+                        domain="[
+                            '&amp;',
+                            ('create_date', '>=', (context_today() + relativedelta(weeks=-1,days=1,weekday=0)).strftime('%Y-%m-%d')),
+                            ('create_date', '&lt;=', (context_today() + relativedelta(weekday=6)).strftime('%Y-%m-%d')),
+                        ]"/>
+                    
+                    <separator/>
+                    <filter name="open" string="Open" domain="[('clean_weight_datetime', '=', False)]"/>
+                    <filter name="closed" string="Closed" domain="[('clean_weight_datetime', '!=', False)]"/>
+                    <!-- <group expand="1" string="Group By">
+                        <filter string="Employee Code" name="groupby_employee" domain="[]" context="{'group_by':'employee_code'}"/>
+                        <filter string="Shift Code" name="groupby_shift" domain="[]" context="{'group_by':'shift_code'}"/>
+                        <filter string="Line Code" name="groupby_line" domain="[]" context="{'group_by':'line_code'}"/>
+                    </group> -->
+                </search>
+            </field>
+        </record>
+
+        <!-- Tree view: default view for Indicators by Employee Report -->
+        <record id="mdc_data_crumbs_report_tree" model="ir.ui.view">
+            <field name="name">mdc.rpt_data_crumbs.tree</field>
+            <field name="model">mdc.rpt_data_crumbs</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false" string="Data Crumbs Report">
+                    <field name="chkpoint_id"/>
+                    <field name="shift_id"/>
+                    <field name="lot_id"/>
+                    <field name="workstation_id"/>
+                    <field name="employee_name"/>
+                    <field name="gross_weight_datetime"/>
+                    <field name="gross_weight"/>                   
+                    <field name="clean_weight_datetime"/>
+                    <field name="clean_weight"/>
+                    <field name="w_uom_id"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+
+</odoo>

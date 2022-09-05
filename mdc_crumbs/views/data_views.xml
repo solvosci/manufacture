@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Search view: default search for Data_crumbs -->
+    <record id="mdc_data_crumbs_search" model="ir.ui.view">
+        <field name="name">mdc.data_crumbs.search</field>
+        <field name="model">mdc.data_crumbs</field>
+        <field name="arch" type="xml">
+            <search string="Data_crumb">
+                <field name="employee_id"/>
+                <field name="lot_id"/>
+                <field name="id" string="#id"/>
+                <!-- FIXME this filter gives a "ValueError: No known conversion for %H" error -->
+                <!-- filter name="last_24_hours" string="Last 24 hours"
+                        domain="[('create_datetime', '&gt;=', ((context_today() - datetime.timedelta(hours=24)).strftime('%%Y-%%m-%%d %%H:%%M:%%S')))]"/ -->
+                <filter name="today" string="Today" domain="[('gross_weight_datetime', '&gt;=', current_date)]"/>
+                <separator/>
+                <filter name="open" string="Open" domain="[('clean_weight_datetime', '=', False)]"/>
+                <filter name="closed" string="Closed" domain="[('clean_weight_datetime', '!=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Line" name="groupby_line" domain="[]" context="{'group_by':'line_id'}"/>
+                    <filter string="MO" name="groupby_lot" domain="[]" context="{'group_by':'lot_id'}"/>
+                    <filter string="Employee" name="groupby_employee" domain="[]" context="{'group_by':'employee_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tree view: default view for Data_crumbs -->
+    <record id="mdc_data_crumbs_tree" model="ir.ui.view">
+        <field name="name">mdc.data_crumbs.tree</field>
+        <field name="model">mdc.data_crumbs</field>
+        <field name="arch" type="xml">
+            <tree string="Data_crumbs">
+                <field name="id" string="#id"/>
+                <field name="chkpoint_id"/>
+                <field name="shift_id"/>
+                <field name="lot_id"/>
+                <field name="workstation_id"/>
+                <field name="employee_id"/>
+                <field name="gross_weight_datetime"/>
+                <field name="gross_weight"/>
+                <field name="clean_weight_datetime"/>
+                <field name="clean_weight"/>
+                <field name="w_uom_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view: default form for Data-crumb -->
+    <record id="mdc_data_crumbs_form" model="ir.ui.view">
+        <field name="name">mdc.data_crumbs.form</field>
+        <field name="model">mdc.data_crumbs</field>
+        <field name="arch" type="xml">
+            <form string="Data_crumbs">
+                <sheet>
+                    <group name="Crumbs_lot_data" >
+                        <group>
+                            <field name="chkpoint_id"/>
+                            <field name="line_id"/>
+                        </group>
+                        <group>
+                            <field name="workstation_id"/>
+                            <field name="employee_id"/>
+                            <field name="shift_id"/>
+                        </group>
+                        <group>
+                            <field name="lot_id"/>
+                        </group>
+                        <group>
+                            <field name="product_id"/>
+                        </group>
+                    </group>
+                    <group name="Crumbs_weight_data" >
+                        <group>
+                            <field name="gross_weight"/>
+                            <field name="gross_weight_datetime"/>
+                            <field name="w_uom_id"/>
+                        </group>
+                        <group>
+                            <field name="clean_weight"/>
+                            <field name="clean_weight_datetime"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

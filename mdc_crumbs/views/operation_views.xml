@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mdc_workstations_search" model="ir.ui.view">
+        <field name="name">mdc.workstations.search</field>
+        <field name="inherit_id" ref="mdc.mdc_workstations_search"/>
+        <field name="model">mdc.workstation</field>
+        <field name="arch" type="xml">
+            <field name="shift_id" position="after">
+                <filter string="Crumbs seat"  name="crumbs_seat" domain="[('crumbs_seat', '=', True)]" />
+            </field>
+        </field>
+    </record>
+
+    <record id="mdc_workstations_tree" model="ir.ui.view">
+        <field name="name">mdc.workstations.tree</field>
+        <field name="inherit_id" ref="mdc.mdc_workstations_tree"/>
+        <field name="model">mdc.workstation</field>
+        <field name="arch" type="xml">
+            <field name="seat" position="after">
+                <field name="crumbs_seat"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="mdc_workstations_form" model="ir.ui.view">
+        <field name="name">mdc.workstations.form</field>
+        <field name="model">mdc.workstation</field>
+        <field name="inherit_id" ref="mdc.mdc_workstations_form"/>
+        <field name="sequence" eval="18"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='seat']" position="after">
+                <field name="crumbs_seat" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
