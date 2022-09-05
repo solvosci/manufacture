@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="chkpoint_crumbs" inherit_id="mdc.chkpoint_rfid_base" primary="True">
+        <xpath expr="//head" position="inside">
+            <script language="JavaScript" src="/mdc_crumbs/static/src/js/cp_crumbs.js"></script>
+            <link rel="stylesheet" href="/mdc_crumbs/static/src/css/cp.css"></link>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"></link>
+        </xpath>
+        <xpath expr="//div[@id='hidden_content']" position="inside">
+            <t t-foreach="chkpoints" t-as="chkpoint">
+                <input type="hidden" id="chkpoint_id" t-attf-value="{{chkpoint.id}}"/>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='translations']" position="inside">
+            <span id="t_chkpoint_crumbs_save_err">ERROR saving data: {0}</span>
+            <span id="t_chkpoint_crumbs_save_err_unknown">ERROR unexpected, contact with administration</span>
+            <span id="t_chkpoint_crumbs_err_employee_selection">ERROR Please, select some employee</span>
+            <span id="t_chkpoint_crumbs_save_clean">{0} : New cleaned weight updated correctly</span>
+            <span id="t_chkpoint_crumbs_save_unclean">{0} : New uncleaned weight updated correctly</span>
+            <span id="t_chkpoint_crumbs_select_lot">Select a lot...</span>
+        </xpath>
+        <xpath expr="//div[@id='content']" position="inside">            
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row" id="center_shift_lot">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div id="shift_tittle">
+                                        SHIFT
+                                    </div>
+                                    <div>
+                                        <select id="shift_select">
+                                            <option value="" selected="selected">Select a shift...</option>
+                                            <t t-foreach="shifts" t-as="shift">
+                                                <option t-attf-value="{{shift.id}}">
+                                                    <t t-esc="shift.name"></t>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div id="lot_tittle">
+                                        LOT
+                                    </div>
+                                    <div>
+                                        <select id="lot_select">
+                                            <option value="" selected="selected">Select a lot...</option>
+                                            <t t-foreach="lots" t-as="lot">
+                                                <option t-attf-value="{{lot.id}}">
+                                                    <t t-esc="lot.alias_cp"></t>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12" id="weight_controls">
+                        <div class="row">
+                            <div class="col-3">
+                                <button type="button" class="btn btn-danger" id="weight_nocleaning">UNCLEANED WEIGHT</button>
+                            </div>
+                            <div class="col-6">
+                                <div class="divTableRow">
+                                    <div class="divTableCell label" id="last_weight_tittle">
+                                        Last weight
+                                    </div>
+                                    <div class="divTableCell">
+                                        <input id="last_weight" type="text" size="10" readonly="readonly"
+                                                class="centered"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-success" id="weight_cleaning">CLEANED WEIGHT</button>
+                            </div>                                    
+                        </div>
+                    </div>
+                </div>
+                <hr></hr>
+                <div class="row" id="container_employees">
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Acción -->
+    <act_window
+        id="action_mdc_data_crumbs"
+        name="Data Crumb"
+        context="{'search_default_today':1}"
+        res_model="mdc.data_crumbs"/>
+    
+    <!-- Menu DataCrumb -->
+    <menuitem id="mdc_data_crumb_menu"
+        name="Data crumb"
+        action="action_mdc_data_crumbs"
+        parent="mdc.mdc_menu_data"
+        sequence="25"/>
+
+</odoo>
+    

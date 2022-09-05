@@ -1,0 +1,472 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mdc_crumbs
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-24 11:26+0000\n"
+"PO-Revision-Date: 2022-08-24 13:38+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 3.1.1\n"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_search
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_tree
+msgid "#id"
+msgstr "#id"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.chkpoint_crumbs
+msgid ""
+"<span id=\"t_chkpoint_crumbs_save_err\">ERROR saving data: {0}</span>\n"
+"            <span id=\"t_chkpoint_crumbs_save_err_unknown\">ERROR unexpected, contact with administration</span>\n"
+"            <span id=\"t_chkpoint_crumbs_err_employee_selection\">ERROR Please, select some employee</span>\n"
+"            <span id=\"t_chkpoint_crumbs_save_clean\">{0} : New cleaned weight updated correctly</span>\n"
+"            <span id=\"t_chkpoint_crumbs_save_unclean\">{0} : New uncleaned weight updated correctly</span>\n"
+"            <span id=\"t_chkpoint_crumbs_select_lot\">Select a lot...</span>"
+msgstr ""
+"<span id=\"t_chkpoint_crumbs_save_err\">ERROR guardando datos: {0}</span>\n"
+"            <span id=\"t_chkpoint_crumbs_save_err_unknown\">ERROR inesperado, contacta con el administrador</span>\n"
+"            <span id=\"t_chkpoint_crumbs_err_employee_selection\">ERROR Por favor, selecciona algún empleado</span>\n"
+"            <span id=\"t_chkpoint_crumbs_save_clean\">{0} : Nueva pesada limpia actualizada correctamente</span>\n"
+"            <span id=\"t_chkpoint_crumbs_save_unclean\">{0} : Nueva pesada sin limpiar actualizada correctamente</span>\n"
+"            <span id=\"t_chkpoint_crumbs_select_lot\">Seleccione un lote...</span>"
+
+#. module: mdc_crumbs
+#: model:ir.model,name:mdc_crumbs.model_mdc_base_structure
+#: model:ir.model,name:mdc_crumbs.model_mdc_base_structure_crumbs
+msgid "Base Structure model"
+msgstr "Modelo Base Structure"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.chkpoint_crumbs
+msgid "CLEANED WEIGHT"
+msgstr "PESO LIMPIO"
+
+#. module: mdc_crumbs
+#: model:ir.actions.act_window,help:mdc_crumbs.action_mdc_data_crumbs_report
+msgid "Can't create or update records in this view."
+msgstr "Imposible crear o actualizar registros en esta vista."
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/models/chkpointdata.py:115
+#, python-format
+msgid "Can`t create new data crumb for this employee, already exist one without finish (id #%s, lot #%s)"
+msgstr "No se puede crear una pesada sin limpiar para este empleado, ya existe una sin finalizar (id #%s, lote33 #%s)"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_chkpoint_id
+msgid "CheckPoint"
+msgstr "Punto de Control"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_chkpoint_id
+msgid "Checkpoint"
+msgstr "Punto de Control"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/models/chkpointdata.py:103
+#: code:addons/mdc_crumbs/models/chkpointdata.py:161
+#, python-format
+msgid "Checkpoint #%s not found"
+msgstr "Punto de Control #%s no encontrado"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:85
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_clean_weight
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_clean_weight
+#, python-format
+msgid "Clean Weight"
+msgstr "Peso Limpio"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_clean_weight_datetime
+msgid "Clean Weight DateTime"
+msgstr "Fecha Peso Limpio"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:84
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_clean_weight_datetime
+#, python-format
+msgid "Clean Weight Datetime"
+msgstr "Fecha Peso Limpio"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:80
+#, python-format
+msgid "Cleaning"
+msgstr "Limpio"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_search
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_rpt_indicators_by_employee_search
+msgid "Closed"
+msgstr "Cerrado"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_create_date
+msgid "Create Date"
+msgstr "Fecha de creación"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/models/structure.py:9
+#, python-format
+msgid "Crumbs"
+msgstr "Migas"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_workstation_crumbs_seat
+msgid "Crumbs Seat"
+msgstr "Puesto de Migas"
+
+#. module: mdc_crumbs
+#: model:ir.model,name:mdc_crumbs.model_mdc_data_crumbs
+msgid "Crumbs cleaning Data"
+msgstr "Datos de Limpieza de Migas"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_workstations_search
+msgid "Crumbs seat"
+msgstr "Puesto de Migas"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:69
+#, python-format
+msgid "DATA CRUMBS REPORT"
+msgstr "INFORME DE MIGAS"
+
+#. module: mdc_crumbs
+#: model:ir.actions.act_window,name:mdc_crumbs.action_mdc_data_crumbs
+msgid "Data Crumb"
+msgstr "Migas"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_report_tree
+msgid "Data Crumbs Report"
+msgstr "Informe de Migas"
+
+#. module: mdc_crumbs
+#: model:ir.ui.menu,name:mdc_crumbs.mdc_data_crumb_menu
+msgid "Data crumb"
+msgstr "Migas"
+
+#. module: mdc_crumbs
+#: model:ir.ui.menu,name:mdc_crumbs.mdc_data_crumb_menu_reporting
+msgid "Data crumb Reporting"
+msgstr "Informe de Migas"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_search
+msgid "Data_crumb"
+msgstr "Data_crumb"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_form
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_tree
+msgid "Data_crumbs"
+msgstr "Data_crumbs"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_display_name
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_display_name
+#: model:ir.model.fields,field_description:mdc_crumbs.field_report_mdc_rpt_data_crumbs_display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:81
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_employee_id
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_employee_id
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_employee_name
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_search
+#, python-format
+msgid "Employee"
+msgstr "Empleado"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:83
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_gross_weight
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_gross_weight
+#, python-format
+msgid "Gross Weight"
+msgstr "Peso Bruto"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_gross_weight_datetime
+msgid "Gross Weight DateTime"
+msgstr "Fecha Peso Bruto"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:82
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_gross_weight_datetime
+#, python-format
+msgid "Gross Weight Datetime"
+msgstr "Fecha Peso Bruto"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_id
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_id
+#: model:ir.model.fields,field_description:mdc_crumbs.field_report_mdc_rpt_data_crumbs_id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:89
+#, python-format
+msgid "IND RD"
+msgstr "IND RD"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/models/chkpointdata.py:195
+#, python-format
+msgid "Incorrect weighing. The clean weight (%.2f) cannot be greater than the uncleaned weight (%.2f)"
+msgstr "Peso Incorrecto. El peso limpio (%.2f) no puede ser mayor que el peso sucio (%.2f)"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/models/chkpointdata.py:128
+#: code:addons/mdc_crumbs/models/chkpointdata.py:191
+#, python-format
+msgid "Incorrect weight (%.2f) or tare (%.2f)"
+msgstr "Peso incorrecto (%.2f) o tara (%.2f)"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_rpt_indicators_by_employee_search
+msgid "Indicators by Data Crumb Report"
+msgstr "Indicadores para Informe de Migas"
+
+#. module: mdc_crumbs
+#: model:ir.actions.act_window,name:mdc_crumbs.action_mdc_data_crumbs_report
+msgid "Indicators by Data Crumbs"
+msgstr "Indicadores para datos de Migas"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.chkpoint_crumbs
+msgid "LOT"
+msgstr "LOTE"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs___last_update
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs___last_update
+#: model:ir.model.fields,field_description:mdc_crumbs.field_report_mdc_rpt_data_crumbs___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización de"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.chkpoint_crumbs
+msgid "Last weight"
+msgstr "Último peso"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:76
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_line_id
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_line_id
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_line_name
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_search
+#, python-format
+msgid "Line"
+msgstr "Línea"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:78
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_lot_id
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_lot_name
+#, python-format
+msgid "Lot"
+msgstr "Lote"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_lot_id
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_search
+msgid "MO"
+msgstr "OF"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:86
+#, python-format
+msgid "MO (min/Kg)"
+msgstr "MO (min/Kg)"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/models/chkpointdata.py:177
+#, python-format
+msgid "No open record found with this shift, lot and employee"
+msgstr "Ningún registro abierto con este turno, lote y empleado"
+
+#. module: mdc_crumbs
+#: model:ir.actions.act_window,help:mdc_crumbs.action_mdc_data_crumbs_report
+msgid "Not possible."
+msgstr "No es posible."
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_search
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_rpt_indicators_by_employee_search
+msgid "Open"
+msgstr "Abierto"
+
+#. module: mdc_crumbs
+#: model:ir.actions.report,name:mdc_crumbs.data_crumbs_report_xlsx
+msgid "Print to XLSX"
+msgstr "Exportar a Excel"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:79
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_product_id
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_product_id
+#, python-format
+msgid "Product"
+msgstr "Producto"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:87
+#, python-format
+msgid "RD (%)"
+msgstr "RD (%)"
+
+#. module: mdc_crumbs
+#: model:ir.model,name:mdc_crumbs.model_aaa_aaa_aaa
+#: model:ir.model,name:mdc_crumbs.model_mdc_data_crumbs_report
+#: model:ir.model,name:mdc_crumbs.model_mdc_rpt_data_crumbs
+msgid "Report Data Crumbs CheckPoint"
+msgstr "Informe de puntos de control de migas"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.chkpoint_crumbs
+msgid "SHIFT"
+msgstr "TURNO"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:88
+#, python-format
+msgid "STD RD"
+msgstr "STD RD"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/models/chkpointdata.py:105
+#: code:addons/mdc_crumbs/models/chkpointdata.py:163
+#, python-format
+msgid "Scale not defined"
+msgstr "Escala no definida"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.chkpoint_crumbs
+msgid "Select a lot..."
+msgstr "Seleccione un lote..."
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.chkpoint_crumbs
+msgid "Select a shift..."
+msgstr "Seleccione un turno..."
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/report/report_xlsx.py:77
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_shift_id
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_shift_id
+#, python-format
+msgid "Shift"
+msgstr "Turno"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/models/chkpointdata.py:107
+#: code:addons/mdc_crumbs/models/chkpointdata.py:165
+#, python-format
+msgid "Tare not defined"
+msgstr "Tara no definida"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_rpt_indicators_by_employee_search
+msgid "This Week"
+msgstr "Semana actual"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/models/chkpointdata.py:121
+#: code:addons/mdc_crumbs/models/chkpointdata.py:183
+#, python-format
+msgid "Timed out on weighing scale"
+msgstr "Se agotó el tiempo de espera de la báscula"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_search
+#: model:ir.ui.view,arch_db:mdc_crumbs.mdc_rpt_indicators_by_employee_search
+msgid "Today"
+msgstr "Hoy"
+
+#. module: mdc_crumbs
+#: model:ir.ui.view,arch_db:mdc_crumbs.chkpoint_crumbs
+msgid "UNCLEANED WEIGHT"
+msgstr "PESO SIN LIMPIAR"
+
+#. module: mdc_crumbs
+#: code:addons/mdc_crumbs/models/chkpointdata.py:124
+#: code:addons/mdc_crumbs/models/chkpointdata.py:186
+#, python-format
+msgid "Unstable %.2f %s weight was read. Please stabilize container and try again"
+msgstr "Peso inestable leído %.2f %s. Por favor estabiliza el contenedor e inténtelo de nuevo"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_w_uom_id
+msgid "Weight UoM"
+msgstr "Unidad de Medida de Pesada"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_w_uom_id
+msgid "Weight unit of measure"
+msgstr "Unidad de medida de peso"
+
+#. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_workstation_id
+msgid "Wokstation"
+msgstr "Puesto de trabajo"
+
+#. module: mdc_crumbs
+#: model:ir.model,name:mdc_crumbs.model_mdc_workstation
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_workstation_id
+msgid "Workstation"
+msgstr "Puesto"
+
+#. module: mdc_crumbs
+#: model:ir.model,name:mdc_crumbs.model_report_data_crumbs_report_crumbs_xls
+msgid "report.data_crumbs_report_crumbs_xls"
+msgstr "report.data_crumbs_report_crumbs_xls"
+
+#. module: mdc_crumbs
+#: model:ir.model,name:mdc_crumbs.model_report_mdc_data_crumbs_report
+msgid "report.mdc.data.crumbs.report"
+msgstr "report.mdc.data.crumbs.report"
+
+#. module: mdc_crumbs
+#: model:ir.model,name:mdc_crumbs.model_report_mdc_rpt_data_crumbs
+msgid "report.mdc.rpt_data_crumbs"
+msgstr "report.mdc.rpt_data_crumbs"
