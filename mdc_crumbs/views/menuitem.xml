@@ -7,7 +7,7 @@
         name="Data Crumb"
         context="{'search_default_today':1}"
         res_model="mdc.data_crumbs"/>
-    
+
     <!-- Menu DataCrumb -->
     <menuitem id="mdc_data_crumb_menu"
         name="Data crumb"
@@ -16,4 +16,3 @@
         sequence="25"/>
 
 </odoo>
-    

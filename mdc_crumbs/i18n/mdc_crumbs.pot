@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-12 07:15+0000\n"
-"PO-Revision-Date: 2022-08-12 07:15+0000\n"
+"POT-Creation-Date: 2022-11-30 16:18+0000\n"
+"PO-Revision-Date: 2022-11-30 16:18+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -47,9 +47,9 @@ msgid "Can't create or update records in this view."
 msgstr ""
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:115
+#: code:addons/mdc_crumbs/models/chkpointdata.py:127
 #, python-format
-msgid "Can`t create new data crumb for this employee, already exist one without finish (id #%s)"
+msgid "Can`t create new data crumb for this employee, already exist one without finish (id #%s, lot #%s)"
 msgstr ""
 
 #. module: mdc_crumbs
@@ -63,8 +63,8 @@ msgid "Checkpoint"
 msgstr ""
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:103
-#: code:addons/mdc_crumbs/models/chkpointdata.py:161
+#: code:addons/mdc_crumbs/models/chkpointdata.py:115
+#: code:addons/mdc_crumbs/models/chkpointdata.py:172
 #, python-format
 msgid "Checkpoint #%s not found"
 msgstr ""
@@ -175,6 +175,12 @@ msgid "Data_crumbs"
 msgstr ""
 
 #. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_filter_date
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_filter_date
+msgid "Date"
+msgstr ""
+
+#. module: mdc_crumbs
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_display_name
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_display_name
 #: model:ir.model.fields,field_description:mdc_crumbs.field_report_mdc_rpt_data_crumbs_display_name
@@ -230,14 +236,14 @@ msgid "IND RD"
 msgstr ""
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:195
+#: code:addons/mdc_crumbs/models/chkpointdata.py:206
 #, python-format
 msgid "Incorrect weighing. The clean weight (%.2f) cannot be greater than the uncleaned weight (%.2f)"
 msgstr ""
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:128
-#: code:addons/mdc_crumbs/models/chkpointdata.py:191
+#: code:addons/mdc_crumbs/models/chkpointdata.py:139
+#: code:addons/mdc_crumbs/models/chkpointdata.py:202
 #, python-format
 msgid "Incorrect weight (%.2f) or tare (%.2f)"
 msgstr ""
@@ -310,9 +316,9 @@ msgid "MO (min/Kg)"
 msgstr ""
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:177
+#: code:addons/mdc_crumbs/models/chkpointdata.py:188
 #, python-format
-msgid "No open record found with the following employee ID #%s"
+msgid "No open record found with this shift, lot and employee"
 msgstr ""
 
 #. module: mdc_crumbs
@@ -346,7 +352,6 @@ msgid "RD (%)"
 msgstr ""
 
 #. module: mdc_crumbs
-#: model:ir.model,name:mdc_crumbs.model_mdc_data_crumbs_report
 #: model:ir.model,name:mdc_crumbs.model_mdc_rpt_data_crumbs
 msgid "Report Data Crumbs CheckPoint"
 msgstr ""
@@ -363,8 +368,8 @@ msgid "STD RD"
 msgstr ""
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:105
-#: code:addons/mdc_crumbs/models/chkpointdata.py:163
+#: code:addons/mdc_crumbs/models/chkpointdata.py:117
+#: code:addons/mdc_crumbs/models/chkpointdata.py:174
 #, python-format
 msgid "Scale not defined"
 msgstr ""
@@ -388,8 +393,8 @@ msgid "Shift"
 msgstr ""
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:107
-#: code:addons/mdc_crumbs/models/chkpointdata.py:165
+#: code:addons/mdc_crumbs/models/chkpointdata.py:119
+#: code:addons/mdc_crumbs/models/chkpointdata.py:176
 #, python-format
 msgid "Tare not defined"
 msgstr ""
@@ -400,8 +405,8 @@ msgid "This Week"
 msgstr ""
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:121
-#: code:addons/mdc_crumbs/models/chkpointdata.py:183
+#: code:addons/mdc_crumbs/models/chkpointdata.py:132
+#: code:addons/mdc_crumbs/models/chkpointdata.py:194
 #, python-format
 msgid "Timed out on weighing scale"
 msgstr ""
@@ -418,8 +423,8 @@ msgid "UNCLEANED WEIGHT"
 msgstr ""
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:124
-#: code:addons/mdc_crumbs/models/chkpointdata.py:186
+#: code:addons/mdc_crumbs/models/chkpointdata.py:135
+#: code:addons/mdc_crumbs/models/chkpointdata.py:197
 #, python-format
 msgid "Unstable %.2f %s weight was read. Please stabilize container and try again"
 msgstr ""
@@ -443,11 +448,6 @@ msgstr ""
 #: model:ir.model,name:mdc_crumbs.model_mdc_workstation
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_workstation_id
 msgid "Workstation"
-msgstr ""
-
-#. module: mdc_crumbs
-#: model:ir.model,name:mdc_crumbs.model_report_mdc_data_crumbs_report
-msgid "report.mdc.data.crumbs.report"
 msgstr ""
 
 #. module: mdc_crumbs

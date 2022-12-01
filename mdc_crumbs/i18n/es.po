@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-24 11:26+0000\n"
-"PO-Revision-Date: 2022-08-24 13:38+0200\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2022-11-30 16:18+0000\n"
+"PO-Revision-Date: 2022-11-30 17:19+0100\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.1.1\n"
 
 #. module: mdc_crumbs
@@ -27,22 +27,30 @@ msgstr "#id"
 #: model:ir.ui.view,arch_db:mdc_crumbs.chkpoint_crumbs
 msgid ""
 "<span id=\"t_chkpoint_crumbs_save_err\">ERROR saving data: {0}</span>\n"
-"            <span id=\"t_chkpoint_crumbs_save_err_unknown\">ERROR unexpected, contact with administration</span>\n"
-"            <span id=\"t_chkpoint_crumbs_err_employee_selection\">ERROR Please, select some employee</span>\n"
-"            <span id=\"t_chkpoint_crumbs_save_clean\">{0} : New cleaned weight updated correctly</span>\n"
-"            <span id=\"t_chkpoint_crumbs_save_unclean\">{0} : New uncleaned weight updated correctly</span>\n"
+"            <span id=\"t_chkpoint_crumbs_save_err_unknown\">ERROR "
+"unexpected, contact with administration</span>\n"
+"            <span id=\"t_chkpoint_crumbs_err_employee_selection\">ERROR "
+"Please, select some employee</span>\n"
+"            <span id=\"t_chkpoint_crumbs_save_clean\">{0} : New cleaned "
+"weight updated correctly</span>\n"
+"            <span id=\"t_chkpoint_crumbs_save_unclean\">{0} : New uncleaned "
+"weight updated correctly</span>\n"
 "            <span id=\"t_chkpoint_crumbs_select_lot\">Select a lot...</span>"
 msgstr ""
 "<span id=\"t_chkpoint_crumbs_save_err\">ERROR guardando datos: {0}</span>\n"
-"            <span id=\"t_chkpoint_crumbs_save_err_unknown\">ERROR inesperado, contacta con el administrador</span>\n"
-"            <span id=\"t_chkpoint_crumbs_err_employee_selection\">ERROR Por favor, selecciona algún empleado</span>\n"
-"            <span id=\"t_chkpoint_crumbs_save_clean\">{0} : Nueva pesada limpia actualizada correctamente</span>\n"
-"            <span id=\"t_chkpoint_crumbs_save_unclean\">{0} : Nueva pesada sin limpiar actualizada correctamente</span>\n"
-"            <span id=\"t_chkpoint_crumbs_select_lot\">Seleccione un lote...</span>"
+"            <span id=\"t_chkpoint_crumbs_save_err_unknown\">ERROR "
+"inesperado, contacta con el administrador</span>\n"
+"            <span id=\"t_chkpoint_crumbs_err_employee_selection\">ERROR Por "
+"favor, selecciona algún empleado</span>\n"
+"            <span id=\"t_chkpoint_crumbs_save_clean\">{0} : Nueva pesada "
+"limpia actualizada correctamente</span>\n"
+"            <span id=\"t_chkpoint_crumbs_save_unclean\">{0} : Nueva pesada "
+"sin limpiar actualizada correctamente</span>\n"
+"            <span id=\"t_chkpoint_crumbs_select_lot\">Seleccione un lote..."
+"</span>"
 
 #. module: mdc_crumbs
 #: model:ir.model,name:mdc_crumbs.model_mdc_base_structure
-#: model:ir.model,name:mdc_crumbs.model_mdc_base_structure_crumbs
 msgid "Base Structure model"
 msgstr "Modelo Base Structure"
 
@@ -57,10 +65,14 @@ msgid "Can't create or update records in this view."
 msgstr "Imposible crear o actualizar registros en esta vista."
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:115
+#: code:addons/mdc_crumbs/models/chkpointdata.py:127
 #, python-format
-msgid "Can`t create new data crumb for this employee, already exist one without finish (id #%s, lot #%s)"
-msgstr "No se puede crear una pesada sin limpiar para este empleado, ya existe una sin finalizar (id #%s, lote33 #%s)"
+msgid ""
+"Can`t create new data crumb for this employee, already exist one without "
+"finish (id #%s, lot #%s)"
+msgstr ""
+"No se puede crear una pesada sin limpiar para este empleado, ya existe una "
+"sin finalizar (id #%s, lote33 #%s)"
 
 #. module: mdc_crumbs
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_chkpoint_id
@@ -70,14 +82,14 @@ msgstr "Punto de Control"
 #. module: mdc_crumbs
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_chkpoint_id
 msgid "Checkpoint"
-msgstr "Punto de Control"
+msgstr "Punto de control"
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:103
-#: code:addons/mdc_crumbs/models/chkpointdata.py:161
+#: code:addons/mdc_crumbs/models/chkpointdata.py:115
+#: code:addons/mdc_crumbs/models/chkpointdata.py:172
 #, python-format
 msgid "Checkpoint #%s not found"
-msgstr "Punto de Control #%s no encontrado"
+msgstr "Punto de control #%s no encontrado"
 
 #. module: mdc_crumbs
 #: code:addons/mdc_crumbs/report/report_xlsx.py:85
@@ -124,7 +136,7 @@ msgstr "Creado por"
 #. module: mdc_crumbs
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_create_date
 msgid "Created on"
-msgstr "Creado el"
+msgstr "Creado en"
 
 #. module: mdc_crumbs
 #: code:addons/mdc_crumbs/models/structure.py:9
@@ -185,6 +197,12 @@ msgid "Data_crumbs"
 msgstr "Data_crumbs"
 
 #. module: mdc_crumbs
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_filter_date
+#: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_filter_date
+msgid "Date"
+msgstr "Fecha"
+
+#. module: mdc_crumbs
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_display_name
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_display_name
 #: model:ir.model.fields,field_description:mdc_crumbs.field_report_mdc_rpt_data_crumbs_display_name
@@ -231,7 +249,7 @@ msgstr "Agrupar por"
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs_id
 #: model:ir.model.fields,field_description:mdc_crumbs.field_report_mdc_rpt_data_crumbs_id
 msgid "ID"
-msgstr "ID (identificación)"
+msgstr "ID"
 
 #. module: mdc_crumbs
 #: code:addons/mdc_crumbs/report/report_xlsx.py:89
@@ -240,14 +258,18 @@ msgid "IND RD"
 msgstr "IND RD"
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:195
+#: code:addons/mdc_crumbs/models/chkpointdata.py:206
 #, python-format
-msgid "Incorrect weighing. The clean weight (%.2f) cannot be greater than the uncleaned weight (%.2f)"
-msgstr "Peso Incorrecto. El peso limpio (%.2f) no puede ser mayor que el peso sucio (%.2f)"
+msgid ""
+"Incorrect weighing. The clean weight (%.2f) cannot be greater than the "
+"uncleaned weight (%.2f)"
+msgstr ""
+"Peso Incorrecto. El peso limpio (%.2f) no puede ser mayor que el peso sucio "
+"(%.2f)"
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:128
-#: code:addons/mdc_crumbs/models/chkpointdata.py:191
+#: code:addons/mdc_crumbs/models/chkpointdata.py:139
+#: code:addons/mdc_crumbs/models/chkpointdata.py:202
 #, python-format
 msgid "Incorrect weight (%.2f) or tare (%.2f)"
 msgstr "Peso incorrecto (%.2f) o tara (%.2f)"
@@ -272,17 +294,17 @@ msgstr "LOTE"
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_rpt_data_crumbs___last_update
 #: model:ir.model.fields,field_description:mdc_crumbs.field_report_mdc_rpt_data_crumbs___last_update
 msgid "Last Modified on"
-msgstr "Última modificación en"
+msgstr "Última Modifiación en"
 
 #. module: mdc_crumbs
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización de"
+msgstr "Última Actualización por"
 
 #. module: mdc_crumbs
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Última Actualización en"
 
 #. module: mdc_crumbs
 #: model:ir.ui.view,arch_db:mdc_crumbs.chkpoint_crumbs
@@ -320,7 +342,7 @@ msgid "MO (min/Kg)"
 msgstr "MO (min/Kg)"
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:177
+#: code:addons/mdc_crumbs/models/chkpointdata.py:188
 #, python-format
 msgid "No open record found with this shift, lot and employee"
 msgstr "Ningún registro abierto con este turno, lote y empleado"
@@ -356,8 +378,6 @@ msgid "RD (%)"
 msgstr "RD (%)"
 
 #. module: mdc_crumbs
-#: model:ir.model,name:mdc_crumbs.model_aaa_aaa_aaa
-#: model:ir.model,name:mdc_crumbs.model_mdc_data_crumbs_report
 #: model:ir.model,name:mdc_crumbs.model_mdc_rpt_data_crumbs
 msgid "Report Data Crumbs CheckPoint"
 msgstr "Informe de puntos de control de migas"
@@ -374,11 +394,11 @@ msgid "STD RD"
 msgstr "STD RD"
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:105
-#: code:addons/mdc_crumbs/models/chkpointdata.py:163
+#: code:addons/mdc_crumbs/models/chkpointdata.py:117
+#: code:addons/mdc_crumbs/models/chkpointdata.py:174
 #, python-format
 msgid "Scale not defined"
-msgstr "Escala no definida"
+msgstr "Báscula no definida"
 
 #. module: mdc_crumbs
 #: model:ir.ui.view,arch_db:mdc_crumbs.chkpoint_crumbs
@@ -399,8 +419,8 @@ msgid "Shift"
 msgstr "Turno"
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:107
-#: code:addons/mdc_crumbs/models/chkpointdata.py:165
+#: code:addons/mdc_crumbs/models/chkpointdata.py:119
+#: code:addons/mdc_crumbs/models/chkpointdata.py:176
 #, python-format
 msgid "Tare not defined"
 msgstr "Tara no definida"
@@ -411,11 +431,11 @@ msgid "This Week"
 msgstr "Semana actual"
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:121
-#: code:addons/mdc_crumbs/models/chkpointdata.py:183
+#: code:addons/mdc_crumbs/models/chkpointdata.py:132
+#: code:addons/mdc_crumbs/models/chkpointdata.py:194
 #, python-format
 msgid "Timed out on weighing scale"
-msgstr "Se agotó el tiempo de espera de la báscula"
+msgstr "Tiempo superado esperando a la báscula"
 
 #. module: mdc_crumbs
 #: model:ir.ui.view,arch_db:mdc_crumbs.mdc_data_crumbs_search
@@ -429,11 +449,14 @@ msgid "UNCLEANED WEIGHT"
 msgstr "PESO SIN LIMPIAR"
 
 #. module: mdc_crumbs
-#: code:addons/mdc_crumbs/models/chkpointdata.py:124
-#: code:addons/mdc_crumbs/models/chkpointdata.py:186
+#: code:addons/mdc_crumbs/models/chkpointdata.py:135
+#: code:addons/mdc_crumbs/models/chkpointdata.py:197
 #, python-format
-msgid "Unstable %.2f %s weight was read. Please stabilize container and try again"
-msgstr "Peso inestable leído %.2f %s. Por favor estabiliza el contenedor e inténtelo de nuevo"
+msgid ""
+"Unstable %.2f %s weight was read. Please stabilize container and try again"
+msgstr ""
+"Peso inestable leído %.2f %s. Por favor estabiliza el contenedor e "
+"inténtelo de nuevo"
 
 #. module: mdc_crumbs
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_w_uom_id
@@ -455,16 +478,6 @@ msgstr "Puesto de trabajo"
 #: model:ir.model.fields,field_description:mdc_crumbs.field_mdc_data_crumbs_workstation_id
 msgid "Workstation"
 msgstr "Puesto"
-
-#. module: mdc_crumbs
-#: model:ir.model,name:mdc_crumbs.model_report_data_crumbs_report_crumbs_xls
-msgid "report.data_crumbs_report_crumbs_xls"
-msgstr "report.data_crumbs_report_crumbs_xls"
-
-#. module: mdc_crumbs
-#: model:ir.model,name:mdc_crumbs.model_report_mdc_data_crumbs_report
-msgid "report.mdc.data.crumbs.report"
-msgstr "report.mdc.data.crumbs.report"
 
 #. module: mdc_crumbs
 #: model:ir.model,name:mdc_crumbs.model_report_mdc_rpt_data_crumbs

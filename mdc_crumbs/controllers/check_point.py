@@ -10,7 +10,7 @@ from datetime import date
 _logger = logging.getLogger(__name__)
 
 class CrumbsCheckPoint(CheckPoint):
-    
+
     @http.route("/mdc/cp/crumbs/<int:chkpoint_id>", type='http', auth='none')
     def cp_crumbs(self, chkpoint_id, **kwargs):
         try:
@@ -40,8 +40,8 @@ class CrumbsCheckPoint(CheckPoint):
             ).mapped("current_employee_id")
             return request.render(
                 'mdc_crumbs.chkpoint_crumbs',
-                {'title': chkpoint.name, 
-                 'chkpoints': chkpoint, 
+                {'title': chkpoint.name,
+                 'chkpoints': chkpoint,
                  'shifts': shifts,
                  'lots': lots,
                  'employees': employees,
@@ -67,7 +67,7 @@ class CrumbsCheckPoint(CheckPoint):
         for employee in employees:
             employees_return.append((employee.id, employee.name, employee.workstation_id.id))
         return json.dumps(employees_return)
-        
+
     @http.route("/mdc/cp/crumbs/<int:chkpoint_id>/lotactive", type='json', auth='none')
     def cp_crumbs_lotactive(self, chkpoint_id):
         cp_user = self._get_cp_user_and_lang_context(request)
@@ -123,4 +123,3 @@ class CrumbsCheckPoint(CheckPoint):
 
 
         return createdJson
-    
