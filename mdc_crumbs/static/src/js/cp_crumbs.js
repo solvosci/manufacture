@@ -4,7 +4,6 @@ $(document).ready(function(){
     //$("#info_div").css("color", "red");
     //$("#info_div").css("font-size", "1.5em");
     //$("#info_div").css("font-weight", "bold");
-    
     //Select Employee
     $('#container_employees').on('click', 'div.bg-light', function() {
         if(!$("#weight_cleaning").attr("class").includes("disabled") && !$("#weight_nocleaning").attr("class").includes("disabled")){
@@ -44,7 +43,6 @@ $(document).ready(function(){
             show_info($('#t_chkpoint_win_lot_err_unknown').html(), 'err');
             loctactive_get_schedule();
         });
-    
     }
 
     // Timer to get lots
@@ -165,9 +163,6 @@ $(document).ready(function(){
                     else{
                         show_info(data.result.error, 'err');
                     }
-
-
-                    
                 }).fail(function () {
                     show_info($('#t_chkpoint_crumbs_save_err_unknown').html(), 'err');
                 }).always(function (){
@@ -189,4 +184,3 @@ $(document).ready(function(){
     loctactive_get();
 
 });
-    

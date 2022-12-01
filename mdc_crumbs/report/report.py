@@ -34,42 +34,6 @@ class dataCrumbsReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(self._cr, self._table)
         self._cr.execute("""
-        CREATE view %s as 
+        CREATE view %s as
                     SELECT * FROM mdc_data_crumbs
         """ % self._table)
-
-
-
-    # # --------------- Calculate Grouped Values with Weighted average or complicated dropued formulas
-    # @api.model
-    # def read_group(self, domain, fields, groupby, offset=0, limit=None,
-    #                orderby=False, lazy=True):
-    #     res = super(dataCrumbsReport, self).read_group(domain, fields, groupby,
-    #                                                    offset=offset, limit=limit, orderby=orderby, lazy=lazy)
-        
-    #     # group_fields = ['ind_backs', 'ind_mo', 'ind_crumbs', 'ind_quality', 'ind_cleaning']
-    #     # if any([x in fields for x in group_fields]) :
-    #     #     for line in res:
-    #     #         if '__domain' in line:
-    #     #             ind_backs_weight = 0
-    #     #             ind_mo_weight = 0
-    #     #             ind_crumbs_weight = 0
-    #     #             ind_quality_weight = 0
-    #     #             ind_cleaning_weight = 0
-    #     #             total_weight = 0
-    #     #             lines = self.search(line['__domain'])
-    #     #             for line_item in lines:
-    #     #                 ind_backs_weight += line_item.ind_backs * (line_item.gross_weight_reference)
-    #     #                 ind_mo_weight += line_item.ind_mo * (line_item.gross_weight_reference)
-    #     #                 ind_crumbs_weight += line_item.ind_crumbs * (line_item.gross_weight_reference)
-    #     #                 ind_quality_weight += line_item.ind_quality * (line_item.gross_weight_reference)
-    #     #                 ind_cleaning_weight += line_item.ind_cleaning * (line_item.gross_weight_reference)
-    #     #                 total_weight += line_item.gross_weight_reference
-    #     #             if total_weight > 0:
-    #     #                 line['ind_backs'] = ind_backs_weight / total_weight
-    #     #                 line['ind_mo'] = ind_mo_weight / total_weight
-    #     #                 line['ind_crumbs'] = ind_crumbs_weight / total_weight
-    #     #                 line['ind_quality'] = ind_quality_weight / total_weight
-    #     #                 line['ind_cleaning'] = ind_cleaning_weight / total_weight
-
-    #     return res

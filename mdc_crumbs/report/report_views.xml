@@ -28,7 +28,6 @@
                             ('create_date', '>=', (context_today() + relativedelta(weeks=-1,days=1,weekday=0)).strftime('%Y-%m-%d')),
                             ('create_date', '&lt;=', (context_today() + relativedelta(weekday=6)).strftime('%Y-%m-%d')),
                         ]"/>
-                    
                     <separator/>
                     <filter name="open" string="Open" domain="[('clean_weight_datetime', '=', False)]"/>
                     <filter name="closed" string="Closed" domain="[('clean_weight_datetime', '!=', False)]"/>
@@ -53,7 +52,7 @@
                     <field name="workstation_id"/>
                     <field name="employee_name"/>
                     <field name="gross_weight_datetime"/>
-                    <field name="gross_weight"/>                   
+                    <field name="gross_weight"/>
                     <field name="clean_weight_datetime"/>
                     <field name="clean_weight"/>
                     <field name="w_uom_id"/>

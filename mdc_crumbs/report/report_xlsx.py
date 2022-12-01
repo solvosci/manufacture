@@ -5,12 +5,10 @@ import base64
 import tempfile
 import datetime
 
-
 def formats():
     return {
         **report_xlsx.formats()
     }
-
 
 class dataCrumbsReportxlsx(models.AbstractModel):
     _name = 'report.mdc.rpt_data_crumbs'
@@ -126,83 +124,5 @@ class dataCrumbsReportxlsx(models.AbstractModel):
             sheet.write_formula(row, 13, '=IF(OR(M' + str(row + 1) + '=0, L' + str(row + 1) + '=""),"",' + 'L' + str(row + 1) + '/M' + str(row + 1) + ')',
                 f_percent)
 
-
-        
-
-            # # Filters: ----------------------------------------
-            # # min a max date
-            # if wstart_date is False or wstart_date > obj.create_date:
-            #     wstart_date = obj.create_date
-            # if wend_date is False or wend_date < obj.create_date:
-            #     wend_date = obj.create_date
-            # # shift
-            # if wshift_filter == '':
-            #     wshift_filter = obj.shift_code
-            # # line
-            # if wline_filter == '':
-            #     wline_filter = obj.line_code
-            # # ------------------------------------------------
-
-            # # shift Filter
-            # if wshift_filter != obj.shift_code:
-            #     wshift_filter_uniq = False
-            # # Line Filter
-            # if wline_filter != obj.line_code:
-            #     wline_filter_uniq = False
-
-
-
-
-            # # direct data from view database
-            # sheet.write(row, 0, obj.employee_code, f_data)
-            # sheet.write(row, 1, obj.employee_name, f_data)
-
-            
-            # res_wind_backs_weight = 0
-            # res_wind_mo_weight = 0
-            # res_wind_crumbs_weight = 0
-            # res_wind_quality_weight = 0
-            # res_wind_cleaning_weight = 0
-
-            # # columns with grouped data - indicators
-            # sheet.write(row, 2, res_wind_backs_weight, f_percent)
-            # sheet.write(row, 3, res_wind_mo_weight, f_percent)
-            # sheet.write(row, 4, res_wind_crumbs_weight, f_percent)
-            # sheet.write(row, 5, res_wind_quality_weight, f_percent)
-            # sheet.write(row, 6, res_wind_cleaning_weight, f_percent)
-
-            # # Final Footer Row ------------------------------------------
-            # for numcol in range(0, 3):
-            #     sheet.write(row + 1, numcol, '', f_footer)
-            #sheet.write_formula(row + 1, 8, '=SUM(I' + str(header_row + 1) + ':I' + str(row + 1) + ')', f_footer)
-
-            # # # formulation columns - indicators
-            # # sheet.write_formula(row + 1, 8, '=SUM(I' + str(header_row + 1) + ':I' + str(row + 1) + ')', f_footer)
-            # # sheet.write_formula(row + 1, 2,
-            # #                     '=IF(I' + str(row + 2) + '= 0, 0 , SUMPRODUCT(C' + str(header_row + 1) + ':C' + str(
-            # #                         row + 1) + ', I' + str(header_row + 1) + ':I' + str(row + 1) + ') / I' + str(
-            # #                         row + 2) + ')', f_footer_perc)
-            # # sheet.write_formula(row + 1, 3,
-            # #                     '=IF(I' + str(row + 2) + '= 0, 0 , SUMPRODUCT(D' + str(header_row + 1) + ':D' + str(
-            # #                         row + 1) + ', I' + str(header_row + 1) + ':I' + str(row + 1) + ') / I' + str(
-            # #                         row + 2) + ')', f_footer_perc)
-            # # sheet.write_formula(row + 1, 4,
-            # #                     '=IF(I' + str(row + 2) + '= 0, 0 , SUMPRODUCT(E' + str(header_row + 1) + ':E' + str(
-            # #                         row + 1) + ', I' + str(header_row + 1) + ':I' + str(row + 1) + ') / I' + str(
-            # #                         row + 2) + ')', f_footer_perc)
-            # # sheet.write_formula(row + 1, 5,
-            # #                     '=IF(I' + str(row + 2) + '= 0, 0 , SUMPRODUCT(F' + str(header_row + 1) + ':F' + str(
-            # #                         row + 1) + ', I' + str(header_row + 1) + ':I' + str(row + 1) + ') / I' + str(
-            # #                         row + 2) + ')', f_footer_perc)
-            # # sheet.write_formula(row + 1, 6,
-            # #                     '=IF(I' + str(row + 2) + '= 0, 0 , SUMPRODUCT(G' + str(header_row + 1) + ':G' + str(
-            # #                         row + 1) + ', I' + str(header_row + 1) + ':I' + str(row + 1) + ') / I' + str(
-            # #                         row + 2) + ')', f_footer_perc)
-
-        # # Final Presentation
-        # # Select the cells back to image & zoom presentation & split & freeze_panes
-        # sheet.set_selection('A6')
-        # sheet.set_zoom(80)
-        # # sheet.split_panes(60,0,5,0)
         sheet.set_selection('A6')
         sheet.set_zoom(80)

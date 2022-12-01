@@ -19,7 +19,7 @@
             <span id="t_chkpoint_crumbs_save_unclean">{0} : New uncleaned weight updated correctly</span>
             <span id="t_chkpoint_crumbs_select_lot">Select a lot...</span>
         </xpath>
-        <xpath expr="//div[@id='content']" position="inside">            
+        <xpath expr="//div[@id='content']" position="inside">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
@@ -80,7 +80,7 @@
                             </div>
                             <div class="col-3">
                                 <button type="button" class="btn btn-success" id="weight_cleaning">CLEANED WEIGHT</button>
-                            </div>                                    
+                            </div>
                         </div>
                     </div>
                 </div>

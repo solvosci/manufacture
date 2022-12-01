@@ -3,12 +3,12 @@
 {
     "name": "Manufacturing data control: Add crumb cleaning checkpoint",
     "summary": """
-        Crumb weighing data record before and after cleaning, 
-        indicating shift, lot and employee. 
+        Crumb weighing data record before and after cleaning,
+        indicating shift, lot and employee.
     """,
     "author": "Solvos",
     "license": "LGPL-3",
-    "version": "11.0.1.0.1",
+    "version": "11.0.1.1.0",
     "category": "Manufacturing",
     "website": "https://github.com/solvosci/manufacture",
     "depends": [
