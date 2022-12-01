@@ -28,7 +28,7 @@ class dataCrumbsReport(models.Model):
     employee_name = fields.Char(related="employee_id.name", readonly=True, string="Employee")
     lot_name = fields.Char(string="Lot", related="lot_id.name", readonly=True)
     line_name = fields.Char(string="Line", readonly=True, related='line_id.name')
-                
+    filter_date = fields.Date(string="Date", readonly=True)
 
     @api.model_cr
     def init(self):

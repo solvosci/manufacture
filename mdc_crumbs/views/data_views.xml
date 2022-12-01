@@ -10,6 +10,7 @@
                 <field name="employee_id"/>
                 <field name="lot_id"/>
                 <field name="id" string="#id"/>
+                <field name="filter_date"/>
                 <!-- FIXME this filter gives a "ValueError: No known conversion for %H" error -->
                 <!-- filter name="last_24_hours" string="Last 24 hours"
                         domain="[('create_datetime', '&gt;=', ((context_today() - datetime.timedelta(hours=24)).strftime('%%Y-%%m-%%d %%H:%%M:%%S')))]"/ -->
