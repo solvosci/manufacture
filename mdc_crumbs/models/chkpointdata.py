@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from odoo import api, models, fields, _
 import socket
 
@@ -66,6 +66,16 @@ class DataCrumbs(models.Model):
         required=True,
         domain=_get_w_uom_id_domain,
         default=_default_uom)
+    filter_date = fields.Date(
+        string="Date",
+        compute="_compute_filter_date",
+        store=True)
+
+    @api.multi
+    @api.depends('gross_weight_datetime')
+    def _compute_filter_date(self):
+        for record in self:
+            record.filter_date = fields.Datetime.from_string(record.gross_weight_datetime).date()
 
     @api.onchange('chkpoint_id')
     def _retrieve_line_from_checkpoint(self):
