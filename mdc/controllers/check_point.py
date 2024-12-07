@@ -68,6 +68,28 @@ class CheckPoint(http.Controller):
         except Exception as e:
             return self.get_error_page({
                 'error_message': e})
+        
+    @http.route("/mdc/cp/all/<int:chkpoint_id>/set_tare_zero", type='json', auth='none')
+    def cp_all_set_tare_zero(self, chkpoint_id):
+        cp_user = self._get_cp_user_and_lang_context(request)
+        data_in = dict(request.jsonrequest)
+        data_in['chkpoint_id'] = chkpoint_id
+        data_out = {
+            'ckhpoint_id': chkpoint_id
+        }
+
+        try:
+            ChkPoint = request.env['mdc.chkpoint'].sudo(cp_user)
+            chkpoint_obj = ChkPoint.browse(chkpoint_id).exists()
+            if not chkpoint_obj:
+                raise UserError(_('Checkpoint #%s not found') % chkpoint_id)
+            if not chkpoint_obj.scale_id:
+                raise UserError(_('Scale undefined for checkpoint #%s') % chkpoint_id)
+            chkpoint_obj.scale_id.set_tare_zero()
+        except Exception as e:
+            data_out['err'] = e
+        finally:
+            return data_out
 
     @http.route("/mdc/cp/win/<int:chkpoint_id>", type='http', auth='none')
     def cp_win(self, chkpoint_id, **kwargs):

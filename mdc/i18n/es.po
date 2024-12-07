@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-09 10:24+0000\n"
-"PO-Revision-Date: 2021-08-09 10:24+0000\n"
+"POT-Creation-Date: 2024-12-10 08:33+0000\n"
+"PO-Revision-Date: 2024-12-10 08:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -83,13 +83,28 @@ msgstr "% Merma"
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V9
-msgid "+2.5"
-msgstr "+2.5"
+msgid "+3.4"
+msgstr "+3.4"
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V7
 msgid "-1.8"
 msgstr "-1.8"
+
+#. module: mdc
+#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V2
+msgid "03/06"
+msgstr "03/06"
+
+#. module: mdc
+#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V6
+msgid "05/10"
+msgstr "05/10"
+
+#. module: mdc
+#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V3
+msgid "06/10"
+msgstr "06/10"
 
 #. module: mdc
 #: selection:mdc.config.settings,data_win_cancel_mode:0
@@ -98,28 +113,13 @@ msgstr "Antigüedad de 1 día"
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V8
-msgid "1.8/2.5"
-msgstr "1.8/2.5"
+msgid "1.8/3.4"
+msgstr "1.8/3.4"
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V4
 msgid "10"
 msgstr "+10"
-
-#. module: mdc
-#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V2
-msgid "3/6"
-msgstr "3/6"
-
-#. module: mdc
-#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V6
-msgid "5/10"
-msgstr "5/10"
-
-#. module: mdc
-#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V3
-msgid "6/10"
-msgstr "6/10"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.chkpoint_card_lot_assignment
@@ -184,9 +184,13 @@ msgstr "<span id=\"t_chkpoint_wout_jc_description\">Tarjeta Comodín</span>\n"
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.chkpoint_rfid_base
 msgid "<span id=\"t_ws_rfid_onopen_wait\">Waiting for websocket acceptance...</span>\n"
-"                    <span id=\"t_ws_rfid_onopen_ready\">Ready for card readings!!!</span>"
+"                    <span id=\"t_ws_rfid_onopen_ready\">Ready for card readings!!!</span>\n"
+"                    <span id=\"t_scale_set_tare_zero_ok\">Tare successfully set to zero</span>\n"
+"                    <span id=\"t_scale_set_tare_zero_err\">Cannot set tare to zero</span>"
 msgstr "<span id=\"t_ws_rfid_onopen_wait\">Esperando por websocket...</span>\n"
-"                    <span id=\"t_ws_rfid_onopen_ready\">Preparado para leer tarjetas!!!</span>"
+"                    <span id=\"t_ws_rfid_onopen_ready\">Preparado para leer tarjetas!!!</span>\n"
+"                    <span id=\"t_scale_set_tare_zero_ok\">Tara puesta a cero con éxito</span>\n"
+"                    <span id=\"t_scale_set_tare_zero_err\">No es posible poner la tara a cero</span>"
 
 #. module: mdc
 #: model:ir.model.fields,help:mdc.field_mdc_std_description_sale
@@ -605,7 +609,7 @@ msgid "Card category"
 msgstr "Tipo de tarjeta"
 
 #. module: mdc
-#: code:addons/mdc/controllers/check_point.py:236
+#: code:addons/mdc/controllers/check_point.py:259
 #: model:ir.actions.act_window,name:mdc.action_mdc_card_lotassign
 #: model:ir.ui.menu,name:mdc.mdc_cardlotassign_menu
 #: model:ir.ui.view,arch_db:mdc.chkpoint_list
@@ -622,7 +626,7 @@ msgid "Card not valid (#%s)"
 msgstr "Tarjeta no válida (#%s)"
 
 #. module: mdc
-#: code:addons/mdc/controllers/check_point.py:197
+#: code:addons/mdc/controllers/check_point.py:220
 #: model:ir.ui.view,arch_db:mdc.chkpoint_list
 #, python-format
 msgid "Card registration"
@@ -710,7 +714,8 @@ msgid "Checkpoint"
 msgstr "Punto de Control"
 
 #. module: mdc
-#: code:addons/mdc/controllers/check_point.py:103
+#: code:addons/mdc/controllers/check_point.py:86
+#: code:addons/mdc/controllers/check_point.py:126
 #: code:addons/mdc/models/chkpointdata.py:94
 #: code:addons/mdc/models/chkpointdata.py:501
 #, python-format
@@ -859,6 +864,11 @@ msgid "Cost"
 msgstr "Precio de coste"
 
 #. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_std_cost_currency_id
+msgid "Cost Currency"
+msgstr "Moneda de coste"
+
+#. module: mdc
 #: model:ir.model.fields,help:mdc.field_mdc_std_standard_price
 msgid "Cost used for stock valuation in standard price and as a first price to set in average/fifo. Also used as a base price for pricelists. Expressed in the default unit of measure of the product."
 msgstr "Precio de coste utilizado para la valoración de existencias en precio estándar y como primer precio para establecer en promedio/fifo. También se utiliza como precio base para las tarifas. Expresado en la unidad de medida predeterminada del producto."
@@ -921,7 +931,7 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:mdc.field_mdc_workstation_create_date
 #: model:ir.model.fields,field_description:mdc.field_mdc_wout_categ_create_date
 msgid "Created on"
-msgstr "Creado el"
+msgstr "Creado en"
 
 #. module: mdc
 #: code:addons/mdc/report/report_xlsx.py:159
@@ -1169,7 +1179,7 @@ msgstr "Código de dispositivo ya asignado a un dispositivo!"
 #: model:ir.model.fields,field_description:mdc.field_report_mdc_rpt_manufacturing_display_name
 #: model:ir.model.fields,field_description:mdc.field_report_mdc_rpt_tracing_display_name
 msgid "Display Name"
-msgstr "Nombre a mostrar"
+msgstr "Nombre mostrado"
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A1V2
@@ -1667,8 +1677,8 @@ msgstr "Es un seguidor"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_is_product_variant
-msgid "Is a product variant"
-msgstr "Is una variante de producto"
+msgid "Is Product Variant"
+msgstr "Es una variante del producto"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_hr_employee_operator
@@ -1709,8 +1719,8 @@ msgstr "No está permitido abrir una salida compartida sin registrar ninguna ent
 
 #. module: mdc
 #: model:product.template,name:mdc.mdc_product_template_P3
-msgid "LISTADO"
-msgstr "LISTADO"
+msgid "LISTADO SK"
+msgstr "LISTADO SK"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_message_last_post
@@ -2754,6 +2764,12 @@ msgid "Scale protocol"
 msgstr "Protocolo de báscula"
 
 #. module: mdc
+#: code:addons/mdc/controllers/check_point.py:88
+#, python-format
+msgid "Scale undefined for checkpoint #%s"
+msgstr "Báscula no definida para el checkpoint #%s"
+
+#. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_workstation_seat
 msgid "Seat"
 msgstr "Asiento"
@@ -2990,7 +3006,7 @@ msgstr "Inicio"
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_lot_start_date
 msgid "Start Date"
-msgstr "Fecha de inicio"
+msgstr "Fecha de Inicio"
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_hr_employee_massworksheetopen_wizard_start_datetime
@@ -3399,7 +3415,7 @@ msgid "Unknown card code #%s"
 msgstr "Código de tarjeta desconocido #%s"
 
 #. module: mdc
-#: code:addons/mdc/models/scale.py:117
+#: code:addons/mdc/models/scale.py:125
 #, python-format
 msgid "Unknown data format. Data received: %s"
 msgstr "Formato de datos desconocido. Dato recibido: %s"
@@ -3432,7 +3448,7 @@ msgid "Unstable %.2f %s weight was read. Please start passing cards again"
 msgstr "Leída pesada inestable de %.2f %s. Por favor, vuelva a pasar todas las tarjetas de nuevo"
 
 #. module: mdc
-#: code:addons/mdc/models/scale.py:99
+#: code:addons/mdc/models/scale.py:107
 #, python-format
 msgid "Unsupported weighing protocol (%s)"
 msgstr "Protocolo de báscula No soportado (%s)"
@@ -3867,11 +3883,6 @@ msgstr "report.mdc.rpt_manufacturing"
 #: model:ir.model,name:mdc.model_report_mdc_rpt_tracing
 msgid "report.mdc.rpt_tracing"
 msgstr "report.mdc.rpt_tracing"
-
-#. module: mdc
-#: model:ir.model,name:mdc.model_res_config_settings
-msgid "res.config.settings"
-msgstr "res.config.settings"
 
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.mdc_workstations_search

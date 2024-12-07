@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-09 10:24+0000\n"
-"PO-Revision-Date: 2021-08-09 10:24+0000\n"
+"POT-Creation-Date: 2024-12-10 08:33+0000\n"
+"PO-Revision-Date: 2024-12-10 08:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -77,12 +77,27 @@ msgstr ""
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V9
-msgid "+2.5"
+msgid "+3.4"
 msgstr ""
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V7
 msgid "-1.8"
+msgstr ""
+
+#. module: mdc
+#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V2
+msgid "03/06"
+msgstr ""
+
+#. module: mdc
+#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V6
+msgid "05/10"
+msgstr ""
+
+#. module: mdc
+#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V3
+msgid "06/10"
 msgstr ""
 
 #. module: mdc
@@ -92,27 +107,12 @@ msgstr ""
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V8
-msgid "1.8/2.5"
+msgid "1.8/3.4"
 msgstr ""
 
 #. module: mdc
 #: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V4
 msgid "10"
-msgstr ""
-
-#. module: mdc
-#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V2
-msgid "3/6"
-msgstr ""
-
-#. module: mdc
-#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V6
-msgid "5/10"
-msgstr ""
-
-#. module: mdc
-#: model:product.attribute.value,name:mdc.mdc_product_attribute_value_A2V3
-msgid "6/10"
 msgstr ""
 
 #. module: mdc
@@ -156,7 +156,9 @@ msgstr ""
 #. module: mdc
 #: model:ir.ui.view,arch_db:mdc.chkpoint_rfid_base
 msgid "<span id=\"t_ws_rfid_onopen_wait\">Waiting for websocket acceptance...</span>\n"
-"                    <span id=\"t_ws_rfid_onopen_ready\">Ready for card readings!!!</span>"
+"                    <span id=\"t_ws_rfid_onopen_ready\">Ready for card readings!!!</span>\n"
+"                    <span id=\"t_scale_set_tare_zero_ok\">Tare successfully set to zero</span>\n"
+"                    <span id=\"t_scale_set_tare_zero_err\">Cannot set tare to zero</span>"
 msgstr ""
 
 #. module: mdc
@@ -573,7 +575,7 @@ msgid "Card category"
 msgstr ""
 
 #. module: mdc
-#: code:addons/mdc/controllers/check_point.py:236
+#: code:addons/mdc/controllers/check_point.py:259
 #: model:ir.actions.act_window,name:mdc.action_mdc_card_lotassign
 #: model:ir.ui.menu,name:mdc.mdc_cardlotassign_menu
 #: model:ir.ui.view,arch_db:mdc.chkpoint_list
@@ -590,7 +592,7 @@ msgid "Card not valid (#%s)"
 msgstr ""
 
 #. module: mdc
-#: code:addons/mdc/controllers/check_point.py:197
+#: code:addons/mdc/controllers/check_point.py:220
 #: model:ir.ui.view,arch_db:mdc.chkpoint_list
 #, python-format
 msgid "Card registration"
@@ -678,7 +680,8 @@ msgid "Checkpoint"
 msgstr ""
 
 #. module: mdc
-#: code:addons/mdc/controllers/check_point.py:103
+#: code:addons/mdc/controllers/check_point.py:86
+#: code:addons/mdc/controllers/check_point.py:126
 #: code:addons/mdc/models/chkpointdata.py:94
 #: code:addons/mdc/models/chkpointdata.py:501
 #, python-format
@@ -824,6 +827,11 @@ msgstr ""
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_standard_price
 msgid "Cost"
+msgstr ""
+
+#. module: mdc
+#: model:ir.model.fields,field_description:mdc.field_mdc_std_cost_currency_id
+msgid "Cost Currency"
 msgstr ""
 
 #. module: mdc
@@ -1629,7 +1637,7 @@ msgstr ""
 
 #. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_std_is_product_variant
-msgid "Is a product variant"
+msgid "Is Product Variant"
 msgstr ""
 
 #. module: mdc
@@ -1671,7 +1679,7 @@ msgstr ""
 
 #. module: mdc
 #: model:product.template,name:mdc.mdc_product_template_P3
-msgid "LISTADO"
+msgid "LISTADO SK"
 msgstr ""
 
 #. module: mdc
@@ -2710,6 +2718,12 @@ msgid "Scale protocol"
 msgstr ""
 
 #. module: mdc
+#: code:addons/mdc/controllers/check_point.py:88
+#, python-format
+msgid "Scale undefined for checkpoint #%s"
+msgstr ""
+
+#. module: mdc
 #: model:ir.model.fields,field_description:mdc.field_mdc_workstation_seat
 msgid "Seat"
 msgstr ""
@@ -3352,7 +3366,7 @@ msgid "Unknown card code #%s"
 msgstr ""
 
 #. module: mdc
-#: code:addons/mdc/models/scale.py:117
+#: code:addons/mdc/models/scale.py:125
 #, python-format
 msgid "Unknown data format. Data received: %s"
 msgstr ""
@@ -3385,7 +3399,7 @@ msgid "Unstable %.2f %s weight was read. Please start passing cards again"
 msgstr ""
 
 #. module: mdc
-#: code:addons/mdc/models/scale.py:99
+#: code:addons/mdc/models/scale.py:107
 #, python-format
 msgid "Unsupported weighing protocol (%s)"
 msgstr ""
@@ -3819,11 +3833,6 @@ msgstr ""
 #. module: mdc
 #: model:ir.model,name:mdc.model_report_mdc_rpt_tracing
 msgid "report.mdc.rpt_tracing"
-msgstr ""
-
-#. module: mdc
-#: model:ir.model,name:mdc.model_res_config_settings
-msgid "res.config.settings"
 msgstr ""
 
 #. module: mdc

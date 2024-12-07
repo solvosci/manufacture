@@ -44,11 +44,14 @@
                 <div id="translations" style="display: none;">
                     <span id="t_ws_rfid_onopen_wait">Waiting for websocket acceptance...</span>
                     <span id="t_ws_rfid_onopen_ready">Ready for card readings!!!</span>
+                    <span id="t_scale_set_tare_zero_ok">Tare successfully set to zero</span>
+                    <span id="t_scale_set_tare_zero_err">Cannot set tare to zero</span>
                 </div>
 
                 <div class="UpperTitle">
                     <img src="/web/binary/company_logo" />
-                    <t t-esc="title"></t> (<t t-esc="client_ip"></t>)
+                    <span style="display: inline-block; width: 550px;"><t t-esc="title"></t> (<t t-esc="client_ip"></t>)</span>
+                    <button type="button" id="tare_zero_button"></button>
                     <button type="button" id="reload_button"></button>
                 </div>
                 <hr/>

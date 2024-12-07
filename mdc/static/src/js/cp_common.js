@@ -2,6 +2,27 @@ page_reload = function () {
     window.location.reload(true);
 }
 
+set_tare_zero = function () {
+
+    $.ajax({
+        url: '/mdc/cp/all/' + $('#chkpoint_id').val() + '/set_tare_zero',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({})
+    }).done(function (data) {
+        console.log(data.result);
+        if ( data.result.err ) {
+            show_info($('#t_scale_set_tare_zero_err').html() + ': ' + data.result.err, 'err');
+        }
+        else {
+            show_info($('#t_scale_set_tare_zero_ok').html(), 'ok');
+        }
+    }).fail(function () {
+        show_info($('#t_scale_set_tare_zero_err').html(), 'err');
+    });
+
+}
+
 save_log = function (logdata) {
 
     $.ajax({
@@ -81,6 +102,9 @@ $(document).ready(function () {
 
     $('#reload_button').click(function () {
         page_reload();
+    });
+    $('#tare_zero_button').click(function () {
+        set_tare_zero();
     });
 
 });
