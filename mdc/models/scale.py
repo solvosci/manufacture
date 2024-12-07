@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import socket
+import socket, time
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
@@ -78,6 +78,16 @@ class Scale(models.Model):
             return True
         except Exception as err:
             raise UserError(err)
+        
+    def set_tare_zero(self):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(self.timeout_secs)
+            s.connect((self.tcp_address_ip, self.tcp_address_port))
+            # {0x54}{0x33}
+            s.send(b'T3')
+            # Before closing connection, a timeout is needed; otherwise
+            #  scale could not process the command
+            time.sleep(0.25)
 
     def get_weight(self):
         '''
@@ -103,7 +113,7 @@ class Scale(models.Model):
                 self.last_weight_stability, self.last_weight_datetime
             """
             return t_last_weight_value, self.weight_uom_id, \
-                   t_last_weight_stability, t_last_weight_datetime
+                   t_last_weight_stability, t_last_weight_datetime        
 
     def _get_weight_s_protocol(self, sock):
         sock.send(b'$')
