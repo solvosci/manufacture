@@ -17,7 +17,7 @@ select, optgroup, option {
     position: relative;
 }
 .UpperTitle img { position: absolute; left: 15px; top: 10px; }
-.UpperTitle #tare_zero_button { position: absolute; right: 80px; top: 6px; padding: 0px;}
+.UpperTitle #tare_zero_button { position: absolute; right: 92px; top: 6px; padding: 0px;}
 .UpperTitle #reload_button { position: absolute; right: 6px; top: 6px; padding: 0px;}
 
 button {
@@ -116,11 +116,13 @@ input.failed {
 #reload_button {
     background-image: url(/mdc/static/src/img/reload-64.png);
     background-repeat: no-repeat;
+    background-color: aquamarine;
 }
 
 #tare_zero_button {
     background-image: url(/mdc/static/src/img/tare_zero-64.png);
     background-repeat: no-repeat;
+    background-color: coral;
 }
 
 
